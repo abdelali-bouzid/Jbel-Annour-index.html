@@ -1,60 +1,217 @@
-<div class="box" style="margin-top: 20px;">
-    <h3>📍 Gestion des Zones, Salles & Équipements</h3>
-    
-    <!-- Formulaire d'ajout -->
-    <form id="assetForm" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 15px;">
-        <input type="text" id="zoneName" placeholder="Zone (ex: Zone A)" required style="padding: 8px;">
-        <input type="text" id="roomCode" placeholder="Code Salle (ex: R-101)" required style="padding: 8px;">
-        <input type="text" id="assetName" placeholder="Nom Équipement" required style="padding: 8px;">
-        <button type="submit" style="background: #2563eb; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;">+ Ajouter Équipement</button>
-    </form>
+HTML
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GMAO - Planification & Chiffrement des Salles</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, sans-serif; }
+        body { background-color: #f4f6f9; color: #333; }
 
-    <!-- Table des Équipements & Cartographie -->
-    <table id="assetTable">
-        <thead>
-            <tr>
-                <th>Code Chiffré (ID)</th>
-                <th>Zone</th>
-                <th>Salle</th>
-                <th>Équipement</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><code>Z1-R101-EQ01</code></td>
-                <td>Zone Industrielle 1</td>
-                <td>Salle 101</td>
-                <td>Compresseur A1</td>
-                <td><button style="background: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer;" onclick="this.closest('tr').remove()">Supprimer</button></td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+        /* Lock Screen */
+        #lock-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #0f172a; display: flex; align-items: center; justify-content: center;
+            z-index: 9999; color: white;
+        }
+        .login-box { background: #1e293b; padding: 30px; border-radius: 10px; text-align: center; width: 320px; }
+        .login-box input { width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #475569; background: #0f172a; color: white; text-align: center; margin-bottom: 15px; }
+        .login-box button { width: 100%; padding: 10px; background: #22c55e; border: none; color: white; border-radius: 5px; font-weight: bold; cursor: pointer; }
 
-<script>
-    // Ajouter un équipement dynamiquement avec encodage/chiffrement du code salle
-    document.getElementById('assetForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const zone = document.getElementById('zoneName').value;
-        const room = document.getElementById('roomCode').value;
-        const asset = document.getElementById('assetName').value;
-        
-        // Génération du code chiffré unique
-        const generatedCode = `${zone.substring(0, 2).toUpperCase()}-${room.toUpperCase()}-${Math.floor(1000 + Math.random() * 9000)}`;
+        #app-content { display: none; }
+        header { background-color: #0f172a; color: white; padding: 20px; text-align: center; }
+        .container { max-width: 1200px; margin: 20px auto; padding: 0 15px; }
+        .box { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        .box h3 { color: #1e293b; margin-bottom: 15px; }
 
-        const tbody = document.querySelector('#assetTable tbody');
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td><code>${generatedCode}</code></td>
-            <td>${zone}</td>
-            <td>${room}</td>
-            <td>${asset}</td>
-            <td><button style="background: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer;" onclick="this.closest('tr').remove()">Supprimer</button></td>
-        `;
-        
-        tbody.appendChild(row);
-        this.reset();
-    });
-</script>
+        /* Form & Tables */
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 15px; }
+        .form-grid input, .form-grid select { padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px; }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th, td { padding: 10px; border-bottom: 1px solid #f1f5f9; font-size: 0.88em; }
+        th { background: #f8fafc; color: #475569; }
+
+        /* Interactive Drag & Drop Floor Plan Grid */
+        .floor-plan-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            background: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            min-height: 250px;
+        }
+        .room-card {
+            background: #ffffff;
+            border: 2px dashed #94a3b8;
+            padding: 15px;
+            border-radius: 6px;
+            cursor: move;
+            text-align: center;
+            user-select: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .room-card.dragging { opacity: 0.5; border-color: #2563eb; }
+        .room-card h4 { color: #0f172a; font-size: 1em; }
+        .room-card code { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-size: 0.8em; color: #2563eb; }
+    </style>
+</head>
+<body>
+
+    <!-- Lock Screen -->
+    <div id="lock-screen">
+        <div class="login-box">
+            <h3>🔒 Accès Sécurisé</h3>
+            <p style="font-size: 0.85em; color: #94a3b8; margin-bottom: 15px;">Entrez le code d'accès</p>
+            <input type="password" id="passcode" placeholder="****" maxlength="8">
+            <button onclick="checkCode()">Valider</button>
+        </div>
+    </div>
+
+    <!-- Main Protected Content -->
+    <div id="app-content">
+        <header>
+            <h1>Plateforme GMAO - Cartographie & Équipements</h1>
+            <p>Gestion des zones, chiffrement des salles et plan d'agencement</p>
+        </header>
+
+        <div class="container">
+            <!-- Asset & Room Registration -->
+            <div class="box">
+                <h3>📍 Ajouter un Équipement & Chiffrer la Salle</h3>
+                <form id="assetForm" class="form-grid">
+                    <input type="text" id="zoneName" placeholder="Zone (ex: Zone A)" required>
+                    <input type="text" id="roomCode" placeholder="Nom Salle (ex: R-102)" required>
+                    <input type="text" id="assetName" placeholder="Nom Équipement" required>
+                    <button type="submit" style="background: #2563eb; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;">+ Ajouter</button>
+                </form>
+
+                <table id="assetTable">
+                    <thead>
+                        <tr>
+                            <th>Code Chiffré (ID Salle)</th>
+                            <th>Zone</th>
+                            <th>Salle</th>
+                            <th>Équipement</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>ZA-R102-5821</code></td>
+                            <td>Zone A</td>
+                            <td>R-102</td>
+                            <td>Compresseur A1</td>
+                            <td><button style="background:#ef4444; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer;" onclick="this.closest('tr').remove()">Supprimer</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Drag and Drop Layout Grid -->
+            <div class="box">
+                <h3>🧩 Plan de Disposition Interactif (Glisser-Déposer pour Réordonner)</h3>
+                <p style="font-size: 0.85em; color: #64748b; margin-bottom: 15px;">Faites glisser les cartes de salles pour modifier l'agencement du plan d'usine/bâtiment.</p>
+                
+                <div class="floor-plan-grid" id="floorGrid">
+                    <div class="room-card" draggable="true">
+                        <h4>Zone Production A</h4>
+                        <code>ZA-R101-3041</code>
+                        <p style="font-size: 0.8em; color: #64748b; margin-top: 5px;">2 Équipements</p>
+                    </div>
+                    <div class="room-card" draggable="true">
+                        <h4>Atelier Maintenance</h4>
+                        <code>ZB-R201-9823</code>
+                        <p style="font-size: 0.8em; color: #64748b; margin-top: 5px;">5 Équipements</p>
+                    </div>
+                    <div class="room-card" draggable="true">
+                        <h4>Stock Pièces</h4>
+                        <code>ZC-R105-1120</code>
+                        <p style="font-size: 0.8em; color: #64748b; margin-top: 5px;">120 Références</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const SECRET_CODE = "1234";
+
+        function checkCode() {
+            if(document.getElementById('passcode').value === SECRET_CODE) {
+                document.getElementById('lock-screen').style.display = 'none';
+                document.getElementById('app-content').style.display = 'block';
+                initDragAndDrop();
+            }
+        }
+
+        // Add Asset & Room Logic
+        document.getElementById('assetForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const zone = document.getElementById('zoneName').value;
+            const room = document.getElementById('roomCode').value;
+            const asset = document.getElementById('assetName').value;
+            const encryptedCode = `${zone.substring(0,2).toUpperCase()}-${room.toUpperCase()}-${Math.floor(1000 + Math.random() * 9000)}`;
+
+            const tbody = document.querySelector('#assetTable tbody');
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td><code>${encryptedCode}</code></td>
+                <td>${zone}</td>
+                <td>${room}</td>
+                <td>${asset}</td>
+                <td><button style="background:#ef4444; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer;" onclick="this.closest('tr').remove()">Supprimer</button></td>
+            `;
+            tbody.appendChild(row);
+
+            // Add room to interactive layout
+            const grid = document.getElementById('floorGrid');
+            const newRoom = document.createElement('div');
+            newRoom.className = 'room-card';
+            newRoom.draggable = true;
+            newRoom.innerHTML = `<h4>${zone} - ${room}</h4><code>${encryptedCode}</code><p style="font-size:0.8em; color:#64748b; margin-top:5px;">${asset}</p>`;
+            grid.appendChild(newRoom);
+            
+            initDragAndDrop();
+            this.reset();
+        });
+
+        // Drag and Drop Logic
+        function initDragAndDrop() {
+            const cards = document.querySelectorAll('.room-card');
+            const grid = document.getElementById('floorGrid');
+
+            cards.forEach(card => {
+                card.addEventListener('dragstart', () => card.classList.add('dragging'));
+                card.addEventListener('dragend', () => card.classList.remove('dragging'));
+            });
+
+            grid.addEventListener('dragover', e => {
+                e.preventDefault();
+                const draggingCard = document.querySelector('.dragging');
+                const afterElement = getDragAfterElement(grid, e.clientX);
+                if (afterElement == null) {
+                    grid.appendChild(draggingCard);
+                } else {
+                    grid.insertBefore(draggingCard, afterElement);
+                }
+            });
+        }
+
+        function getDragAfterElement(container, x) {
+            const draggableElements = [...container.querySelectorAll('.room-card:not(.dragging)')];
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = x - box.left - box.width / 2;
+                if (offset < 0 && offset > closest.offset) {
+                    return { offset: offset, element: child };
+                } else {
+                    return closest;
+                }
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+    </script>
+</body>
+</html>
