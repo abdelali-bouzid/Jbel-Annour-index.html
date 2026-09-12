@@ -1,1 +1,92 @@
+HTML
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portail GMAO & Performance</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, sans-serif; }
+        body { background-color: #f4f6f9; color: #333; }
+        
+        /* Modal Lock Screen */
+        #lock-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #0f172a; display: flex; align-items: center; justify-content: center;
+            z-index: 9999; color: white;
+        }
+        .login-box { background: #1e293b; padding: 30px; border-radius: 10px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); width: 320px; }
+        .login-box h3 { margin-bottom: 15px; color: #f8fafc; }
+        .login-box input { width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #475569; background: #0f172a; color: white; text-align: center; font-size: 1.1em; margin-bottom: 15px; }
+        .login-box button { width: 100%; padding: 10px; background: #22c55e; border: none; color: white; border-radius: 5px; font-weight: bold; cursor: pointer; }
+        .error-msg { color: #ef4444; font-size: 0.85em; margin-top: 10px; display: none; }
 
+        /* App Content (Hidden by Default) */
+        #app-content { display: none; }
+        header { background-color: #0f172a; color: white; padding: 20px; text-align: center; }
+        .container { max-width: 1100px; margin: 20px auto; padding: 0 15px; }
+
+        /* Teacher & Maintenance UI */
+        .teacher-card { background: white; border-left: 5px solid #22c55e; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .card { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+    </style>
+</head>
+<body>
+
+    <!-- Lock Screen Modal -->
+    <div id="lock-screen">
+        <div class="login-box">
+            <h3>🔒 Accès Sécurisé</h3>
+            <p style="font-size: 0.85em; color: #94a3b8; margin-bottom: 15px;">Entrez le code d'accès de votre entreprise</p>
+            <input type="password" id="passcode" placeholder="****" maxlength="8">
+            <button onclick="checkCode()">Accéder au Portail</button>
+            <p id="error-msg" class="error-msg">Code incorrect. Réessayez.</p>
+        </div>
+    </div>
+
+    <!-- Protected Main Content -->
+    <div id="app-content">
+        <header>
+            <h1>Plateforme de Gestion & Performance</h1>
+            <p>Accès Confidentiel Entreprise</p>
+        </header>
+
+        <div class="container">
+            <!-- Profil Enseignant Vedette -->
+            <div class="teacher-card">
+                <h2>⭐ Formateur / Enseignant Vedette du Mois</h2>
+                <p style="margin-top: 5px; color: #475569;"><strong>Nom:</strong> Prof. Karim Mansouri | <strong>Spécialité:</strong> GMAO & Optimisation</p>
+                <div style="display: flex; gap: 15px; margin-top: 15px;">
+                    <div style="background: #f8fafc; padding: 10px; border-radius: 6px; flex: 1;"><strong>Heures:</strong> 140h</div>
+                    <div style="background: #f8fafc; padding: 10px; border-radius: 6px; flex: 1;"><strong>Satisfaction:</strong> 98%</div>
+                </div>
+            </div>
+
+            <!-- Dashboard KPIs -->
+            <div class="kpi-grid">
+                <div class="card"><h4>Taux Disponibilité</h4><h2>96.4%</h2></div>
+                <div class="card"><h4>MTTR Moyen</h4><h2>1.5 h</h2></div>
+                <div class="card"><h4>Maintenances Préventives</h4><h2>90%</h2></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const SECRET_CODE = "2000"; // قم بتغيير كلمة المرور هنا
+
+        function checkCode() {
+            const input = document.getElementById('passcode').value;
+            const error = document.getElementById('error-msg');
+            
+            if(input === SECRET_CODE) {
+                document.getElementById('lock-screen').style.display = 'none';
+                document.getElementById('app-content').style.display = 'block';
+            } else {
+                error.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
