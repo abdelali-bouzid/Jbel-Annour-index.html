@@ -8,7 +8,7 @@ HTML
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
         
-        /* White & Dark Blue Theme Baseline */
+        /* Clear White Background & Dark Blue Accents */
         body { background: #ffffff; color: #0f172a; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 20px; overflow-x: hidden; }
 
         /* Auth Screen Styling */
@@ -52,7 +52,7 @@ HTML
             border: 2px dashed #93c5fd; border-radius: 50%; pointer-events: none;
         }
 
-        /* Center Logo Container with Custom Provided Image */
+        /* Center Logo Container */
         .center-logo {
             position: absolute; width: 180px; height: 180px; background: #ffffff;
             border: 4px solid #1e3a8a; border-radius: 50%; display: flex; flex-direction: column;
@@ -62,7 +62,7 @@ HTML
         .center-logo:hover { transform: scale(1.05); }
         .center-logo img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* Node Cards */
+        /* Module Nodes (Cards) */
         .module-node {
             position: absolute; width: 135px; height: 110px; background: #0f172a;
             border: 2px solid #1e3a8a; border-radius: 12px; display: flex;
@@ -79,7 +79,7 @@ HTML
         .module-node .icon-box span { font-size: 1.8rem; }
         .module-node .title { font-size: 0.72rem; font-weight: 700; color: #ffffff; text-transform: uppercase; line-height: 1.2; letter-spacing: 0.5px; }
 
-        /* Bottom Toolbar Bar */
+        /* Bottom Toolbar */
         .bottom-bar {
             width: 100%; max-width: 900px; background: #0f172a; border: 2px solid #1e3a8a;
             border-radius: 12px; padding: 15px 20px; margin-top: 10px; display: flex; justify-content: space-around;
@@ -90,7 +90,7 @@ HTML
         .bottom-item .b-icon { font-size: 1.2rem; }
         .bottom-item .b-text { font-size: 0.85rem; font-weight: 700; color: #ffffff; }
 
-        /* Modal Popup System */
+        /* Modal Overlay System */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6);
             backdrop-filter: blur(5px); display: none; align-items: center; justify-content: center; z-index: 999;
@@ -119,7 +119,7 @@ HTML
         .btn-add:hover { background: #2563eb; }
         .btn-cancel { background: #64748b; color: white; border: none; padding: 12px 20px; border-radius: 8px; font-weight: 700; cursor: pointer; display: none; }
         
-        /* Data Table */
+        /* Table Controls */
         .table-container { margin-top: 20px; overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem; }
         th { background: #0f172a; color: #ffffff; padding: 12px; border-bottom: 2px solid #1e3a8a; font-weight: 700; }
@@ -137,7 +137,7 @@ HTML
 </head>
 <body>
 
-    <!-- Authentication Overlay Screen -->
+    <!-- Auth Screen -->
     <div class="auth-overlay" id="authScreen">
         <div class="auth-card">
             <h2>🔐 Connexion Sécurisée</h2>
@@ -148,24 +148,24 @@ HTML
         </div>
     </div>
 
-    <!-- Main Content Application -->
+    <!-- Main App -->
     <div id="mainApp">
         <header>
             <h1>Plateforme Intégrée Sage X3 & GMAO</h1>
             <p>Gestion des KPIs, Édition RCA / BDA & Plans d'Action</p>
         </header>
 
-        <!-- Main Dynamic Hub -->
+        <!-- Dynamic Radial Hub -->
         <div class="hub-container" id="hub">
             <div class="circle-track"></div>
 
-            <!-- Center Logo with Provided Image Link -->
+            <!-- Central Logo Node -->
             <div class="center-logo" onclick="openModal('HUB', '⚙️ Centre de Contrôle Central')">
                 <img src="https://chatgpt.com/backend-api/estuary/content?id=file_00000000277481f4a1b4d9eaefb28a98&ts=497015&p=fs&cid=1&sig=2c8678d85b207d1bf4044412aaa7eab3ef612896d88ca3a757f1c0f3932cd345&v=0" id="centerLogoImg" alt="Logo Central" onerror="this.src='https://via.placeholder.com/180/0f172a/ffffff?text=SAGE+X3'">
             </div>
         </div>
 
-        <!-- Bottom Toolbar -->
+        <!-- Toolbar Bar -->
         <div class="bottom-bar">
             <div class="bottom-item" onclick="openModal('REPORTING', '📊 Édition & Modélisation RCA / BDA')">
                 <span class="b-icon">📊</span>
@@ -190,7 +190,7 @@ HTML
         </div>
     </div>
 
-    <!-- Modal Popup System -->
+    <!-- Modal Form Window -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-content">
             <div class="modal-header">
@@ -200,7 +200,7 @@ HTML
 
             <form id="modalForm">
                 <div class="form-grid" id="formDynamicFields">
-                    <!-- Dynamic Controls Populated via JS -->
+                    <!-- Dynamic Input Fields -->
                 </div>
                 <div class="form-actions">
                     <button type="submit" class="btn-add" id="btnSubmitForm">➕ Enregistrer</button>
@@ -211,7 +211,7 @@ HTML
             <div class="table-container">
                 <table>
                     <thead id="modalTableHeader">
-                        <!-- Dynamic Header Populated via JS -->
+                        <!-- Dynamic Table Headers -->
                     </thead>
                     <tbody id="modalTableBody"></tbody>
                 </table>
@@ -280,8 +280,11 @@ HTML
                     <div class="title">${mod.title}</div>
                 `;
 
-                // One-click event trigger
-                node.onclick = () => openModal(mod.id, `${mod.title}`);
+                // Single Click Direct Trigger
+                node.onclick = function() {
+                    openModal(mod.id, mod.title);
+                };
+                
                 hub.appendChild(node);
             });
         }
