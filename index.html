@@ -4,8 +4,7 @@ HTML
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GMAO - Planification & Chiffrement des Salles</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>GMAO - Cartographie & Fichiers Équipements</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, sans-serif; }
         body { background-color: #f4f6f9; color: #333; }
@@ -26,36 +25,60 @@ HTML
         .box { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-bottom: 20px; }
         .box h3 { color: #1e293b; margin-bottom: 15px; }
 
-        /* Form & Tables */
-        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 15px; }
-        .form-grid input, .form-grid select { padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px; }
-        table { width: 100%; border-collapse: collapse; text-align: left; }
-        th, td { padding: 10px; border-bottom: 1px solid #f1f5f9; font-size: 0.88em; }
-        th { background: #f8fafc; color: #475569; }
-
-        /* Interactive Drag & Drop Floor Plan Grid */
-        .floor-plan-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            background: #e2e8f0;
-            padding: 15px;
+        /* Form Grid */
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 15px; }
+        .form-group { display: flex; flex-direction: column; gap: 5px; }
+        .form-group label { font-size: 0.85em; font-weight: bold; color: #475569; }
+        .form-group input { padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px; }
+        
+        /* Interactive Blueprint Canvas */
+        .blueprint-container {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            background: #1e293b;
             border-radius: 8px;
-            min-height: 250px;
+            overflow: hidden;
+            cursor: crosshair;
+            border: 2px dashed #64748b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .room-card {
-            background: #ffffff;
-            border: 2px dashed #94a3b8;
-            padding: 15px;
-            border-radius: 6px;
-            cursor: move;
-            text-align: center;
-            user-select: none;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        .blueprint-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.4;
         }
-        .room-card.dragging { opacity: 0.5; border-color: #2563eb; }
-        .room-card h4 { color: #0f172a; font-size: 1em; }
-        .room-card code { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-size: 0.8em; color: #2563eb; }
+        .blueprint-instruction {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(15, 23, 42, 0.8);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            pointer-events: none;
+        }
+        .pin {
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background: #ef4444;
+            border: 2px solid white;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 8px rgba(239, 68, 68, 0.8);
+        }
+
+        /* Asset Table & Cards */
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th, td { padding: 10px; border-bottom: 1px solid #f1f5f9; font-size: 0.88em; vertical-align: middle; }
+        th { background: #f8fafc; color: #475569; }
+        .img-thumb { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; border: 1px solid #e2e8f0; }
     </style>
 </head>
 <body>
@@ -70,148 +93,143 @@ HTML
         </div>
     </div>
 
-    <!-- Main Protected Content -->
+    <!-- Main Content -->
     <div id="app-content">
         <header>
-            <h1>Plateforme GMAO - Cartographie & Équipements</h1>
-            <p>Gestion des zones, chiffrement des salles et plan d'agencement</p>
+            <h1>Plateforme GMAO - Photos, Fichiers & Plan Tactile</h1>
+            <p>Gestion visuelle des équipements et repérage géographique</p>
         </header>
 
         <div class="container">
-            <!-- Asset & Room Registration -->
+            
+            <!-- Registration Form with Files & Camera -->
             <div class="box">
-                <h3>📍 Ajouter un Équipement & Chiffrer la Salle</h3>
-                <form id="assetForm" class="form-grid">
-                    <input type="text" id="zoneName" placeholder="Zone (ex: Zone A)" required>
-                    <input type="text" id="roomCode" placeholder="Nom Salle (ex: R-102)" required>
-                    <input type="text" id="assetName" placeholder="Nom Équipement" required>
-                    <button type="submit" style="background: #2563eb; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;">+ Ajouter</button>
-                </form>
+                <h3>📷 Enregistrer une Machine (Photo, Docs & Emplacement)</h3>
+                <form id="assetForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Nom de la Machine</label>
+                            <input type="text" id="assetName" placeholder="Ex: Compresseur C-20" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Zone / Salle</label>
+                            <input type="text" id="roomName" placeholder="Ex: Atelier 01" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Photo (Prendre ou Téléverser)</label>
+                            <input type="file" id="assetPhoto" accept="image/*" capture="environment">
+                        </div>
+                        <div class="form-group">
+                            <label>Document / Fiche Technique (PDF)</label>
+                            <input type="file" id="assetDoc" accept=".pdf,.doc,.docx">
+                        </div>
+                    </div>
 
+                    <!-- Blueprint Selector -->
+                    <label style="font-size: 0.85em; font-weight: bold; color: #475569;">Cliquez sur le schéma pour placer la machine :</label>
+                    <div class="blueprint-container" id="blueprint">
+                        <div class="blueprint-instruction">📍 Cliquez n'importe où sur le plan pour poser un repère</div>
+                        <div id="pinContainer"></div>
+                    </div>
+
+                    <button type="submit" style="margin-top: 15px; background: #22c55e; color: white; border: none; padding: 10px 20px; border-radius: 5px; font-weight: bold; cursor: pointer;">
+                        + Enregistrer la Machine
+                    </button>
+                </form>
+            </div>
+
+            <!-- Asset Registry Table -->
+            <div class="box">
+                <h3>📋 Liste des Équipements & Fichiers Associés</h3>
                 <table id="assetTable">
                     <thead>
                         <tr>
-                            <th>Code Chiffré (ID Salle)</th>
-                            <th>Zone</th>
-                            <th>Salle</th>
+                            <th>Photo</th>
+                            <th>Code ID</th>
                             <th>Équipement</th>
+                            <th>Zone</th>
+                            <th>Document</th>
+                            <th>Position Plan</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><code>ZA-R102-5821</code></td>
-                            <td>Zone A</td>
-                            <td>R-102</td>
-                            <td>Compresseur A1</td>
-                            <td><button style="background:#ef4444; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer;" onclick="this.closest('tr').remove()">Supprimer</button></td>
-                        </tr>
+                        <!-- Dynamic Entries Will Appear Here -->
                     </tbody>
                 </table>
             </div>
 
-            <!-- Drag and Drop Layout Grid -->
-            <div class="box">
-                <h3>🧩 Plan de Disposition Interactif (Glisser-Déposer pour Réordonner)</h3>
-                <p style="font-size: 0.85em; color: #64748b; margin-bottom: 15px;">Faites glisser les cartes de salles pour modifier l'agencement du plan d'usine/bâtiment.</p>
-                
-                <div class="floor-plan-grid" id="floorGrid">
-                    <div class="room-card" draggable="true">
-                        <h4>Zone Production A</h4>
-                        <code>ZA-R101-3041</code>
-                        <p style="font-size: 0.8em; color: #64748b; margin-top: 5px;">2 Équipements</p>
-                    </div>
-                    <div class="room-card" draggable="true">
-                        <h4>Atelier Maintenance</h4>
-                        <code>ZB-R201-9823</code>
-                        <p style="font-size: 0.8em; color: #64748b; margin-top: 5px;">5 Équipements</p>
-                    </div>
-                    <div class="room-card" draggable="true">
-                        <h4>Stock Pièces</h4>
-                        <code>ZC-R105-1120</code>
-                        <p style="font-size: 0.8em; color: #64748b; margin-top: 5px;">120 Références</p>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
     <script>
         const SECRET_CODE = "1234";
+        let selectedCoords = { x: 50, y: 50 }; // Default center
 
         function checkCode() {
             if(document.getElementById('passcode').value === SECRET_CODE) {
                 document.getElementById('lock-screen').style.display = 'none';
                 document.getElementById('app-content').style.display = 'block';
-                initDragAndDrop();
             }
         }
 
-        // Add Asset & Room Logic
+        // Handle Pin Placement on Blueprint Click
+        const blueprint = document.getElementById('blueprint');
+        const pinContainer = document.getElementById('pinContainer');
+
+        blueprint.addEventListener('click', function(e) {
+            const rect = blueprint.getBoundingClientRect();
+            const x = ((e.clientX - rect.left) / rect.width) * 100;
+            const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+            selectedCoords = { x: x.toFixed(1), y: y.toFixed(1) };
+
+            // Render Pin
+            pinContainer.innerHTML = `<div class="pin" style="left: ${selectedCoords.x}%; top: ${selectedCoords.y}%;"></div>`;
+        });
+
+        // Form Submission Logic
         document.getElementById('assetForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const zone = document.getElementById('zoneName').value;
-            const room = document.getElementById('roomCode').value;
-            const asset = document.getElementById('assetName').value;
-            const encryptedCode = `${zone.substring(0,2).toUpperCase()}-${room.toUpperCase()}-${Math.floor(1000 + Math.random() * 9000)}`;
 
+            const assetName = document.getElementById('assetName').value;
+            const roomName = document.getElementById('roomName').value;
+            const photoInput = document.getElementById('assetPhoto');
+            const docInput = document.getElementById('assetDoc');
+
+            const generatedCode = `EQ-${Math.floor(1000 + Math.random() * 9000)}`;
+
+            // Process Image Preview
+            let imgSrc = 'https://via.placeholder.com/50?text=No+Img';
+            if (photoInput.files && photoInput.files[0]) {
+                imgSrc = URL.createObjectURL(photoInput.files[0]);
+            }
+
+            // Process Document Link
+            let docName = 'Aucun fichier';
+            if (docInput.files && docInput.files[0]) {
+                docName = `<a href="${URL.createObjectURL(docInput.files[0])}" target="_blank" style="color:#2563eb;">📄 ${docInput.files[0].name}</a>`;
+            }
+
+            // Add Row to Table
             const tbody = document.querySelector('#assetTable tbody');
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td><code>${encryptedCode}</code></td>
-                <td>${zone}</td>
-                <td>${room}</td>
-                <td>${asset}</td>
-                <td><button style="background:#ef4444; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer;" onclick="this.closest('tr').remove()">Supprimer</button></td>
+                <td><img src="${imgSrc}" class="img-thumb"></td>
+                <td><code>${generatedCode}</code></td>
+                <td><strong>${assetName}</strong></td>
+                <td>${roomName}</td>
+                <td>${docName}</td>
+                <td>📍 X: ${selectedCoords.x}%, Y: ${selectedCoords.y}%</td>
+                <td><button style="background:#ef4444; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;" onclick="this.closest('tr').remove()">Supprimer</button></td>
             `;
+
             tbody.appendChild(row);
 
-            // Add room to interactive layout
-            const grid = document.getElementById('floorGrid');
-            const newRoom = document.createElement('div');
-            newRoom.className = 'room-card';
-            newRoom.draggable = true;
-            newRoom.innerHTML = `<h4>${zone} - ${room}</h4><code>${encryptedCode}</code><p style="font-size:0.8em; color:#64748b; margin-top:5px;">${asset}</p>`;
-            grid.appendChild(newRoom);
-            
-            initDragAndDrop();
+            // Reset Form & Pin
             this.reset();
+            pinContainer.innerHTML = '';
         });
-
-        // Drag and Drop Logic
-        function initDragAndDrop() {
-            const cards = document.querySelectorAll('.room-card');
-            const grid = document.getElementById('floorGrid');
-
-            cards.forEach(card => {
-                card.addEventListener('dragstart', () => card.classList.add('dragging'));
-                card.addEventListener('dragend', () => card.classList.remove('dragging'));
-            });
-
-            grid.addEventListener('dragover', e => {
-                e.preventDefault();
-                const draggingCard = document.querySelector('.dragging');
-                const afterElement = getDragAfterElement(grid, e.clientX);
-                if (afterElement == null) {
-                    grid.appendChild(draggingCard);
-                } else {
-                    grid.insertBefore(draggingCard, afterElement);
-                }
-            });
-        }
-
-        function getDragAfterElement(container, x) {
-            const draggableElements = [...container.querySelectorAll('.room-card:not(.dragging)')];
-            return draggableElements.reduce((closest, child) => {
-                const box = child.getBoundingClientRect();
-                const offset = x - box.left - box.width / 2;
-                if (offset < 0 && offset > closest.offset) {
-                    return { offset: offset, element: child };
-                } else {
-                    return closest;
-                }
-            }, { offset: Number.NEGATIVE_INFINITY }).element;
-        }
     </script>
 </body>
 </html>
