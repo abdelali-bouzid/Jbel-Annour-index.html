@@ -1,292 +1,95 @@
-Texte collé.txt
-Document
-هذا HTML خاص بمشروع في صنع web page تشبه GMAO 
-
-Parfait. On va le faire proprement : je vais modifier la structure existante sans casser ton Hub actuel, et le premier objectif sera le Module GMAO.
-
-Je te propose de commencer par Équipements + Ordres de Travail (OT), puis d'ajouter Préventif et KPI après validation. Ainsi, chaque étape reste maîtrisable.
-
-
-ok
-
-Parfait 👍
-
-On passe donc à l’intégration du Module GMAO dans ton fichier actuel.
-
-Pour éviter de te faire perdre la structure déjà créée, je vais procéder ainsi :
-
-Étape 1 :
-
-Équipements
-
-OT (Ordres de Travail)
-
-création automatique des références
-
-modification / suppression
-
-liaison OT ↔ équipement
-
-statuts et priorités
-
-stockage local des données
-
-Étape 2 :
-
-Préventif
-
-gammes opératoires
-
-planning
-
-échéances
-
-Étape 3 :
-
-Dashboard KPI
-
-MTBF
-
-MTTR
-
-disponibilité
-
-Pareto des pannes
-
-Ton fichier actuel contient déjà la base nécessaire : le Hub, les fenêtres modales, les formulaires dynamiques et le localStorage. 
-
-
-On peut donc maintenant passer directement au code de l'étape 1.
-
-
-إعطيني HTML جديد
-
-نعم. بما أنك تريد HTML جديدًا كاملًا، الأفضل أن نعطيك ملفًا مستقلًا بدل أن نطلب منك دمج أجزاء في الكود القديم.
-
-هذا الإصدار سيكون GMAO v1 ويحتوي على:
-
-Dashboard
-
-Équipements
-
-Ordres de Travail
-
-Maintenance préventive
-
-Pièces de rechange
-
-RCA / BDA
-
-KPI de base
-
-recherche
-
-ajout / modification / suppression
-
-تخزين البيانات في localStorage
-
-واجهة متجاوبة
-
-سأحافظ على فكرة مشروعك الأصلية: GMAO + Sage X3 Integrated Hub، لكن نجعل الـGMAO أكثر واقعية من النسخة الحالية التي تعتمد على جداول عامة. الكود الأصلي كان بالفعل يستخدم localStorage وحفظ البيانات محليًا. 
-
-
-يمكنك استبدال ملف HTML القديم بهذا الملف الجديد بالكامل:
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GMAO Pro — Maintenance & Sage X3</title>
+
+<title>GMAO Maintenance</title>
 
 <style>
+
 *{
     box-sizing:border-box;
     margin:0;
     padding:0;
-    font-family:"Segoe UI",Arial,sans-serif;
+    font-family:Arial, sans-serif;
 }
 
 body{
-    background:#0f172a;
-    color:#fff;
-    min-height:100vh;
-}
-
-/* ================= LOGIN ================= */
-
-.login-screen{
-    position:fixed;
-    inset:0;
-    background:#0f172a;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    z-index:9999;
-}
-
-.login-box{
-    width:390px;
-    max-width:90%;
-    background:#1e293b;
-    border:1px solid #3b82f6;
-    border-radius:18px;
-    padding:35px;
-    text-align:center;
-    box-shadow:0 20px 50px rgba(0,0,0,.5);
-}
-
-.login-logo{
-    width:80px;
-    height:80px;
-    margin:auto;
-    border-radius:50%;
-    background:#2563eb;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:38px;
-    margin-bottom:20px;
-}
-
-.login-box h1{
-    font-size:22px;
-    margin-bottom:8px;
-}
-
-.login-box p{
-    color:#94a3b8;
-    font-size:14px;
-    margin-bottom:25px;
-}
-
-.login-box input{
-    width:100%;
-    padding:13px;
-    background:#0f172a;
-    border:1px solid #475569;
-    border-radius:8px;
-    color:white;
-    text-align:center;
-    font-size:18px;
-    letter-spacing:5px;
-    margin-bottom:15px;
-}
-
-.login-box button{
-    width:100%;
-    padding:13px;
-    border:none;
-    border-radius:8px;
-    background:#2563eb;
-    color:white;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-.login-box button:hover{
-    background:#1d4ed8;
-}
-
-#error{
-    display:none;
-    color:#f87171;
-    margin-top:12px;
-}
-
-/* ================= APP ================= */
-
-#app{
-    display:none;
+    background:#f1f5f9;
+    color:#1e293b;
 }
 
 /* HEADER */
 
-.header{
-    height:70px;
-    background:#1e293b;
-    border-bottom:1px solid #334155;
+header{
+    height:65px;
+    background:#0f172a;
+    color:white;
     display:flex;
     align-items:center;
     justify-content:space-between;
     padding:0 25px;
 }
 
-.header-title{
+.logo{
     display:flex;
     align-items:center;
-    gap:12px;
+    gap:10px;
+    font-size:20px;
+    font-weight:bold;
 }
 
-.header-logo{
-    width:42px;
-    height:42px;
-    border-radius:10px;
+.logo-icon{
+    width:40px;
+    height:40px;
     background:#2563eb;
+    border-radius:8px;
     display:flex;
     align-items:center;
     justify-content:center;
     font-size:22px;
 }
 
-.header h1{
-    font-size:20px;
-}
-
-.header small{
-    display:block;
+header span{
     color:#94a3b8;
-    font-size:11px;
-}
-
-.user-info{
-    color:#cbd5e1;
     font-size:13px;
 }
 
 /* LAYOUT */
 
-.layout{
+.container{
     display:flex;
-    min-height:calc(100vh - 70px);
+    min-height:calc(100vh - 65px);
 }
 
 /* SIDEBAR */
 
 .sidebar{
-    width:245px;
-    background:#111827;
-    border-right:1px solid #334155;
+    width:230px;
+    background:#1e293b;
+    color:white;
     padding:20px 12px;
 }
 
-.sidebar-title{
+.sidebar h3{
     color:#64748b;
     font-size:11px;
-    font-weight:bold;
-    margin:10px 12px;
+    margin:10px;
     text-transform:uppercase;
 }
 
-.menu-item{
-    padding:12px 14px;
-    border-radius:8px;
-    margin-bottom:5px;
+.menu{
+    padding:12px;
+    margin:5px 0;
+    border-radius:7px;
     cursor:pointer;
     color:#cbd5e1;
-    display:flex;
-    align-items:center;
-    gap:10px;
-    font-size:14px;
 }
 
-.menu-item:hover{
-    background:#1e293b;
-    color:white;
-}
-
-.menu-item.active{
-    background:#1d4ed8;
+.menu:hover,
+.menu.active{
+    background:#2563eb;
     color:white;
 }
 
@@ -295,7 +98,6 @@ body{
 .content{
     flex:1;
     padding:25px;
-    overflow:auto;
 }
 
 .page{
@@ -306,335 +108,243 @@ body{
     display:block;
 }
 
-.page-title{
+.title{
     margin-bottom:20px;
 }
 
-.page-title h2{
-    font-size:25px;
+.title h1{
+    font-size:26px;
 }
 
-.page-title p{
-    color:#94a3b8;
+.title p{
+    color:#64748b;
     margin-top:5px;
 }
 
-/* ================= KPI ================= */
+/* CARDS */
 
-.kpi-grid{
+.cards{
     display:grid;
     grid-template-columns:repeat(4,1fr);
     gap:15px;
     margin-bottom:25px;
 }
 
-.kpi{
-    background:#1e293b;
-    border:1px solid #334155;
-    border-radius:12px;
+.card{
+    background:white;
+    border-radius:10px;
     padding:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
 }
 
-.kpi-title{
-    color:#94a3b8;
-    font-size:12px;
+.card h3{
+    font-size:13px;
+    color:#64748b;
 }
 
-.kpi-value{
+.number{
     font-size:30px;
     font-weight:bold;
     margin-top:8px;
 }
 
-.kpi-info{
-    color:#64748b;
-    font-size:11px;
-    margin-top:5px;
-}
+/* BUTTON */
 
-/* ================= CARDS ================= */
-
-.card{
-    background:#1e293b;
-    border:1px solid #334155;
-    border-radius:12px;
-    padding:20px;
-    margin-bottom:20px;
-}
-
-.card-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:18px;
-}
-
-.card-header h3{
-    font-size:16px;
-}
-
-/* BUTTONS */
-
-.btn{
+button{
     border:none;
-    border-radius:7px;
-    padding:9px 15px;
+    padding:9px 14px;
+    border-radius:6px;
     cursor:pointer;
     font-weight:bold;
 }
 
-.btn-primary{
+.btn-blue{
     background:#2563eb;
     color:white;
 }
 
-.btn-primary:hover{
-    background:#1d4ed8;
-}
-
-.btn-danger{
+.btn-red{
     background:#dc2626;
     color:white;
 }
 
-.btn-warning{
-    background:#d97706;
+.btn-orange{
+    background:#f59e0b;
     color:white;
 }
 
-.btn-secondary{
-    background:#475569;
-    color:white;
+/* TABLE */
+
+.table-box{
+    background:white;
+    border-radius:10px;
+    padding:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
 }
 
-/* ================= TABLE ================= */
-
-.table-wrapper{
-    overflow-x:auto;
+.table-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
 }
 
 table{
     width:100%;
     border-collapse:collapse;
-    min-width:750px;
 }
 
 th{
-    background:#0f172a;
-    color:#94a3b8;
-    font-size:12px;
-    padding:12px;
+    background:#f8fafc;
+    color:#64748b;
     text-align:left;
+    padding:12px;
+    font-size:13px;
 }
 
 td{
     padding:12px;
-    border-bottom:1px solid #334155;
-    font-size:13px;
+    border-bottom:1px solid #e2e8f0;
+    font-size:14px;
 }
 
-tr:hover td{
-    background:#172033;
-}
-
-/* BADGES */
+/* BADGE */
 
 .badge{
-    display:inline-block;
-    padding:4px 9px;
-    border-radius:20px;
+    padding:5px 9px;
+    border-radius:15px;
     font-size:11px;
     font-weight:bold;
 }
 
-.badge-green{
-    background:#14532d;
-    color:#86efac;
+.green{
+    background:#dcfce7;
+    color:#166534;
 }
 
-.badge-orange{
-    background:#78350f;
-    color:#fdba74;
+.orange{
+    background:#ffedd5;
+    color:#9a3412;
 }
 
-.badge-red{
-    background:#7f1d1d;
-    color:#fca5a5;
+.red{
+    background:#fee2e2;
+    color:#991b1b;
 }
 
-.badge-blue{
-    background:#1e3a8a;
-    color:#93c5fd;
+.blue{
+    background:#dbeafe;
+    color:#1d4ed8;
 }
 
-.badge-gray{
-    background:#334155;
-    color:#cbd5e1;
-}
-
-/* ================= FORMS ================= */
-
-.form-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:15px;
-}
-
-.form-group{
-    display:flex;
-    flex-direction:column;
-    gap:6px;
-}
-
-.form-group.full{
-    grid-column:1/-1;
-}
-
-.form-group label{
-    font-size:12px;
-    color:#cbd5e1;
-    font-weight:bold;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea{
-    background:#0f172a;
-    border:1px solid #475569;
-    color:white;
-    border-radius:7px;
-    padding:10px;
-    outline:none;
-}
-
-.form-group textarea{
-    min-height:80px;
-    resize:vertical;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus{
-    border-color:#3b82f6;
-}
-
-/* ================= MODAL ================= */
+/* MODAL */
 
 .modal{
     display:none;
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.7);
-    z-index:5000;
+    background:rgba(0,0,0,.5);
     align-items:center;
     justify-content:center;
-    padding:20px;
 }
 
 .modal.show{
     display:flex;
 }
 
-.modal-box{
-    width:850px;
-    max-width:100%;
-    max-height:90vh;
-    overflow:auto;
-    background:#1e293b;
-    border:1px solid #3b82f6;
-    border-radius:15px;
+.modal-content{
+    background:white;
+    width:600px;
+    max-width:95%;
+    border-radius:12px;
     padding:25px;
 }
 
 .modal-header{
     display:flex;
     justify-content:space-between;
-    align-items:center;
     margin-bottom:20px;
 }
 
 .close{
-    width:32px;
-    height:32px;
-    border:none;
-    border-radius:50%;
-    cursor:pointer;
-    font-size:20px;
-    background:#334155;
-    color:white;
+    background:#e2e8f0;
+    font-size:18px;
+}
+
+.form{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+}
+
+.form-group.full{
+    grid-column:1 / 3;
+}
+
+label{
+    font-size:13px;
+    font-weight:bold;
+}
+
+input,
+select,
+textarea{
+    padding:10px;
+    border:1px solid #cbd5e1;
+    border-radius:6px;
+}
+
+textarea{
+    min-height:80px;
 }
 
 .modal-footer{
+    margin-top:20px;
     display:flex;
     justify-content:flex-end;
     gap:10px;
-    margin-top:20px;
 }
 
-/* ================= DASHBOARD ================= */
+/* RESPONSIVE */
 
-.dashboard-grid{
-    display:grid;
-    grid-template-columns:2fr 1fr;
-    gap:20px;
-}
+@media(max-width:900px){
 
-.stat-row{
-    display:flex;
-    justify-content:space-between;
-    margin:12px 0;
-    color:#cbd5e1;
-}
-
-.progress{
-    height:8px;
-    background:#0f172a;
-    border-radius:10px;
-    overflow:hidden;
-}
-
-.progress div{
-    height:100%;
-    background:#3b82f6;
-}
-
-/* ================= RESPONSIVE ================= */
-
-@media(max-width:1000px){
-
-    .kpi-grid{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .dashboard-grid{
-        grid-template-columns:1fr;
+    .cards{
+        grid-template-columns:1fr 1fr;
     }
 
 }
 
-@media(max-width:700px){
+@media(max-width:650px){
 
     .sidebar{
         width:65px;
     }
 
-    .menu-item span.text{
-        display:none;
+    .menu{
+        font-size:0;
+        text-align:center;
     }
 
-    .sidebar-title{
-        display:none;
+    .menu::first-letter{
+        font-size:20px;
     }
 
     .content{
         padding:15px;
     }
 
-    .kpi-grid{
+    .cards{
         grid-template-columns:1fr;
     }
 
-    .form-grid{
+    .form{
         grid-template-columns:1fr;
     }
 
@@ -642,723 +352,446 @@ tr:hover td{
         grid-column:auto;
     }
 
-    .user-info{
-        display:none;
-    }
 }
+
 </style>
 </head>
 
+
 <body>
 
-<!-- =====================================================
-LOGIN
-===================================================== -->
+<!-- HEADER -->
 
-<div class="login-screen" id="loginScreen">
+<header>
 
-    <div class="login-box">
+    <div class="logo">
 
-        <div class="login-logo">⚙️</div>
-
-        <h1>GMAO PRO</h1>
-
-        <p>
-            Plateforme Maintenance & Sage X3
-        </p>
-
-        <input
-            type="password"
-            id="password"
-            placeholder="••••"
-            maxlength="8"
-        >
-
-        <button onclick="login()">
-            🔐 Accéder au système
-        </button>
-
-        <div id="error">
-            ❌ Code incorrect
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- =====================================================
-APPLICATION
-===================================================== -->
-
-<div id="app">
-
-<header class="header">
-
-    <div class="header-title">
-
-        <div class="header-logo">
+        <div class="logo-icon">
             ⚙️
         </div>
 
         <div>
-            <h1>GMAO PRO</h1>
-            <small>Maintenance Management System — Sage X3 Hub</small>
+            GMAO Maintenance
         </div>
 
     </div>
 
-    <div class="user-info">
-        👤 Administrateur Maintenance
-    </div>
+    <span>
+        Maintenance Management System
+    </span>
 
 </header>
 
 
-<div class="layout">
+<div class="container">
 
-<!-- =====================================================
-SIDEBAR
-===================================================== -->
+
+<!-- SIDEBAR -->
 
 <aside class="sidebar">
 
-    <div class="sidebar-title">
-        Pilotage
-    </div>
+    <h3>Menu</h3>
 
-    <div class="menu-item active"
+    <div class="menu active"
          onclick="showPage('dashboard',this)">
-        📊 <span class="text">Dashboard</span>
+        📊 Dashboard
     </div>
 
-
-    <div class="sidebar-title">
-        Maintenance
-    </div>
-
-    <div class="menu-item"
+    <div class="menu"
          onclick="showPage('equipements',this)">
-        ⚙️ <span class="text">Équipements</span>
+        ⚙️ Équipements
     </div>
 
-    <div class="menu-item"
+    <div class="menu"
          onclick="showPage('ot',this)">
-        🔧 <span class="text">Ordres de Travail</span>
+        🔧 Ordres de Travail
     </div>
 
-    <div class="menu-item"
+    <div class="menu"
          onclick="showPage('preventif',this)">
-        📅 <span class="text">Préventif</span>
+        📅 Préventif
     </div>
 
-    <div class="menu-item"
-         onclick="showPage('historique',this)">
-        📋 <span class="text">Historique</span>
-    </div>
-
-
-    <div class="sidebar-title">
-        Gestion
-    </div>
-
-    <div class="menu-item"
+    <div class="menu"
          onclick="showPage('pieces',this)">
-        📦 <span class="text">Pièces de Rechange</span>
+        📦 Pièces
     </div>
 
-    <div class="menu-item"
+    <div class="menu"
          onclick="showPage('rca',this)">
-        📈 <span class="text">RCA / BDA</span>
-    </div>
-
-
-    <div class="sidebar-title">
-        Analyse
-    </div>
-
-    <div class="menu-item"
-         onclick="showPage('kpi',this)">
-        📊 <span class="text">KPI Maintenance</span>
+        📈 RCA
     </div>
 
 </aside>
 
 
-<!-- =====================================================
-CONTENT
-===================================================== -->
+<!-- CONTENT -->
 
 <main class="content">
 
 
-<!-- ================= DASHBOARD ================= -->
+<!-- DASHBOARD -->
 
-<section class="page active" id="dashboard">
+<section id="dashboard" class="page active">
 
-<div class="page-title">
-    <h2>Dashboard Maintenance</h2>
-    <p>Vue globale de la performance du service maintenance.</p>
-</div>
+    <div class="title">
 
+        <h1>Dashboard</h1>
 
-<div class="kpi-grid">
+        <p>
+            Vue générale de la maintenance
+        </p>
 
-    <div class="kpi">
-        <div class="kpi-title">ÉQUIPEMENTS</div>
-        <div class="kpi-value" id="kpiEquipements">0</div>
-        <div class="kpi-info">Parc machines</div>
     </div>
 
-    <div class="kpi">
-        <div class="kpi-title">OT OUVERTS</div>
-        <div class="kpi-value" id="kpiOT">0</div>
-        <div class="kpi-info">Interventions en cours</div>
+
+    <div class="cards">
+
+        <div class="card">
+
+            <h3>ÉQUIPEMENTS</h3>
+
+            <div class="number"
+                 id="totalEquipements">
+                0
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>ORDRES DE TRAVAIL</h3>
+
+            <div class="number"
+                 id="totalOT">
+                0
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>PRÉVENTIF</h3>
+
+            <div class="number"
+                 id="totalPreventif">
+                0
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>RCA</h3>
+
+            <div class="number"
+                 id="totalRCA">
+                0
+            </div>
+
+        </div>
+
     </div>
 
-    <div class="kpi">
-        <div class="kpi-title">PRÉVENTIF</div>
-        <div class="kpi-value" id="kpiPreventif">0</div>
-        <div class="kpi-info">Plans préventifs</div>
+
+    <div class="table-box">
+
+        <h2>
+            Bienvenue dans votre GMAO
+        </h2>
+
+        <br>
+
+        <p>
+            Utilisez le menu à gauche pour gérer
+            vos équipements, ordres de travail,
+            maintenance préventive et analyses RCA.
+        </p>
+
     </div>
 
-    <div class="kpi">
-        <div class="kpi-title">ACTIONS RCA</div>
-        <div class="kpi-value" id="kpiRCA">0</div>
-        <div class="kpi-info">Actions ouvertes</div>
+</section>
+
+
+
+<!-- EQUIPEMENTS -->
+
+<section id="equipements" class="page">
+
+    <div class="title">
+
+        <h1>⚙️ Équipements</h1>
+
+        <p>
+            Gestion du parc machines
+        </p>
+
     </div>
 
-</div>
+
+    <div class="table-box">
+
+        <div class="table-head">
+
+            <h2>Liste des équipements</h2>
+
+            <button class="btn-blue"
+                    onclick="openEquipment()">
+                + Ajouter
+            </button>
+
+        </div>
 
 
-<div class="dashboard-grid">
+        <table>
 
-<div class="card">
+            <thead>
 
-<div class="card-header">
-    <h3>📊 État des Ordres de Travail</h3>
-</div>
+                <tr>
+                    <th>Code</th>
+                    <th>Équipement</th>
+                    <th>Zone</th>
+                    <th>Criticité</th>
+                    <th>État</th>
+                    <th>Action</th>
+                </tr>
 
-<div class="stat-row">
-    <span>Ouverts</span>
-    <strong id="dashOpen">0</strong>
-</div>
+            </thead>
 
-<div class="progress">
-    <div id="barOpen" style="width:0%"></div>
-</div>
+            <tbody id="equipmentList">
+            </tbody>
 
+        </table>
 
-<div class="stat-row">
-    <span>En cours</span>
-    <strong id="dashProgress">0</strong>
-</div>
-
-<div class="progress">
-    <div id="barProgress" style="width:0%"></div>
-</div>
-
-
-<div class="stat-row">
-    <span>Terminés</span>
-    <strong id="dashDone">0</strong>
-</div>
-
-<div class="progress">
-    <div id="barDone" style="width:0%"></div>
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="card-header">
-    <h3>⚠️ Criticité</h3>
-</div>
-
-<div class="stat-row">
-    <span>Critique</span>
-    <strong id="criticalCount">0</strong>
-</div>
-
-<div class="stat-row">
-    <span>Importante</span>
-    <strong id="importantCount">0</strong>
-</div>
-
-<div class="stat-row">
-    <span>Normale</span>
-    <strong id="normalCount">0</strong>
-</div>
-
-</div>
-
-</div>
+    </div>
 
 </section>
 
 
-<!-- ================= EQUIPEMENTS ================= -->
 
-<section class="page" id="equipements">
+<!-- OT -->
 
-<div class="page-title">
-    <h2>⚙️ Gestion des Équipements</h2>
-    <p>Référentiel technique du parc machines.</p>
-</div>
+<section id="ot" class="page">
 
+    <div class="title">
 
-<div class="card">
+        <h1>🔧 Ordres de Travail</h1>
 
-<div class="card-header">
+        <p>
+            Gestion des interventions
+        </p>
 
-<h3>Liste des équipements</h3>
-
-<button class="btn btn-primary"
-        onclick="openEquipmentModal()">
-    ➕ Nouvel équipement
-</button>
-
-</div>
+    </div>
 
 
-<div class="table-wrapper">
+    <div class="table-box">
 
-<table>
+        <div class="table-head">
 
-<thead>
+            <h2>OT Maintenance</h2>
 
-<tr>
-<th>Code</th>
-<th>Équipement</th>
-<th>Zone</th>
-<th>Marque</th>
-<th>Criticité</th>
-<th>État</th>
-<th>Actions</th>
-</tr>
+            <button class="btn-blue"
+                    onclick="openOT()">
+                + Nouvel OT
+            </button>
 
-</thead>
-
-<tbody id="equipmentTable">
-</tbody>
-
-</table>
-
-</div>
-
-</div>
-
-</section>
+        </div>
 
 
-<!-- ================= OT ================= -->
+        <table>
 
-<section class="page" id="ot">
+            <thead>
 
-<div class="page-title">
-<h2>🔧 Ordres de Travail</h2>
-<p>Gestion des interventions de maintenance.</p>
-</div>
+                <tr>
 
+                    <th>N° OT</th>
+                    <th>Équipement</th>
+                    <th>Type</th>
+                    <th>Priorité</th>
+                    <th>Statut</th>
+                    <th>Action</th>
 
-<div class="card">
+                </tr>
 
-<div class="card-header">
+            </thead>
 
-<h3>OT Maintenance</h3>
+            <tbody id="otList">
+            </tbody>
 
-<button class="btn btn-primary"
-onclick="openOTModal()">
-➕ Créer un OT
-</button>
+        </table>
 
-</div>
-
-
-<div class="table-wrapper">
-
-<table>
-
-<thead>
-
-<tr>
-<th>N° OT</th>
-<th>Équipement</th>
-<th>Type</th>
-<th>Priorité</th>
-<th>Technicien</th>
-<th>Statut</th>
-<th>Date</th>
-<th>Actions</th>
-</tr>
-
-</thead>
-
-<tbody id="otTable">
-</tbody>
-
-</table>
-
-</div>
-
-</div>
+    </div>
 
 </section>
 
 
-<!-- ================= PREVENTIF ================= -->
 
-<section class="page" id="preventif">
+<!-- PREVENTIF -->
 
-<div class="page-title">
+<section id="preventif" class="page">
 
-<h2>📅 Maintenance Préventive</h2>
+    <div class="title">
 
-<p>
-Planification des opérations préventives.
-</p>
+        <h1>📅 Maintenance Préventive</h1>
 
-</div>
+        <p>
+            Plans de maintenance
+        </p>
 
-
-<div class="card">
-
-<div class="card-header">
-
-<h3>Plans Préventifs</h3>
-
-<button class="btn btn-primary"
-onclick="openPreventiveModal()">
-
-➕ Nouveau plan
-
-</button>
-
-</div>
+    </div>
 
 
-<div class="table-wrapper">
+    <div class="table-box">
 
-<table>
+        <div class="table-head">
 
-<thead>
+            <h2>Plans préventifs</h2>
 
-<tr>
-<th>Référence</th>
-<th>Équipement</th>
-<th>Opération</th>
-<th>Fréquence</th>
-<th>Dernière réalisation</th>
-<th>Prochaine échéance</th>
-<th>Actions</th>
-</tr>
+            <button class="btn-blue"
+                    onclick="openPreventive()">
+                + Ajouter
+            </button>
 
-</thead>
+        </div>
 
-<tbody id="preventiveTable">
-</tbody>
 
-</table>
+        <table>
 
-</div>
+            <thead>
 
-</div>
+                <tr>
+
+                    <th>Référence</th>
+                    <th>Équipement</th>
+                    <th>Opération</th>
+                    <th>Fréquence</th>
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="preventiveList">
+            </tbody>
+
+        </table>
+
+    </div>
 
 </section>
 
 
-<!-- ================= HISTORIQUE ================= -->
 
-<section class="page" id="historique">
+<!-- PIECES -->
 
-<div class="page-title">
+<section id="pieces" class="page">
 
-<h2>📋 Historique Maintenance</h2>
+    <div class="title">
 
-<p>
-Historique des interventions réalisées.
-</p>
+        <h1>📦 Pièces de Rechange</h1>
 
-</div>
+        <p>
+            Gestion simple du stock
+        </p>
 
-
-<div class="card">
-
-<div class="table-wrapper">
-
-<table>
-
-<thead>
-
-<tr>
-<th>OT</th>
-<th>Équipement</th>
-<th>Type</th>
-<th>Technicien</th>
-<th>Diagnostic</th>
-<th>Action</th>
-<th>Date</th>
-</tr>
-
-</thead>
-
-<tbody id="historyTable">
-</tbody>
-
-</table>
-
-</div>
-
-</div>
-
-</section>
+    </div>
 
 
-<!-- ================= PIECES ================= -->
+    <div class="table-box">
 
-<section class="page" id="pieces">
+        <div class="table-head">
 
-<div class="page-title">
+            <h2>Stock</h2>
 
-<h2>📦 Pièces de Rechange</h2>
+            <button class="btn-blue"
+                    onclick="openPart()">
+                + Ajouter
+            </button>
 
-<p>
-Gestion du stock maintenance.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<div class="card-header">
-
-<h3>Stock PDR</h3>
-
-<button class="btn btn-primary"
-onclick="openPartModal()">
-
-➕ Nouvelle pièce
-
-</button>
-
-</div>
+        </div>
 
 
-<div class="table-wrapper">
+        <table>
 
-<table>
+            <thead>
 
-<thead>
+                <tr>
+                    <th>Référence</th>
+                    <th>Désignation</th>
+                    <th>Stock</th>
+                    <th>Minimum</th>
+                    <th>État</th>
+                    <th>Action</th>
+                </tr>
 
-<tr>
-<th>Référence</th>
-<th>Désignation</th>
-<th>Équipement</th>
-<th>Stock</th>
-<th>Stock Min</th>
-<th>État</th>
-<th>Actions</th>
-</tr>
+            </thead>
 
-</thead>
+            <tbody id="partsList">
+            </tbody>
 
-<tbody id="partsTable">
-</tbody>
+        </table>
 
-</table>
-
-</div>
-
-</div>
+    </div>
 
 </section>
 
 
-<!-- ================= RCA ================= -->
 
-<section class="page" id="rca">
+<!-- RCA -->
 
-<div class="page-title">
+<section id="rca" class="page">
 
-<h2>📈 RCA / BDA</h2>
+    <div class="title">
 
-<p>
-Analyse des causes racines et suivi des actions.
-</p>
+        <h1>📈 RCA / BDA</h1>
 
-</div>
+        <p>
+            Analyse des causes racines
+        </p>
 
+    </div>
 
-<div class="card">
 
-<div class="card-header">
+    <div class="table-box">
 
-<h3>Analyses & Actions</h3>
+        <div class="table-head">
 
-<button class="btn btn-primary"
-onclick="openRCAModal()">
+            <h2>Analyses</h2>
 
-➕ Nouvelle analyse
+            <button class="btn-blue"
+                    onclick="openRCA()">
+                + Nouvelle RCA
+            </button>
 
-</button>
+        </div>
 
-</div>
 
+        <table>
 
-<div class="table-wrapper">
+            <thead>
 
-<table>
+                <tr>
 
-<thead>
+                    <th>Référence</th>
+                    <th>Équipement</th>
+                    <th>Cause</th>
+                    <th>Action corrective</th>
+                    <th>Statut</th>
+                    <th>Action</th>
 
-<tr>
-<th>Référence</th>
-<th>Équipement</th>
-<th>Type</th>
-<th>Cause</th>
-<th>Action corrective</th>
-<th>Responsable</th>
-<th>Statut</th>
-<th>Actions</th>
-</tr>
+                </tr>
 
-</thead>
+            </thead>
 
-<tbody id="rcaTable">
-</tbody>
+            <tbody id="rcaList">
+            </tbody>
 
-</table>
+        </table>
 
-</div>
-
-</div>
-
-</section>
-
-
-<!-- ================= KPI ================= -->
-
-<section class="page" id="kpi">
-
-<div class="page-title">
-
-<h2>📊 KPI Maintenance</h2>
-
-<p>
-Indicateurs de performance maintenance.
-</p>
-
-</div>
-
-
-<div class="kpi-grid">
-
-<div class="kpi">
-
-<div class="kpi-title">
-MTBF
-</div>
-
-<div class="kpi-value"
-id="mtbf">
-0 h
-</div>
-
-<div class="kpi-info">
-Mean Time Between Failures
-</div>
-
-</div>
-
-
-<div class="kpi">
-
-<div class="kpi-title">
-MTTR
-</div>
-
-<div class="kpi-value"
-id="mttr">
-0 h
-</div>
-
-<div class="kpi-info">
-Mean Time To Repair
-</div>
-
-</div>
-
-
-<div class="kpi">
-
-<div class="kpi-title">
-DISPONIBILITÉ
-</div>
-
-<div class="kpi-value"
-id="availability">
-0 %
-</div>
-
-<div class="kpi-info">
-Disponibilité technique
-</div>
-
-</div>
-
-
-<div class="kpi">
-
-<div class="kpi-title">
-TAUX PRÉVENTIF
-</div>
-
-<div class="kpi-value"
-id="preventiveRate">
-0 %
-</div>
-
-<div class="kpi-info">
-Préventif / Maintenance
-</div>
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<h3>📌 Interprétation</h3>
-
-<br>
-
-<p style="color:#94a3b8;line-height:1.8">
-
-<strong>MTBF :</strong>
-temps moyen entre deux pannes.
-
-<br>
-
-<strong>MTTR :</strong>
-temps moyen nécessaire pour remettre un équipement en service.
-
-<br>
-
-<strong>Disponibilité :</strong>
-capacité d'un équipement à être disponible pour la production.
-
-<br>
-
-<strong>Taux préventif :</strong>
-part des interventions préventives par rapport aux interventions totales.
-
-</p>
-
-</div>
+    </div>
 
 </section>
 
@@ -1366,146 +799,89 @@ part des interventions préventives par rapport aux interventions totales.
 
 </div>
 
-</div>
 
 
-<!-- =====================================================
-MODAL
-===================================================== -->
+<!-- MODAL -->
 
 <div class="modal" id="modal">
 
-<div class="modal-box">
+    <div class="modal-content">
 
-<div class="modal-header">
+        <div class="modal-header">
 
-<h2 id="modalTitle">
-Nouveau
-</h2>
+            <h2 id="modalTitle">
+                Ajouter
+            </h2>
 
-<button class="close"
-onclick="closeModal()">
-×
-</button>
+            <button class="close"
+                    onclick="closeModal()">
+                ×
+            </button>
+
+        </div>
+
+        <div id="modalBody">
+        </div>
+
+    </div>
 
 </div>
 
-<div id="modalContent"></div>
-
-</div>
-
-</div>
 
 
 <script>
 
-/* =====================================================
-DATABASE
-===================================================== */
+/* =========================
+   DATABASE
+========================= */
 
-let db = JSON.parse(
-    localStorage.getItem("GMAO_PRO_DATABASE")
-) || {
+let equipments =
+JSON.parse(localStorage.getItem("equipments")) || [];
 
-    equipments:[],
-    ots:[],
-    preventives:[],
-    parts:[],
-    rcas:[]
+let ots =
+JSON.parse(localStorage.getItem("ots")) || [];
 
-};
+let preventives =
+JSON.parse(localStorage.getItem("preventives")) || [];
 
+let parts =
+JSON.parse(localStorage.getItem("parts")) || [];
 
-/* =====================================================
-SAVE
-===================================================== */
-
-function saveDB(){
-
-    localStorage.setItem(
-        "GMAO_PRO_DATABASE",
-        JSON.stringify(db)
-    );
-
-    refreshAll();
-
-}
+let rcas =
+JSON.parse(localStorage.getItem("rcas")) || [];
 
 
-/* =====================================================
-LOGIN
-===================================================== */
+/* =========================
+   NAVIGATION
+========================= */
 
-function login(){
-
-    const password =
-        document.getElementById("password").value;
-
-    if(password === "1234"){
-
-        document.getElementById("loginScreen")
-        .style.display="none";
-
-        document.getElementById("app")
-        .style.display="block";
-
-        refreshAll();
-
-    }else{
-
-        document.getElementById("error")
-        .style.display="block";
-
-    }
-
-}
-
-
-document.getElementById("password")
-.addEventListener("keydown",function(e){
-
-    if(e.key==="Enter"){
-        login();
-    }
-function login(){
-    document.getElementById("loginScreen").style.display = "none";
-    document.getElementById("app").style.display = "block";
-    refreshAll();
-}
-});
-
-
-/* =====================================================
-NAVIGATION
-===================================================== */
-
-function showPage(id,element){
+function showPage(page, element){
 
     document.querySelectorAll(".page")
-    .forEach(p=>p.classList.remove("active"));
+    .forEach(p => p.classList.remove("active"));
 
-    document.getElementById(id)
+    document.getElementById(page)
     .classList.add("active");
 
-    document.querySelectorAll(".menu-item")
-    .forEach(item=>item.classList.remove("active"));
+    document.querySelectorAll(".menu")
+    .forEach(m => m.classList.remove("active"));
 
     element.classList.add("active");
 
 }
 
 
-/* =====================================================
-MODAL
-===================================================== */
+/* =========================
+   MODAL
+========================= */
 
-function openModal(title,content){
+function openModal(title, html){
 
     document.getElementById("modalTitle")
-    .textContent=title;
+    .innerText = title;
 
-    document.getElementById("modalContent")
-    .innerHTML=content;
+    document.getElementById("modalBody")
+    .innerHTML = html;
 
     document.getElementById("modal")
     .classList.add("show");
@@ -1521,293 +897,194 @@ function closeModal(){
 }
 
 
-/* =====================================================
-REFERENCE GENERATOR
-===================================================== */
+/* =========================
+   EQUIPMENT
+========================= */
 
-function generateRef(prefix){
-
-    const year =
-        new Date().getFullYear();
-
-    const number =
-        Math.floor(
-            1000 + Math.random()*9000
-        );
-
-    return `${prefix}-${year}-${number}`;
-
-}
-
-
-/* =====================================================
-EQUIPMENT MODAL
-===================================================== */
-
-function openEquipmentModal(index=null){
-
-    const item =
-        index !== null
-        ? db.equipments[index]
-        : null;
-
-
-    const html=`
-
-    <div class="form-grid">
-
-        <div class="form-group">
-            <label>Code équipement</label>
-
-            <input
-                id="eqCode"
-                value="${item ? item.code : generateRef("EQ")}"
-                readonly
-            >
-        </div>
-
-
-        <div class="form-group">
-            <label>Désignation</label>
-
-            <input
-                id="eqName"
-                value="${item ? item.name : ""}"
-                placeholder="Ex: Extrudeuse Ligne 01"
-            >
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Zone</label>
-
-            <input
-                id="eqZone"
-                value="${item ? item.zone : ""}"
-                placeholder="Ex: Production"
-            >
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Marque</label>
-
-            <input
-                id="eqBrand"
-                value="${item ? item.brand : ""}"
-                placeholder="Marque constructeur"
-            >
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Modèle</label>
-
-            <input
-                id="eqModel"
-                value="${item ? item.model : ""}"
-            >
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>N° Série</label>
-
-            <input
-                id="eqSerial"
-                value="${item ? item.serial : ""}"
-            >
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Criticité</label>
-
-            <select id="eqCriticality">
-
-                <option
-                ${item?.criticality==="Critique"?"selected":""}>
-                Critique
-                </option>
-
-                <option
-                ${item?.criticality==="Importante"?"selected":""}>
-                Importante
-                </option>
-
-                <option
-                ${item?.criticality==="Normale"?"selected":""}>
-                Normale
-                </option>
-
-            </select>
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>État</label>
-
-            <select id="eqState">
-
-                <option
-                ${item?.state==="En service"?"selected":""}>
-                En service
-                </option>
-
-                <option
-                ${item?.state==="Arrêt"?"selected":""}>
-                Arrêt
-                </option>
-
-                <option
-                ${item?.state==="Maintenance"?"selected":""}>
-                Maintenance
-                </option>
-
-            </select>
-
-        </div>
-
-    </div>
-
-
-    <div class="modal-footer">
-
-        <button
-        class="btn btn-secondary"
-        onclick="closeModal()">
-        Annuler
-        </button>
-
-        <button
-        class="btn btn-primary"
-        onclick="saveEquipment(${index})">
-        💾 Enregistrer
-        </button>
-
-    </div>
-
-    `;
-
+function openEquipment(){
 
     openModal(
-        index!==null
-        ?"Modifier équipement"
-        :"Nouvel équipement",
-        html
+
+        "Ajouter un équipement",
+
+        `
+
+        <div class="form">
+
+            <div class="form-group">
+
+                <label>Code</label>
+
+                <input id="eqCode"
+                       value="EQ-${Date.now()}">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Équipement</label>
+
+                <input id="eqName"
+                       placeholder="Ex: Extrudeuse">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Zone</label>
+
+                <input id="eqZone"
+                       placeholder="Ex: Production">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Criticité</label>
+
+                <select id="eqCriticality">
+
+                    <option>Normale</option>
+                    <option>Importante</option>
+                    <option>Critique</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>État</label>
+
+                <select id="eqState">
+
+                    <option>En service</option>
+                    <option>Maintenance</option>
+                    <option>Arrêt</option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <div class="modal-footer">
+
+            <button onclick="closeModal()">
+                Annuler
+            </button>
+
+            <button class="btn-blue"
+                    onclick="saveEquipment()">
+                Enregistrer
+            </button>
+
+        </div>
+
+        `
+
     );
 
 }
 
 
-/* =====================================================
-SAVE EQUIPMENT
-===================================================== */
+function saveEquipment(){
 
-function saveEquipment(index){
+    let item = {
 
-    const equipment={
+        code:
+        document.getElementById("eqCode").value,
 
-        code:document.getElementById("eqCode").value,
+        name:
+        document.getElementById("eqName").value,
 
-        name:document.getElementById("eqName").value,
-
-        zone:document.getElementById("eqZone").value,
-
-        brand:document.getElementById("eqBrand").value,
-
-        model:document.getElementById("eqModel").value,
-
-        serial:document.getElementById("eqSerial").value,
+        zone:
+        document.getElementById("eqZone").value,
 
         criticality:
-            document.getElementById("eqCriticality").value,
+        document.getElementById("eqCriticality").value,
 
         state:
-            document.getElementById("eqState").value
+        document.getElementById("eqState").value
 
     };
 
 
-    if(!equipment.name){
+    if(!item.name){
 
-        alert("Veuillez saisir la désignation.");
+        alert("Veuillez saisir le nom de l'équipement.");
 
         return;
 
     }
 
 
-    if(index===null){
+    equipments.push(item);
 
-        db.equipments.push(equipment);
-
-    }else{
-
-        db.equipments[index]=equipment;
-
-    }
-
+    localStorage.setItem(
+        "equipments",
+        JSON.stringify(equipments)
+    );
 
     closeModal();
 
-    saveDB();
+    renderAll();
 
 }
 
 
-/* =====================================================
-RENDER EQUIPMENT
-===================================================== */
+function deleteEquipment(index){
+
+    if(confirm("Supprimer cet équipement ?")){
+
+        equipments.splice(index,1);
+
+        localStorage.setItem(
+            "equipments",
+            JSON.stringify(equipments)
+        );
+
+        renderAll();
+
+    }
+
+}
+
 
 function renderEquipments(){
 
-    const table =
-        document.getElementById("equipmentTable");
+    let html="";
 
-    table.innerHTML="";
+    equipments.forEach((e,index)=>{
 
-
-    db.equipments.forEach((e,index)=>{
-
-        const critical =
-            e.criticality==="Critique"
-            ?"badge-red"
-            :e.criticality==="Importante"
-            ?"badge-orange"
-            :"badge-green";
+        let critical =
+            e.criticality === "Critique"
+            ? "red"
+            : e.criticality === "Importante"
+            ? "orange"
+            : "green";
 
 
-        const state =
-            e.state==="En service"
-            ?"badge-green"
-            :e.state==="Maintenance"
-            ?"badge-orange"
-            :"badge-red";
+        let state =
+            e.state === "En service"
+            ? "green"
+            : "orange";
 
 
-        table.innerHTML+=`
+        html += `
 
         <tr>
 
-            <td><strong>${e.code}</strong></td>
+            <td>${e.code}</td>
 
             <td>${e.name}</td>
 
             <td>${e.zone}</td>
-
-            <td>${e.brand || "-"}</td>
 
             <td>
                 <span class="badge ${critical}">
@@ -1824,15 +1101,9 @@ function renderEquipments(){
             <td>
 
                 <button
-                class="btn btn-warning"
-                onclick="openEquipmentModal(${index})">
-                ✏️
-                </button>
-
-                <button
-                class="btn btn-danger"
+                class="btn-red"
                 onclick="deleteEquipment(${index})">
-                🗑
+                Supprimer
                 </button>
 
             </td>
@@ -1844,379 +1115,180 @@ function renderEquipments(){
     });
 
 
+    document.getElementById("equipmentList")
+    .innerHTML = html;
+
 }
 
 
-function deleteEquipment(index){
+/* =========================
+   OT
+========================= */
 
-    if(confirm("Supprimer cet équipement ?")){
+function openOT(){
 
-        db.equipments.splice(index,1);
+    let options = equipments.map(e =>
 
-        saveDB();
+        `<option value="${e.name}">
+            ${e.name}
+        </option>`
+
+    ).join("");
+
+
+    if(!options){
+
+        options =
+        `<option value="">
+            Aucun équipement
+        </option>`;
 
     }
 
-}
-
-
-/* =====================================================
-OT MODAL
-===================================================== */
-
-function openOTModal(index=null){
-
-    const item =
-        index!==null
-        ?db.ots[index]
-        :null;
-
-
-    const options =
-        db.equipments.map(e=>`
-
-        <option
-        value="${e.code}"
-        ${item?.equipment===e.code?"selected":""}>
-        ${e.code} — ${e.name}
-        </option>
-
-        `).join("");
-
-
-    const html=`
-
-    <div class="form-grid">
-
-        <div class="form-group">
-
-            <label>N° OT</label>
-
-            <input
-            id="otCode"
-            value="${item ? item.code : generateRef("OT")}"
-            readonly>
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Équipement</label>
-
-            <select id="otEquipment">
-
-                ${options}
-
-            </select>
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Type Maintenance</label>
-
-            <select id="otType">
-
-                <option
-                ${item?.type==="Correctif"?"selected":""}>
-                Correctif
-                </option>
-
-                <option
-                ${item?.type==="Préventif"?"selected":""}>
-                Préventif
-                </option>
-
-                <option
-                ${item?.type==="Amélioratif"?"selected":""}>
-                Amélioratif
-                </option>
-
-            </select>
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Priorité</label>
-
-            <select id="otPriority">
-
-                <option
-                ${item?.priority==="Urgente"?"selected":""}>
-                Urgente
-                </option>
-
-                <option
-                ${item?.priority==="Haute"?"selected":""}>
-                Haute
-                </option>
-
-                <option
-                ${item?.priority==="Normale"?"selected":""}>
-                Normale
-                </option>
-
-            </select>
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Technicien</label>
-
-            <input
-            id="otTechnician"
-            value="${item?.technician || ""}"
-            placeholder="Nom du technicien">
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Statut</label>
-
-            <select id="otStatus">
-
-                <option
-                ${item?.status==="Ouvert"?"selected":""}>
-                Ouvert
-                </option>
-
-                <option
-                ${item?.status==="En cours"?"selected":""}>
-                En cours
-                </option>
-
-                <option
-                ${item?.status==="Terminé"?"selected":""}>
-                Terminé
-                </option>
-
-            </select>
-
-        </div>
-
-
-        <div class="form-group full">
-
-            <label>Description panne / demande</label>
-
-            <textarea
-            id="otDescription">${item?.description || ""}</textarea>
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Date</label>
-
-            <input
-            type="date"
-            id="otDate"
-            value="${item?.date || new Date().toISOString().split("T")[0]}">
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Temps d'arrêt (heures)</label>
-
-            <input
-            type="number"
-            id="otDowntime"
-            step="0.1"
-            value="${item?.downtime || 0}">
-
-        </div>
-
-    </div>
-
-
-    <div class="modal-footer">
-
-        <button
-        class="btn btn-secondary"
-        onclick="closeModal()">
-        Annuler
-        </button>
-
-        <button
-        class="btn btn-primary"
-        onclick="saveOT(${index})">
-        💾 Enregistrer
-        </button>
-
-    </div>
-
-    `;
-
 
     openModal(
-        index!==null
-        ?"Modifier OT"
-        :"Nouvel Ordre de Travail",
-        html
+
+        "Nouvel Ordre de Travail",
+
+        `
+
+        <div class="form">
+
+            <div class="form-group">
+
+                <label>N° OT</label>
+
+                <input id="otCode"
+                       value="OT-${Date.now()}">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Équipement</label>
+
+                <select id="otEquipment">
+
+                    ${options}
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Type</label>
+
+                <select id="otType">
+
+                    <option>Correctif</option>
+                    <option>Préventif</option>
+                    <option>Amélioratif</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Priorité</label>
+
+                <select id="otPriority">
+
+                    <option>Normale</option>
+                    <option>Haute</option>
+                    <option>Urgente</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Statut</label>
+
+                <select id="otStatus">
+
+                    <option>Ouvert</option>
+                    <option>En cours</option>
+                    <option>Terminé</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group full">
+
+                <label>Description</label>
+
+                <textarea id="otDescription"
+                placeholder="Décrire la panne ou le travail demandé"></textarea>
+
+            </div>
+
+        </div>
+
+
+        <div class="modal-footer">
+
+            <button onclick="closeModal()">
+                Annuler
+            </button>
+
+            <button class="btn-blue"
+                    onclick="saveOT()">
+                Enregistrer
+            </button>
+
+        </div>
+
+        `
+
     );
 
 }
 
 
-/* =====================================================
-SAVE OT
-===================================================== */
+function saveOT(){
 
-function saveOT(index){
-
-    if(db.equipments.length===0){
-
-        alert(
-        "Créez d'abord un équipement."
-        );
-
-        return;
-
-    }
-
-
-    const ot={
+    let item = {
 
         code:
-            document.getElementById("otCode").value,
+        document.getElementById("otCode").value,
 
         equipment:
-            document.getElementById("otEquipment").value,
+        document.getElementById("otEquipment").value,
 
         type:
-            document.getElementById("otType").value,
+        document.getElementById("otType").value,
 
         priority:
-            document.getElementById("otPriority").value,
-
-        technician:
-            document.getElementById("otTechnician").value,
+        document.getElementById("otPriority").value,
 
         status:
-            document.getElementById("otStatus").value,
+        document.getElementById("otStatus").value,
 
         description:
-            document.getElementById("otDescription").value,
-
-        date:
-            document.getElementById("otDate").value,
-
-        downtime:
-            Number(
-                document.getElementById("otDowntime").value
-            )
+        document.getElementById("otDescription").value
 
     };
 
 
-    if(index===null){
+    ots.push(item);
 
-        db.ots.push(ot);
-
-    }else{
-
-        db.ots[index]=ot;
-
-    }
-
+    localStorage.setItem(
+        "ots",
+        JSON.stringify(ots)
+    );
 
     closeModal();
 
-    saveDB();
-
-}
-
-
-/* =====================================================
-RENDER OT
-===================================================== */
-
-function renderOT(){
-
-    const table =
-        document.getElementById("otTable");
-
-    table.innerHTML="";
-
-
-    db.ots.forEach((o,index)=>{
-
-        let statusClass =
-            o.status==="Terminé"
-            ?"badge-green"
-            :o.status==="En cours"
-            ?"badge-orange"
-            :"badge-blue";
-
-
-        let priorityClass =
-            o.priority==="Urgente"
-            ?"badge-red"
-            :o.priority==="Haute"
-            ?"badge-orange"
-            :"badge-gray";
-
-
-        table.innerHTML+=`
-
-        <tr>
-
-            <td>
-                <strong>${o.code}</strong>
-            </td>
-
-            <td>${o.equipment}</td>
-
-            <td>${o.type}</td>
-
-            <td>
-                <span class="badge ${priorityClass}">
-                    ${o.priority}
-                </span>
-            </td>
-
-            <td>${o.technician || "-"}</td>
-
-            <td>
-                <span class="badge ${statusClass}">
-                    ${o.status}
-                </span>
-            </td>
-
-            <td>${o.date}</td>
-
-            <td>
-
-                <button
-                class="btn btn-warning"
-                onclick="openOTModal(${index})">
-                ✏️
-                </button>
-
-                <button
-                class="btn btn-danger"
-                onclick="deleteOT(${index})">
-                🗑
-                </button>
-
-            </td>
-
-        </tr>
-
-        `;
-
-    });
+    renderAll();
 
 }
 
@@ -2225,236 +1297,60 @@ function deleteOT(index){
 
     if(confirm("Supprimer cet OT ?")){
 
-        db.ots.splice(index,1);
+        ots.splice(index,1);
 
-        saveDB();
+        localStorage.setItem(
+            "ots",
+            JSON.stringify(ots)
+        );
+
+        renderAll();
 
     }
 
 }
 
 
-/* =====================================================
-PREVENTIVE
-===================================================== */
+function renderOT(){
 
-function openPreventiveModal(index=null){
+    let html="";
 
-    const item =
-        index!==null
-        ?db.preventives[index]
-        :null;
+    ots.forEach((o,index)=>{
 
+        let status =
+            o.status === "Terminé"
+            ? "green"
+            : o.status === "En cours"
+            ? "orange"
+            : "blue";
 
-    const options =
-        db.equipments.map(e=>`
 
-        <option
-        value="${e.code}"
-        ${item?.equipment===e.code?"selected":""}>
-        ${e.code} — ${e.name}
-        </option>
-
-        `).join("");
-
-
-    const html=`
-
-    <div class="form-grid">
-
-        <div class="form-group">
-
-            <label>Référence</label>
-
-            <input
-            id="pmCode"
-            value="${item ? item.code : generateRef("PM")}"
-            readonly>
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Équipement</label>
-
-            <select id="pmEquipment">
-                ${options}
-            </select>
-
-        </div>
-
-
-        <div class="form-group full">
-
-            <label>Opération</label>
-
-            <input
-            id="pmOperation"
-            value="${item?.operation || ""}"
-            placeholder="Ex: Graissage moteur">
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Fréquence</label>
-
-            <select id="pmFrequency">
-
-                <option>Quotidienne</option>
-                <option>Hebdomadaire</option>
-                <option>Mensuelle</option>
-                <option>Trimestrielle</option>
-                <option>Semestrielle</option>
-                <option>Annuelle</option>
-
-            </select>
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Dernière réalisation</label>
-
-            <input
-            type="date"
-            id="pmLast"
-            value="${item?.last || ""}">
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Prochaine échéance</label>
-
-            <input
-            type="date"
-            id="pmNext"
-            value="${item?.next || ""}">
-
-        </div>
-
-    </div>
-
-
-    <div class="modal-footer">
-
-        <button
-        class="btn btn-secondary"
-        onclick="closeModal()">
-        Annuler
-        </button>
-
-        <button
-        class="btn btn-primary"
-        onclick="savePreventive(${index})">
-        💾 Enregistrer
-        </button>
-
-    </div>
-
-    `;
-
-
-    openModal(
-        index!==null
-        ?"Modifier plan préventif"
-        :"Nouveau plan préventif",
-        html
-    );
-
-}
-
-
-function savePreventive(index){
-
-    const item={
-
-        code:
-            document.getElementById("pmCode").value,
-
-        equipment:
-            document.getElementById("pmEquipment").value,
-
-        operation:
-            document.getElementById("pmOperation").value,
-
-        frequency:
-            document.getElementById("pmFrequency").value,
-
-        last:
-            document.getElementById("pmLast").value,
-
-        next:
-            document.getElementById("pmNext").value
-
-    };
-
-
-    if(index===null){
-
-        db.preventives.push(item);
-
-    }else{
-
-        db.preventives[index]=item;
-
-    }
-
-
-    closeModal();
-
-    saveDB();
-
-}
-
-
-function renderPreventive(){
-
-    const table =
-        document.getElementById("preventiveTable");
-
-    table.innerHTML="";
-
-
-    db.preventives.forEach((p,index)=>{
-
-        table.innerHTML+=`
+        html += `
 
         <tr>
 
-            <td><strong>${p.code}</strong></td>
+            <td>${o.code}</td>
 
-            <td>${p.equipment}</td>
+            <td>${o.equipment}</td>
 
-            <td>${p.operation}</td>
+            <td>${o.type}</td>
+
+            <td>${o.priority}</td>
 
             <td>
-                <span class="badge badge-blue">
-                    ${p.frequency}
+
+                <span class="badge ${status}">
+                    ${o.status}
                 </span>
+
             </td>
 
-            <td>${p.last || "-"}</td>
-
-            <td>${p.next || "-"}</td>
-
             <td>
 
                 <button
-                class="btn btn-warning"
-                onclick="openPreventiveModal(${index})">
-                ✏️
-                </button>
-
-                <button
-                class="btn btn-danger"
-                onclick="deletePreventive(${index})">
-                🗑
+                class="btn-red"
+                onclick="deleteOT(${index})">
+                Supprimer
                 </button>
 
             </td>
@@ -2465,44 +1361,614 @@ function renderPreventive(){
 
     });
 
+
+    document.getElementById("otList")
+    .innerHTML = html;
+
+}
+
+
+/* =========================
+   PREVENTIF
+========================= */
+
+function openPreventive(){
+
+    let options = equipments.map(e =>
+
+        `<option>
+            ${e.name}
+        </option>`
+
+    ).join("");
+
+
+    openModal(
+
+        "Nouveau plan préventif",
+
+        `
+
+        <div class="form">
+
+            <div class="form-group">
+
+                <label>Référence</label>
+
+                <input id="pmCode"
+                       value="PM-${Date.now()}">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Équipement</label>
+
+                <select id="pmEquipment">
+
+                    ${options}
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group full">
+
+                <label>Opération</label>
+
+                <input id="pmOperation"
+                       placeholder="Ex: Graissage moteur">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Fréquence</label>
+
+                <select id="pmFrequency">
+
+                    <option>Quotidienne</option>
+                    <option>Hebdomadaire</option>
+                    <option>Mensuelle</option>
+                    <option>Trimestrielle</option>
+                    <option>Semestrielle</option>
+                    <option>Annuelle</option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <div class="modal-footer">
+
+            <button onclick="closeModal()">
+                Annuler
+            </button>
+
+            <button class="btn-blue"
+                    onclick="savePreventive()">
+                Enregistrer
+            </button>
+
+        </div>
+
+        `
+
+    );
+
+}
+
+
+function savePreventive(){
+
+    let item={
+
+        code:
+        document.getElementById("pmCode").value,
+
+        equipment:
+        document.getElementById("pmEquipment").value,
+
+        operation:
+        document.getElementById("pmOperation").value,
+
+        frequency:
+        document.getElementById("pmFrequency").value
+
+    };
+
+
+    preventives.push(item);
+
+    localStorage.setItem(
+        "preventives",
+        JSON.stringify(preventives)
+    );
+
+    closeModal();
+
+    renderAll();
+
 }
 
 
 function deletePreventive(index){
 
-    if(confirm("Supprimer ce plan ?")){
+    preventives.splice(index,1);
 
-        db.preventives.splice(index,1);
+    localStorage.setItem(
+        "preventives",
+        JSON.stringify(preventives)
+    );
 
-        saveDB();
-
-    }
+    renderAll();
 
 }
 
 
-/* =====================================================
-PARTS
-===================================================== */
+function renderPreventive(){
 
-function openPartModal(index=null){
-
-    const item =
-        index!==null
-        ?db.parts[index]
-        :null;
+    let html="";
 
 
-    const html=`
+    preventives.forEach((p,index)=>{
 
-    <div class="form-grid">
+        html+=`
 
-        <div class="form-group">
+        <tr>
 
-            <label>Référence</label>
+            <td>${p.code}</td>
 
-            <input
-            id="partCode"
-            value="${item ? item.code : generate
+            <td>${p.equipment}</td>
+
+            <td>${p.operation}</td>
+
+            <td>${p.frequency}</td>
+
+            <td>
+
+                <button
+                class="btn-red"
+                onclick="deletePreventive(${index})">
+                Supprimer
+                </button>
+
+            </td>
+
+        </tr>
+
+        `;
+
+    });
 
 
+    document.getElementById("preventiveList")
+    .innerHTML=html;
+
+}
+
+
+/* =========================
+   PIECES
+========================= */
+
+function openPart(){
+
+    openModal(
+
+        "Ajouter une pièce",
+
+        `
+
+        <div class="form">
+
+            <div class="form-group">
+
+                <label>Référence</label>
+
+                <input id="partCode"
+                       value="PDR-${Date.now()}">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Désignation</label>
+
+                <input id="partName"
+                       placeholder="Ex: Roulement 6205">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Stock</label>
+
+                <input id="partStock"
+                       type="number"
+                       value="0">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Stock minimum</label>
+
+                <input id="partMin"
+                       type="number"
+                       value="1">
+
+            </div>
+
+        </div>
+
+
+        <div class="modal-footer">
+
+            <button onclick="closeModal()">
+                Annuler
+            </button>
+
+            <button class="btn-blue"
+                    onclick="savePart()">
+                Enregistrer
+            </button>
+
+        </div>
+
+        `
+
+    );
+
+}
+
+
+function savePart(){
+
+    let item={
+
+        code:
+        document.getElementById("partCode").value,
+
+        name:
+        document.getElementById("partName").value,
+
+        stock:
+        Number(
+            document.getElementById("partStock").value
+        ),
+
+        min:
+        Number(
+            document.getElementById("partMin").value
+        )
+
+    };
+
+
+    parts.push(item);
+
+    localStorage.setItem(
+        "parts",
+        JSON.stringify(parts)
+    );
+
+    closeModal();
+
+    renderAll();
+
+}
+
+
+function deletePart(index){
+
+    parts.splice(index,1);
+
+    localStorage.setItem(
+        "parts",
+        JSON.stringify(parts)
+    );
+
+    renderAll();
+
+}
+
+
+function renderParts(){
+
+    let html="";
+
+
+    parts.forEach((p,index)=>{
+
+        let low =
+            p.stock <= p.min;
+
+
+        html+=`
+
+        <tr>
+
+            <td>${p.code}</td>
+
+            <td>${p.name}</td>
+
+            <td>${p.stock}</td>
+
+            <td>${p.min}</td>
+
+            <td>
+
+                <span class="badge ${
+                    low ? "red" : "green"
+                }">
+
+                    ${low
+                    ? "Stock faible"
+                    : "Disponible"}
+
+                </span>
+
+            </td>
+
+            <td>
+
+                <button
+                class="btn-red"
+                onclick="deletePart(${index})">
+                Supprimer
+                </button>
+
+            </td>
+
+        </tr>
+
+        `;
+
+    });
+
+
+    document.getElementById("partsList")
+    .innerHTML=html;
+
+}
+
+
+/* =========================
+   RCA
+========================= */
+
+function openRCA(){
+
+    openModal(
+
+        "Nouvelle analyse RCA",
+
+        `
+
+        <div class="form">
+
+            <div class="form-group">
+
+                <label>Référence</label>
+
+                <input id="rcaCode"
+                       value="RCA-${Date.now()}">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Équipement</label>
+
+                <input id="rcaEquipment"
+                       placeholder="Ex: Coupeur">
+
+            </div>
+
+
+            <div class="form-group full">
+
+                <label>Cause racine</label>
+
+                <textarea
+                id="rcaCause"
+                placeholder="Cause identifiée"></textarea>
+
+            </div>
+
+
+            <div class="form-group full">
+
+                <label>Action corrective</label>
+
+                <textarea
+                id="rcaAction"
+                placeholder="Action corrective"></textarea>
+
+            </div>
+
+        </div>
+
+
+        <div class="modal-footer">
+
+            <button onclick="closeModal()">
+                Annuler
+            </button>
+
+            <button class="btn-blue"
+                    onclick="saveRCA()">
+                Enregistrer
+            </button>
+
+        </div>
+
+        `
+
+    );
+
+}
+
+
+function saveRCA(){
+
+    let item={
+
+        code:
+        document.getElementById("rcaCode").value,
+
+        equipment:
+        document.getElementById("rcaEquipment").value,
+
+        cause:
+        document.getElementById("rcaCause").value,
+
+        action:
+        document.getElementById("rcaAction").value
+
+    };
+
+
+    rcas.push(item);
+
+    localStorage.setItem(
+        "rcas",
+        JSON.stringify(rcas)
+    );
+
+    closeModal();
+
+    renderAll();
+
+}
+
+
+function deleteRCA(index){
+
+    rcas.splice(index,1);
+
+    localStorage.setItem(
+        "rcas",
+        JSON.stringify(rcas)
+    );
+
+    renderAll();
+
+}
+
+
+function renderRCA(){
+
+    let html="";
+
+
+    rcas.forEach((r,index)=>{
+
+        html+=`
+
+        <tr>
+
+            <td>${r.code}</td>
+
+            <td>${r.equipment}</td>
+
+            <td>${r.cause}</td>
+
+            <td>${r.action}</td>
+
+            <td>
+
+                <span class="badge blue">
+                    En cours
+                </span>
+
+            </td>
+
+            <td>
+
+                <button
+                class="btn-red"
+                onclick="deleteRCA(${index})">
+                Supprimer
+                </button>
+
+            </td>
+
+        </tr>
+
+        `;
+
+    });
+
+
+    document.getElementById("rcaList")
+    .innerHTML=html;
+
+}
+
+
+/* =========================
+   DASHBOARD
+========================= */
+
+function updateDashboard(){
+
+    document.getElementById("totalEquipements")
+    .innerText = equipments.length;
+
+
+    document.getElementById("totalOT")
+    .innerText = ots.length;
+
+
+    document.getElementById("totalPreventif")
+    .innerText = preventives.length;
+
+
+    document.getElementById("totalRCA")
+    .innerText = rcas.length;
+
+}
+
+
+/* =========================
+   REFRESH
+========================= */
+
+function renderAll(){
+
+    renderEquipments();
+
+    renderOT();
+
+    renderPreventive();
+
+    renderParts();
+
+    renderRCA();
+
+    updateDashboard();
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+renderAll();
+
+</script>
+
+</body>
+</html>
