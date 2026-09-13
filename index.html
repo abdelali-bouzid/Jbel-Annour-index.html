@@ -1467,7 +1467,11 @@ document.getElementById("password")
     if(e.key==="Enter"){
         login();
     }
-
+function login(){
+    document.getElementById("loginScreen").style.display = "none";
+    document.getElementById("app").style.display = "block";
+    refreshAll();
+}
 });
 
 
