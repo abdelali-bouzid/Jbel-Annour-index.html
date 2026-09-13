@@ -7,7 +7,6 @@
 <title>GMAO Maintenance</title>
 
 <style>
-
 *{
     box-sizing:border-box;
     margin:0;
@@ -16,90 +15,76 @@
 }
 
 body{
-    background:#f1f5f9;
-    color:#1e293b;
-}
-
-/* HEADER */
-
-header{
-    height:65px;
-    background:#0f172a;
-    color:white;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 25px;
-}
-
-.logo{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    font-size:20px;
-    font-weight:bold;
-}
-
-.logo-icon{
-    width:40px;
-    height:40px;
-    background:#2563eb;
-    border-radius:8px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:22px;
-}
-
-header span{
-    color:#94a3b8;
-    font-size:13px;
-}
-
-/* LAYOUT */
-
-.container{
-    display:flex;
-    min-height:calc(100vh - 65px);
+    background:#f3f5f8;
+    color:#1f2937;
 }
 
 /* SIDEBAR */
-
 .sidebar{
+    position:fixed;
+    left:0;
+    top:0;
     width:230px;
-    background:#1e293b;
+    height:100vh;
+    background:#172554;
     color:white;
     padding:20px 12px;
 }
 
-.sidebar h3{
-    color:#64748b;
-    font-size:11px;
-    margin:10px;
-    text-transform:uppercase;
+.logo{
+    font-size:23px;
+    font-weight:bold;
+    text-align:center;
+    padding:15px 5px 25px;
 }
 
-.menu{
-    padding:12px;
-    margin:5px 0;
+.logo span{
+    color:#38bdf8;
+}
+
+.menu button{
+    width:100%;
+    border:0;
+    background:transparent;
+    color:#dbeafe;
+    padding:13px;
+    margin:4px 0;
     border-radius:7px;
+    text-align:left;
     cursor:pointer;
-    color:#cbd5e1;
+    font-size:15px;
 }
 
-.menu:hover,
-.menu.active{
+.menu button:hover,
+.menu button.active{
     background:#2563eb;
     color:white;
 }
 
-/* CONTENT */
-
-.content{
-    flex:1;
+/* MAIN */
+.main{
+    margin-left:230px;
     padding:25px;
 }
 
+.header{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    margin-bottom:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+
+.header h1{
+    color:#172554;
+}
+
+.header p{
+    color:#64748b;
+    margin-top:5px;
+}
+
+/* PAGES */
 .page{
     display:none;
 }
@@ -108,932 +93,904 @@ header span{
     display:block;
 }
 
-.title{
-    margin-bottom:20px;
-}
-
-.title h1{
-    font-size:26px;
-}
-
-.title p{
-    color:#64748b;
-    margin-top:5px;
-}
-
 /* CARDS */
-
 .cards{
     display:grid;
     grid-template-columns:repeat(4,1fr);
     gap:15px;
-    margin-bottom:25px;
+    margin-bottom:20px;
 }
 
 .card{
     background:white;
-    border-radius:10px;
     padding:20px;
-    box-shadow:0 2px 8px rgba(0,0,0,.08);
+    border-radius:10px;
+    box-shadow:0 2px 8px rgba(0,0,0,.05);
 }
 
 .card h3{
-    font-size:13px;
     color:#64748b;
-}
-
-.number{
-    font-size:30px;
-    font-weight:bold;
-    margin-top:8px;
-}
-
-/* BUTTON */
-
-button{
-    border:none;
-    padding:9px 14px;
-    border-radius:6px;
-    cursor:pointer;
-    font-weight:bold;
-}
-
-.btn-blue{
-    background:#2563eb;
-    color:white;
-}
-
-.btn-red{
-    background:#dc2626;
-    color:white;
-}
-
-.btn-orange{
-    background:#f59e0b;
-    color:white;
-}
-
-/* TABLE */
-
-.table-box{
-    background:white;
-    border-radius:10px;
-    padding:20px;
-    box-shadow:0 2px 8px rgba(0,0,0,.08);
-}
-
-.table-head{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:15px;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-}
-
-th{
-    background:#f8fafc;
-    color:#64748b;
-    text-align:left;
-    padding:12px;
-    font-size:13px;
-}
-
-td{
-    padding:12px;
-    border-bottom:1px solid #e2e8f0;
     font-size:14px;
 }
 
-/* BADGE */
-
-.badge{
-    padding:5px 9px;
-    border-radius:15px;
-    font-size:11px;
+.card .number{
+    font-size:30px;
     font-weight:bold;
+    margin-top:10px;
+    color:#172554;
 }
 
-.green{
-    background:#dcfce7;
-    color:#166534;
-}
-
-.orange{
-    background:#ffedd5;
-    color:#9a3412;
-}
-
-.red{
-    background:#fee2e2;
-    color:#991b1b;
-}
-
-.blue{
-    background:#dbeafe;
-    color:#1d4ed8;
-}
-
-/* MODAL */
-
-.modal{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.5);
-    align-items:center;
-    justify-content:center;
-}
-
-.modal.show{
-    display:flex;
-}
-
-.modal-content{
+/* FORM */
+.form-box{
     background:white;
-    width:600px;
-    max-width:95%;
-    border-radius:12px;
-    padding:25px;
-}
-
-.modal-header{
-    display:flex;
-    justify-content:space-between;
+    padding:20px;
+    border-radius:10px;
     margin-bottom:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,.05);
 }
 
-.close{
-    background:#e2e8f0;
-    font-size:18px;
+.form-box h2{
+    margin-bottom:15px;
+    color:#172554;
 }
 
-.form{
+.form-grid{
     display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:15px;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
 }
 
 .form-group{
     display:flex;
     flex-direction:column;
-    gap:5px;
 }
 
-.form-group.full{
-    grid-column:1 / 3;
-}
-
-label{
+.form-group label{
+    margin-bottom:5px;
     font-size:13px;
     font-weight:bold;
 }
 
-input,
-select,
-textarea{
+.form-group input,
+.form-group select,
+.form-group textarea{
     padding:10px;
     border:1px solid #cbd5e1;
     border-radius:6px;
+    font-size:14px;
 }
 
 textarea{
+    resize:vertical;
     min-height:80px;
 }
 
-.modal-footer{
-    margin-top:20px;
-    display:flex;
-    justify-content:flex-end;
-    gap:10px;
+.full{
+    grid-column:1 / -1;
 }
 
-/* RESPONSIVE */
+.btn{
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:11px 18px;
+    border-radius:6px;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+.btn:hover{
+    background:#1d4ed8;
+}
+
+.btn-danger{
+    background:#dc2626;
+}
+
+.btn-success{
+    background:#16a34a;
+}
+
+/* TABLE */
+.table-box{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    overflow-x:auto;
+    box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+}
+
+th{
+    background:#172554;
+    color:white;
+    padding:10px;
+    text-align:left;
+    font-size:13px;
+}
+
+td{
+    padding:10px;
+    border-bottom:1px solid #e2e8f0;
+    font-size:13px;
+}
+
+tr:hover{
+    background:#f8fafc;
+}
+
+.badge{
+    padding:5px 8px;
+    border-radius:5px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.open{
+    background:#fee2e2;
+    color:#b91c1c;
+}
+
+.closed{
+    background:#dcfce7;
+    color:#15803d;
+}
+
+.progress{
+    background:#fef3c7;
+    color:#92400e;
+}
+
+/* REPORT */
+.report{
+    background:white;
+    padding:30px;
+    border-radius:10px;
+}
+
+.report-header{
+    text-align:center;
+    border-bottom:2px solid #172554;
+    padding-bottom:15px;
+    margin-bottom:20px;
+}
+
+.report-header h1{
+    color:#172554;
+}
+
+.report-info{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.report-stat{
+    background:#f1f5f9;
+    padding:15px;
+    text-align:center;
+    border-radius:6px;
+}
+
+.report-stat strong{
+    display:block;
+    font-size:22px;
+    color:#172554;
+}
 
 @media(max-width:900px){
-
-    .cards{
-        grid-template-columns:1fr 1fr;
-    }
-
-}
-
-@media(max-width:650px){
-
     .sidebar{
-        width:65px;
+        width:180px;
     }
 
-    .menu{
-        font-size:0;
-        text-align:center;
-    }
-
-    .menu::first-letter{
-        font-size:20px;
-    }
-
-    .content{
-        padding:15px;
+    .main{
+        margin-left:180px;
     }
 
     .cards{
-        grid-template-columns:1fr;
+        grid-template-columns:repeat(2,1fr);
     }
-
-    .form{
-        grid-template-columns:1fr;
-    }
-
-    .form-group.full{
-        grid-column:auto;
-    }
-
 }
 
+@media(max-width:600px){
+    .sidebar{
+        position:relative;
+        width:100%;
+        height:auto;
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .cards,
+    .form-grid,
+    .report-info{
+        grid-template-columns:1fr;
+    }
+}
+
+@media print{
+    body{
+        background:white;
+    }
+
+    .sidebar,
+    .header,
+    .no-print{
+        display:none !important;
+    }
+
+    .main{
+        margin:0;
+        padding:0;
+    }
+
+    .page{
+        display:none !important;
+    }
+
+    #rapport{
+        display:block !important;
+    }
+
+    .report{
+        box-shadow:none;
+    }
+}
 </style>
 </head>
 
-
 <body>
-
-<!-- HEADER -->
-
-<header>
-
-    <div class="logo">
-
-        <div class="logo-icon">
-            ⚙️
-        </div>
-
-        <div>
-            GMAO Maintenance
-        </div>
-
-    </div>
-
-    <span>
-        Maintenance Management System
-    </span>
-
-</header>
-
-
-<div class="container">
-
 
 <!-- SIDEBAR -->
 
-<aside class="sidebar">
+<div class="sidebar">
 
-    <h3>Menu</h3>
-
-    <div class="menu active"
-         onclick="showPage('dashboard',this)">
-        📊 Dashboard
+    <div class="logo">
+        GMAO <span>PRO</span>
     </div>
 
-    <div class="menu"
-         onclick="showPage('equipements',this)">
-        ⚙️ Équipements
+    <div class="menu">
+
+        <button class="active"
+                onclick="showPage('dashboard',this)">
+            🏠 Dashboard
+        </button>
+
+        <button onclick="showPage('equipements',this)">
+            ⚙️ Équipements
+        </button>
+
+        <button onclick="showPage('interventions',this)">
+            🔧 Pannes / Interventions
+        </button>
+
+        <button onclick="showPage('preventif',this)">
+            📅 Préventif
+        </button>
+
+        <button onclick="showPage('rapport',this)">
+            📊 Rapport journalier
+        </button>
+
     </div>
 
-    <div class="menu"
-         onclick="showPage('ot',this)">
-        🔧 Ordres de Travail
-    </div>
-
-    <div class="menu"
-         onclick="showPage('preventif',this)">
-        📅 Préventif
-    </div>
-
-    <div class="menu"
-         onclick="showPage('pieces',this)">
-        📦 Pièces
-    </div>
-
-    <div class="menu"
-         onclick="showPage('rca',this)">
-        📈 RCA
-    </div>
-
-</aside>
+</div>
 
 
-<!-- CONTENT -->
+<!-- MAIN -->
 
-<main class="content">
+<div class="main">
+
+<div class="header">
+    <h1>GMAO Maintenance</h1>
+    <p>Gestion de maintenance • Suivi des équipements • Rapports</p>
+</div>
 
 
-<!-- DASHBOARD -->
+<!-- ================= DASHBOARD ================= -->
 
 <section id="dashboard" class="page active">
 
-    <div class="title">
+<div class="cards">
 
-        <h1>Dashboard</h1>
-
-        <p>
-            Vue générale de la maintenance
-        </p>
-
+    <div class="card">
+        <h3>Équipements</h3>
+        <div class="number" id="countEquipements">0</div>
     </div>
 
-
-    <div class="cards">
-
-        <div class="card">
-
-            <h3>ÉQUIPEMENTS</h3>
-
-            <div class="number"
-                 id="totalEquipements">
-                0
-            </div>
-
-        </div>
-
-
-        <div class="card">
-
-            <h3>ORDRES DE TRAVAIL</h3>
-
-            <div class="number"
-                 id="totalOT">
-                0
-            </div>
-
-        </div>
-
-
-        <div class="card">
-
-            <h3>PRÉVENTIF</h3>
-
-            <div class="number"
-                 id="totalPreventif">
-                0
-            </div>
-
-        </div>
-
-
-        <div class="card">
-
-            <h3>RCA</h3>
-
-            <div class="number"
-                 id="totalRCA">
-                0
-            </div>
-
-        </div>
-
+    <div class="card">
+        <h3>Interventions</h3>
+        <div class="number" id="countInterventions">0</div>
     </div>
 
-
-    <div class="table-box">
-
-        <h2>
-            Bienvenue dans votre GMAO
-        </h2>
-
-        <br>
-
-        <p>
-            Utilisez le menu à gauche pour gérer
-            vos équipements, ordres de travail,
-            maintenance préventive et analyses RCA.
-        </p>
-
+    <div class="card">
+        <h3>Arrêts aujourd'hui</h3>
+        <div class="number" id="countToday">0</div>
     </div>
+
+    <div class="card">
+        <h3>Temps arrêt aujourd'hui</h3>
+        <div class="number" id="timeToday">0 h</div>
+    </div>
+
+</div>
+
+<div class="table-box">
+
+<h2>Dernières interventions</h2>
+
+<table>
+
+<thead>
+<tr>
+<th>Référence</th>
+<th>Date</th>
+<th>Équipement</th>
+<th>Panne</th>
+<th>Durée</th>
+<th>Statut</th>
+</tr>
+</thead>
+
+<tbody id="dashboardTable"></tbody>
+
+</table>
+
+</div>
 
 </section>
 
 
-
-<!-- EQUIPEMENTS -->
+<!-- ================= EQUIPEMENTS ================= -->
 
 <section id="equipements" class="page">
 
-    <div class="title">
+<div class="form-box">
 
-        <h1>⚙️ Équipements</h1>
+<h2>Ajouter un équipement</h2>
 
-        <p>
-            Gestion du parc machines
-        </p>
+<div class="form-grid">
 
-    </div>
+<div class="form-group">
+<label>Désignation</label>
+<input id="eqDesignation" placeholder="Ex: Extrudeuse">
+</div>
 
+<div class="form-group">
+<label>Zone</label>
+<input id="eqZone" placeholder="Ex: Préparation">
+</div>
 
-    <div class="table-box">
+<div class="form-group">
+<label>Marque</label>
+<input id="eqMarque" placeholder="Ex: Siemens">
+</div>
 
-        <div class="table-head">
+<div class="form-group">
+<label>Criticité</label>
 
-            <h2>Liste des équipements</h2>
+<select id="eqCriticite">
+<option>A</option>
+<option>B</option>
+<option>C</option>
+</select>
 
-            <button class="btn-blue"
-                    onclick="openEquipment()">
-                + Ajouter
-            </button>
+</div>
 
-        </div>
+</div>
 
+<button class="btn" onclick="addEquipment()">
++ Ajouter équipement
+</button>
 
-        <table>
-
-            <thead>
-
-                <tr>
-                    <th>Code</th>
-                    <th>Équipement</th>
-                    <th>Zone</th>
-                    <th>Criticité</th>
-                    <th>État</th>
-                    <th>Action</th>
-                </tr>
-
-            </thead>
-
-            <tbody id="equipmentList">
-            </tbody>
-
-        </table>
-
-    </div>
-
-</section>
+</div>
 
 
+<div class="table-box">
 
-<!-- OT -->
+<h2>Liste des équipements</h2>
 
-<section id="ot" class="page">
+<table>
 
-    <div class="title">
+<thead>
+<tr>
+<th>Référence</th>
+<th>Désignation</th>
+<th>Zone</th>
+<th>Marque</th>
+<th>Criticité</th>
+<th>Action</th>
+</tr>
+</thead>
 
-        <h1>🔧 Ordres de Travail</h1>
+<tbody id="equipmentTable"></tbody>
 
-        <p>
-            Gestion des interventions
-        </p>
+</table>
 
-    </div>
-
-
-    <div class="table-box">
-
-        <div class="table-head">
-
-            <h2>OT Maintenance</h2>
-
-            <button class="btn-blue"
-                    onclick="openOT()">
-                + Nouvel OT
-            </button>
-
-        </div>
-
-
-        <table>
-
-            <thead>
-
-                <tr>
-
-                    <th>N° OT</th>
-                    <th>Équipement</th>
-                    <th>Type</th>
-                    <th>Priorité</th>
-                    <th>Statut</th>
-                    <th>Action</th>
-
-                </tr>
-
-            </thead>
-
-            <tbody id="otList">
-            </tbody>
-
-        </table>
-
-    </div>
+</div>
 
 </section>
 
 
+<!-- ================= INTERVENTIONS ================= -->
 
-<!-- PREVENTIF -->
+<section id="interventions" class="page">
+
+<div class="form-box">
+
+<h2>Enregistrer une panne / intervention</h2>
+
+<div class="form-grid">
+
+<div class="form-group">
+<label>Date</label>
+<input type="date" id="intDate">
+</div>
+
+<div class="form-group">
+<label>Technicien</label>
+<input id="intTechnicien" placeholder="Nom du technicien">
+</div>
+
+<div class="form-group">
+<label>Équipement</label>
+<input id="intEquipement" placeholder="Ex: Extrudeuse">
+</div>
+
+<div class="form-group">
+<label>Zone</label>
+<input id="intZone" placeholder="Ex: Préparation">
+</div>
+
+<div class="form-group">
+<label>Heure début</label>
+<input type="time" id="intDebut">
+</div>
+
+<div class="form-group">
+<label>Heure fin</label>
+<input type="time" id="intFin">
+</div>
+
+<div class="form-group">
+<label>Type de panne</label>
+
+<select id="intType">
+<option>Électrique</option>
+<option>Mécanique</option>
+<option>Pneumatique</option>
+<option>Hydraulique</option>
+<option>Automatisme</option>
+<option>Instrumentation</option>
+<option>Autre</option>
+</select>
+
+</div>
+
+<div class="form-group">
+<label>Priorité</label>
+
+<select id="intPriorite">
+<option>Normale</option>
+<option>Urgente</option>
+<option>Critique</option>
+</select>
+
+</div>
+
+<div class="form-group full">
+<label>Description de la panne</label>
+<textarea id="intPanne"
+placeholder="Décrire le problème constaté..."></textarea>
+</div>
+
+<div class="form-group full">
+<label>Cause</label>
+<textarea id="intCause"
+placeholder="Cause identifiée..."></textarea>
+</div>
+
+<div class="form-group full">
+<label>Action réalisée</label>
+<textarea id="intAction"
+placeholder="Travail effectué..."></textarea>
+</div>
+
+<div class="form-group">
+<label>Pièce utilisée</label>
+<input id="intPiece" placeholder="Ex: Contacteur 18A">
+</div>
+
+<div class="form-group">
+<label>Statut</label>
+
+<select id="intStatut">
+<option>Clôturé</option>
+<option>En cours</option>
+<option>Ouvert</option>
+</select>
+
+</div>
+
+</div>
+
+<button class="btn btn-success" onclick="addIntervention()">
++ Enregistrer intervention
+</button>
+
+</div>
+
+
+<div class="table-box">
+
+<h2>Historique des interventions</h2>
+
+<table>
+
+<thead>
+<tr>
+<th>Référence</th>
+<th>Date</th>
+<th>Équipement</th>
+<th>Panne</th>
+<th>Type</th>
+<th>Durée</th>
+<th>Statut</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="interventionTable"></tbody>
+
+</table>
+
+</div>
+
+</section>
+
+
+<!-- ================= PREVENTIF ================= -->
 
 <section id="preventif" class="page">
 
-    <div class="title">
+<div class="form-box">
 
-        <h1>📅 Maintenance Préventive</h1>
+<h2>Plan de maintenance préventive</h2>
 
-        <p>
-            Plans de maintenance
-        </p>
+<div class="form-grid">
 
-    </div>
+<div class="form-group">
+<label>Équipement</label>
+<input id="pmEquipement" placeholder="Ex: Convoyeur">
+</div>
 
+<div class="form-group">
+<label>Opération</label>
+<input id="pmOperation" placeholder="Ex: Graissage">
+</div>
 
-    <div class="table-box">
+<div class="form-group">
+<label>Fréquence</label>
 
-        <div class="table-head">
+<select id="pmFrequence">
+<option>Quotidienne</option>
+<option>Hebdomadaire</option>
+<option>Mensuelle</option>
+<option>Trimestrielle</option>
+<option>Semestrielle</option>
+<option>Annuelle</option>
+</select>
 
-            <h2>Plans préventifs</h2>
+</div>
 
-            <button class="btn-blue"
-                    onclick="openPreventive()">
-                + Ajouter
-            </button>
+<div class="form-group">
+<label>Prochaine date</label>
+<input type="date" id="pmDate">
+</div>
 
-        </div>
+</div>
 
-
-        <table>
-
-            <thead>
-
-                <tr>
-
-                    <th>Référence</th>
-                    <th>Équipement</th>
-                    <th>Opération</th>
-                    <th>Fréquence</th>
-                    <th>Action</th>
-
-                </tr>
-
-            </thead>
-
-            <tbody id="preventiveList">
-            </tbody>
-
-        </table>
-
-    </div>
-
-</section>
-
-
-
-<!-- PIECES -->
-
-<section id="pieces" class="page">
-
-    <div class="title">
-
-        <h1>📦 Pièces de Rechange</h1>
-
-        <p>
-            Gestion simple du stock
-        </p>
-
-    </div>
-
-
-    <div class="table-box">
-
-        <div class="table-head">
-
-            <h2>Stock</h2>
-
-            <button class="btn-blue"
-                    onclick="openPart()">
-                + Ajouter
-            </button>
-
-        </div>
-
-
-        <table>
-
-            <thead>
-
-                <tr>
-                    <th>Référence</th>
-                    <th>Désignation</th>
-                    <th>Stock</th>
-                    <th>Minimum</th>
-                    <th>État</th>
-                    <th>Action</th>
-                </tr>
-
-            </thead>
-
-            <tbody id="partsList">
-            </tbody>
-
-        </table>
-
-    </div>
-
-</section>
-
-
-
-<!-- RCA -->
-
-<section id="rca" class="page">
-
-    <div class="title">
-
-        <h1>📈 RCA / BDA</h1>
-
-        <p>
-            Analyse des causes racines
-        </p>
-
-    </div>
-
-
-    <div class="table-box">
-
-        <div class="table-head">
-
-            <h2>Analyses</h2>
-
-            <button class="btn-blue"
-                    onclick="openRCA()">
-                + Nouvelle RCA
-            </button>
-
-        </div>
-
-
-        <table>
-
-            <thead>
-
-                <tr>
-
-                    <th>Référence</th>
-                    <th>Équipement</th>
-                    <th>Cause</th>
-                    <th>Action corrective</th>
-                    <th>Statut</th>
-                    <th>Action</th>
-
-                </tr>
-
-            </thead>
-
-            <tbody id="rcaList">
-            </tbody>
-
-        </table>
-
-    </div>
-
-</section>
-
-</main>
+<button class="btn" onclick="addPreventif()">
++ Ajouter plan préventif
+</button>
 
 </div>
 
 
+<div class="table-box">
 
-<!-- MODAL -->
+<h2>Planning préventif</h2>
 
-<div class="modal" id="modal">
+<table>
 
-    <div class="modal-content">
+<thead>
+<tr>
+<th>Référence</th>
+<th>Équipement</th>
+<th>Opération</th>
+<th>Fréquence</th>
+<th>Prochaine date</th>
+<th>Action</th>
+</tr>
+</thead>
 
-        <div class="modal-header">
+<tbody id="preventifTable"></tbody>
 
-            <h2 id="modalTitle">
-                Ajouter
-            </h2>
-
-            <button class="close"
-                    onclick="closeModal()">
-                ×
-            </button>
-
-        </div>
-
-        <div id="modalBody">
-        </div>
-
-    </div>
+</table>
 
 </div>
 
+</section>
+
+
+<!-- ================= RAPPORT ================= -->
+
+<section id="rapport" class="page">
+
+<div class="no-print" style="margin-bottom:15px">
+
+<button class="btn" onclick="generateReport()">
+🔄 Actualiser le rapport
+</button>
+
+<button class="btn btn-success" onclick="window.print()">
+🖨️ Imprimer / PDF
+</button>
+
+</div>
+
+
+<div class="report">
+
+<div class="report-header">
+
+<h1>RAPPORT JOURNALIER DE MAINTENANCE</h1>
+
+<p id="reportDate"></p>
+
+</div>
+
+
+<div class="report-info">
+
+<div class="report-stat">
+Nombre d'interventions
+<strong id="reportInterventions">0</strong>
+</div>
+
+<div class="report-stat">
+Nombre de pannes
+<strong id="reportPannes">0</strong>
+</div>
+
+<div class="report-stat">
+Temps total d'arrêt
+<strong id="reportArret">0 h</strong>
+</div>
+
+<div class="report-stat">
+MTTR
+<strong id="reportMTTR">0 min</strong>
+</div>
+
+<div class="report-stat">
+Interventions clôturées
+<strong id="reportCloturees">0</strong>
+</div>
+
+<div class="report-stat">
+Interventions ouvertes
+<strong id="reportOuvertes">0</strong>
+</div>
+
+</div>
+
+
+<h2>Liste des interventions du jour</h2>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Réf.</th>
+<th>Heure</th>
+<th>Équipement</th>
+<th>Zone</th>
+<th>Panne</th>
+<th>Cause</th>
+<th>Action</th>
+<th>Durée</th>
+<th>Statut</th>
+</tr>
+
+</thead>
+
+<tbody id="reportTable"></tbody>
+
+</table>
+
+<br>
+
+<h3>Observations</h3>
+
+<p id="reportObservation">
+Aucune observation.
+</p>
+
+</div>
+
+</section>
+
+
+</div>
 
 
 <script>
 
-/* =========================
-   DATABASE
-========================= */
+/* =====================================================
+   DONNEES
+===================================================== */
 
-let equipments =
-JSON.parse(localStorage.getItem("equipments")) || [];
-
-let ots =
-JSON.parse(localStorage.getItem("ots")) || [];
-
-let preventives =
-JSON.parse(localStorage.getItem("preventives")) || [];
-
-let parts =
-JSON.parse(localStorage.getItem("parts")) || [];
-
-let rcas =
-JSON.parse(localStorage.getItem("rcas")) || [];
+let data = JSON.parse(
+    localStorage.getItem("gmaoData") ||
+    '{"equipements":[],"interventions":[],"preventifs":[]}'
+);
 
 
-/* =========================
+/* =====================================================
    NAVIGATION
-========================= */
+===================================================== */
 
-function showPage(page, element){
+function showPage(pageId, button){
 
     document.querySelectorAll(".page")
-    .forEach(p => p.classList.remove("active"));
+    .forEach(page => page.classList.remove("active"));
 
-    document.getElementById(page)
+    document.getElementById(pageId)
     .classList.add("active");
 
-    document.querySelectorAll(".menu")
-    .forEach(m => m.classList.remove("active"));
+    document.querySelectorAll(".menu button")
+    .forEach(btn => btn.classList.remove("active"));
 
-    element.classList.add("active");
+    button.classList.add("active");
 
+    updateDashboard();
+
+    if(pageId === "rapport"){
+        generateReport();
+    }
 }
 
 
-/* =========================
-   MODAL
-========================= */
+/* =====================================================
+   SAUVEGARDE
+===================================================== */
 
-function openModal(title, html){
+function saveData(){
 
-    document.getElementById("modalTitle")
-    .innerText = title;
-
-    document.getElementById("modalBody")
-    .innerHTML = html;
-
-    document.getElementById("modal")
-    .classList.add("show");
-
-}
-
-
-function closeModal(){
-
-    document.getElementById("modal")
-    .classList.remove("show");
-
-}
-
-
-/* =========================
-   EQUIPMENT
-========================= */
-
-function openEquipment(){
-
-    openModal(
-
-        "Ajouter un équipement",
-
-        `
-
-        <div class="form">
-
-            <div class="form-group">
-
-                <label>Code</label>
-
-                <input id="eqCode"
-                       value="EQ-${Date.now()}">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Équipement</label>
-
-                <input id="eqName"
-                       placeholder="Ex: Extrudeuse">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Zone</label>
-
-                <input id="eqZone"
-                       placeholder="Ex: Production">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Criticité</label>
-
-                <select id="eqCriticality">
-
-                    <option>Normale</option>
-                    <option>Importante</option>
-                    <option>Critique</option>
-
-                </select>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>État</label>
-
-                <select id="eqState">
-
-                    <option>En service</option>
-                    <option>Maintenance</option>
-                    <option>Arrêt</option>
-
-                </select>
-
-            </div>
-
-        </div>
-
-
-        <div class="modal-footer">
-
-            <button onclick="closeModal()">
-                Annuler
-            </button>
-
-            <button class="btn-blue"
-                    onclick="saveEquipment()">
-                Enregistrer
-            </button>
-
-        </div>
-
-        `
-
+    localStorage.setItem(
+        "gmaoData",
+        JSON.stringify(data)
     );
 
 }
 
 
-function saveEquipment(){
+/* =====================================================
+   REFERENCE AUTOMATIQUE
+===================================================== */
 
-    let item = {
+function reference(prefix, array){
 
-        code:
-        document.getElementById("eqCode").value,
+    return prefix + "-" +
+    String(array.length + 1).padStart(3,"0");
 
-        name:
-        document.getElementById("eqName").value,
+}
 
-        zone:
-        document.getElementById("eqZone").value,
 
-        criticality:
-        document.getElementById("eqCriticality").value,
+/* =====================================================
+   CALCUL DUREE
+===================================================== */
 
-        state:
-        document.getElementById("eqState").value
+function calculateDuration(start,end){
+
+    if(!start || !end){
+        return 0;
+    }
+
+    let a = start.split(":");
+    let b = end.split(":");
+
+    let startMinutes =
+        parseInt(a[0])*60 + parseInt(a[1]);
+
+    let endMinutes =
+        parseInt(b[0])*60 + parseInt(b[1]);
+
+    if(endMinutes < startMinutes){
+        endMinutes += 24*60;
+    }
+
+    return endMinutes - startMinutes;
+
+}
+
+
+function formatDuration(minutes){
+
+    let h = Math.floor(minutes/60);
+    let m = minutes % 60;
+
+    if(h === 0){
+        return m + " min";
+    }
+
+    return h + " h " + m + " min";
+
+}
+
+
+/* =====================================================
+   EQUIPEMENTS
+===================================================== */
+
+function addEquipment(){
+
+    let designation =
+        document.getElementById("eqDesignation").value.trim();
+
+    let zone =
+        document.getElementById("eqZone").value.trim();
+
+    let marque =
+        document.getElementById("eqMarque").value.trim();
+
+    let criticite =
+        document.getElementById("eqCriticite").value;
+
+
+    if(!designation){
+
+        alert("Veuillez saisir la désignation.");
+
+        return;
+    }
+
+
+    let equipment = {
+
+        id:reference("EQ",data.equipements),
+
+        designation:designation,
+
+        zone:zone,
+
+        marque:marque,
+
+        criticite:criticite
 
     };
 
 
-    if(!item.name){
+    data.equipements.push(equipment);
 
-        alert("Veuillez saisir le nom de l'équipement.");
+    saveData();
 
-        return;
+    document.getElementById("eqDesignation").value="";
+    document.getElementById("eqZone").value="";
+    document.getElementById("eqMarque").value="";
 
-    }
-
-
-    equipments.push(item);
-
-    localStorage.setItem(
-        "equipments",
-        JSON.stringify(equipments)
-    );
-
-    closeModal();
-
-    renderAll();
+    renderEquipements();
+    updateDashboard();
 
 }
 
@@ -1042,931 +999,637 @@ function deleteEquipment(index){
 
     if(confirm("Supprimer cet équipement ?")){
 
-        equipments.splice(index,1);
+        data.equipements.splice(index,1);
 
-        localStorage.setItem(
-            "equipments",
-            JSON.stringify(equipments)
+        saveData();
+
+        renderEquipements();
+        updateDashboard();
+
+    }
+
+}
+
+
+function renderEquipements(){
+
+    let table =
+        document.getElementById("equipmentTable");
+
+    table.innerHTML="";
+
+
+    data.equipements.forEach((eq,index)=>{
+
+        table.innerHTML += `
+
+        <tr>
+
+        <td>${eq.id}</td>
+
+        <td>${eq.designation}</td>
+
+        <td>${eq.zone}</td>
+
+        <td>${eq.marque}</td>
+
+        <td>${eq.criticite}</td>
+
+        <td>
+
+        <button
+        class="btn btn-danger"
+        onclick="deleteEquipment(${index})">
+
+        Supprimer
+
+        </button>
+
+        </td>
+
+        </tr>
+
+        `;
+
+    });
+
+}
+
+
+/* =====================================================
+   INTERVENTIONS
+===================================================== */
+
+function addIntervention(){
+
+    let date =
+        document.getElementById("intDate").value;
+
+    let technicien =
+        document.getElementById("intTechnicien").value;
+
+    let equipement =
+        document.getElementById("intEquipement").value;
+
+    let zone =
+        document.getElementById("intZone").value;
+
+    let debut =
+        document.getElementById("intDebut").value;
+
+    let fin =
+        document.getElementById("intFin").value;
+
+    let type =
+        document.getElementById("intType").value;
+
+    let priorite =
+        document.getElementById("intPriorite").value;
+
+    let panne =
+        document.getElementById("intPanne").value;
+
+    let cause =
+        document.getElementById("intCause").value;
+
+    let action =
+        document.getElementById("intAction").value;
+
+    let piece =
+        document.getElementById("intPiece").value;
+
+    let statut =
+        document.getElementById("intStatut").value;
+
+
+    if(!date || !equipement || !panne){
+
+        alert(
+            "Date, équipement et description de la panne sont obligatoires."
         );
 
-        renderAll();
-
-    }
-
-}
-
-
-function renderEquipments(){
-
-    let html="";
-
-    equipments.forEach((e,index)=>{
-
-        let critical =
-            e.criticality === "Critique"
-            ? "red"
-            : e.criticality === "Importante"
-            ? "orange"
-            : "green";
-
-
-        let state =
-            e.state === "En service"
-            ? "green"
-            : "orange";
-
-
-        html += `
-
-        <tr>
-
-            <td>${e.code}</td>
-
-            <td>${e.name}</td>
-
-            <td>${e.zone}</td>
-
-            <td>
-                <span class="badge ${critical}">
-                    ${e.criticality}
-                </span>
-            </td>
-
-            <td>
-                <span class="badge ${state}">
-                    ${e.state}
-                </span>
-            </td>
-
-            <td>
-
-                <button
-                class="btn-red"
-                onclick="deleteEquipment(${index})">
-                Supprimer
-                </button>
-
-            </td>
-
-        </tr>
-
-        `;
-
-    });
-
-
-    document.getElementById("equipmentList")
-    .innerHTML = html;
-
-}
-
-
-/* =========================
-   OT
-========================= */
-
-function openOT(){
-
-    let options = equipments.map(e =>
-
-        `<option value="${e.name}">
-            ${e.name}
-        </option>`
-
-    ).join("");
-
-
-    if(!options){
-
-        options =
-        `<option value="">
-            Aucun équipement
-        </option>`;
-
+        return;
     }
 
 
-    openModal(
-
-        "Nouvel Ordre de Travail",
-
-        `
-
-        <div class="form">
-
-            <div class="form-group">
-
-                <label>N° OT</label>
-
-                <input id="otCode"
-                       value="OT-${Date.now()}">
-
-            </div>
+    let duree =
+        calculateDuration(debut,fin);
 
 
-            <div class="form-group">
+    let intervention = {
 
-                <label>Équipement</label>
+        id:reference("OT",data.interventions),
 
-                <select id="otEquipment">
+        date:date,
 
-                    ${options}
+        technicien:technicien,
 
-                </select>
+        equipement:equipement,
 
-            </div>
+        zone:zone,
 
+        debut:debut,
 
-            <div class="form-group">
+        fin:fin,
 
-                <label>Type</label>
+        type:type,
 
-                <select id="otType">
+        priorite:priorite,
 
-                    <option>Correctif</option>
-                    <option>Préventif</option>
-                    <option>Amélioratif</option>
+        panne:panne,
 
-                </select>
+        cause:cause,
 
-            </div>
+        action:action,
 
+        piece:piece,
 
-            <div class="form-group">
+        statut:statut,
 
-                <label>Priorité</label>
-
-                <select id="otPriority">
-
-                    <option>Normale</option>
-                    <option>Haute</option>
-                    <option>Urgente</option>
-
-                </select>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Statut</label>
-
-                <select id="otStatus">
-
-                    <option>Ouvert</option>
-                    <option>En cours</option>
-                    <option>Terminé</option>
-
-                </select>
-
-            </div>
-
-
-            <div class="form-group full">
-
-                <label>Description</label>
-
-                <textarea id="otDescription"
-                placeholder="Décrire la panne ou le travail demandé"></textarea>
-
-            </div>
-
-        </div>
-
-
-        <div class="modal-footer">
-
-            <button onclick="closeModal()">
-                Annuler
-            </button>
-
-            <button class="btn-blue"
-                    onclick="saveOT()">
-                Enregistrer
-            </button>
-
-        </div>
-
-        `
-
-    );
-
-}
-
-
-function saveOT(){
-
-    let item = {
-
-        code:
-        document.getElementById("otCode").value,
-
-        equipment:
-        document.getElementById("otEquipment").value,
-
-        type:
-        document.getElementById("otType").value,
-
-        priority:
-        document.getElementById("otPriority").value,
-
-        status:
-        document.getElementById("otStatus").value,
-
-        description:
-        document.getElementById("otDescription").value
+        duree:duree
 
     };
 
 
-    ots.push(item);
+    data.interventions.push(intervention);
 
-    localStorage.setItem(
-        "ots",
-        JSON.stringify(ots)
-    );
+    saveData();
 
-    closeModal();
+    clearInterventionForm();
 
-    renderAll();
-
-}
-
-
-function deleteOT(index){
-
-    if(confirm("Supprimer cet OT ?")){
-
-        ots.splice(index,1);
-
-        localStorage.setItem(
-            "ots",
-            JSON.stringify(ots)
-        );
-
-        renderAll();
-
-    }
-
-}
-
-
-function renderOT(){
-
-    let html="";
-
-    ots.forEach((o,index)=>{
-
-        let status =
-            o.status === "Terminé"
-            ? "green"
-            : o.status === "En cours"
-            ? "orange"
-            : "blue";
-
-
-        html += `
-
-        <tr>
-
-            <td>${o.code}</td>
-
-            <td>${o.equipment}</td>
-
-            <td>${o.type}</td>
-
-            <td>${o.priority}</td>
-
-            <td>
-
-                <span class="badge ${status}">
-                    ${o.status}
-                </span>
-
-            </td>
-
-            <td>
-
-                <button
-                class="btn-red"
-                onclick="deleteOT(${index})">
-                Supprimer
-                </button>
-
-            </td>
-
-        </tr>
-
-        `;
-
-    });
-
-
-    document.getElementById("otList")
-    .innerHTML = html;
-
-}
-
-
-/* =========================
-   PREVENTIF
-========================= */
-
-function openPreventive(){
-
-    let options = equipments.map(e =>
-
-        `<option>
-            ${e.name}
-        </option>`
-
-    ).join("");
-
-
-    openModal(
-
-        "Nouveau plan préventif",
-
-        `
-
-        <div class="form">
-
-            <div class="form-group">
-
-                <label>Référence</label>
-
-                <input id="pmCode"
-                       value="PM-${Date.now()}">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Équipement</label>
-
-                <select id="pmEquipment">
-
-                    ${options}
-
-                </select>
-
-            </div>
-
-
-            <div class="form-group full">
-
-                <label>Opération</label>
-
-                <input id="pmOperation"
-                       placeholder="Ex: Graissage moteur">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Fréquence</label>
-
-                <select id="pmFrequency">
-
-                    <option>Quotidienne</option>
-                    <option>Hebdomadaire</option>
-                    <option>Mensuelle</option>
-                    <option>Trimestrielle</option>
-                    <option>Semestrielle</option>
-                    <option>Annuelle</option>
-
-                </select>
-
-            </div>
-
-        </div>
-
-
-        <div class="modal-footer">
-
-            <button onclick="closeModal()">
-                Annuler
-            </button>
-
-            <button class="btn-blue"
-                    onclick="savePreventive()">
-                Enregistrer
-            </button>
-
-        </div>
-
-        `
-
-    );
-
-}
-
-
-function savePreventive(){
-
-    let item={
-
-        code:
-        document.getElementById("pmCode").value,
-
-        equipment:
-        document.getElementById("pmEquipment").value,
-
-        operation:
-        document.getElementById("pmOperation").value,
-
-        frequency:
-        document.getElementById("pmFrequency").value
-
-    };
-
-
-    preventives.push(item);
-
-    localStorage.setItem(
-        "preventives",
-        JSON.stringify(preventives)
-    );
-
-    closeModal();
-
-    renderAll();
-
-}
-
-
-function deletePreventive(index){
-
-    preventives.splice(index,1);
-
-    localStorage.setItem(
-        "preventives",
-        JSON.stringify(preventives)
-    );
-
-    renderAll();
-
-}
-
-
-function renderPreventive(){
-
-    let html="";
-
-
-    preventives.forEach((p,index)=>{
-
-        html+=`
-
-        <tr>
-
-            <td>${p.code}</td>
-
-            <td>${p.equipment}</td>
-
-            <td>${p.operation}</td>
-
-            <td>${p.frequency}</td>
-
-            <td>
-
-                <button
-                class="btn-red"
-                onclick="deletePreventive(${index})">
-                Supprimer
-                </button>
-
-            </td>
-
-        </tr>
-
-        `;
-
-    });
-
-
-    document.getElementById("preventiveList")
-    .innerHTML=html;
-
-}
-
-
-/* =========================
-   PIECES
-========================= */
-
-function openPart(){
-
-    openModal(
-
-        "Ajouter une pièce",
-
-        `
-
-        <div class="form">
-
-            <div class="form-group">
-
-                <label>Référence</label>
-
-                <input id="partCode"
-                       value="PDR-${Date.now()}">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Désignation</label>
-
-                <input id="partName"
-                       placeholder="Ex: Roulement 6205">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Stock</label>
-
-                <input id="partStock"
-                       type="number"
-                       value="0">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Stock minimum</label>
-
-                <input id="partMin"
-                       type="number"
-                       value="1">
-
-            </div>
-
-        </div>
-
-
-        <div class="modal-footer">
-
-            <button onclick="closeModal()">
-                Annuler
-            </button>
-
-            <button class="btn-blue"
-                    onclick="savePart()">
-                Enregistrer
-            </button>
-
-        </div>
-
-        `
-
-    );
-
-}
-
-
-function savePart(){
-
-    let item={
-
-        code:
-        document.getElementById("partCode").value,
-
-        name:
-        document.getElementById("partName").value,
-
-        stock:
-        Number(
-            document.getElementById("partStock").value
-        ),
-
-        min:
-        Number(
-            document.getElementById("partMin").value
-        )
-
-    };
-
-
-    parts.push(item);
-
-    localStorage.setItem(
-        "parts",
-        JSON.stringify(parts)
-    );
-
-    closeModal();
-
-    renderAll();
-
-}
-
-
-function deletePart(index){
-
-    parts.splice(index,1);
-
-    localStorage.setItem(
-        "parts",
-        JSON.stringify(parts)
-    );
-
-    renderAll();
-
-}
-
-
-function renderParts(){
-
-    let html="";
-
-
-    parts.forEach((p,index)=>{
-
-        let low =
-            p.stock <= p.min;
-
-
-        html+=`
-
-        <tr>
-
-            <td>${p.code}</td>
-
-            <td>${p.name}</td>
-
-            <td>${p.stock}</td>
-
-            <td>${p.min}</td>
-
-            <td>
-
-                <span class="badge ${
-                    low ? "red" : "green"
-                }">
-
-                    ${low
-                    ? "Stock faible"
-                    : "Disponible"}
-
-                </span>
-
-            </td>
-
-            <td>
-
-                <button
-                class="btn-red"
-                onclick="deletePart(${index})">
-                Supprimer
-                </button>
-
-            </td>
-
-        </tr>
-
-        `;
-
-    });
-
-
-    document.getElementById("partsList")
-    .innerHTML=html;
-
-}
-
-
-/* =========================
-   RCA
-========================= */
-
-function openRCA(){
-
-    openModal(
-
-        "Nouvelle analyse RCA",
-
-        `
-
-        <div class="form">
-
-            <div class="form-group">
-
-                <label>Référence</label>
-
-                <input id="rcaCode"
-                       value="RCA-${Date.now()}">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Équipement</label>
-
-                <input id="rcaEquipment"
-                       placeholder="Ex: Coupeur">
-
-            </div>
-
-
-            <div class="form-group full">
-
-                <label>Cause racine</label>
-
-                <textarea
-                id="rcaCause"
-                placeholder="Cause identifiée"></textarea>
-
-            </div>
-
-
-            <div class="form-group full">
-
-                <label>Action corrective</label>
-
-                <textarea
-                id="rcaAction"
-                placeholder="Action corrective"></textarea>
-
-            </div>
-
-        </div>
-
-
-        <div class="modal-footer">
-
-            <button onclick="closeModal()">
-                Annuler
-            </button>
-
-            <button class="btn-blue"
-                    onclick="saveRCA()">
-                Enregistrer
-            </button>
-
-        </div>
-
-        `
-
-    );
-
-}
-
-
-function saveRCA(){
-
-    let item={
-
-        code:
-        document.getElementById("rcaCode").value,
-
-        equipment:
-        document.getElementById("rcaEquipment").value,
-
-        cause:
-        document.getElementById("rcaCause").value,
-
-        action:
-        document.getElementById("rcaAction").value
-
-    };
-
-
-    rcas.push(item);
-
-    localStorage.setItem(
-        "rcas",
-        JSON.stringify(rcas)
-    );
-
-    closeModal();
-
-    renderAll();
-
-}
-
-
-function deleteRCA(index){
-
-    rcas.splice(index,1);
-
-    localStorage.setItem(
-        "rcas",
-        JSON.stringify(rcas)
-    );
-
-    renderAll();
-
-}
-
-
-function renderRCA(){
-
-    let html="";
-
-
-    rcas.forEach((r,index)=>{
-
-        html+=`
-
-        <tr>
-
-            <td>${r.code}</td>
-
-            <td>${r.equipment}</td>
-
-            <td>${r.cause}</td>
-
-            <td>${r.action}</td>
-
-            <td>
-
-                <span class="badge blue">
-                    En cours
-                </span>
-
-            </td>
-
-            <td>
-
-                <button
-                class="btn-red"
-                onclick="deleteRCA(${index})">
-                Supprimer
-                </button>
-
-            </td>
-
-        </tr>
-
-        `;
-
-    });
-
-
-    document.getElementById("rcaList")
-    .innerHTML=html;
-
-}
-
-
-/* =========================
-   DASHBOARD
-========================= */
-
-function updateDashboard(){
-
-    document.getElementById("totalEquipements")
-    .innerText = equipments.length;
-
-
-    document.getElementById("totalOT")
-    .innerText = ots.length;
-
-
-    document.getElementById("totalPreventif")
-    .innerText = preventives.length;
-
-
-    document.getElementById("totalRCA")
-    .innerText = rcas.length;
-
-}
-
-
-/* =========================
-   REFRESH
-========================= */
-
-function renderAll(){
-
-    renderEquipments();
-
-    renderOT();
-
-    renderPreventive();
-
-    renderParts();
-
-    renderRCA();
+    renderInterventions();
 
     updateDashboard();
 
+    alert("Intervention enregistrée avec succès.");
+
 }
 
 
-/* =========================
-   START
-========================= */
+function clearInterventionForm(){
 
-renderAll();
+    document.getElementById("intTechnicien").value="";
+    document.getElementById("intEquipement").value="";
+    document.getElementById("intZone").value="";
+    document.getElementById("intDebut").value="";
+    document.getElementById("intFin").value="";
+    document.getElementById("intPanne").value="";
+    document.getElementById("intCause").value="";
+    document.getElementById("intAction").value="";
+    document.getElementById("intPiece").value="";
+
+}
+
+
+function deleteIntervention(index){
+
+    if(confirm("Supprimer cette intervention ?")){
+
+        data.interventions.splice(index,1);
+
+        saveData();
+
+        renderInterventions();
+
+        updateDashboard();
+
+    }
+
+}
+
+
+function renderInterventions(){
+
+    let table =
+        document.getElementById("interventionTable");
+
+    table.innerHTML="";
+
+
+    data.interventions
+    .slice()
+    .reverse()
+    .forEach((i)=>{
+
+        let originalIndex =
+            data.interventions.indexOf(i);
+
+
+        let statusClass =
+            i.statut === "Clôturé"
+            ? "closed"
+            : i.statut === "En cours"
+            ? "progress"
+            : "open";
+
+
+        table.innerHTML += `
+
+        <tr>
+
+        <td>${i.id}</td>
+
+        <td>${i.date}</td>
+
+        <td>${i.equipement}</td>
+
+        <td>${i.panne}</td>
+
+        <td>${i.type}</td>
+
+        <td>${formatDuration(i.duree)}</td>
+
+        <td>
+        <span class="badge ${statusClass}">
+        ${i.statut}
+        </span>
+        </td>
+
+        <td>
+
+        <button
+        class="btn btn-danger"
+        onclick="deleteIntervention(${originalIndex})">
+
+        Supprimer
+
+        </button>
+
+        </td>
+
+        </tr>
+
+        `;
+
+    });
+
+}
+
+
+/* =====================================================
+   PREVENTIF
+===================================================== */
+
+function addPreventif(){
+
+    let equipement =
+        document.getElementById("pmEquipement").value;
+
+    let operation =
+        document.getElementById("pmOperation").value;
+
+    let frequence =
+        document.getElementById("pmFrequence").value;
+
+    let date =
+        document.getElementById("pmDate").value;
+
+
+    if(!equipement || !operation || !date){
+
+        alert(
+            "Équipement, opération et date sont obligatoires."
+        );
+
+        return;
+    }
+
+
+    data.preventifs.push({
+
+        id:reference("PM",data.preventifs),
+
+        equipement:equipement,
+
+        operation:operation,
+
+        frequence:frequence,
+
+        date:date
+
+    });
+
+
+    saveData();
+
+    document.getElementById("pmEquipement").value="";
+    document.getElementById("pmOperation").value="";
+    document.getElementById("pmDate").value="";
+
+    renderPreventifs();
+
+}
+
+
+function deletePreventif(index){
+
+    if(confirm("Supprimer ce plan préventif ?")){
+
+        data.preventifs.splice(index,1);
+
+        saveData();
+
+        renderPreventifs();
+
+    }
+
+}
+
+
+function renderPreventifs(){
+
+    let table =
+        document.getElementById("preventifTable");
+
+    table.innerHTML="";
+
+
+    data.preventifs.forEach((pm,index)=>{
+
+        table.innerHTML += `
+
+        <tr>
+
+        <td>${pm.id}</td>
+
+        <td>${pm.equipement}</td>
+
+        <td>${pm.operation}</td>
+
+        <td>${pm.frequence}</td>
+
+        <td>${pm.date}</td>
+
+        <td>
+
+        <button
+        class="btn btn-danger"
+        onclick="deletePreventif(${index})">
+
+        Supprimer
+
+        </button>
+
+        </td>
+
+        </tr>
+
+        `;
+
+    });
+
+}
+
+
+/* =====================================================
+   DASHBOARD
+===================================================== */
+
+function updateDashboard(){
+
+    document.getElementById("countEquipements")
+    .textContent =
+        data.equipements.length;
+
+
+    document.getElementById("countInterventions")
+    .textContent =
+        data.interventions.length;
+
+
+    let today =
+        new Date().toISOString().split("T")[0];
+
+
+    let todayData =
+        data.interventions.filter(i => i.date === today);
+
+
+    document.getElementById("countToday")
+    .textContent =
+        todayData.length;
+
+
+    let total =
+        todayData.reduce(
+            (sum,i)=>sum + i.duree,
+            0
+        );
+
+
+    document.getElementById("timeToday")
+    .textContent =
+        formatDuration(total);
+
+
+    let table =
+        document.getElementById("dashboardTable");
+
+    table.innerHTML="";
+
+
+    data.interventions
+    .slice()
+    .reverse()
+    .slice(0,8)
+    .forEach(i=>{
+
+        let statusClass =
+            i.statut === "Clôturé"
+            ? "closed"
+            : i.statut === "En cours"
+            ? "progress"
+            : "open";
+
+
+        table.innerHTML += `
+
+        <tr>
+
+        <td>${i.id}</td>
+
+        <td>${i.date}</td>
+
+        <td>${i.equipement}</td>
+
+        <td>${i.panne}</td>
+
+        <td>${formatDuration(i.duree)}</td>
+
+        <td>
+        <span class="badge ${statusClass}">
+        ${i.statut}
+        </span>
+        </td>
+
+        </tr>
+
+        `;
+
+    });
+
+}
+
+
+/* =====================================================
+   RAPPORT JOURNALIER
+===================================================== */
+
+function generateReport(){
+
+    let today =
+        new Date().toISOString().split("T")[0];
+
+
+    let interventions =
+        data.interventions.filter(
+            i => i.date === today
+        );
+
+
+    document.getElementById("reportDate")
+    .textContent =
+        "Date : " + today;
+
+
+    let totalMinutes =
+        interventions.reduce(
+            (sum,i)=>sum+i.duree,
+            0
+        );
+
+
+    let closed =
+        interventions.filter(
+            i=>i.statut === "Clôturé"
+        ).length;
+
+
+    let opened =
+        interventions.filter(
+            i=>i.statut !== "Clôturé"
+        ).length;
+
+
+    let mttr =
+        interventions.length > 0
+        ? Math.round(
+            totalMinutes / interventions.length
+        )
+        : 0;
+
+
+    document.getElementById("reportInterventions")
+    .textContent =
+        interventions.length;
+
+
+    document.getElementById("reportPannes")
+    .textContent =
+        interventions.length;
+
+
+    document.getElementById("reportArret")
+    .textContent =
+        formatDuration(totalMinutes);
+
+
+    document.getElementById("reportMTTR")
+    .textContent =
+        mttr + " min";
+
+
+    document.getElementById("reportCloturees")
+    .textContent =
+        closed;
+
+
+    document.getElementById("reportOuvertes")
+    .textContent =
+        opened;
+
+
+    let table =
+        document.getElementById("reportTable");
+
+    table.innerHTML="";
+
+
+    interventions.forEach(i=>{
+
+        table.innerHTML += `
+
+        <tr>
+
+        <td>${i.id}</td>
+
+        <td>${i.debut || "-"}</td>
+
+        <td>${i.equipement}</td>
+
+        <td>${i.zone}</td>
+
+        <td>${i.panne}</td>
+
+        <td>${i.cause || "-"}</td>
+
+        <td>${i.action || "-"}</td>
+
+        <td>${formatDuration(i.duree)}</td>
+
+        <td>${i.statut}</td>
+
+        </tr>
+
+        `;
+
+    });
+
+
+    if(interventions.length === 0){
+
+        document.getElementById("reportObservation")
+        .textContent =
+            "Aucune intervention enregistrée aujourd'hui.";
+
+    }else{
+
+        document.getElementById("reportObservation")
+        .textContent =
+            interventions.length +
+            " intervention(s) enregistrée(s) aujourd'hui. " +
+            "Temps total d'arrêt : " +
+            formatDuration(totalMinutes) +
+            ".";
+
+    }
+
+}
+
+
+/* =====================================================
+   INITIALISATION
+===================================================== */
+
+document.getElementById("intDate")
+.value =
+new Date().toISOString().split("T")[0];
+
+
+document.getElementById("pmDate")
+.value =
+new Date().toISOString().split("T")[0];
+
+
+renderEquipements();
+
+renderInterventions();
+
+renderPreventifs();
+
+updateDashboard();
+
+generateReport();
 
 </script>
 
