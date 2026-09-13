@@ -1,72 +1,78 @@
+HTML
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="fr" dir="ltr">
 <head>
   <meta charset="UTF-8">
-  <title>نظام الإشعارات - Platform</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plateforme Sage X3 & GMAO</title>
   <style>
-    /* تنسيق زر الإشعارات والعداد */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #0f172a;
+      color: #ffffff;
+      margin: 0;
+      padding: 20px;
+    }
+
     .notification-container {
       position: relative;
       display: inline-block;
-      font-family: sans-serif;
     }
 
     .notif-btn {
-      background-color: #1a237e;
-      color: white;
+      background-color: #1e293b;
+      color: #ffffff;
+      border: 1px solid #334155;
       padding: 10px 18px;
-      border: none;
       border-radius: 6px;
       cursor: pointer;
-      font-size: 15px;
+      font-size: 14px;
       position: relative;
     }
 
     .badge {
       position: absolute;
-      top: -5px;
-      left: -5px;
-      background-color: #e53935;
+      top: -6px;
+      right: -6px;
+      background-color: #ef4444;
       color: white;
       border-radius: 50%;
-      padding: 3px 7px;
-      font-size: 12px;
+      padding: 2px 6px;
+      font-size: 11px;
       font-weight: bold;
     }
 
-    /* قائمة الإشعارات والرسائل */
     .notif-dropdown {
       display: none;
       position: absolute;
       top: 45px;
-      right: 0;
-      width: 280px;
-      background-color: #ffffff;
-      border: 1px solid #ddd;
-      box-shadow: 0px 4px 10px rgba(0,0,0,0.15);
+      left: 0;
+      width: 300px;
+      background-color: #1e293b;
+      border: 1px solid #334155;
+      box-shadow: 0px 4px 12px rgba(0,0,0,0.3);
       border-radius: 6px;
       z-index: 1000;
-      color: #333;
     }
 
     .notif-item {
       padding: 12px;
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid #334155;
       cursor: pointer;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      font-size: 13px;
     }
 
     .notif-item:hover {
-      background-color: #f5f5f5;
+      background-color: #334155;
     }
 
-    /* شارة الإشعار الخاص بالرسالة الغير مقروءة */
     .unread-dot {
-      width: 9px;
-      height: 9px;
-      background-color: #00e676;
+      width: 8px;
+      height: 8px;
+      background-color: #22c55e;
       border-radius: 50%;
       display: inline-block;
     }
@@ -74,81 +80,57 @@
 </head>
 <body>
 
-  <!-- 1. واجهة زر الإشعارات والعداد -->
   <div class="notification-container">
     <button class="notif-btn" id="notifToggleBtn">
-      🔔 الإشعارات
+      🔔 Notifications
       <span class="badge" id="globalCounter">3</span>
     </button>
 
     <div class="notif-dropdown" id="notifDropdown">
       <div class="notif-item" data-id="1" onclick="openAndReadMessage(this)">
-        <span>رسالة صيانة: حزام B65</span>
+        <span>Maintenance: Courroie B65</span>
         <span class="unread-dot"></span>
       </div>
       <div class="notif-item" data-id="2" onclick="openAndReadMessage(this)">
-        <span>تحديث حالة خط الإنتاج</span>
+        <span>Statut Ligne: Zone Préparation</span>
         <span class="unread-dot"></span>
       </div>
       <div class="notif-item" data-id="3" onclick="openAndReadMessage(this)">
-        <span>إشعار نظام Sage X3</span>
+        <span>Mise à jour Sage X3 & GMAO</span>
         <span class="unread-dot"></span>
       </div>
     </div>
   </div>
 
-  <!-- 2. السكريبت البرمجي المسؤول عن إدارة العداد والحالة -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const toggleBtn = document.getElementById("notifToggleBtn");
       const dropdown = document.getElementById("notifDropdown");
       const globalCounter = document.getElementById("globalCounter");
 
-      // فتح وإغلاق قائمة الإشعارات عند الضغط على الزر الرئيسي
       toggleBtn.addEventListener("click", () => {
         const isVisible = dropdown.style.display === "block";
         dropdown.style.display = isVisible ? "none" : "block";
       });
 
-      // دالة التفاعل مع كل رسالة بشكل فردي
       window.openAndReadMessage = function(element) {
-        const messageId = element.getAttribute("data-id");
         const dot = element.querySelector(".unread-dot");
 
-        // أ) إذا كانت الرسالة غير مقروءة سابقاً
         if (dot && dot.style.display !== "none") {
-          // 1. إخفاء نقطة الإشعار الخضراء الخاصة بالرسالة فوراً
           dot.style.display = "none";
 
-          // 2. تحديث وتقليل العداد الرئيسي بمقدار 1
           let count = parseInt(globalCounter.textContent) || 0;
           if (count > 0) {
             count -= 1;
             globalCounter.textContent = count;
 
-            // إذا أصبح العداد 0 يتم إخفاء العداد العلوي تماماً
             if (count === 0) {
               globalCounter.style.display = "none";
             }
           }
-
-          // 3. إرسال تحديث للخادم (Backend/API) لتثبيت قراءة الرسالة
-          updateMessageStatusOnServer(messageId);
         }
-
-        // ب) إغلاق القائمة المنبثقة بعد اختيار الرسالة
         dropdown.style.display = "none";
       };
-
-      // دالة وهمية لمحاكاة الربط مع قاعدة البيانات أو API
-      function updateMessageStatusOnServer(id) {
-        console.log(`تم تغيير حالة الرسالة رقم ${id} إلى مقروءة في قاعدة البيانات.`);
-        /* 
-        fetch(`/api/notifications/read/${id}`, {
-          method: 'POST'
-        });
-        */
-      }
     });
   </script>
 </body>
