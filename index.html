@@ -8,8 +8,8 @@ HTML
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
         
-        /* Clear White Background & Dark Blue Accents */
-        body { background: #ffffff; color: #0f172a; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 20px; overflow-x: hidden; }
+        /* Dark Blue Main Background Theme */
+        body { background: #0f172a; color: #ffffff; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 20px; overflow-x: hidden; }
 
         /* Auth Screen Styling */
         .auth-overlay {
@@ -18,7 +18,7 @@ HTML
         }
         .auth-card {
             background: #1e3a8a; border: 2px solid #2563eb; border-radius: 16px; padding: 35px;
-            width: 90%; max-width: 400px; text-align: center; box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.3);
+            width: 90%; max-width: 400px; text-align: center; box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.5);
         }
         .auth-card h2 { color: #ffffff; margin-bottom: 10px; font-size: 1.5rem; }
         .auth-card p { color: #93c5fd; font-size: 0.85rem; margin-bottom: 20px; }
@@ -37,8 +37,8 @@ HTML
         #mainApp { display: none; width: 100%; flex-direction: column; align-items: center; }
 
         header { text-align: center; margin-bottom: 25px; margin-top: 10px; }
-        header h1 { font-size: 2rem; color: #0f172a; letter-spacing: 1px; font-weight: 800; margin-bottom: 8px; }
-        header p { color: #1e3a8a; font-size: 1rem; font-weight: 600; }
+        header h1 { font-size: 2rem; color: #ffffff; letter-spacing: 1px; font-weight: 800; margin-bottom: 8px; }
+        header p { color: #93c5fd; font-size: 1rem; font-weight: 600; }
 
         /* Hub Layout Container */
         .hub-container {
@@ -49,14 +49,14 @@ HTML
         /* Circular Track */
         .circle-track {
             position: absolute; width: 600px; height: 600px;
-            border: 2px dashed #93c5fd; border-radius: 50%; pointer-events: none;
+            border: 2px dashed #3b82f6; border-radius: 50%; pointer-events: none;
         }
 
         /* Center Logo Container */
         .center-logo {
             position: absolute; width: 180px; height: 180px; background: #ffffff;
-            border: 4px solid #1e3a8a; border-radius: 50%; display: flex; flex-direction: column;
-            align-items: center; justify-content: center; box-shadow: 0 0 30px rgba(30, 58, 138, 0.25);
+            border: 4px solid #3b82f6; border-radius: 50%; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
             z-index: 10; text-align: center; cursor: pointer; overflow: hidden; transition: transform 0.2s ease;
         }
         .center-logo:hover { transform: scale(1.05); }
@@ -64,15 +64,15 @@ HTML
 
         /* Module Nodes (Cards) */
         .module-node {
-            position: absolute; width: 135px; height: 110px; background: #0f172a;
-            border: 2px solid #1e3a8a; border-radius: 12px; display: flex;
+            position: absolute; width: 135px; height: 110px; background: #1e293b;
+            border: 2px solid #3b82f6; border-radius: 12px; display: flex;
             flex-direction: column; align-items: center; justify-content: center; padding: 10px;
             text-align: center; cursor: pointer; transition: all 0.2s ease;
-            box-shadow: 0 8px 16px rgba(15, 23, 42, 0.15); z-index: 5;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); z-index: 5;
         }
         .module-node:hover {
-            transform: scale(1.1) !important; background: #1e3a8a; border-color: #2563eb;
-            box-shadow: 0 12px 24px rgba(30, 58, 138, 0.3); z-index: 20;
+            transform: scale(1.1) !important; background: #1e3a8a; border-color: #60a5fa;
+            box-shadow: 0 12px 24px rgba(59, 130, 246, 0.4); z-index: 20;
         }
         .module-node .icon-box { width: 42px; height: 42px; margin-bottom: 6px; display: flex; align-items: center; justify-content: center; }
         .module-node .icon-box img { width: 100%; height: 100%; object-fit: contain; border-radius: 6px; }
@@ -81,9 +81,9 @@ HTML
 
         /* Bottom Toolbar */
         .bottom-bar {
-            width: 100%; max-width: 900px; background: #0f172a; border: 2px solid #1e3a8a;
+            width: 100%; max-width: 900px; background: #1e293b; border: 2px solid #3b82f6;
             border-radius: 12px; padding: 15px 20px; margin-top: 10px; display: flex; justify-content: space-around;
-            align-items: center; gap: 10px; box-shadow: 0 10px 20px rgba(15, 23, 42, 0.1); flex-wrap: wrap;
+            align-items: center; gap: 10px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); flex-wrap: wrap;
         }
         .bottom-item { display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 8px 14px; border-radius: 8px; transition: background 0.2s; }
         .bottom-item:hover { background: #1e3a8a; }
@@ -92,14 +92,14 @@ HTML
 
         /* Modal Overlay System */
         .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6);
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.8);
             backdrop-filter: blur(5px); display: none; align-items: center; justify-content: center; z-index: 999;
             opacity: 0; transition: opacity 0.2s ease;
         }
         .modal-overlay.active { display: flex; opacity: 1; }
         .modal-content {
             background: #ffffff; border: 2px solid #1e3a8a; border-radius: 16px; width: 90%; max-width: 900px;
-            max-height: 85vh; overflow-y: auto; padding: 25px; box-shadow: 0 25px 50px rgba(15, 23, 42, 0.25); color: #0f172a;
+            max-height: 85vh; overflow-y: auto; padding: 25px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5); color: #0f172a;
         }
         .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 20px; }
         .modal-header h2 { font-size: 1.4rem; color: #1e3a8a; font-weight: 800; display: flex; align-items: center; gap: 10px; }
@@ -280,7 +280,6 @@ HTML
                     <div class="title">${mod.title}</div>
                 `;
 
-                // Single Click Direct Trigger
                 node.onclick = function() {
                     openModal(mod.id, mod.title);
                 };
