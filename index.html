@@ -636,22 +636,3 @@ function markSingleAsRead(notificationId) {
     if (currentCount === 0) {
       counterElement.style.display = 'none';
     }
-  }
-
-  // 3. إرسال الطلب للخلفية في الحساب (Backend) لتعليم هذه الرسالة كـ "مقروءة"
-  fetch(`/api/notifications/read/${notificationId}`, { method: 'POST' });
-}
-// دالة تُنفّذ عند الخروج من صفحة/نافذة الرسالة
-function onCloseMessage(messageId) {
-  // 1. تغيير حالة الرسالة محلياً لتختفي إشارة الإشعار
-  const notificationBadge = document.getElementById(`badge-${messageId}`);
-  if (notificationBadge) {
-    notificationBadge.style.display = 'none'; // إخفاء إشارة الإشعار للرسالة
-  }
-
-  // 2. تحديث العداد الرئيسي للإشعارات
-  updateGlobalNotificationCount();
-
-  // 3. حفظ الحالة في النظام (Backend/LocalStorage)
-  markMessageAsReadInBackend(messageId);
-}
