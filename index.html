@@ -57,22 +57,22 @@ HTML
             position: absolute; width: 180px; height: 180px; background: #ffffff;
             border: 4px solid #3b82f6; border-radius: 50%; display: flex; flex-direction: column;
             align-items: center; justify-content: center; box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
-            z-index: 10; text-align: center; cursor: pointer; overflow: hidden; transition: transform 0.2s ease;
+            z-index: 10; text-align: center; cursor: pointer; overflow: hidden;
         }
-        .center-logo:hover { transform: scale(1.05); }
         .center-logo img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* Module Nodes (Cards) */
+        /* Fixed Fixed Position Module Nodes */
         .module-node {
             position: absolute; width: 135px; height: 110px; background: #1e293b;
             border: 2px solid #3b82f6; border-radius: 12px; display: flex;
             flex-direction: column; align-items: center; justify-content: center; padding: 10px;
-            text-align: center; cursor: pointer; transition: all 0.2s ease;
+            text-align: center; cursor: pointer; transition: background 0.2s, border-color 0.2s;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); z-index: 5;
+            user-select: none;
         }
         .module-node:hover {
-            transform: scale(1.1) !important; background: #1e3a8a; border-color: #60a5fa;
-            box-shadow: 0 12px 24px rgba(59, 130, 246, 0.4); z-index: 20;
+            background: #1e3a8a; border-color: #60a5fa;
+            box-shadow: 0 12px 24px rgba(59, 130, 246, 0.4);
         }
         .module-node .icon-box { width: 42px; height: 42px; margin-bottom: 6px; display: flex; align-items: center; justify-content: center; }
         .module-node .icon-box img { width: 100%; height: 100%; object-fit: contain; border-radius: 6px; }
@@ -271,6 +271,8 @@ HTML
 
                 const node = document.createElement('div');
                 node.className = 'module-node';
+                
+                // Fixed static position without scale or movement on click
                 node.style.transform = `translate(${x}px, ${y}px)`;
 
                 const iconContent = mod.image ? `<img src="${mod.image}" alt="${mod.title}" onerror="this.outerHTML='<span>${mod.icon}</span>'">` : `<span>${mod.icon}</span>`;
@@ -280,6 +282,7 @@ HTML
                     <div class="title">${mod.title}</div>
                 `;
 
+                // One-click event trigger without moving element
                 node.onclick = function() {
                     openModal(mod.id, mod.title);
                 };
