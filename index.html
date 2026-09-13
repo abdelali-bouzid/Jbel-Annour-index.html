@@ -621,3 +621,23 @@ HTML
 </body>
 </html>
 <script src="notifications.js" defer></script>
+// دالة تُستدعى عند الضغط على رسالة/إشعار معين
+function markSingleAsRead(notificationId) {
+  // 1. تحديد عنصر الرسالة وعنصر العداد
+  const counterElement = document.getElementById('counter');
+  let currentCount = parseInt(counterElement.textContent) || 0;
+
+  // 2. تحديث العداد فوراً في الواجهة إذا كان أكبر من صفر
+  if (currentCount > 0) {
+    currentCount -= 1;
+    counterElement.textContent = currentCount;
+
+    // إذا أصبح العداد صفراً، يمكنك إخفاء الشارة
+    if (currentCount === 0) {
+      counterElement.style.display = 'none';
+    }
+  }
+
+  // 3. إرسال الطلب للخلفية في الحساب (Backend) لتعليم هذه الرسالة كـ "مقروءة"
+  fetch(`/api/notifications/read/${notificationId}`, { method: 'POST' });
+}
