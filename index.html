@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GMAO PRO V3 - Sage X3 Maintenance</title>
+<title>GMAO PRO V4 - Sage X3 Maintenance</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
@@ -22,79 +22,12 @@ body{
     min-height:100vh;
 }
 
-/* ================= AUTH ================= */
-
-#authScreen{
-    position:fixed;
-    inset:0;
-    background:
-        radial-gradient(circle at center,#12355d 0%,#07111f 60%);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    z-index:9999;
-}
-
-.login-box{
-    width:380px;
-    background:#0d1b2d;
-    border:1px solid #24517e;
-    border-radius:18px;
-    padding:35px;
-    box-shadow:0 20px 60px #0008;
-    text-align:center;
-}
-
-.logo{
-    width:85px;
-    height:85px;
-    margin:auto auto 20px;
-    border-radius:20px;
-    background:linear-gradient(135deg,#0ea5e9,#2563eb);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:38px;
-    font-weight:bold;
-    box-shadow:0 10px 30px #0284c755;
-}
-
-.login-box h1{
-    font-size:22px;
-    margin-bottom:8px;
-}
-
-.login-box p{
-    color:#8ea8c5;
-    margin-bottom:25px;
-}
-
-input,select,textarea{
-    width:100%;
-    background:#081525;
-    border:1px solid #274765;
-    color:#fff;
-    border-radius:8px;
-    padding:11px;
-    outline:none;
-}
-
-input:focus,select:focus,textarea:focus{
-    border-color:#2196f3;
-}
-
-textarea{
-    min-height:90px;
-    resize:vertical;
-}
-
 button{
-    border:none;
+    border:0;
     border-radius:8px;
-    padding:10px 15px;
+    padding:10px 14px;
+    color:white;
     cursor:pointer;
-    color:#fff;
-    background:#1565c0;
     font-weight:bold;
 }
 
@@ -102,25 +35,85 @@ button:hover{
     opacity:.88;
 }
 
+input,select,textarea{
+    width:100%;
+    background:#081525;
+    color:#fff;
+    border:1px solid #274765;
+    border-radius:8px;
+    padding:11px;
+    outline:none;
+}
+
+textarea{
+    min-height:90px;
+    resize:vertical;
+}
+
+input:focus,select:focus,textarea:focus{
+    border-color:#2196f3;
+}
+
 .btn-success{background:#16865b}
 .btn-danger{background:#b52b3b}
 .btn-warning{background:#a86e00}
 .btn-secondary{background:#334b63}
 .btn-info{background:#087e9b}
+.btn-primary{background:#1565c0}
 
-.full{
-    width:100%;
+/* LOGIN */
+
+#authScreen{
+    position:fixed;
+    inset:0;
+    z-index:9999;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:radial-gradient(circle at center,#12355d,#07111f 65%);
 }
 
-/* ================= HEADER ================= */
+.login-box{
+    width:390px;
+    background:#0d1b2d;
+    border:1px solid #24517e;
+    border-radius:18px;
+    padding:35px;
+    text-align:center;
+    box-shadow:0 25px 70px #000b;
+}
+
+.logo{
+    width:85px;
+    height:85px;
+    margin:0 auto 20px;
+    border-radius:20px;
+    background:linear-gradient(135deg,#0ea5e9,#2563eb);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:40px;
+    font-weight:bold;
+}
+
+.login-box h1{
+    font-size:23px;
+}
+
+.login-box p{
+    color:#809bb5;
+    margin:8px 0 25px;
+}
+
+/* HEADER */
 
 header{
     height:70px;
     background:#0a1727;
     border-bottom:1px solid #203c58;
     display:flex;
-    align-items:center;
     justify-content:space-between;
+    align-items:center;
     padding:0 25px;
     position:sticky;
     top:0;
@@ -134,14 +127,15 @@ header{
 }
 
 .brand-icon{
-    width:42px;
-    height:42px;
-    border-radius:10px;
+    width:43px;
+    height:43px;
     background:#1267b1;
+    border-radius:10px;
     display:flex;
     align-items:center;
     justify-content:center;
     font-weight:bold;
+    font-size:20px;
 }
 
 .brand h2{
@@ -149,10 +143,10 @@ header{
 }
 
 .brand small{
-    color:#7290ae;
+    color:#6f8da9;
 }
 
-/* ================= MAIN ================= */
+/* MAIN */
 
 .main{
     padding:25px;
@@ -163,7 +157,7 @@ header{
 }
 
 .page-title h1{
-    font-size:27px;
+    font-size:28px;
 }
 
 .page-title p{
@@ -171,7 +165,7 @@ header{
     margin-top:5px;
 }
 
-/* ================= KPI ================= */
+/* KPI */
 
 .kpi-grid{
     display:grid;
@@ -187,17 +181,6 @@ header{
     padding:18px;
     position:relative;
     overflow:hidden;
-}
-
-.kpi:after{
-    content:"";
-    position:absolute;
-    right:-25px;
-    bottom:-35px;
-    width:100px;
-    height:100px;
-    border-radius:50%;
-    background:#1267b122;
 }
 
 .kpi-label{
@@ -216,13 +199,12 @@ header{
     font-size:12px;
 }
 
-/* ================= HUB ================= */
+/* HUB */
 
 .hub{
     position:relative;
     height:430px;
-    background:
-        radial-gradient(circle,#12365a 0%,#091827 58%,#07111f 100%);
+    background:radial-gradient(circle,#12365a,#091827 58%,#07111f);
     border:1px solid #214563;
     border-radius:18px;
     overflow:hidden;
@@ -234,7 +216,7 @@ header{
     left:50%;
     top:50%;
     transform:translate(-50%,-50%);
-    width:210px;
+    width:215px;
     height:110px;
     border-radius:20px;
     background:linear-gradient(135deg,#0e4c7c,#173d68);
@@ -243,14 +225,13 @@ header{
     align-items:center;
     justify-content:center;
     text-align:center;
-    font-weight:bold;
     box-shadow:0 0 40px #0879c633;
 }
 
 .node{
     position:absolute;
-    width:160px;
-    min-height:65px;
+    width:170px;
+    min-height:68px;
     background:#10263d;
     border:1px solid #285475;
     border-radius:12px;
@@ -308,11 +289,7 @@ header{
     transform:translateX(-50%);
 }
 
-.n1:hover,.n6:hover{
-    transform:translateX(-50%) scale(1.05);
-}
-
-/* ================= CARDS ================= */
+/* CARD */
 
 .section-card{
     background:#0c1b2d;
@@ -326,8 +303,8 @@ header{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:15px;
     gap:10px;
+    margin-bottom:15px;
 }
 
 .section-header h3{
@@ -339,7 +316,7 @@ header{
     font-size:12px;
 }
 
-/* ================= CHARTS ================= */
+/* CHART */
 
 .chart-grid{
     display:grid;
@@ -361,7 +338,7 @@ header{
     margin-bottom:12px;
 }
 
-/* ================= TABLE ================= */
+/* TABLE */
 
 .table-wrap{
     overflow:auto;
@@ -370,7 +347,7 @@ header{
 table{
     width:100%;
     border-collapse:collapse;
-    min-width:750px;
+    min-width:850px;
 }
 
 th{
@@ -419,11 +396,11 @@ tr:hover td{
     color:#83c9ff;
 }
 
-/* ================= MENU ================= */
+/* MENU */
 
 .bottom-menu{
     display:grid;
-    grid-template-columns:repeat(9,1fr);
+    grid-template-columns:repeat(10,1fr);
     gap:8px;
     margin-top:20px;
 }
@@ -435,11 +412,7 @@ tr:hover td{
     font-size:11px;
 }
 
-.menu-btn:hover{
-    background:#153653;
-}
-
-/* ================= MODAL ================= */
+/* MODAL */
 
 .modal{
     position:fixed;
@@ -453,7 +426,7 @@ tr:hover td{
 }
 
 .modal-content{
-    width:min(1250px,100%);
+    width:min(1300px,100%);
     max-height:92vh;
     overflow:auto;
     background:#0a1727;
@@ -511,7 +484,7 @@ tr:hover td{
     display:block;
 }
 
-/* ================= FORM GRID ================= */
+/* FORM */
 
 .form-grid{
     display:grid;
@@ -533,19 +506,28 @@ tr:hover td{
     flex-wrap:wrap;
 }
 
-/* ================= FILTER ================= */
-
 .filter-grid{
     display:grid;
-    grid-template-columns:2fr 1fr 1fr 1fr;
+    grid-template-columns:2fr 1fr 1fr 1fr 1fr;
     gap:10px;
     margin-bottom:15px;
 }
 
-/* ================= REPORT ================= */
+/* NOTIFICATION */
+
+.notification{
+    background:#351d08;
+    border:1px solid #9b650b;
+    color:#ffd978;
+    padding:12px;
+    border-radius:10px;
+    margin-bottom:15px;
+}
+
+/* REPORT */
 
 .report{
-    background:#fff;
+    background:white;
     color:#111;
     padding:25px;
     border-radius:8px;
@@ -566,16 +548,21 @@ tr:hover td{
     color:#111;
 }
 
-/* ================= RESPONSIVE ================= */
+/* RESPONSIVE */
 
-@media(max-width:1000px){
+@media(max-width:1100px){
+
     .kpi-grid{
         grid-template-columns:repeat(2,1fr);
     }
 
     .bottom-menu{
-        grid-template-columns:repeat(3,1fr);
+        grid-template-columns:repeat(5,1fr);
     }
+
+}
+
+@media(max-width:800px){
 
     .chart-grid{
         grid-template-columns:1fr;
@@ -584,9 +571,11 @@ tr:hover td{
     .form-grid{
         grid-template-columns:1fr 1fr;
     }
+
 }
 
-@media(max-width:650px){
+@media(max-width:600px){
+
     .kpi-grid{
         grid-template-columns:1fr;
     }
@@ -595,30 +584,28 @@ tr:hover td{
         grid-template-columns:1fr;
     }
 
+    .bottom-menu{
+        grid-template-columns:repeat(2,1fr);
+    }
+
     .hub{
         height:650px;
     }
 
-    .n1,.n6{
-        left:50%;
-    }
-
-    .n2,.n3{
-        right:3%;
-    }
-
-    .n4,.n5{
-        left:3%;
-    }
 }
 
 @media print{
+
     body{
         background:white;
         color:black;
     }
 
-    header,.bottom-menu,.modal-header,.tabs,.no-print{
+    header,
+    .bottom-menu,
+    .modal-header,
+    .tabs,
+    .no-print{
         display:none!important;
     }
 
@@ -630,17 +617,20 @@ tr:hover td{
     }
 
     .modal-content{
-        border:none;
+        border:0;
         box-shadow:none;
         max-height:none;
     }
+
 }
 </style>
 </head>
 
 <body>
 
-<!-- ================= LOGIN ================= -->
+<!-- =====================================================
+LOGIN
+===================================================== -->
 
 <div id="authScreen">
 
@@ -648,8 +638,11 @@ tr:hover td{
 
         <div class="logo">G</div>
 
-        <h1>GMAO PRO</h1>
-        <p>Sage X3 • Maintenance • Fiabilité</p>
+        <h1>GMAO PRO V4</h1>
+
+        <p>
+            Sage X3 • Maintenance • Fiabilité
+        </p>
 
         <input
             type="password"
@@ -660,7 +653,11 @@ tr:hover td{
 
         <br><br>
 
-        <button class="full" onclick="checkAuth()">
+        <button
+            class="btn-primary"
+            style="width:100%"
+            onclick="checkAuth()"
+        >
             🔐 Se connecter
         </button>
 
@@ -675,7 +672,9 @@ tr:hover td{
 </div>
 
 
-<!-- ================= APP ================= -->
+<!-- =====================================================
+APPLICATION
+===================================================== -->
 
 <div id="app" style="display:none">
 
@@ -686,13 +685,18 @@ tr:hover td{
         <div class="brand-icon">G</div>
 
         <div>
-            <h2>GMAO PRO V3</h2>
-            <small>Sage X3 Maintenance Management</small>
+            <h2>GMAO PRO V4</h2>
+            <small>
+                Sage X3 Maintenance Management
+            </small>
         </div>
 
     </div>
 
-    <button class="btn-danger" onclick="logout()">
+    <button
+        class="btn-danger"
+        onclick="logout()"
+    >
         Déconnexion
     </button>
 
@@ -706,20 +710,32 @@ tr:hover td{
         <h1>Dashboard Maintenance</h1>
 
         <p>
-            Pilotage de la maintenance • Fiabilité • Production
+            Pilotage • Demandes d'intervention • OT • Fiabilité • Production
         </p>
 
     </div>
 
 
-    <!-- KPI -->
+    <!-- KPI GLOBAL -->
 
     <div class="kpi-grid">
 
         <div class="kpi">
             <div class="kpi-label">Équipements</div>
             <div class="kpi-value" id="kpiEquip">0</div>
-            <div class="kpi-unit">machines enregistrées</div>
+            <div class="kpi-unit">machines</div>
+        </div>
+
+        <div class="kpi">
+            <div class="kpi-label">Demandes d'intervention</div>
+            <div class="kpi-value" id="kpiDI">0</div>
+            <div class="kpi-unit">DI enregistrées</div>
+        </div>
+
+        <div class="kpi">
+            <div class="kpi-label">DI nouvelles</div>
+            <div class="kpi-value" id="kpiDINew">0</div>
+            <div class="kpi-unit">à traiter</div>
         </div>
 
         <div class="kpi">
@@ -747,21 +763,9 @@ tr:hover td{
         </div>
 
         <div class="kpi">
-            <div class="kpi-label">MTBF</div>
-            <div class="kpi-value" id="kpiMTBF">0</div>
-            <div class="kpi-unit">heures</div>
-        </div>
-
-        <div class="kpi">
             <div class="kpi-label">Disponibilité</div>
             <div class="kpi-value" id="kpiAvailability">100%</div>
             <div class="kpi-unit">indicative</div>
-        </div>
-
-        <div class="kpi">
-            <div class="kpi-label">Préventif</div>
-            <div class="kpi-value" id="kpiPreventive">0</div>
-            <div class="kpi-unit">actions</div>
         </div>
 
     </div>
@@ -772,48 +776,79 @@ tr:hover td{
     <div class="hub">
 
         <div class="hub-center">
+
             <div>
-                <div style="font-size:23px">GMAO PRO</div>
+
+                <div style="font-size:23px">
+                    GMAO PRO
+                </div>
+
                 <small style="color:#91b4d2">
                     Maintenance & Fiabilité
                 </small>
+
             </div>
+
         </div>
 
-        <div class="node n1" onclick="openGMAO('dashboard')">
+
+        <div
+            class="node n1"
+            onclick="openGMAO('dashboard')"
+        >
             <strong>📊 Dashboard</strong>
             <span>KPI & Analyse</span>
         </div>
 
-        <div class="node n2" onclick="openGMAO('equipment')">
+
+        <div
+            class="node n2"
+            onclick="openGMAO('equipment')"
+        >
             <strong>⚙️ Équipements</strong>
             <span>Machines & zones</span>
         </div>
 
-        <div class="node n3" onclick="openGMAO('interventions')">
+
+        <div
+            class="node n3"
+            onclick="openGMAO('interventions')"
+        >
             <strong>🛠 OT / Pannes</strong>
-            <span>Curatif & suivi</span>
+            <span>Interventions</span>
         </div>
 
-        <div class="node n4" onclick="openGMAO('preventif')">
+
+        <div
+            class="node n4"
+            onclick="openGMAO('preventif')"
+        >
             <strong>🔧 Préventif</strong>
-            <span>PM & inspections</span>
+            <span>Maintenance planifiée</span>
         </div>
 
-        <div class="node n5" onclick="openGMAO('rapport')">
-            <strong>📋 Rapport journalier</strong>
-            <span>Production & maintenance</span>
+
+        <div
+            class="node n5"
+            onclick="openGMAO('demandes')"
+        >
+            <strong>📨 Demande d'intervention</strong>
+            <span>DI à traiter</span>
         </div>
 
-        <div class="node n6" onclick="openGMAO('rca')">
+
+        <div
+            class="node n6"
+            onclick="openGMAO('rca')"
+        >
             <strong>🔎 RCA / BDA</strong>
-            <span>Analyse des causes</span>
+            <span>Cause racine</span>
         </div>
 
     </div>
 
 
-    <!-- ANALYTICS -->
+    <!-- PARETO -->
 
     <div class="chart-grid">
 
@@ -874,13 +909,21 @@ tr:hover td{
         <div class="section-header">
 
             <div>
-                <h3>📍 KPI Maintenance par Zone</h3>
+
+                <h3>
+                    📍 KPI Maintenance par Zone
+                </h3>
+
                 <span>
-                    Analyse automatique basée sur les OT enregistrés
+                    Analyse automatique
                 </span>
+
             </div>
 
-            <button class="btn-info" onclick="updateZoneAnalytics()">
+            <button
+                class="btn-info"
+                onclick="updateZoneAnalytics()"
+            >
                 🔄 Actualiser
             </button>
 
@@ -898,9 +941,9 @@ tr:hover td{
                         <th>Équipements</th>
                         <th>OT</th>
                         <th>Pannes</th>
-                        <th>Arrêt (h)</th>
-                        <th>MTTR (min)</th>
-                        <th>MTBF (h)</th>
+                        <th>Arrêt h</th>
+                        <th>MTTR</th>
+                        <th>MTBF</th>
                         <th>Disponibilité</th>
                     </tr>
 
@@ -919,40 +962,74 @@ tr:hover td{
 
     <div class="bottom-menu">
 
-        <button class="menu-btn" onclick="openGMAO('equipment')">
+        <button
+            class="menu-btn"
+            onclick="openGMAO('demandes')"
+        >
+            📨<br>Demandes
+        </button>
+
+        <button
+            class="menu-btn"
+            onclick="openGMAO('equipment')"
+        >
             ⚙️<br>Équipements
         </button>
 
-        <button class="menu-btn" onclick="openGMAO('interventions')">
+        <button
+            class="menu-btn"
+            onclick="openGMAO('interventions')"
+        >
             🛠<br>OT / Pannes
         </button>
 
-        <button class="menu-btn" onclick="openGMAO('preventif')">
+        <button
+            class="menu-btn"
+            onclick="openGMAO('preventif')"
+        >
             🔧<br>Préventif
         </button>
 
-        <button class="menu-btn" onclick="openGMAO('rca')">
-            🔎<br>RCA / BDA
+        <button
+            class="menu-btn"
+            onclick="openGMAO('rca')"
+        >
+            🔎<br>RCA/BDA
         </button>
 
-        <button class="menu-btn" onclick="openGMAO('pieces')">
+        <button
+            class="menu-btn"
+            onclick="openGMAO('pieces')"
+        >
             📦<br>Pièces
         </button>
 
-        <button class="menu-btn" onclick="openGMAO('zones')">
+        <button
+            class="menu-btn"
+            onclick="openGMAO('zones')"
+        >
             📍<br>Zones
         </button>
 
-        <button class="menu-btn" onclick="openGMAO('planning')">
+        <button
+            class="menu-btn"
+            onclick="openGMAO('planning')"
+        >
             📅<br>Planning
         </button>
 
-        <button class="menu-btn" onclick="openGMAO('rapport')">
+        <button
+            class="menu-btn"
+            onclick="openGMAO('rapport')"
+        >
             📋<br>Rapport
         </button>
 
-        <button class="menu-btn" onclick="openGMAO('admin')">
-            ⚙️<br>Administration
+        <button
+            class="menu-btn"
+            onclick="openGMAO('admin')"
+        >
+            ⚙️<br>Sécurité
         </button>
 
     </div>
@@ -962,899 +1039,1726 @@ tr:hover td{
 </div>
 
 
-<!-- ================= MODAL ================= -->
+<!-- =====================================================
+MODAL
+===================================================== -->
 
-<div class="modal" id="gmaoModal">
+<div
+    class="modal"
+    id="gmaoModal"
+>
 
 <div class="modal-content">
 
     <div class="modal-header">
 
-        <strong>GMAO PRO — Gestion Maintenance</strong>
+        <strong>
+            GMAO PRO V4 — Gestion Maintenance
+        </strong>
 
-        <button class="close" onclick="closeModal()">✕</button>
+        <button
+            class="close"
+            onclick="closeModal()"
+        >
+            ✕
+        </button>
 
     </div>
 
 
     <div class="tabs">
 
-        <button class="tab" onclick="showSection('dashboard')">
+        <button class="tab"
+            onclick="showSection('dashboard')">
             Dashboard
         </button>
 
-        <button class="tab" onclick="showSection('equipment')">
+        <button class="tab"
+            onclick="showSection('demandes')">
+            📨 Demandes
+        </button>
+
+        <button class="tab"
+            onclick="showSection('equipment')">
             Équipements
         </button>
 
-        <button class="tab" onclick="showSection('interventions')">
+        <button class="tab"
+            onclick="showSection('interventions')">
             OT / Pannes
         </button>
 
-        <button class="tab" onclick="showSection('preventif')">
+        <button class="tab"
+            onclick="showSection('preventif')">
             Préventif
         </button>
 
-        <button class="tab" onclick="showSection('rca')">
+        <button class="tab"
+            onclick="showSection('rca')">
             RCA / BDA
         </button>
 
-        <button class="tab" onclick="showSection('pieces')">
+        <button class="tab"
+            onclick="showSection('pieces')">
             Pièces
         </button>
 
-        <button class="tab" onclick="showSection('zones')">
+        <button class="tab"
+            onclick="showSection('zones')">
             Zones
         </button>
 
-        <button class="tab" onclick="showSection('planning')">
+        <button class="tab"
+            onclick="showSection('planning')">
             Planning
         </button>
 
-        <button class="tab" onclick="showSection('rapport')">
+        <button class="tab"
+            onclick="showSection('rapport')">
             Rapport
         </button>
 
-        <button class="tab" onclick="showSection('admin')">
-            Administration
+        <button class="tab"
+            onclick="showSection('admin')">
+            Sécurité
         </button>
 
     </div>
 
 
-    <!-- ================= DASHBOARD ================= -->
+<!-- =====================================================
+DASHBOARD MODAL
+===================================================== -->
 
-    <section id="section-dashboard" class="tab-content">
+<section
+    id="section-dashboard"
+    class="tab-content"
+>
 
-        <div class="section-card">
+    <div class="chart-grid">
 
-            <h3>📊 Analyse Maintenance</h3>
+        <div class="chart-box">
 
-            <p style="color:#7895ae;margin-top:8px">
-                Le système calcule automatiquement les indicateurs
-                à partir des OT, équipements et zones enregistrés.
-            </p>
+            <h3>
+                Pareto par Zone
+            </h3>
 
-        </div>
-
-        <div class="chart-grid">
-
-            <div class="chart-box">
-                <h3>Pareto par Zone</h3>
-                <canvas id="paretoZoneChartModal"></canvas>
-            </div>
-
-            <div class="chart-box">
-                <h3>Pareto par Équipement</h3>
-                <canvas id="paretoEquipmentChartModal"></canvas>
-            </div>
+            <canvas id="paretoZoneChartModal"></canvas>
 
         </div>
 
-        <div class="section-card">
 
-            <h3>📍 KPI par Zone</h3>
+        <div class="chart-box">
 
-            <div class="table-wrap">
+            <h3>
+                Pareto par Équipement
+            </h3>
 
-                <table>
-
-                    <thead>
-                        <tr>
-                            <th>Zone</th>
-                            <th>Équipements</th>
-                            <th>OT</th>
-                            <th>Pannes</th>
-                            <th>Arrêt h</th>
-                            <th>MTTR</th>
-                            <th>MTBF</th>
-                            <th>Disponibilité</th>
-                        </tr>
-                    </thead>
-
-                    <tbody id="zoneKpiBodyModal"></tbody>
-
-                </table>
-
-            </div>
+            <canvas id="paretoEquipmentChartModal"></canvas>
 
         </div>
 
-    </section>
+    </div>
 
 
-    <!-- ================= EQUIPMENT ================= -->
+    <div class="section-card">
 
-    <section id="section-equipment" class="tab-content">
+        <h3>
+            📍 KPI par Zone
+        </h3>
 
-        <div class="section-card">
+        <br>
 
-            <div class="section-header">
+        <div class="table-wrap">
 
-                <h3>⚙️ Ajouter un équipement</h3>
+            <table>
 
-            </div>
+                <thead>
 
-            <div class="form-grid">
+                    <tr>
+                        <th>Zone</th>
+                        <th>Équipements</th>
+                        <th>OT</th>
+                        <th>Pannes</th>
+                        <th>Arrêt h</th>
+                        <th>MTTR</th>
+                        <th>MTBF</th>
+                        <th>Disponibilité</th>
+                    </tr>
 
-                <div class="form-group">
-                    <label>Code équipement</label>
-                    <input id="eqCode" placeholder="EX: EXTR-001">
-                </div>
+                </thead>
 
-                <div class="form-group">
-                    <label>Désignation</label>
-                    <input id="eqDesignation" placeholder="Extrudeuse">
-                </div>
+                <tbody id="zoneKpiBodyModal"></tbody>
 
-                <div class="form-group">
-                    <label>Zone de production</label>
-                    <select id="eqZone"></select>
-                </div>
+            </table>
 
-                <div class="form-group">
-                    <label>Criticité</label>
-                    <select id="eqCriticality">
-                        <option>A</option>
-                        <option>B</option>
-                        <option>C</option>
-                    </select>
-                </div>
+        </div>
 
-                <div class="form-group">
-                    <label>Marque</label>
-                    <input id="eqBrand" placeholder="SEW / Siemens...">
-                </div>
+    </div>
 
-                <div class="form-group">
-                    <label>État</label>
-                    <select id="eqStatus">
-                        <option>En service</option>
-                        <option>Arrêt</option>
-                        <option>Maintenance</option>
-                    </select>
-                </div>
+</section>
 
-            </div>
 
-            <div class="form-actions">
+<!-- =====================================================
+DEMANDES D'INTERVENTION
+===================================================== -->
 
-                <button class="btn-success" onclick="addEquipment()">
-                    + Ajouter
-                </button>
+<section
+    id="section-demandes"
+    class="tab-content"
+>
+
+    <div
+        id="diNotification"
+        class="notification"
+        style="display:none"
+    ></div>
+
+
+    <div class="section-card">
+
+        <div class="section-header">
+
+            <div>
+
+                <h3>
+                    📨 Demande d'intervention
+                </h3>
+
+                <span>
+                    Création d'une demande avant génération d'OT
+                </span>
 
             </div>
 
         </div>
 
 
-        <div class="section-card">
+        <input
+            type="hidden"
+            id="editDIId"
+        >
 
-            <div class="section-header">
 
-                <h3>Liste des équipements</h3>
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label>Date</label>
 
                 <input
-                    style="max-width:280px"
-                    id="equipmentSearch"
-                    placeholder="Rechercher..."
-                    oninput="refreshEquipment()"
+                    type="date"
+                    id="diDate"
                 >
 
             </div>
 
-            <div class="table-wrap">
 
-                <table>
+            <div class="form-group">
 
-                    <thead>
-                        <tr>
-                            <th>Code</th>
-                            <th>Désignation</th>
-                            <th>Zone</th>
-                            <th>Criticité</th>
-                            <th>Marque</th>
-                            <th>État</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-
-                    <tbody id="equipmentBody"></tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- ================= INTERVENTIONS ================= -->
-
-    <section id="section-interventions" class="tab-content">
-
-        <div class="section-card">
-
-            <h3>🛠 Ordre de Travail / Intervention</h3>
-
-            <input type="hidden" id="editInterventionId">
-
-            <div class="form-grid">
-
-                <div class="form-group">
-                    <label>Date</label>
-                    <input type="date" id="intDate">
-                </div>
-
-                <div class="form-group">
-                    <label>Équipement</label>
-                    <select id="intEquipment" onchange="updateInterventionZone()"></select>
-                </div>
-
-                <div class="form-group">
-                    <label>Zone automatique</label>
-                    <input id="intZone" readonly>
-                </div>
-
-                <div class="form-group">
-                    <label>Type</label>
-                    <select id="intType">
-                        <option>Curative</option>
-                        <option>Préventive</option>
-                        <option>Amélioration</option>
-                        <option>Inspection</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Statut</label>
-                    <select id="intStatus">
-                        <option>Ouvert</option>
-                        <option>En cours</option>
-                        <option>Clôturé</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Temps d'arrêt (min)</label>
-                    <input type="number" id="intDowntime" min="0">
-                </div>
-
-                <div class="form-group">
-                    <label>Temps réparation (min)</label>
-                    <input type="number" id="intRepair" min="0">
-                </div>
-
-                <div class="form-group">
-                    <label>Technicien</label>
-                    <input id="intTechnician">
-                </div>
-
-                <div class="form-group">
-                    <label>Problème</label>
-                    <input id="intProblem">
-                </div>
-
-                <div class="form-group">
-                    <label>Cause</label>
-                    <input id="intCause">
-                </div>
-
-                <div class="form-group">
-                    <label>Action réalisée</label>
-                    <input id="intAction">
-                </div>
-
-            </div>
-
-            <div class="form-actions">
-
-                <button class="btn-success" onclick="saveIntervention()">
-                    💾 Enregistrer OT
-                </button>
-
-                <button class="btn-secondary" onclick="cancelEdit()">
-                    Réinitialiser
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <div class="section-card">
-
-            <h3>Recherche / Filtres</h3>
-
-            <div class="filter-grid">
+                <label>Heure</label>
 
                 <input
-                    id="intSearch"
-                    placeholder="Recherche..."
-                    oninput="refreshInterventions()"
+                    type="time"
+                    id="diTime"
                 >
 
-                <select id="filterStatus" onchange="refreshInterventions()">
-                    <option value="">Tous statuts</option>
-                    <option>Ouvert</option>
-                    <option>En cours</option>
-                    <option>Clôturé</option>
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Demandeur</label>
+
+                <input
+                    id="diRequester"
+                    placeholder="Nom du demandeur"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Zone</label>
+
+                <select
+                    id="diZone"
+                    onchange="filterDIEquipment()"
+                ></select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Équipement</label>
+
+                <select id="diEquipment"></select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Priorité</label>
+
+                <select id="diPriority">
+
+                    <option>Basse</option>
+
+                    <option selected>
+                        Moyenne
+                    </option>
+
+                    <option>Haute</option>
+
+                    <option>Urgente</option>
+
                 </select>
 
-                <select id="filterType" onchange="refreshInterventions()">
-                    <option value="">Tous types</option>
-                    <option>Curative</option>
-                    <option>Préventive</option>
-                    <option>Amélioration</option>
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Type de demande</label>
+
+                <select id="diType">
+
+                    <option>Panne</option>
+                    <option>Anomalie</option>
                     <option>Inspection</option>
+                    <option>Préventif</option>
+                    <option>Amélioration</option>
+
                 </select>
 
-                <select id="filterEquipment" onchange="refreshInterventions()">
-                    <option value="">Tous équipements</option>
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Statut</label>
+
+                <select id="diStatus">
+
+                    <option>Nouvelle</option>
+                    <option>Acceptée</option>
+                    <option>En cours</option>
+                    <option>Clôturée</option>
+                    <option>Refusée</option>
+
                 </select>
 
             </div>
 
 
-            <div class="table-wrap">
+            <div class="form-group">
 
-                <table>
+                <label>Responsable maintenance</label>
 
-                    <thead>
-
-                        <tr>
-                            <th>Date</th>
-                            <th>OT</th>
-                            <th>Équipement</th>
-                            <th>Zone</th>
-                            <th>Type</th>
-                            <th>Statut</th>
-                            <th>Arrêt</th>
-                            <th>Technicien</th>
-                            <th>Actions</th>
-                        </tr>
-
-                    </thead>
-
-                    <tbody id="interventionBody"></tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- ================= PREVENTIVE ================= -->
-
-    <section id="section-preventif" class="tab-content">
-
-        <div class="section-card">
-
-            <h3>🔧 Maintenance Préventive</h3>
-
-            <div class="form-grid">
-
-                <div class="form-group">
-                    <label>Équipement</label>
-                    <select id="prevEquipment"></select>
-                </div>
-
-                <div class="form-group">
-                    <label>Opération</label>
-                    <input id="prevOperation">
-                </div>
-
-                <div class="form-group">
-                    <label>Fréquence</label>
-                    <select id="prevFrequency">
-                        <option>Quotidienne</option>
-                        <option>Hebdomadaire</option>
-                        <option>Mensuelle</option>
-                        <option>Trimestrielle</option>
-                        <option>Semestrielle</option>
-                        <option>Annuelle</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Prochaine date</label>
-                    <input type="date" id="prevDate">
-                </div>
-
-                <div class="form-group">
-                    <label>Statut</label>
-                    <select id="prevStatus">
-                        <option>Planifiée</option>
-                        <option>Réalisée</option>
-                        <option>En retard</option>
-                    </select>
-                </div>
-
-            </div>
-
-            <div class="form-actions">
-
-                <button class="btn-success" onclick="addPreventive()">
-                    + Ajouter
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <div class="section-card">
-
-            <div class="table-wrap">
-
-                <table>
-
-                    <thead>
-                        <tr>
-                            <th>Équipement</th>
-                            <th>Opération</th>
-                            <th>Fréquence</th>
-                            <th>Date</th>
-                            <th>Statut</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-
-                    <tbody id="preventiveBody"></tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- ================= RCA ================= -->
-
-    <section id="section-rca" class="tab-content">
-
-        <div class="section-card">
-
-            <h3>🔎 RCA / BDA — Analyse des causes</h3>
-
-            <div class="form-grid">
-
-                <div class="form-group">
-                    <label>Problème</label>
-                    <input id="rcaProblem">
-                </div>
-
-                <div class="form-group">
-                    <label>Équipement</label>
-                    <select id="rcaEquipment"></select>
-                </div>
-
-                <div class="form-group">
-                    <label>Date</label>
-                    <input type="date" id="rcaDate">
-                </div>
-
-                <div class="form-group">
-                    <label>Cause 1</label>
-                    <input id="rcaCause1">
-                </div>
-
-                <div class="form-group">
-                    <label>Cause 2</label>
-                    <input id="rcaCause2">
-                </div>
-
-                <div class="form-group">
-                    <label>Cause 3</label>
-                    <input id="rcaCause3">
-                </div>
-
-                <div class="form-group">
-                    <label>Cause racine</label>
-                    <input id="rcaRootCause">
-                </div>
-
-                <div class="form-group">
-                    <label>Action corrective</label>
-                    <input id="rcaAction">
-                </div>
-
-                <div class="form-group">
-                    <label>Responsable</label>
-                    <input id="rcaResponsible">
-                </div>
-
-            </div>
-
-            <div class="form-actions">
-
-                <button class="btn-success" onclick="addRCA()">
-                    + Enregistrer RCA
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <div class="section-card">
-
-            <div class="table-wrap">
-
-                <table>
-
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Problème</th>
-                            <th>Équipement</th>
-                            <th>Cause racine</th>
-                            <th>Action</th>
-                            <th>Responsable</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-
-                    <tbody id="rcaBody"></tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- ================= PIECES ================= -->
-
-    <section id="section-pieces" class="tab-content">
-
-        <div class="section-card">
-
-            <h3>📦 Pièces de rechange</h3>
-
-            <div class="form-grid">
-
-                <div class="form-group">
-                    <label>Référence</label>
-                    <input id="partRef">
-                </div>
-
-                <div class="form-group">
-                    <label>Désignation</label>
-                    <input id="partDesignation">
-                </div>
-
-                <div class="form-group">
-                    <label>Stock</label>
-                    <input type="number" id="partStock">
-                </div>
-
-                <div class="form-group">
-                    <label>Stock minimum</label>
-                    <input type="number" id="partMinimum">
-                </div>
-
-            </div>
-
-            <div class="form-actions">
-
-                <button class="btn-success" onclick="addPart()">
-                    + Ajouter
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <div class="section-card">
-
-            <div class="table-wrap">
-
-                <table>
-
-                    <thead>
-                        <tr>
-                            <th>Référence</th>
-                            <th>Désignation</th>
-                            <th>Stock</th>
-                            <th>Minimum</th>
-                            <th>État</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-
-                    <tbody id="partsBody"></tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- ================= ZONES ================= -->
-
-    <section id="section-zones" class="tab-content">
-
-        <div class="section-card">
-
-            <h3>📍 Gestion des zones de production</h3>
-
-            <p style="color:#7895ae;margin:7px 0 15px">
-                Les zones servent à relier les équipements,
-                les OT et les KPI de maintenance.
-            </p>
-
-            <div class="form-grid">
-
-                <div class="form-group">
-                    <label>Nom de la zone</label>
-                    <input id="zoneName" placeholder="Ex: Préparation">
-                </div>
-
-                <div class="form-group">
-                    <label>Description</label>
-                    <input id="zoneDescription">
-                </div>
-
-                <div class="form-group">
-                    <label>Équipements principaux</label>
-                    <input id="zoneEquipment">
-                </div>
-
-            </div>
-
-            <div class="form-actions">
-
-                <button class="btn-success" onclick="addProductionZone()">
-                    + Ajouter zone
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <div class="section-card">
-
-            <div class="table-wrap">
-
-                <table>
-
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Zone</th>
-                            <th>Description</th>
-                            <th>Équipements principaux</th>
-                            <th>Nb équipements liés</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-
-                    <tbody id="productionZonesBody"></tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- ================= PLANNING ================= -->
-
-    <section id="section-planning" class="tab-content">
-
-        <div class="section-card">
-
-            <h3>📅 Planning Maintenance</h3>
-
-            <div class="form-grid">
-
-                <div class="form-group">
-                    <label>Date</label>
-                    <input type="date" id="planDate">
-                </div>
-
-                <div class="form-group">
-                    <label>Équipement</label>
-                    <select id="planEquipment"></select>
-                </div>
-
-                <div class="form-group">
-                    <label>Intervention</label>
-                    <input id="planIntervention">
-                </div>
-
-                <div class="form-group">
-                    <label>Technicien</label>
-                    <input id="planTechnician">
-                </div>
-
-            </div>
-
-            <div class="form-actions">
-
-                <button class="btn-success" onclick="addPlanning()">
-                    + Ajouter planning
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <div class="section-card">
-
-            <div class="table-wrap">
-
-                <table>
-
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Équipement</th>
-                            <th>Intervention</th>
-                            <th>Technicien</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-
-                    <tbody id="planningBody"></tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- ================= RAPPORT ================= -->
-
-    <section id="section-rapport" class="tab-content">
-
-        <div class="section-card">
-
-            <div class="section-header">
-
-                <h3>📋 Rapport journalier de maintenance</h3>
-
-                <button class="btn-info" onclick="generateReport()">
-                    Générer
-                </button>
-
-            </div>
-
-            <div class="form-grid">
-
-                <div class="form-group">
-                    <label>Date du rapport</label>
-                    <input type="date" id="reportDate">
-                </div>
-
-            </div>
-
-        </div>
-
-        <div id="dailyReport"></div>
-
-    </section>
-
-
-    <!-- ================= ADMIN ================= -->
-
-    <section id="section-admin" class="tab-content">
-
-        <div class="section-card">
-
-            <h3>🔐 Administration</h3>
-
-            <div class="form-grid">
-
-                <div class="form-group">
-
-                    <label>Nouveau mot de passe</label>
-
-                    <input
-                        type="password"
-                        id="newPassword"
-                    >
-
-                </div>
-
-            </div>
-
-            <div class="form-actions">
-
-                <button
-                    class="btn-success"
-                    onclick="changePassword()"
+                <input
+                    id="diResponsible"
+                    placeholder="Responsable"
                 >
-                    Modifier mot de passe
-                </button>
-
-                <button
-                    class="btn-warning"
-                    onclick="resetPassword()"
-                >
-                    Réinitialiser à 1234
-                </button>
 
             </div>
 
         </div>
 
 
-        <div class="section-card">
+        <div
+            class="form-group"
+            style="margin-top:12px"
+        >
 
-            <h3>📤 Exportation</h3>
+            <label>
+                Description du problème / besoin
+            </label>
 
-            <div class="form-actions">
-
-                <button class="btn-success" onclick="exportExcel()">
-                    📊 Export Excel
-                </button>
-
-                <button class="btn-info" onclick="window.print()">
-                    🖨 Impression / PDF
-                </button>
-
-            </div>
+            <textarea
+                id="diDescription"
+                placeholder="Décrire l'anomalie, le problème ou le besoin..."
+            ></textarea>
 
         </div>
 
 
-        <div class="section-card">
+        <div class="form-actions">
 
-            <h3>⚠️ Maintenance de la base locale</h3>
+            <button
+                class="btn-success"
+                onclick="saveDI()"
+            >
+                💾 Enregistrer DI
+            </button>
 
-            <p style="color:#7895ae;margin:8px 0 15px">
-                Cette opération supprime les données enregistrées
-                dans le navigateur.
-            </p>
-
-            <button class="btn-danger" onclick="clearDatabase()">
-                🗑 Réinitialiser la base
+            <button
+                class="btn-secondary"
+                onclick="clearDIForm()"
+            >
+                Réinitialiser
             </button>
 
         </div>
 
-    </section>
+    </div>
+
+
+    <!-- FILTRES -->
+
+    <div class="section-card">
+
+        <h3>
+            Recherche et filtrage des demandes
+        </h3>
+
+        <br>
+
+        <div class="filter-grid">
+
+            <input
+                id="diSearch"
+                placeholder="Recherche..."
+                oninput="refreshDI()"
+            >
+
+            <select
+                id="diFilterStatus"
+                onchange="refreshDI()"
+            >
+
+                <option value="">
+                    Tous statuts
+                </option>
+
+                <option>Nouvelle</option>
+                <option>Acceptée</option>
+                <option>En cours</option>
+                <option>Clôturée</option>
+                <option>Refusée</option>
+
+            </select>
+
+
+            <select
+                id="diFilterPriority"
+                onchange="refreshDI()"
+            >
+
+                <option value="">
+                    Toutes priorités
+                </option>
+
+                <option>Basse</option>
+                <option>Moyenne</option>
+                <option>Haute</option>
+                <option>Urgente</option>
+
+            </select>
+
+
+            <select
+                id="diFilterZone"
+                onchange="refreshDI()"
+            >
+
+                <option value="">
+                    Toutes zones
+                </option>
+
+            </select>
+
+
+            <select
+                id="diFilterType"
+                onchange="refreshDI()"
+            >
+
+                <option value="">
+                    Tous types
+                </option>
+
+                <option>Panne</option>
+                <option>Anomalie</option>
+                <option>Inspection</option>
+                <option>Préventif</option>
+                <option>Amélioration</option>
+
+            </select>
+
+        </div>
+
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>DI</th>
+                        <th>Date</th>
+                        <th>Demandeur</th>
+                        <th>Zone</th>
+                        <th>Équipement</th>
+                        <th>Type</th>
+                        <th>Priorité</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="diBody"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+EQUIPEMENTS
+===================================================== -->
+
+<section
+    id="section-equipment"
+    class="tab-content"
+>
+
+    <div class="section-card">
+
+        <h3>
+            ⚙️ Ajouter un équipement
+        </h3>
+
+        <br>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label>Code équipement</label>
+
+                <input
+                    id="eqCode"
+                    placeholder="EXTR-001"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Désignation</label>
+
+                <input
+                    id="eqDesignation"
+                    placeholder="Extrudeuse"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Zone</label>
+
+                <select id="eqZone"></select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Criticité</label>
+
+                <select id="eqCriticality">
+
+                    <option>A</option>
+                    <option>B</option>
+                    <option>C</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Marque</label>
+
+                <input
+                    id="eqBrand"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>État</label>
+
+                <select id="eqStatus">
+
+                    <option>En service</option>
+                    <option>Arrêt</option>
+                    <option>Maintenance</option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-actions">
+
+            <button
+                class="btn-success"
+                onclick="addEquipment()"
+            >
+                + Ajouter
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="section-card">
+
+        <div class="section-header">
+
+            <h3>
+                Liste des équipements
+            </h3>
+
+            <input
+                style="max-width:280px"
+                id="equipmentSearch"
+                placeholder="Rechercher..."
+                oninput="refreshEquipment()"
+            >
+
+        </div>
+
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Code</th>
+                        <th>Désignation</th>
+                        <th>Zone</th>
+                        <th>Criticité</th>
+                        <th>Marque</th>
+                        <th>État</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="equipmentBody"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+OT
+===================================================== -->
+
+<section
+    id="section-interventions"
+    class="tab-content"
+>
+
+    <div class="section-card">
+
+        <h3>
+            🛠 Ordre de Travail / Intervention
+        </h3>
+
+        <br>
+
+        <input
+            type="hidden"
+            id="editInterventionId"
+        >
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label>Date</label>
+
+                <input
+                    type="date"
+                    id="intDate"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>DI liée</label>
+
+                <select id="intDI"></select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Équipement</label>
+
+                <select
+                    id="intEquipment"
+                    onchange="updateInterventionZone()"
+                ></select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Zone automatique</label>
+
+                <input
+                    id="intZone"
+                    readonly
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Type</label>
+
+                <select id="intType">
+
+                    <option>Curative</option>
+                    <option>Préventive</option>
+                    <option>Amélioration</option>
+                    <option>Inspection</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Statut</label>
+
+                <select id="intStatus">
+
+                    <option>Ouvert</option>
+                    <option>En cours</option>
+                    <option>Clôturé</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Temps d'arrêt (min)</label>
+
+                <input
+                    type="number"
+                    id="intDowntime"
+                    min="0"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Temps réparation (min)</label>
+
+                <input
+                    type="number"
+                    id="intRepair"
+                    min="0"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Technicien</label>
+
+                <input id="intTechnician">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Problème</label>
+
+                <input id="intProblem">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Cause</label>
+
+                <input id="intCause">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Action réalisée</label>
+
+                <input id="intAction">
+
+            </div>
+
+        </div>
+
+
+        <div class="form-actions">
+
+            <button
+                class="btn-success"
+                onclick="saveIntervention()"
+            >
+                💾 Enregistrer OT
+            </button>
+
+            <button
+                class="btn-secondary"
+                onclick="cancelEdit()"
+            >
+                Réinitialiser
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="section-card">
+
+        <h3>
+            Recherche / Filtres
+        </h3>
+
+        <br>
+
+        <div class="filter-grid">
+
+            <input
+                id="intSearch"
+                placeholder="Recherche..."
+                oninput="refreshInterventions()"
+            >
+
+            <select
+                id="filterStatus"
+                onchange="refreshInterventions()"
+            >
+
+                <option value="">
+                    Tous statuts
+                </option>
+
+                <option>Ouvert</option>
+                <option>En cours</option>
+                <option>Clôturé</option>
+
+            </select>
+
+
+            <select
+                id="filterType"
+                onchange="refreshInterventions()"
+            >
+
+                <option value="">
+                    Tous types
+                </option>
+
+                <option>Curative</option>
+                <option>Préventive</option>
+                <option>Amélioration</option>
+                <option>Inspection</option>
+
+            </select>
+
+
+            <select
+                id="filterEquipment"
+                onchange="refreshInterventions()"
+            >
+
+                <option value="">
+                    Tous équipements
+                </option>
+
+            </select>
+
+
+            <select
+                id="filterZone"
+                onchange="refreshInterventions()"
+            >
+
+                <option value="">
+                    Toutes zones
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Date</th>
+                        <th>OT</th>
+                        <th>DI</th>
+                        <th>Équipement</th>
+                        <th>Zone</th>
+                        <th>Type</th>
+                        <th>Statut</th>
+                        <th>Arrêt</th>
+                        <th>Technicien</th>
+                        <th>Actions</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="interventionBody"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+PREVENTIF
+===================================================== -->
+
+<section
+    id="section-preventif"
+    class="tab-content"
+>
+
+    <div class="section-card">
+
+        <h3>
+            🔧 Maintenance Préventive
+        </h3>
+
+        <br>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label>Équipement</label>
+
+                <select id="prevEquipment"></select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Opération</label>
+
+                <input id="prevOperation">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Fréquence</label>
+
+                <select id="prevFrequency">
+
+                    <option>Quotidienne</option>
+                    <option>Hebdomadaire</option>
+                    <option>Mensuelle</option>
+                    <option>Trimestrielle</option>
+                    <option>Semestrielle</option>
+                    <option>Annuelle</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Prochaine date</label>
+
+                <input
+                    type="date"
+                    id="prevDate"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Statut</label>
+
+                <select id="prevStatus">
+
+                    <option>Planifiée</option>
+                    <option>Réalisée</option>
+                    <option>En retard</option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-actions">
+
+            <button
+                class="btn-success"
+                onclick="addPreventive()"
+            >
+                + Ajouter
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="section-card">
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Équipement</th>
+                        <th>Opération</th>
+                        <th>Fréquence</th>
+                        <th>Date</th>
+                        <th>Statut</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="preventiveBody"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+RCA
+===================================================== -->
+
+<section
+    id="section-rca"
+    class="tab-content"
+>
+
+    <div class="section-card">
+
+        <h3>
+            🔎 RCA / BDA
+        </h3>
+
+        <br>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label>Problème</label>
+
+                <input id="rcaProblem">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Équipement</label>
+
+                <select id="rcaEquipment"></select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Date</label>
+
+                <input
+                    type="date"
+                    id="rcaDate"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Cause 1</label>
+
+                <input id="rcaCause1">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Cause 2</label>
+
+                <input id="rcaCause2">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Cause 3</label>
+
+                <input id="rcaCause3">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Cause racine</label>
+
+                <input id="rcaRootCause">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Action corrective</label>
+
+                <input id="rcaAction">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Responsable</label>
+
+                <input id="rcaResponsible">
+
+            </div>
+
+        </div>
+
+
+        <div class="form-actions">
+
+            <button
+                class="btn-success"
+                onclick="addRCA()"
+            >
+                + Enregistrer RCA
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="section-card">
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Date</th>
+                        <th>Problème</th>
+                        <th>Équipement</th>
+                        <th>Cause racine</th>
+                        <th>Action</th>
+                        <th>Responsable</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="rcaBody"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+PIECES
+===================================================== -->
+
+<section
+    id="section-pieces"
+    class="tab-content"
+>
+
+    <div class="section-card">
+
+        <h3>
+            📦 Pièces de rechange
+        </h3>
+
+        <br>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label>Référence</label>
+
+                <input id="partRef">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Désignation</label>
+
+                <input id="partDesignation">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Stock</label>
+
+                <input
+                    type="number"
+                    id="partStock"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Stock minimum</label>
+
+                <input
+                    type="number"
+                    id="partMinimum"
+                >
+
+            </div>
+
+        </div>
+
+
+        <div class="form-actions">
+
+            <button
+                class="btn-success"
+                onclick="addPart()"
+            >
+                + Ajouter
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="section-card">
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Référence</th>
+                        <th>Désignation</th>
+                        <th>Stock</th>
+                        <th>Minimum</th>
+                        <th>État</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="partsBody"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+ZONES
+===================================================== -->
+
+<section
+    id="section-zones"
+    class="tab-content"
+>
+
+    <div class="section-card">
+
+        <h3>
+            📍 Gestion des zones de production
+        </h3>
+
+        <br>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label>Nom de la zone</label>
+
+                <input
+                    id="zoneName"
+                    placeholder="Préparation"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Description</label>
+
+                <input id="zoneDescription">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Équipements principaux</label>
+
+                <input id="zoneEquipment">
+
+            </div>
+
+        </div>
+
+
+        <div class="form-actions">
+
+            <button
+                class="btn-success"
+                onclick="addProductionZone()"
+            >
+                + Ajouter zone
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="section-card">
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+                        <th>Zone</th>
+                        <th>Description</th>
+                        <th>Équipements principaux</th>
+                        <th>Équipements liés</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="productionZonesBody"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+PLANNING
+===================================================== -->
+
+<section
+    id="section-planning"
+    class="tab-content"
+>
+
+    <div class="section-card">
+
+        <h3>
+            📅 Planning Maintenance
+        </h3>
+
+        <br>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label>Date</label>
+
+                <input
+                    type="date"
+                    id="planDate"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Équipement</label>
+
+                <select id="planEquipment"></select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Intervention</label>
+
+                <input id="planIntervention">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Technicien</label>
+
+                <input id="planTechnician">
+
+            </div>
+
+        </div>
+
+
+        <div class="form-actions">
+
+            <button
+                class="btn-success"
+                onclick="addPlanning()"
+            >
+                + Ajouter
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="section-card">
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Date</th>
+                        <th>Équipement</th>
+                        <th>Intervention</th>
+                        <th>Technicien</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="planningBody"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+RAPPORT
+===================================================== -->
+
+<section
+    id="section-rapport"
+    class="tab-content"
+>
+
+    <div class="section-card">
+
+        <div class="section-header">
+
+            <h3>
+                📋 Rapport journalier
+            </h3>
+
+            <button
+                class="btn-info"
+                onclick="generateReport()"
+            >
+                Générer
+            </button>
+
+        </div>
+
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label>Date du rapport</label>
+
+                <input
+                    type="date"
+                    id="reportDate"
+                >
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div id="dailyReport"></div>
+
+</section>
+
+
+<!-- =====================================================
+ADMINISTRATION / PASSWORD
+===================================================== -->
+
+<section
+    id="section-admin"
+    class="tab-content"
+>
+
+    <div class="section-card">
+
+        <h3>
+            🔐 Sécurité de la plateforme
+        </h3>
+
+        <p
+            style="color:#7895ae;margin:8px 0 20px"
+        >
+            Modification du mot de passe directement
+            depuis la plateforme.
+        </p>
+
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label>
+                    Ancien mot de passe
+                </label>
+
+                <input
+                    type="password"
+                    id="oldPassword"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Nouveau mot de passe
+                </label>
+
+                <input
+                    type="password"
+                    id="newPassword"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Confirmer nouveau mot de passe
+                </label>
+
+                <input
+                    type="password"
+                    id="confirmPassword"
+                >
+
+            </div>
+
+        </div>
+
+
+        <div class="form-actions">
+
+            <button
+                class="btn-success"
+                onclick="changePasswordSecure()"
+            >
+                🔐 Modifier le mot de passe
+            </button>
+
+            <button
+                class="btn-warning"
+                onclick="resetPassword()"
+            >
+                Réinitialiser à 1234
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="section-card">
+
+        <h3>
+            📤 Exportation des données
+        </h3>
+
+        <div class="form-actions">
+
+            <button
+                class="btn-success"
+                onclick="exportExcel()"
+            >
+                📊 Export Excel
+            </button>
+
+            <button
+                class="btn-info"
+                onclick="window.print()"
+            >
+                🖨 Impression / PDF
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="section-card">
+
+        <h3>
+            ⚠️ Base de données locale
+        </h3>
+
+        <p
+            style="color:#7895ae;margin:8px 0 15px"
+        >
+            Les données sont enregistrées dans le navigateur.
+        </p>
+
+        <button
+            class="btn-danger"
+            onclick="clearDatabase()"
+        >
+            🗑 Réinitialiser la base
+        </button>
+
+    </div>
+
+</section>
+
 
 </div>
 
@@ -1863,13 +2767,13 @@ tr:hover td{
 
 <script>
 
-/* =========================================================
-   DATABASE
-========================================================= */
+/* =====================================================
+DATABASE
+===================================================== */
 
-const DB_KEY = "GMAO_PRO_DB";
+const DB_KEY="GMAO_PRO_DB_V4";
 
-const DEFAULT_ZONES = [
+const DEFAULT_ZONES=[
 
     {
         id:1,
@@ -1881,28 +2785,28 @@ const DEFAULT_ZONES = [
     {
         id:2,
         name:"Moulage",
-        description:"Mise en forme de la matière",
+        description:"Mise en forme",
         equipment:"Extrudeuse, Coupeur"
     },
 
     {
         id:3,
         name:"Séchoir",
-        description:"Séchage des produits",
+        description:"Séchage",
         equipment:"Ventilation, Chariots"
     },
 
     {
         id:4,
         name:"Four",
-        description:"Cuisson des produits",
+        description:"Cuisson",
         equipment:"Brûleurs, Convoyeurs"
     },
 
     {
         id:5,
         name:"Empileuse",
-        description:"Empilage des produits",
+        description:"Empilage",
         equipment:"Automatisme, Moteurs"
     },
 
@@ -1921,43 +2825,53 @@ function defaultDB(){
     return {
 
         equipments:[],
+        demandes:[],
         interventions:[],
         preventive:[],
         rca:[],
         parts:[],
         planning:[],
-        zones:JSON.parse(JSON.stringify(DEFAULT_ZONES))
+        zones:JSON.parse(
+            JSON.stringify(DEFAULT_ZONES)
+        )
 
     };
 
 }
 
 
-let db = JSON.parse(localStorage.getItem(DB_KEY));
+let db=
+    JSON.parse(
+        localStorage.getItem(DB_KEY)
+    );
 
 
 if(!db){
 
-    db = defaultDB();
+    db=defaultDB();
 
     saveDB();
 
 }else{
 
-    db.equipments = db.equipments || [];
-    db.interventions = db.interventions || [];
-    db.preventive = db.preventive || [];
-    db.rca = db.rca || [];
-    db.parts = db.parts || [];
-    db.planning = db.planning || [];
-    db.zones = db.zones || [];
+    db.equipments=db.equipments||[];
+
+    db.demandes=db.demandes||[];
+
+    db.interventions=db.interventions||[];
+
+    db.preventive=db.preventive||[];
+
+    db.rca=db.rca||[];
+
+    db.parts=db.parts||[];
+
+    db.planning=db.planning||[];
+
+    db.zones=db.zones||[];
 
 }
 
-
-/* =========================================================
-   SAVE
-========================================================= */
 
 function saveDB(){
 
@@ -1969,170 +2883,13 @@ function saveDB(){
 }
 
 
-/* =========================================================
-   AUTH
-========================================================= */
-
-function checkAuth(){
-
-    const password =
-        localStorage.getItem("GMAO_PASSWORD") || "1234";
-
-    const input =
-        document.getElementById("passwordInput").value;
-
-    if(input === password){
-
-        document.getElementById("authScreen").style.display="none";
-
-        document.getElementById("app").style.display="block";
-
-        refreshAll();
-
-    }else{
-
-        alert("Mot de passe incorrect.");
-
-    }
-
-}
-
-
-function logout(){
-
-    document.getElementById("app").style.display="none";
-
-    document.getElementById("authScreen").style.display="flex";
-
-    document.getElementById("passwordInput").value="";
-
-}
-
-
-function changePassword(){
-
-    const p =
-        document.getElementById("newPassword").value.trim();
-
-    if(!p){
-
-        alert("Entrez un nouveau mot de passe.");
-
-        return;
-
-    }
-
-    localStorage.setItem("GMAO_PASSWORD",p);
-
-    document.getElementById("newPassword").value="";
-
-    alert("Mot de passe modifié.");
-
-}
-
-
-function resetPassword(){
-
-    if(confirm("Réinitialiser le mot de passe à 1234 ?")){
-
-        localStorage.setItem("GMAO_PASSWORD","1234");
-
-        alert("Mot de passe = 1234");
-
-    }
-
-}
-
-
-/* =========================================================
-   MODAL
-========================================================= */
-
-function openGMAO(section="dashboard"){
-
-    document.getElementById("gmaoModal").style.display="flex";
-
-    showSection(section);
-
-}
-
-
-function closeModal(){
-
-    document.getElementById("gmaoModal").style.display="none";
-
-}
-
-
-function showSection(section){
-
-    document
-        .querySelectorAll(".tab-content")
-        .forEach(x=>x.classList.remove("active"));
-
-    document
-        .querySelectorAll(".tab")
-        .forEach(x=>x.classList.remove("active"));
-
-    const target =
-        document.getElementById("section-"+section);
-
-    if(target){
-
-        target.classList.add("active");
-
-    }
-
-    document
-        .querySelectorAll(".tab")
-        .forEach(tab=>{
-
-            if(
-                tab.textContent
-                .toLowerCase()
-                .includes(
-                    section==="interventions"
-                    ?"ot"
-                    :section==="preventif"
-                    ?"préventif"
-                    :section==="equipment"
-                    ?"équipements"
-                    :section==="pieces"
-                    ?"pièces"
-                    :section==="zones"
-                    ?"zones"
-                    :section==="planning"
-                    ?"planning"
-                    :section==="rapport"
-                    ?"rapport"
-                    :section==="rca"
-                    ?"rca"
-                    :"dashboard"
-                )
-            ){
-
-                tab.classList.add("active");
-
-            }
-
-        });
-
-    if(section==="dashboard"){
-
-        updateZoneAnalytics();
-
-    }
-
-}
-
-
-/* =========================================================
-   UTILITIES
-========================================================= */
+/* =====================================================
+UTILITIES
+===================================================== */
 
 function escapeHTML(value){
 
-    return String(value ?? "")
+    return String(value??"")
         .replace(/&/g,"&amp;")
         .replace(/</g,"&lt;")
         .replace(/>/g,"&gt;")
@@ -2162,42 +2919,43 @@ function getZoneById(id){
 
 function getEquipmentLabel(i){
 
-    const eq = getEquipmentById(i.equipmentId);
+    const eq=
+        getEquipmentById(i.equipmentId);
 
     if(eq){
 
-        return eq.code+" - "+eq.designation;
+        return eq.code+
+            " - "+
+            eq.designation;
 
     }
 
-    return i.equipment || "Non affecté";
+    return i.equipment||"Non affecté";
 
 }
 
 
 function getInterventionZone(i){
 
-    if(i.zone){
-
+    if(i.zone)
         return i.zone;
 
-    }
-
-    const eq =
+    const eq=
         getEquipmentById(i.equipmentId);
 
     if(eq){
 
         if(eq.zoneId){
 
-            const z =
+            const z=
                 getZoneById(eq.zoneId);
 
-            if(z) return z.name;
+            if(z)
+                return z.name;
 
         }
 
-        if(eq.zone) return eq.zone;
+        return eq.zone||"Non affectée";
 
     }
 
@@ -2208,90 +2966,520 @@ function getInterventionZone(i){
 
 function isBreakdown(i){
 
-    return String(i.type || "")
+    return String(i.type||"")
         .toLowerCase()
         .includes("curative");
 
 }
 
 
-function sum(array){
+function sum(arr){
 
-    return array.reduce(
-        (total,v)=>total+(Number(v)||0),
+    return arr.reduce(
+        (a,b)=>a+(Number(b)||0),
         0
     );
 
 }
 
 
-/* =========================================================
-   ZONE MANAGEMENT
-========================================================= */
+/* =====================================================
+AUTH
+===================================================== */
 
-function addProductionZone(){
+function checkAuth(){
 
-    const name =
-        document.getElementById("zoneName").value.trim();
+    const password=
+        localStorage.getItem(
+            "GMAO_PASSWORD"
+        )||"1234";
 
-    const description =
-        document.getElementById("zoneDescription").value.trim();
+    const input=
+        document.getElementById(
+            "passwordInput"
+        ).value;
 
-    const equipment =
-        document.getElementById("zoneEquipment").value.trim();
+    if(input===password){
 
-    if(!name){
+        document.getElementById(
+            "authScreen"
+        ).style.display="none";
 
-        alert("Le nom de la zone est obligatoire.");
+        document.getElementById(
+            "app"
+        ).style.display="block";
+
+        refreshAll();
+
+    }else{
+
+        alert(
+            "Mot de passe incorrect."
+        );
+
+    }
+
+}
+
+
+function logout(){
+
+    document.getElementById(
+        "app"
+    ).style.display="none";
+
+    document.getElementById(
+        "authScreen"
+    ).style.display="flex";
+
+    document.getElementById(
+        "passwordInput"
+    ).value="";
+
+}
+
+
+/* =====================================================
+SECURE PASSWORD
+===================================================== */
+
+function changePasswordSecure(){
+
+    const oldPassword=
+        document.getElementById(
+            "oldPassword"
+        ).value;
+
+    const newPassword=
+        document.getElementById(
+            "newPassword"
+        ).value;
+
+    const confirmPassword=
+        document.getElementById(
+            "confirmPassword"
+        ).value;
+
+
+    const current=
+        localStorage.getItem(
+            "GMAO_PASSWORD"
+        )||"1234";
+
+
+    if(!oldPassword){
+
+        alert(
+            "Entrez l'ancien mot de passe."
+        );
 
         return;
 
     }
 
-    const id =
-        Date.now();
+
+    if(oldPassword!==current){
+
+        alert(
+            "Ancien mot de passe incorrect."
+        );
+
+        return;
+
+    }
+
+
+    if(!newPassword){
+
+        alert(
+            "Entrez le nouveau mot de passe."
+        );
+
+        return;
+
+    }
+
+
+    if(newPassword.length<4){
+
+        alert(
+            "Le mot de passe doit contenir au moins 4 caractères."
+        );
+
+        return;
+
+    }
+
+
+    if(newPassword!==confirmPassword){
+
+        alert(
+            "La confirmation ne correspond pas."
+        );
+
+        return;
+
+    }
+
+
+    localStorage.setItem(
+        "GMAO_PASSWORD",
+        newPassword
+    );
+
+
+    document.getElementById(
+        "oldPassword"
+    ).value="";
+
+    document.getElementById(
+        "newPassword"
+    ).value="";
+
+    document.getElementById(
+        "confirmPassword"
+    ).value="";
+
+
+    alert(
+        "Mot de passe modifié avec succès."
+    );
+
+}
+
+
+function resetPassword(){
+
+    if(
+        !confirm(
+            "Réinitialiser le mot de passe à 1234 ?"
+        )
+    )
+        return;
+
+
+    localStorage.setItem(
+        "GMAO_PASSWORD",
+        "1234"
+    );
+
+
+    alert(
+        "Le mot de passe est maintenant : 1234"
+    );
+
+}
+
+
+/* =====================================================
+MODAL
+===================================================== */
+
+function openGMAO(section){
+
+    document.getElementById(
+        "gmaoModal"
+    ).style.display="flex";
+
+    showSection(section);
+
+}
+
+
+function closeModal(){
+
+    document.getElementById(
+        "gmaoModal"
+    ).style.display="none";
+
+}
+
+
+function showSection(section){
+
+    document
+        .querySelectorAll(".tab-content")
+        .forEach(
+            x=>x.classList.remove("active")
+        );
+
+
+    document
+        .querySelectorAll(".tab")
+        .forEach(
+            x=>x.classList.remove("active")
+        );
+
+
+    const target=
+        document.getElementById(
+            "section-"+section
+        );
+
+
+    if(target)
+        target.classList.add("active");
+
+
+    const mapping={
+
+        dashboard:"dashboard",
+        demandes:"demandes",
+        equipment:"équipements",
+        interventions:"ot",
+        preventif:"préventif",
+        rca:"rca",
+        pieces:"pièces",
+        zones:"zones",
+        planning:"planning",
+        rapport:"rapport",
+        admin:"sécurité"
+
+    };
+
+
+    document
+        .querySelectorAll(".tab")
+        .forEach(tab=>{
+
+            if(
+                tab.textContent
+                    .toLowerCase()
+                    .includes(
+                        mapping[section]||section
+                    )
+            ){
+
+                tab.classList.add("active");
+
+            }
+
+        });
+
+
+    if(section==="dashboard")
+        updateZoneAnalytics();
+
+}
+
+
+/* =====================================================
+ZONES
+===================================================== */
+
+function refreshZoneSelect(){
+
+    const eqZone=
+        document.getElementById("eqZone");
+
+    if(eqZone){
+
+        const current=eqZone.value;
+
+        eqZone.innerHTML=
+            `<option value="">
+                -- Sélectionner zone --
+            </option>`;
+
+        db.zones.forEach(z=>{
+
+            eqZone.innerHTML+=`
+
+                <option value="${z.id}">
+                    ${escapeHTML(z.name)}
+                </option>
+
+            `;
+
+        });
+
+        eqZone.value=current;
+
+    }
+
+
+    const diZone=
+        document.getElementById("diZone");
+
+    if(diZone){
+
+        const current=diZone.value;
+
+        diZone.innerHTML=
+            `<option value="">
+                -- Toutes les zones --
+            </option>`;
+
+        db.zones.forEach(z=>{
+
+            diZone.innerHTML+=`
+
+                <option value="${z.id}">
+                    ${escapeHTML(z.name)}
+                </option>
+
+            `;
+
+        });
+
+        diZone.value=current;
+
+    }
+
+
+    const filterZone=
+        document.getElementById("filterZone");
+
+    if(filterZone){
+
+        const current=
+            filterZone.value;
+
+        filterZone.innerHTML=
+            `<option value="">
+                Toutes zones
+            </option>`;
+
+        db.zones.forEach(z=>{
+
+            filterZone.innerHTML+=`
+
+                <option value="${z.id}">
+                    ${escapeHTML(z.name)}
+                </option>
+
+            `;
+
+        });
+
+        filterZone.value=current;
+
+    }
+
+
+    const diFilterZone=
+        document.getElementById(
+            "diFilterZone"
+        );
+
+    if(diFilterZone){
+
+        const current=
+            diFilterZone.value;
+
+        diFilterZone.innerHTML=
+            `<option value="">
+                Toutes zones
+            </option>`;
+
+        db.zones.forEach(z=>{
+
+            diFilterZone.innerHTML+=`
+
+                <option value="${z.id}">
+                    ${escapeHTML(z.name)}
+                </option>
+
+            `;
+
+        });
+
+        diFilterZone.value=current;
+
+    }
+
+}
+
+
+function addProductionZone(){
+
+    const name=
+        document.getElementById(
+            "zoneName"
+        ).value.trim();
+
+    const description=
+        document.getElementById(
+            "zoneDescription"
+        ).value.trim();
+
+    const equipment=
+        document.getElementById(
+            "zoneEquipment"
+        ).value.trim();
+
+
+    if(!name){
+
+        alert(
+            "Le nom de la zone est obligatoire."
+        );
+
+        return;
+
+    }
+
 
     db.zones.push({
 
-        id,
+        id:Date.now(),
+
         name,
+
         description,
+
         equipment
 
     });
 
+
     saveDB();
 
-    document.getElementById("zoneName").value="";
-    document.getElementById("zoneDescription").value="";
-    document.getElementById("zoneEquipment").value="";
+
+    [
+        "zoneName",
+        "zoneDescription",
+        "zoneEquipment"
+    ].forEach(id=>{
+
+        document.getElementById(id).value="";
+
+    });
+
 
     refreshAll();
 
-    alert("Zone ajoutée avec succès.");
+
+    alert(
+        "Zone ajoutée."
+    );
 
 }
 
 
 function refreshProductionZones(){
 
-    const body =
-        document.getElementById("productionZonesBody");
+    const body=
+        document.getElementById(
+            "productionZonesBody"
+        );
 
     if(!body) return;
 
     body.innerHTML="";
 
+
     db.zones.forEach(z=>{
 
-        const linked =
+        const linked=
             db.equipments.filter(
-                e =>
+                e=>
                 String(e.zoneId)===String(z.id) ||
                 e.zone===z.name
             ).length;
 
-        body.innerHTML += `
+
+        body.innerHTML+=`
 
         <tr>
 
@@ -2331,29 +3519,38 @@ function refreshProductionZones(){
 
 function deleteProductionZone(id){
 
-    const linked =
+    const linked=
         db.equipments.filter(
             e=>String(e.zoneId)===String(id)
         );
 
+
     if(linked.length){
 
         alert(
-            "Impossible de supprimer cette zone.\n\n"+
+            "Impossible de supprimer cette zone.\n"+
             linked.length+
-            " équipement(s) lui sont encore liés."
+            " équipement(s) sont liés."
         );
 
         return;
 
     }
 
-    if(!confirm("Supprimer cette zone ?")) return;
 
-    db.zones =
+    if(
+        !confirm(
+            "Supprimer cette zone ?"
+        )
+    )
+        return;
+
+
+    db.zones=
         db.zones.filter(
             z=>String(z.id)!==String(id)
         );
+
 
     saveDB();
 
@@ -2362,56 +3559,44 @@ function deleteProductionZone(id){
 }
 
 
-/* =========================================================
-   EQUIPMENT
-========================================================= */
-
-function refreshZoneSelect(){
-
-    const select =
-        document.getElementById("eqZone");
-
-    if(!select) return;
-
-    select.innerHTML =
-        `<option value="">-- Sélectionner zone --</option>`;
-
-    db.zones.forEach(z=>{
-
-        select.innerHTML += `
-
-        <option value="${z.id}">
-            ${escapeHTML(z.name)}
-        </option>
-
-        `;
-
-    });
-
-}
-
+/* =====================================================
+EQUIPMENT
+===================================================== */
 
 function addEquipment(){
 
-    const code =
-        document.getElementById("eqCode").value.trim();
+    const code=
+        document.getElementById(
+            "eqCode"
+        ).value.trim();
 
-    const designation =
-        document.getElementById("eqDesignation").value.trim();
+    const designation=
+        document.getElementById(
+            "eqDesignation"
+        ).value.trim();
 
-    const zoneId =
-        document.getElementById("eqZone").value;
+    const zoneId=
+        document.getElementById(
+            "eqZone"
+        ).value;
 
-    const criticality =
-        document.getElementById("eqCriticality").value;
+    const criticality=
+        document.getElementById(
+            "eqCriticality"
+        ).value;
 
-    const brand =
-        document.getElementById("eqBrand").value.trim();
+    const brand=
+        document.getElementById(
+            "eqBrand"
+        ).value.trim();
 
-    const status =
-        document.getElementById("eqStatus").value;
+    const status=
+        document.getElementById(
+            "eqStatus"
+        ).value;
 
-    if(!code || !designation || !zoneId){
+
+    if(!code||!designation||!zoneId){
 
         alert(
             "Code, désignation et zone sont obligatoires."
@@ -2421,8 +3606,10 @@ function addEquipment(){
 
     }
 
-    const zone =
+
+    const zone=
         getZoneById(zoneId);
+
 
     db.equipments.push({
 
@@ -2434,7 +3621,8 @@ function addEquipment(){
 
         zoneId:Number(zoneId),
 
-        zone:zone ? zone.name : "",
+        zone:
+            zone?zone.name:"",
 
         criticality,
 
@@ -2444,13 +3632,20 @@ function addEquipment(){
 
     });
 
+
     saveDB();
 
-    clearInputs([
+
+    [
         "eqCode",
         "eqDesignation",
         "eqBrand"
-    ]);
+    ].forEach(id=>{
+
+        document.getElementById(id).value="";
+
+    });
+
 
     refreshAll();
 
@@ -2459,52 +3654,69 @@ function addEquipment(){
 
 function refreshEquipment(){
 
-    const body =
-        document.getElementById("equipmentBody");
+    const body=
+        document.getElementById(
+            "equipmentBody"
+        );
 
     if(!body) return;
 
-    const search =
-        (document.getElementById("equipmentSearch")?.value || "")
-        .toLowerCase();
+
+    const search=
+        (
+            document.getElementById(
+                "equipmentSearch"
+            )?.value||""
+        ).toLowerCase();
+
 
     body.innerHTML="";
 
+
     db.equipments
-        .filter(e=>{
-
-            const text =
-                (
-                    e.code+" "+
-                    e.designation+" "+
-                    e.zone+" "+
-                    e.brand
-                ).toLowerCase();
-
-            return text.includes(search);
-
-        })
+        .filter(e=>
+            (
+                e.code+" "+
+                e.designation+" "+
+                e.zone+" "+
+                e.brand
+            )
+            .toLowerCase()
+            .includes(search)
+        )
         .forEach(e=>{
 
-            body.innerHTML += `
+            body.innerHTML+=`
 
             <tr>
 
-                <td>${escapeHTML(e.code)}</td>
-
-                <td>${escapeHTML(e.designation)}</td>
-
                 <td>
-                    <span class="badge badge-blue">
-                        ${escapeHTML(e.zone || "Non affectée")}
-                    </span>
+                    ${escapeHTML(e.code)}
                 </td>
 
-                <td>${escapeHTML(e.criticality)}</td>
+                <td>
+                    ${escapeHTML(e.designation)}
+                </td>
 
-                <td>${escapeHTML(e.brand)}</td>
+                <td>
 
-                <td>${escapeHTML(e.status)}</td>
+                    <span class="badge badge-blue">
+                        ${escapeHTML(e.zone)}
+                    </span>
+
+                </td>
+
+                <td>
+                    ${escapeHTML(e.criticality)}
+                </td>
+
+                <td>
+                    ${escapeHTML(e.brand)}
+                </td>
+
+                <td>
+                    ${escapeHTML(e.status)}
+                </td>
 
                 <td>
 
@@ -2528,12 +3740,19 @@ function refreshEquipment(){
 
 function deleteEquipment(id){
 
-    if(!confirm("Supprimer cet équipement ?")) return;
+    if(
+        !confirm(
+            "Supprimer cet équipement ?"
+        )
+    )
+        return;
 
-    db.equipments =
+
+    db.equipments=
         db.equipments.filter(
             e=>e.id!==id
         );
+
 
     saveDB();
 
@@ -2542,13 +3761,13 @@ function deleteEquipment(id){
 }
 
 
-/* =========================================================
-   EQUIPMENT SELECTS
-========================================================= */
+/* =====================================================
+EQUIPMENT SELECTS
+===================================================== */
 
 function refreshEquipmentSelects(){
 
-    const selects = [
+    const selects=[
 
         "intEquipment",
         "prevEquipment",
@@ -2557,138 +3776,1007 @@ function refreshEquipmentSelects(){
 
     ];
 
+
     selects.forEach(id=>{
 
-        const select =
+        const select=
             document.getElementById(id);
 
         if(!select) return;
 
-        const current =
+
+        const current=
             select.value;
 
-        select.innerHTML =
-            `<option value="">-- Sélectionner --</option>`;
+
+        select.innerHTML=
+            `<option value="">
+                -- Sélectionner --
+            </option>`;
+
 
         db.equipments.forEach(e=>{
 
-            select.innerHTML += `
+            select.innerHTML+=`
 
-            <option value="${e.id}">
-                ${escapeHTML(e.code)} -
-                ${escapeHTML(e.designation)}
-            </option>
+                <option value="${e.id}">
+                    ${escapeHTML(e.code)}
+                    -
+                    ${escapeHTML(e.designation)}
+                </option>
 
             `;
 
         });
 
-        if(current){
 
-            select.value=current;
-
-        }
+        select.value=current;
 
     });
 
 
-    const filter =
-        document.getElementById("filterEquipment");
+    const diEquipment=
+        document.getElementById(
+            "diEquipment"
+        );
 
-    if(filter){
 
-        const current=filter.value;
+    if(diEquipment){
 
-        filter.innerHTML =
-            `<option value="">Tous équipements</option>`;
+        const current=
+            diEquipment.value;
+
+        diEquipment.innerHTML=
+            `<option value="">
+                -- Sélectionner --
+            </option>`;
+
 
         db.equipments.forEach(e=>{
 
-            filter.innerHTML += `
+            diEquipment.innerHTML+=`
 
-            <option value="${e.id}">
-                ${escapeHTML(e.code)} - ${escapeHTML(e.designation)}
-            </option>
+                <option
+                    value="${e.id}"
+                    data-zone="${e.zoneId}"
+                >
+                    ${escapeHTML(e.code)}
+                    -
+                    ${escapeHTML(e.designation)}
+                </option>
 
             `;
 
         });
 
+
+        diEquipment.value=current;
+
+    }
+
+
+    const filter=
+        document.getElementById(
+            "filterEquipment"
+        );
+
+
+    if(filter){
+
+        const current=
+            filter.value;
+
+        filter.innerHTML=
+            `<option value="">
+                Tous équipements
+            </option>`;
+
+
+        db.equipments.forEach(e=>{
+
+            filter.innerHTML+=`
+
+                <option value="${e.id}">
+                    ${escapeHTML(e.code)}
+                    -
+                    ${escapeHTML(e.designation)}
+                </option>
+
+            `;
+
+        });
+
+
         filter.value=current;
 
     }
+
+
+    refreshDIEquipment();
 
 }
 
 
 function updateInterventionZone(){
 
-    const equipmentId =
-        document.getElementById("intEquipment").value;
+    const equipmentId=
+        document.getElementById(
+            "intEquipment"
+        ).value;
 
-    const eq =
+
+    const eq=
         getEquipmentById(equipmentId);
 
-    const field =
-        document.getElementById("intZone");
 
-    if(eq){
+    document.getElementById(
+        "intZone"
+    ).value=
+        eq?.zone||"";
 
-        field.value =
-            eq.zone || "";
+}
+
+
+/* =====================================================
+DEMANDE D'INTERVENTION
+===================================================== */
+
+function refreshDIEquipment(){
+
+    const zoneId=
+        document.getElementById(
+            "diZone"
+        )?.value;
+
+
+    const select=
+        document.getElementById(
+            "diEquipment"
+        );
+
+
+    if(!select) return;
+
+
+    const current=
+        select.value;
+
+
+    select.innerHTML=
+        `<option value="">
+            -- Sélectionner --
+        </option>`;
+
+
+    db.equipments
+        .filter(e=>
+            !zoneId ||
+            String(e.zoneId)===String(zoneId)
+        )
+        .forEach(e=>{
+
+            select.innerHTML+=`
+
+                <option value="${e.id}">
+                    ${escapeHTML(e.code)}
+                    -
+                    ${escapeHTML(e.designation)}
+                </option>
+
+            `;
+
+        });
+
+
+    select.value=current;
+
+}
+
+
+function filterDIEquipment(){
+
+    refreshDIEquipment();
+
+}
+
+
+function saveDI(){
+
+    const editId=
+        document.getElementById(
+            "editDIId"
+        ).value;
+
+
+    const date=
+        document.getElementById(
+            "diDate"
+        ).value;
+
+    const time=
+        document.getElementById(
+            "diTime"
+        ).value;
+
+    const requester=
+        document.getElementById(
+            "diRequester"
+        ).value.trim();
+
+    const zoneId=
+        document.getElementById(
+            "diZone"
+        ).value;
+
+    const equipmentId=
+        document.getElementById(
+            "diEquipment"
+        ).value;
+
+    const priority=
+        document.getElementById(
+            "diPriority"
+        ).value;
+
+    const type=
+        document.getElementById(
+            "diType"
+        ).value;
+
+    const status=
+        document.getElementById(
+            "diStatus"
+        ).value;
+
+    const responsible=
+        document.getElementById(
+            "diResponsible"
+        ).value.trim();
+
+    const description=
+        document.getElementById(
+            "diDescription"
+        ).value.trim();
+
+
+    if(
+        !date||
+        !requester||
+        !zoneId||
+        !description
+    ){
+
+        alert(
+            "Date, demandeur, zone et description sont obligatoires."
+        );
+
+        return;
+
+    }
+
+
+    const zone=
+        getZoneById(zoneId);
+
+    const eq=
+        getEquipmentById(equipmentId);
+
+
+    const obj={
+
+        date,
+
+        time,
+
+        requester,
+
+        zoneId:Number(zoneId),
+
+        zone:
+            zone?zone.name:"",
+
+        equipmentId:
+            equipmentId?
+            Number(equipmentId):
+            "",
+
+        equipment:
+            eq?
+            `${eq.code} - ${eq.designation}`:
+            "",
+
+        priority,
+
+        type,
+
+        status,
+
+        responsible,
+
+        description
+
+    };
+
+
+    if(editId){
+
+        const index=
+            db.demandes.findIndex(
+                d=>String(d.id)===String(editId)
+            );
+
+
+        if(index>=0){
+
+            db.demandes[index]={
+                ...db.demandes[index],
+                ...obj
+            };
+
+        }
 
     }else{
 
-        field.value="";
+        db.demandes.push({
+
+            id:Date.now(),
+
+            ...obj
+
+        });
+
+    }
+
+
+    saveDB();
+
+    clearDIForm();
+
+    refreshAll();
+
+}
+
+
+function clearDIForm(){
+
+    document.getElementById(
+        "editDIId"
+    ).value="";
+
+    document.getElementById(
+        "diDate"
+    ).value=
+        new Date()
+        .toISOString()
+        .slice(0,10);
+
+    document.getElementById(
+        "diTime"
+    ).value="";
+
+    document.getElementById(
+        "diRequester"
+    ).value="";
+
+    document.getElementById(
+        "diZone"
+    ).value="";
+
+    document.getElementById(
+        "diEquipment"
+    ).value="";
+
+    document.getElementById(
+        "diPriority"
+    ).value="Moyenne";
+
+    document.getElementById(
+        "diType"
+    ).value="Panne";
+
+    document.getElementById(
+        "diStatus"
+    ).value="Nouvelle";
+
+    document.getElementById(
+        "diResponsible"
+    ).value="";
+
+    document.getElementById(
+        "diDescription"
+    ).value="";
+
+    refreshDIEquipment();
+
+}
+
+
+function editDI(id){
+
+    const d=
+        db.demandes.find(
+            x=>String(x.id)===String(id)
+        );
+
+
+    if(!d) return;
+
+
+    document.getElementById(
+        "editDIId"
+    ).value=d.id;
+
+    document.getElementById(
+        "diDate"
+    ).value=d.date||"";
+
+    document.getElementById(
+        "diTime"
+    ).value=d.time||"";
+
+    document.getElementById(
+        "diRequester"
+    ).value=d.requester||"";
+
+    document.getElementById(
+        "diZone"
+    ).value=d.zoneId||"";
+
+    refreshDIEquipment();
+
+    document.getElementById(
+        "diEquipment"
+    ).value=d.equipmentId||"";
+
+    document.getElementById(
+        "diPriority"
+    ).value=d.priority||"Moyenne";
+
+    document.getElementById(
+        "diType"
+    ).value=d.type||"Panne";
+
+    document.getElementById(
+        "diStatus"
+    ).value=d.status||"Nouvelle";
+
+    document.getElementById(
+        "diResponsible"
+    ).value=d.responsible||"";
+
+    document.getElementById(
+        "diDescription"
+    ).value=d.description||"";
+
+}
+
+
+function deleteDI(id){
+
+    if(
+        !confirm(
+            "Supprimer cette demande d'intervention ?"
+        )
+    )
+        return;
+
+
+    db.demandes=
+        db.demandes.filter(
+            d=>d.id!==id
+        );
+
+
+    saveDB();
+
+    refreshAll();
+
+}
+
+
+function convertDItoOT(id){
+
+    const d=
+        db.demandes.find(
+            x=>String(x.id)===String(id)
+        );
+
+
+    if(!d) return;
+
+
+    if(!d.equipmentId){
+
+        alert(
+            "Cette DI ne possède pas encore d'équipement."
+        );
+
+        return;
+
+    }
+
+
+    const existing=
+        db.interventions.find(
+            i=>String(i.diId)===String(id)
+        );
+
+
+    if(existing){
+
+        alert(
+            "Cette DI possède déjà un OT : OT-"+existing.id
+        );
+
+        return;
+
+    }
+
+
+    const eq=
+        getEquipmentById(d.equipmentId);
+
+
+    db.interventions.push({
+
+        id:Date.now(),
+
+        diId:d.id,
+
+        diNumber:
+            "DI-"+d.id,
+
+        date:d.date,
+
+        equipmentId:
+            d.equipmentId,
+
+        equipment:
+            eq?
+            `${eq.code} - ${eq.designation}`:
+            d.equipment,
+
+        zoneId:
+            d.zoneId,
+
+        zone:
+            d.zone,
+
+        type:
+            d.type==="Panne"
+            ?"Curative"
+            :d.type==="Préventif"
+            ?"Préventive"
+            :"Inspection",
+
+        status:"Ouvert",
+
+        downtime:0,
+
+        repair:0,
+
+        technician:"",
+
+        problem:d.description,
+
+        cause:"",
+
+        action:""
+
+    });
+
+
+    d.status="Acceptée";
+
+    d.converted=true;
+
+
+    saveDB();
+
+    refreshAll();
+
+
+    alert(
+        "DI convertie en OT avec succès.\n\n"+
+        "OT créé automatiquement."
+    );
+
+
+    openGMAO(
+        "interventions"
+    );
+
+}
+
+
+function refreshDI(){
+
+    const body=
+        document.getElementById(
+            "diBody"
+        );
+
+    if(!body) return;
+
+
+    const search=
+        (
+            document.getElementById(
+                "diSearch"
+            )?.value||""
+        ).toLowerCase();
+
+
+    const status=
+        document.getElementById(
+            "diFilterStatus"
+        )?.value||"";
+
+
+    const priority=
+        document.getElementById(
+            "diFilterPriority"
+        )?.value||"";
+
+
+    const zone=
+        document.getElementById(
+            "diFilterZone"
+        )?.value||"";
+
+
+    const type=
+        document.getElementById(
+            "diFilterType"
+        )?.value||"";
+
+
+    body.innerHTML="";
+
+
+    db.demandes
+        .filter(d=>{
+
+            const text=
+                (
+                    d.requester+" "+
+                    d.description+" "+
+                    d.equipment+" "+
+                    d.zone
+                ).toLowerCase();
+
+
+            if(
+                search &&
+                !text.includes(search)
+            )
+                return false;
+
+
+            if(
+                status &&
+                d.status!==status
+            )
+                return false;
+
+
+            if(
+                priority &&
+                d.priority!==priority
+            )
+                return false;
+
+
+            if(
+                zone &&
+                String(d.zoneId)!==String(zone)
+            )
+                return false;
+
+
+            if(
+                type &&
+                d.type!==type
+            )
+                return false;
+
+
+            return true;
+
+        })
+        .sort(
+            (a,b)=>
+            new Date(b.date)-
+            new Date(a.date)
+        )
+        .forEach(d=>{
+
+            let priorityClass=
+                "badge-blue";
+
+
+            if(d.priority==="Urgente")
+                priorityClass="badge-red";
+
+            else if(d.priority==="Haute")
+                priorityClass="badge-orange";
+
+
+            let statusClass=
+                "badge-blue";
+
+
+            if(d.status==="Nouvelle")
+                statusClass="badge-red";
+
+            if(d.status==="Acceptée")
+                statusClass="badge-orange";
+
+            if(d.status==="Clôturée")
+                statusClass="badge-green";
+
+
+            const existingOT=
+                db.interventions.find(
+                    i=>
+                    String(i.diId)===
+                    String(d.id)
+                );
+
+
+            body.innerHTML+=`
+
+            <tr>
+
+                <td>
+                    <strong>DI-${d.id}</strong>
+                </td>
+
+                <td>
+                    ${escapeHTML(d.date)}
+                    ${d.time?
+                        "<br>"+escapeHTML(d.time):
+                        ""}
+                </td>
+
+                <td>
+                    ${escapeHTML(d.requester)}
+                </td>
+
+                <td>
+                    <span class="badge badge-blue">
+                        ${escapeHTML(d.zone)}
+                    </span>
+                </td>
+
+                <td>
+                    ${escapeHTML(
+                        d.equipment||
+                        "Non affecté"
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHTML(d.type)}
+                </td>
+
+                <td>
+                    <span class="badge ${priorityClass}">
+                        ${escapeHTML(d.priority)}
+                    </span>
+                </td>
+
+                <td>
+                    <span class="badge ${statusClass}">
+                        ${escapeHTML(d.status)}
+                    </span>
+                </td>
+
+                <td>
+
+                    <button
+                        class="btn-info"
+                        onclick="editDI(${d.id})"
+                    >
+                        ✏️
+                    </button>
+
+                    ${
+                        !existingOT &&
+                        d.status!=="Refusée" &&
+                        d.status!=="Clôturée"
+                        ?
+                        `
+                        <button
+                            class="btn-success"
+                            onclick="convertDItoOT(${d.id})"
+                            title="Créer OT"
+                        >
+                            ➜ OT
+                        </button>
+                        `
+                        :
+                        existingOT
+                        ?
+                        `
+                        <span class="badge badge-green">
+                            OT-${existingOT.id}
+                        </span>
+                        `
+                        :
+                        ""
+                    }
+
+                    <button
+                        class="btn-danger"
+                        onclick="deleteDI(${d.id})"
+                    >
+                        🗑
+                    </button>
+
+                </td>
+
+            </tr>
+
+            `;
+
+        });
+
+
+    const notification=
+        document.getElementById(
+            "diNotification"
+        );
+
+
+    const newCount=
+        db.demandes.filter(
+            d=>d.status==="Nouvelle"
+        ).length;
+
+
+    if(notification){
+
+        if(newCount){
+
+            notification.style.display="block";
+
+            notification.innerHTML=
+                `⚠️ <strong>${newCount}</strong>
+                 demande(s) d'intervention
+                 nouvelle(s) à traiter.`;
+
+        }else{
+
+            notification.style.display="none";
+
+        }
 
     }
 
 }
 
 
-/* =========================================================
-   INTERVENTIONS
-========================================================= */
+/* =====================================================
+OT
+===================================================== */
+
+function refreshDISelect(){
+
+    const select=
+        document.getElementById(
+            "intDI"
+        );
+
+    if(!select) return;
+
+
+    const current=
+        select.value;
+
+
+    select.innerHTML=
+        `<option value="">
+            -- Aucune DI --
+        </option>`;
+
+
+    db.demandes.forEach(d=>{
+
+        select.innerHTML+=`
+
+            <option value="${d.id}">
+                DI-${d.id} -
+                ${escapeHTML(d.requester)}
+                -
+                ${escapeHTML(d.zone)}
+            </option>
+
+        `;
+
+    });
+
+
+    select.value=current;
+
+}
+
 
 function saveIntervention(){
 
-    const editId =
-        document.getElementById("editInterventionId").value;
+    const editId=
+        document.getElementById(
+            "editInterventionId"
+        ).value;
 
-    const date =
-        document.getElementById("intDate").value;
 
-    const equipmentId =
-        document.getElementById("intEquipment").value;
+    const date=
+        document.getElementById(
+            "intDate"
+        ).value;
 
-    const type =
-        document.getElementById("intType").value;
+    const diId=
+        document.getElementById(
+            "intDI"
+        ).value;
 
-    const status =
-        document.getElementById("intStatus").value;
+    const equipmentId=
+        document.getElementById(
+            "intEquipment"
+        ).value;
 
-    const downtime =
-        Number(document.getElementById("intDowntime").value)||0;
+    const type=
+        document.getElementById(
+            "intType"
+        ).value;
 
-    const repair =
-        Number(document.getElementById("intRepair").value)||0;
+    const status=
+        document.getElementById(
+            "intStatus"
+        ).value;
 
-    const technician =
-        document.getElementById("intTechnician").value.trim();
+    const downtime=
+        Number(
+            document.getElementById(
+                "intDowntime"
+            ).value
+        )||0;
 
-    const problem =
-        document.getElementById("intProblem").value.trim();
+    const repair=
+        Number(
+            document.getElementById(
+                "intRepair"
+            ).value
+        )||0;
 
-    const cause =
-        document.getElementById("intCause").value.trim();
+    const technician=
+        document.getElementById(
+            "intTechnician"
+        ).value.trim();
 
-    const action =
-        document.getElementById("intAction").value.trim();
+    const problem=
+        document.getElementById(
+            "intProblem"
+        ).value.trim();
 
-    const eq =
-        getEquipmentById(equipmentId);
+    const cause=
+        document.getElementById(
+            "intCause"
+        ).value.trim();
 
-    if(!date || !equipmentId){
+    const action=
+        document.getElementById(
+            "intAction"
+        ).value.trim();
+
+
+    const eq=
+        getEquipmentById(
+            equipmentId
+        );
+
+
+    if(!date||!equipmentId){
 
         alert(
             "Date et équipement obligatoires."
@@ -2698,19 +4786,34 @@ function saveIntervention(){
 
     }
 
+
     const obj={
 
         date,
 
-        equipmentId:Number(equipmentId),
+        diId:
+            diId?
+            Number(diId):
+            "",
 
-        equipment:eq
-            ? `${eq.code} - ${eq.designation}`
-            : "",
+        diNumber:
+            diId?
+            "DI-"+diId:
+            "",
 
-        zoneId:eq?.zoneId || "",
+        equipmentId:
+            Number(equipmentId),
 
-        zone:eq?.zone || "",
+        equipment:
+            eq?
+            `${eq.code} - ${eq.designation}`:
+            "",
+
+        zoneId:
+            eq?.zoneId||"",
+
+        zone:
+            eq?.zone||"",
 
         type,
 
@@ -2733,10 +4836,11 @@ function saveIntervention(){
 
     if(editId){
 
-        const index =
+        const index=
             db.interventions.findIndex(
-                x=>String(x.id)===String(editId)
+                i=>String(i.id)===String(editId)
             );
+
 
         if(index>=0){
 
@@ -2752,11 +4856,38 @@ function saveIntervention(){
         db.interventions.push({
 
             id:Date.now(),
+
             ...obj
 
         });
 
     }
+
+
+    if(diId){
+
+        const d=
+            db.demandes.find(
+                x=>String(x.id)===String(diId)
+            );
+
+
+        if(d){
+
+            if(status==="Clôturé"){
+
+                d.status="Clôturée";
+
+            }else{
+
+                d.status="En cours";
+
+            }
+
+        }
+
+    }
+
 
     saveDB();
 
@@ -2769,43 +4900,63 @@ function saveIntervention(){
 
 function editIntervention(id){
 
-    const i =
+    const i=
         db.interventions.find(
             x=>String(x.id)===String(id)
         );
 
+
     if(!i) return;
 
-    document.getElementById("editInterventionId").value=i.id;
 
-    document.getElementById("intDate").value=i.date || "";
+    document.getElementById(
+        "editInterventionId"
+    ).value=i.id;
 
-    document.getElementById("intEquipment").value=
-        i.equipmentId || "";
+    document.getElementById(
+        "intDate"
+    ).value=i.date||"";
 
-    document.getElementById("intType").value=
-        i.type || "Curative";
+    document.getElementById(
+        "intDI"
+    ).value=i.diId||"";
 
-    document.getElementById("intStatus").value=
-        i.status || "Ouvert";
+    document.getElementById(
+        "intEquipment"
+    ).value=i.equipmentId||"";
 
-    document.getElementById("intDowntime").value=
-        i.downtime || 0;
+    document.getElementById(
+        "intType"
+    ).value=i.type||"Curative";
 
-    document.getElementById("intRepair").value=
-        i.repair || 0;
+    document.getElementById(
+        "intStatus"
+    ).value=i.status||"Ouvert";
 
-    document.getElementById("intTechnician").value=
-        i.technician || "";
+    document.getElementById(
+        "intDowntime"
+    ).value=i.downtime||0;
 
-    document.getElementById("intProblem").value=
-        i.problem || "";
+    document.getElementById(
+        "intRepair"
+    ).value=i.repair||0;
 
-    document.getElementById("intCause").value=
-        i.cause || "";
+    document.getElementById(
+        "intTechnician"
+    ).value=i.technician||"";
 
-    document.getElementById("intAction").value=
-        i.action || "";
+    document.getElementById(
+        "intProblem"
+    ).value=i.problem||"";
+
+    document.getElementById(
+        "intCause"
+    ).value=i.cause||"";
+
+    document.getElementById(
+        "intAction"
+    ).value=i.action||"";
+
 
     updateInterventionZone();
 
@@ -2814,12 +4965,19 @@ function editIntervention(id){
 
 function deleteIntervention(id){
 
-    if(!confirm("Supprimer cet OT ?")) return;
+    if(
+        !confirm(
+            "Supprimer cet OT ?"
+        )
+    )
+        return;
 
-    db.interventions =
+
+    db.interventions=
         db.interventions.filter(
             i=>i.id!==id
         );
+
 
     saveDB();
 
@@ -2837,61 +4995,110 @@ function cancelEdit(){
 
 function clearInterventionForm(){
 
-    document.getElementById("editInterventionId").value="";
+    document.getElementById(
+        "editInterventionId"
+    ).value="";
 
-    document.getElementById("intDate").value="";
+    document.getElementById(
+        "intDate"
+    ).value="";
 
-    document.getElementById("intEquipment").value="";
+    document.getElementById(
+        "intDI"
+    ).value="";
 
-    document.getElementById("intZone").value="";
+    document.getElementById(
+        "intEquipment"
+    ).value="";
 
-    document.getElementById("intType").value="Curative";
+    document.getElementById(
+        "intZone"
+    ).value="";
 
-    document.getElementById("intStatus").value="Ouvert";
+    document.getElementById(
+        "intType"
+    ).value="Curative";
 
-    document.getElementById("intDowntime").value="";
+    document.getElementById(
+        "intStatus"
+    ).value="Ouvert";
 
-    document.getElementById("intRepair").value="";
+    document.getElementById(
+        "intDowntime"
+    ).value="";
 
-    document.getElementById("intTechnician").value="";
+    document.getElementById(
+        "intRepair"
+    ).value="";
 
-    document.getElementById("intProblem").value="";
+    document.getElementById(
+        "intTechnician"
+    ).value="";
 
-    document.getElementById("intCause").value="";
+    document.getElementById(
+        "intProblem"
+    ).value="";
 
-    document.getElementById("intAction").value="";
+    document.getElementById(
+        "intCause"
+    ).value="";
+
+    document.getElementById(
+        "intAction"
+    ).value="";
 
 }
 
 
 function refreshInterventions(){
 
-    const body =
-        document.getElementById("interventionBody");
+    const body=
+        document.getElementById(
+            "interventionBody"
+        );
 
     if(!body) return;
 
-    const search =
+
+    const search=
         (
-            document.getElementById("intSearch")?.value || ""
+            document.getElementById(
+                "intSearch"
+            )?.value||""
         ).toLowerCase();
 
-    const status =
-        document.getElementById("filterStatus")?.value || "";
 
-    const type =
-        document.getElementById("filterType")?.value || "";
+    const status=
+        document.getElementById(
+            "filterStatus"
+        )?.value||"";
 
-    const equipment =
-        document.getElementById("filterEquipment")?.value || "";
+
+    const type=
+        document.getElementById(
+            "filterType"
+        )?.value||"";
+
+
+    const equipment=
+        document.getElementById(
+            "filterEquipment"
+        )?.value||"";
+
+
+    const zone=
+        document.getElementById(
+            "filterZone"
+        )?.value||"";
+
 
     body.innerHTML="";
 
-    db.interventions
 
+    db.interventions
         .filter(i=>{
 
-            const text =
+            const text=
                 (
                     i.problem+" "+
                     i.cause+" "+
@@ -2901,33 +5108,57 @@ function refreshInterventions(){
                     getInterventionZone(i)
                 ).toLowerCase();
 
-            if(search && !text.includes(search))
+
+            if(
+                search &&
+                !text.includes(search)
+            )
                 return false;
 
-            if(status && i.status!==status)
+
+            if(
+                status &&
+                i.status!==status
+            )
                 return false;
 
-            if(type && i.type!==type)
+
+            if(
+                type &&
+                i.type!==type
+            )
                 return false;
+
 
             if(
                 equipment &&
-                String(i.equipmentId)!==String(equipment)
+                String(i.equipmentId)!==
+                String(equipment)
             )
                 return false;
+
+
+            if(
+                zone &&
+                String(i.zoneId)!==
+                String(zone)
+            )
+                return false;
+
 
             return true;
 
         })
-
         .sort(
             (a,b)=>
-            new Date(b.date)-new Date(a.date)
+            new Date(b.date)-
+            new Date(a.date)
         )
-
         .forEach(i=>{
 
-            let badge="badge-blue";
+            let badge=
+                "badge-blue";
+
 
             if(i.status==="Clôturé")
                 badge="badge-green";
@@ -2938,33 +5169,65 @@ function refreshInterventions(){
             if(i.status==="Ouvert")
                 badge="badge-red";
 
-            body.innerHTML += `
+
+            body.innerHTML+=`
 
             <tr>
 
-                <td>${escapeHTML(i.date)}</td>
+                <td>
+                    ${escapeHTML(i.date)}
+                </td>
 
-                <td>OT-${i.id}</td>
+                <td>
+                    OT-${i.id}
+                </td>
 
-                <td>${escapeHTML(getEquipmentLabel(i))}</td>
+                <td>
+                    ${
+                        i.diId
+                        ?
+                        `<span class="badge badge-blue">
+                            DI-${i.diId}
+                         </span>`
+                        :
+                        "—"
+                    }
+                </td>
+
+                <td>
+                    ${escapeHTML(
+                        getEquipmentLabel(i)
+                    )}
+                </td>
 
                 <td>
                     <span class="badge badge-blue">
-                        ${escapeHTML(getInterventionZone(i))}
+                        ${escapeHTML(
+                            getInterventionZone(i)
+                        )}
                     </span>
                 </td>
 
-                <td>${escapeHTML(i.type)}</td>
+                <td>
+                    ${escapeHTML(i.type)}
+                </td>
 
                 <td>
+
                     <span class="badge ${badge}">
                         ${escapeHTML(i.status)}
                     </span>
+
                 </td>
 
-                <td>${Number(i.downtime)||0} min</td>
+                <td>
+                    ${Number(i.downtime)||0}
+                    min
+                </td>
 
-                <td>${escapeHTML(i.technician)}</td>
+                <td>
+                    ${escapeHTML(i.technician)}
+                </td>
 
                 <td>
 
@@ -2993,47 +5256,70 @@ function refreshInterventions(){
 }
 
 
-/* =========================================================
-   PREVENTIVE
-========================================================= */
+/* =====================================================
+PREVENTIVE
+===================================================== */
 
 function addPreventive(){
 
-    const equipmentId =
-        document.getElementById("prevEquipment").value;
+    const equipmentId=
+        document.getElementById(
+            "prevEquipment"
+        ).value;
 
-    const operation =
-        document.getElementById("prevOperation").value.trim();
+    const operation=
+        document.getElementById(
+            "prevOperation"
+        ).value.trim();
 
-    const frequency =
-        document.getElementById("prevFrequency").value;
+    const frequency=
+        document.getElementById(
+            "prevFrequency"
+        ).value;
 
-    const nextDate =
-        document.getElementById("prevDate").value;
+    const nextDate=
+        document.getElementById(
+            "prevDate"
+        ).value;
 
-    const status =
-        document.getElementById("prevStatus").value;
+    const status=
+        document.getElementById(
+            "prevStatus"
+        ).value;
 
-    if(!equipmentId || !operation || !nextDate){
 
-        alert("Veuillez compléter les champs.");
+    if(
+        !equipmentId||
+        !operation||
+        !nextDate
+    ){
+
+        alert(
+            "Veuillez compléter les champs."
+        );
 
         return;
 
     }
 
-    const eq =
-        getEquipmentById(equipmentId);
+
+    const eq=
+        getEquipmentById(
+            equipmentId
+        );
+
 
     db.preventive.push({
 
         id:Date.now(),
 
-        equipmentId:Number(equipmentId),
+        equipmentId:
+            Number(equipmentId),
 
-        equipment:eq
-            ? `${eq.code} - ${eq.designation}`
-            : "",
+        equipment:
+            eq?
+            `${eq.code} - ${eq.designation}`:
+            "",
 
         operation,
 
@@ -3045,10 +5331,18 @@ function addPreventive(){
 
     });
 
+
     saveDB();
 
-    document.getElementById("prevOperation").value="";
-    document.getElementById("prevDate").value="";
+
+    document.getElementById(
+        "prevOperation"
+    ).value="";
+
+    document.getElementById(
+        "prevDate"
+    ).value="";
+
 
     refreshAll();
 
@@ -3057,28 +5351,42 @@ function addPreventive(){
 
 function refreshPreventive(){
 
-    const body =
-        document.getElementById("preventiveBody");
+    const body=
+        document.getElementById(
+            "preventiveBody"
+        );
 
     if(!body) return;
 
+
     body.innerHTML="";
+
 
     db.preventive.forEach(p=>{
 
-        body.innerHTML += `
+        body.innerHTML+=`
 
         <tr>
 
-            <td>${escapeHTML(p.equipment)}</td>
+            <td>
+                ${escapeHTML(p.equipment)}
+            </td>
 
-            <td>${escapeHTML(p.operation)}</td>
+            <td>
+                ${escapeHTML(p.operation)}
+            </td>
 
-            <td>${escapeHTML(p.frequency)}</td>
+            <td>
+                ${escapeHTML(p.frequency)}
+            </td>
 
-            <td>${escapeHTML(p.nextDate)}</td>
+            <td>
+                ${escapeHTML(p.nextDate)}
+            </td>
 
-            <td>${escapeHTML(p.status)}</td>
+            <td>
+                ${escapeHTML(p.status)}
+            </td>
 
             <td>
 
@@ -3102,12 +5410,19 @@ function refreshPreventive(){
 
 function deletePreventive(id){
 
-    if(!confirm("Supprimer cette action ?")) return;
+    if(
+        !confirm(
+            "Supprimer cette action ?"
+        )
+    )
+        return;
 
-    db.preventive =
+
+    db.preventive=
         db.preventive.filter(
             p=>p.id!==id
         );
+
 
     saveDB();
 
@@ -3116,40 +5431,59 @@ function deletePreventive(id){
 }
 
 
-/* =========================================================
-   RCA
-========================================================= */
+/* =====================================================
+RCA
+===================================================== */
 
 function addRCA(){
 
-    const problem =
-        document.getElementById("rcaProblem").value.trim();
+    const problem=
+        document.getElementById(
+            "rcaProblem"
+        ).value.trim();
 
-    const equipmentId =
-        document.getElementById("rcaEquipment").value;
+    const equipmentId=
+        document.getElementById(
+            "rcaEquipment"
+        ).value;
 
-    const date =
-        document.getElementById("rcaDate").value;
+    const date=
+        document.getElementById(
+            "rcaDate"
+        ).value;
 
-    const cause1 =
-        document.getElementById("rcaCause1").value.trim();
+    const cause1=
+        document.getElementById(
+            "rcaCause1"
+        ).value.trim();
 
-    const cause2 =
-        document.getElementById("rcaCause2").value.trim();
+    const cause2=
+        document.getElementById(
+            "rcaCause2"
+        ).value.trim();
 
-    const cause3 =
-        document.getElementById("rcaCause3").value.trim();
+    const cause3=
+        document.getElementById(
+            "rcaCause3"
+        ).value.trim();
 
-    const rootCause =
-        document.getElementById("rcaRootCause").value.trim();
+    const rootCause=
+        document.getElementById(
+            "rcaRootCause"
+        ).value.trim();
 
-    const action =
-        document.getElementById("rcaAction").value.trim();
+    const action=
+        document.getElementById(
+            "rcaAction"
+        ).value.trim();
 
-    const responsible =
-        document.getElementById("rcaResponsible").value.trim();
+    const responsible=
+        document.getElementById(
+            "rcaResponsible"
+        ).value.trim();
 
-    if(!problem || !rootCause){
+
+    if(!problem||!rootCause){
 
         alert(
             "Le problème et la cause racine sont obligatoires."
@@ -3159,8 +5493,12 @@ function addRCA(){
 
     }
 
-    const eq =
-        getEquipmentById(equipmentId);
+
+    const eq=
+        getEquipmentById(
+            equipmentId
+        );
+
 
     db.rca.push({
 
@@ -3168,11 +5506,13 @@ function addRCA(){
 
         problem,
 
-        equipmentId:Number(equipmentId)||"",
+        equipmentId:
+            Number(equipmentId)||"",
 
-        equipment:eq
-            ? `${eq.code} - ${eq.designation}`
-            : "",
+        equipment:
+            eq?
+            `${eq.code} - ${eq.designation}`:
+            "",
 
         date,
 
@@ -3190,7 +5530,9 @@ function addRCA(){
 
     });
 
+
     saveDB();
+
 
     [
         "rcaProblem",
@@ -3202,8 +5544,13 @@ function addRCA(){
         "rcaAction",
         "rcaResponsible"
     ].forEach(id=>{
-        document.getElementById(id).value="";
+
+        document.getElementById(
+            id
+        ).value="";
+
     });
+
 
     refreshAll();
 
@@ -3212,30 +5559,46 @@ function addRCA(){
 
 function refreshRCA(){
 
-    const body =
-        document.getElementById("rcaBody");
+    const body=
+        document.getElementById(
+            "rcaBody"
+        );
 
     if(!body) return;
 
+
     body.innerHTML="";
+
 
     db.rca.forEach(r=>{
 
-        body.innerHTML += `
+        body.innerHTML+=`
 
         <tr>
 
-            <td>${escapeHTML(r.date)}</td>
+            <td>
+                ${escapeHTML(r.date)}
+            </td>
 
-            <td>${escapeHTML(r.problem)}</td>
+            <td>
+                ${escapeHTML(r.problem)}
+            </td>
 
-            <td>${escapeHTML(r.equipment)}</td>
+            <td>
+                ${escapeHTML(r.equipment)}
+            </td>
 
-            <td>${escapeHTML(r.rootCause)}</td>
+            <td>
+                ${escapeHTML(r.rootCause)}
+            </td>
 
-            <td>${escapeHTML(r.action)}</td>
+            <td>
+                ${escapeHTML(r.action)}
+            </td>
 
-            <td>${escapeHTML(r.responsible)}</td>
+            <td>
+                ${escapeHTML(r.responsible)}
+            </td>
 
             <td>
 
@@ -3259,12 +5622,19 @@ function refreshRCA(){
 
 function deleteRCA(id){
 
-    if(!confirm("Supprimer cette RCA ?")) return;
+    if(
+        !confirm(
+            "Supprimer cette RCA ?"
+        )
+    )
+        return;
 
-    db.rca =
+
+    db.rca=
         db.rca.filter(
             r=>r.id!==id
         );
+
 
     saveDB();
 
@@ -3273,31 +5643,47 @@ function deleteRCA(id){
 }
 
 
-/* =========================================================
-   PARTS
-========================================================= */
+/* =====================================================
+PARTS
+===================================================== */
 
 function addPart(){
 
-    const ref =
-        document.getElementById("partRef").value.trim();
+    const ref=
+        document.getElementById(
+            "partRef"
+        ).value.trim();
 
-    const designation =
-        document.getElementById("partDesignation").value.trim();
+    const designation=
+        document.getElementById(
+            "partDesignation"
+        ).value.trim();
 
-    const stock =
-        Number(document.getElementById("partStock").value)||0;
+    const stock=
+        Number(
+            document.getElementById(
+                "partStock"
+            ).value
+        )||0;
 
-    const minimum =
-        Number(document.getElementById("partMinimum").value)||0;
+    const minimum=
+        Number(
+            document.getElementById(
+                "partMinimum"
+            ).value
+        )||0;
 
-    if(!ref || !designation){
 
-        alert("Référence et désignation obligatoires.");
+    if(!ref||!designation){
+
+        alert(
+            "Référence et désignation obligatoires."
+        );
 
         return;
 
     }
+
 
     db.parts.push({
 
@@ -3313,7 +5699,9 @@ function addPart(){
 
     });
 
+
     saveDB();
+
 
     [
         "partRef",
@@ -3321,8 +5709,13 @@ function addPart(){
         "partStock",
         "partMinimum"
     ].forEach(id=>{
-        document.getElementById(id).value="";
+
+        document.getElementById(
+            id
+        ).value="";
+
     });
+
 
     refreshAll();
 
@@ -3331,35 +5724,57 @@ function addPart(){
 
 function refreshParts(){
 
-    const body =
-        document.getElementById("partsBody");
+    const body=
+        document.getElementById(
+            "partsBody"
+        );
 
     if(!body) return;
 
+
     body.innerHTML="";
+
 
     db.parts.forEach(p=>{
 
-        const low =
-            Number(p.stock)<=Number(p.minimum);
+        const low=
+            Number(p.stock)<=
+            Number(p.minimum);
 
-        body.innerHTML += `
+
+        body.innerHTML+=`
 
         <tr>
 
-            <td>${escapeHTML(p.ref)}</td>
+            <td>
+                ${escapeHTML(p.ref)}
+            </td>
 
-            <td>${escapeHTML(p.designation)}</td>
+            <td>
+                ${escapeHTML(p.designation)}
+            </td>
 
-            <td>${p.stock}</td>
+            <td>
+                ${p.stock}
+            </td>
 
-            <td>${p.minimum}</td>
+            <td>
+                ${p.minimum}
+            </td>
 
             <td>
 
-                <span class="badge ${low?'badge-red':'badge-green'}">
+                <span class="badge ${
+                    low?
+                    "badge-red":
+                    "badge-green"
+                }">
 
-                    ${low?'Stock faible':'OK'}
+                    ${
+                        low?
+                        "Stock faible":
+                        "OK"
+                    }
 
                 </span>
 
@@ -3387,12 +5802,19 @@ function refreshParts(){
 
 function deletePart(id){
 
-    if(!confirm("Supprimer cette pièce ?")) return;
+    if(
+        !confirm(
+            "Supprimer cette pièce ?"
+        )
+    )
+        return;
 
-    db.parts =
+
+    db.parts=
         db.parts.filter(
             p=>p.id!==id
         );
+
 
     saveDB();
 
@@ -3401,34 +5823,53 @@ function deletePart(id){
 }
 
 
-/* =========================================================
-   PLANNING
-========================================================= */
+/* =====================================================
+PLANNING
+===================================================== */
 
 function addPlanning(){
 
-    const date =
-        document.getElementById("planDate").value;
+    const date=
+        document.getElementById(
+            "planDate"
+        ).value;
 
-    const equipmentId =
-        document.getElementById("planEquipment").value;
+    const equipmentId=
+        document.getElementById(
+            "planEquipment"
+        ).value;
 
-    const intervention =
-        document.getElementById("planIntervention").value.trim();
+    const intervention=
+        document.getElementById(
+            "planIntervention"
+        ).value.trim();
 
-    const technician =
-        document.getElementById("planTechnician").value.trim();
+    const technician=
+        document.getElementById(
+            "planTechnician"
+        ).value.trim();
 
-    const eq =
-        getEquipmentById(equipmentId);
 
-    if(!date || !equipmentId || !intervention){
+    const eq=
+        getEquipmentById(
+            equipmentId
+        );
 
-        alert("Veuillez compléter les champs.");
+
+    if(
+        !date||
+        !equipmentId||
+        !intervention
+    ){
+
+        alert(
+            "Veuillez compléter les champs."
+        );
 
         return;
 
     }
+
 
     db.planning.push({
 
@@ -3436,11 +5877,13 @@ function addPlanning(){
 
         date,
 
-        equipmentId:Number(equipmentId),
+        equipmentId:
+            Number(equipmentId),
 
-        equipment:eq
-            ? `${eq.code} - ${eq.designation}`
-            : "",
+        equipment:
+            eq?
+            `${eq.code} - ${eq.designation}`:
+            "",
 
         intervention,
 
@@ -3448,11 +5891,22 @@ function addPlanning(){
 
     });
 
+
     saveDB();
 
-    document.getElementById("planDate").value="";
-    document.getElementById("planIntervention").value="";
-    document.getElementById("planTechnician").value="";
+
+    [
+        "planDate",
+        "planIntervention",
+        "planTechnician"
+    ].forEach(id=>{
+
+        document.getElementById(
+            id
+        ).value="";
+
+    });
+
 
     refreshAll();
 
@@ -3461,31 +5915,44 @@ function addPlanning(){
 
 function refreshPlanning(){
 
-    const body =
-        document.getElementById("planningBody");
+    const body=
+        document.getElementById(
+            "planningBody"
+        );
 
     if(!body) return;
 
+
     body.innerHTML="";
+
 
     db.planning
         .sort(
             (a,b)=>
-            new Date(a.date)-new Date(b.date)
+            new Date(a.date)-
+            new Date(b.date)
         )
         .forEach(p=>{
 
-            body.innerHTML += `
+            body.innerHTML+=`
 
             <tr>
 
-                <td>${escapeHTML(p.date)}</td>
+                <td>
+                    ${escapeHTML(p.date)}
+                </td>
 
-                <td>${escapeHTML(p.equipment)}</td>
+                <td>
+                    ${escapeHTML(p.equipment)}
+                </td>
 
-                <td>${escapeHTML(p.intervention)}</td>
+                <td>
+                    ${escapeHTML(p.intervention)}
+                </td>
 
-                <td>${escapeHTML(p.technician)}</td>
+                <td>
+                    ${escapeHTML(p.technician)}
+                </td>
 
                 <td>
 
@@ -3509,12 +5976,19 @@ function refreshPlanning(){
 
 function deletePlanning(id){
 
-    if(!confirm("Supprimer cette ligne ?")) return;
+    if(
+        !confirm(
+            "Supprimer cette ligne ?"
+        )
+    )
+        return;
 
-    db.planning =
+
+    db.planning=
         db.planning.filter(
             p=>p.id!==id
         );
+
 
     saveDB();
 
@@ -3523,131 +5997,184 @@ function deletePlanning(id){
 }
 
 
-/* =========================================================
-   KPI GLOBAL
-========================================================= */
+/* =====================================================
+GLOBAL KPI
+===================================================== */
 
 function updateKPI(){
 
-    const equipmentCount =
+    const equipments=
         db.equipments.length;
 
-    const otCount =
+    const di=
+        db.demandes.length;
+
+    const diNew=
+        db.demandes.filter(
+            d=>d.status==="Nouvelle"
+        ).length;
+
+    const ot=
         db.interventions.length;
 
-    const breakdowns =
-        db.interventions.filter(isBreakdown);
+    const breakdowns=
+        db.interventions.filter(
+            isBreakdown
+        );
 
-    const downtime =
+    const downtime=
         sum(
             breakdowns.map(
-                i=>Number(i.downtime)||0
+                i=>i.downtime
             )
         );
 
-    const repair =
+    const repair=
         sum(
             breakdowns.map(
-                i=>Number(i.repair)||0
+                i=>i.repair
             )
         );
 
-    const mttr =
+    const mttr=
         breakdowns.length
-        ? repair/breakdowns.length
-        : 0;
+        ?
+        repair/breakdowns.length
+        :
+        0;
 
-    const dates =
+
+    const dates=
         db.interventions
-        .map(i=>new Date(i.date))
-        .filter(d=>!isNaN(d));
+        .map(
+            i=>new Date(i.date)
+        )
+        .filter(
+            d=>!isNaN(d)
+        );
+
 
     let days=30;
 
+
     if(dates.length){
 
-        const min =
-            new Date(Math.min(...dates));
+        const min=
+            new Date(
+                Math.min(...dates)
+            );
 
-        const max =
-            new Date(Math.max(...dates));
+        const max=
+            new Date(
+                Math.max(...dates)
+            );
 
-        days =
+
+        days=
             Math.max(
                 1,
                 Math.ceil(
-                    (max-min)/86400000
+                    (max-min)/
+                    86400000
                 )+1
             );
 
     }
 
-    const planned =
+
+    const planned=
         Math.max(
-            equipmentCount*days*24,
+            equipments*days*24,
             1
         );
 
-    const available =
+
+    const available=
         Math.max(
             planned-downtime/60,
             0
         );
 
-    const availability =
-        equipmentCount
-        ? (available/planned)*100
-        : 100;
 
-    const mtbf =
-        breakdowns.length
-        ? available/breakdowns.length
-        : planned;
+    const availability=
+        equipments
+        ?
+        available/planned*100
+        :
+        100;
 
 
-    document.getElementById("kpiEquip").textContent=
-        equipmentCount;
+    document.getElementById(
+        "kpiEquip"
+    ).textContent=
+        equipments;
 
-    document.getElementById("kpiOT").textContent=
-        otCount;
 
-    document.getElementById("kpiPannes").textContent=
+    document.getElementById(
+        "kpiDI"
+    ).textContent=
+        di;
+
+
+    document.getElementById(
+        "kpiDINew"
+    ).textContent=
+        diNew;
+
+
+    document.getElementById(
+        "kpiOT"
+    ).textContent=
+        ot;
+
+
+    document.getElementById(
+        "kpiPannes"
+    ).textContent=
         breakdowns.length;
 
-    document.getElementById("kpiDowntime").textContent=
+
+    document.getElementById(
+        "kpiDowntime"
+    ).textContent=
         (downtime/60).toFixed(1);
 
-    document.getElementById("kpiMTTR").textContent=
+
+    document.getElementById(
+        "kpiMTTR"
+    ).textContent=
         mttr.toFixed(1);
 
-    document.getElementById("kpiMTBF").textContent=
-        mtbf.toFixed(1);
 
-    document.getElementById("kpiAvailability").textContent=
+    document.getElementById(
+        "kpiAvailability"
+    ).textContent=
         availability.toFixed(1)+"%";
-
-    document.getElementById("kpiPreventive").textContent=
-        db.preventive.length;
 
 }
 
 
-/* =========================================================
-   ZONE ANALYTICS
-========================================================= */
+/* =====================================================
+ZONE KPI
+===================================================== */
 
 function getZoneInterventions(zone){
 
     return db.interventions.filter(i=>{
 
-        const eq =
-            getEquipmentById(i.equipmentId);
+        const eq=
+            getEquipmentById(
+                i.equipmentId
+            );
+
 
         if(
             i.zoneId &&
-            String(i.zoneId)===String(zone.id)
+            String(i.zoneId)===
+            String(zone.id)
         )
             return true;
+
 
         if(
             i.zone &&
@@ -3655,18 +6182,24 @@ function getZoneInterventions(zone){
         )
             return true;
 
+
         if(eq){
 
             if(
                 eq.zoneId &&
-                String(eq.zoneId)===String(zone.id)
+                String(eq.zoneId)===
+                String(zone.id)
             )
                 return true;
 
-            if(eq.zone===zone.name)
+
+            if(
+                eq.zone===zone.name
+            )
                 return true;
 
         }
+
 
         return false;
 
@@ -3677,26 +6210,38 @@ function getZoneInterventions(zone){
 
 function calculateZoneKPIs(){
 
-    const dates =
+    const dates=
         db.interventions
-        .map(i=>new Date(i.date))
-        .filter(d=>!isNaN(d));
+        .map(
+            i=>new Date(i.date)
+        )
+        .filter(
+            d=>!isNaN(d)
+        );
+
 
     let periodDays=30;
 
+
     if(dates.length){
 
-        const min =
-            new Date(Math.min(...dates));
+        const min=
+            new Date(
+                Math.min(...dates)
+            );
 
-        const max =
-            new Date(Math.max(...dates));
+        const max=
+            new Date(
+                Math.max(...dates)
+            );
 
-        periodDays =
+
+        periodDays=
             Math.max(
                 1,
                 Math.ceil(
-                    (max-min)/86400000
+                    (max-min)/
+                    86400000
                 )+1
             );
 
@@ -3705,59 +6250,59 @@ function calculateZoneKPIs(){
 
     return db.zones.map(zone=>{
 
-        const equipments =
+        const equipments=
             db.equipments.filter(
-
                 e=>
-                String(e.zoneId)===String(zone.id) ||
+                String(e.zoneId)===
+                String(zone.id) ||
                 e.zone===zone.name
-
             );
 
 
-        const interventions =
-            getZoneInterventions(zone);
+        const interventions=
+            getZoneInterventions(
+                zone
+            );
 
 
-        const breakdowns =
-            interventions.filter(isBreakdown);
+        const breakdowns=
+            interventions.filter(
+                isBreakdown
+            );
 
 
-        const downtime =
+        const downtime=
             sum(
                 breakdowns.map(
-                    i=>Number(i.downtime)||0
+                    i=>i.downtime
                 )
             );
 
 
-        const repair =
+        const repair=
             sum(
                 breakdowns.map(
-                    i=>{
-
-                        const r =
-                            Number(i.repair)||0;
-
-                        const d =
-                            Number(i.downtime)||0;
-
-                        return r>0 ? r : d;
-
-                    }
+                    i=>
+                    Number(i.repair)>0
+                    ?
+                    Number(i.repair)
+                    :
+                    Number(i.downtime)
                 )
             );
 
 
-        const mttr =
+        const mttr=
             breakdowns.length
-            ? repair/breakdowns.length
-            : 0;
+            ?
+            repair/breakdowns.length
+            :
+            0;
 
 
-        const plannedHours =
-            equipments.length *
-            periodDays *
+        const plannedHours=
+            equipments.length*
+            periodDays*
             24;
 
 
@@ -3765,23 +6310,34 @@ function calculateZoneKPIs(){
 
         let mtbf=0;
 
+
         if(equipments.length){
 
-            const available =
+            const available=
                 Math.max(
-                    plannedHours-downtime/60,
+                    plannedHours-
+                    downtime/60,
                     0
                 );
 
-            availability =
-                plannedHours
-                ? available/plannedHours*100
-                : 100;
 
-            mtbf =
+            availability=
+                plannedHours
+                ?
+                available/
+                plannedHours*
+                100
+                :
+                100;
+
+
+            mtbf=
                 breakdowns.length
-                ? available/breakdowns.length
-                : available;
+                ?
+                available/
+                breakdowns.length
+                :
+                available;
 
         }
 
@@ -3790,11 +6346,14 @@ function calculateZoneKPIs(){
 
             zone,
 
-            equipments:equipments.length,
+            equipments:
+                equipments.length,
 
-            ot:interventions.length,
+            ot:
+                interventions.length,
 
-            pannes:breakdowns.length,
+            pannes:
+                breakdowns.length,
 
             downtime,
 
@@ -3813,66 +6372,94 @@ function calculateZoneKPIs(){
 
 function updateZoneAnalytics(){
 
-    const data =
+    const data=
         calculateZoneKPIs();
 
 
-    const bodies = [
+    [
+        document.getElementById(
+            "zoneKpiBody"
+        ),
 
-        document.getElementById("zoneKpiBody"),
+        document.getElementById(
+            "zoneKpiBodyModal"
+        )
 
-        document.getElementById("zoneKpiBodyModal")
-
-    ];
-
-
-    bodies.forEach(body=>{
+    ].forEach(body=>{
 
         if(!body) return;
 
+
         body.innerHTML="";
+
 
         data.forEach(x=>{
 
-            body.innerHTML += `
+            body.innerHTML+=`
 
             <tr>
 
                 <td>
 
                     <span class="badge badge-blue">
-
-                        ${escapeHTML(x.zone.name)}
-
+                        ${escapeHTML(
+                            x.zone.name
+                        )}
                     </span>
 
                 </td>
 
-                <td>${x.equipments}</td>
+                <td>
+                    ${x.equipments}
+                </td>
 
-                <td>${x.ot}</td>
+                <td>
+                    ${x.ot}
+                </td>
 
-                <td>${x.pannes}</td>
+                <td>
+                    ${x.pannes}
+                </td>
 
-                <td>${(x.downtime/60).toFixed(1)}</td>
+                <td>
+                    ${(x.downtime/60).toFixed(1)}
+                </td>
 
-                <td>${x.mttr.toFixed(1)}</td>
+                <td>
+                    ${x.mttr.toFixed(1)}
+                </td>
 
-                <td>${x.equipments ? x.mtbf.toFixed(1) : "—"}</td>
+                <td>
+                    ${
+                        x.equipments
+                        ?
+                        x.mtbf.toFixed(1)
+                        :
+                        "—"
+                    }
+                </td>
 
                 <td>
 
                     <span class="badge ${
                         x.availability>=95
-                        ?"badge-green"
-                        :x.availability>=85
-                        ?"badge-orange"
-                        :"badge-red"
+                        ?
+                        "badge-green"
+                        :
+                        x.availability>=85
+                        ?
+                        "badge-orange"
+                        :
+                        "badge-red"
                     }">
 
-                        ${x.equipments
-                        ?x.availability.toFixed(1)+"%"
-                        :"—"}
+                        ${
+                            x.equipments
+                            ?
+                            x.availability.toFixed(1)+"%"
+                            :
+                            "—"
+                        }
 
                     </span>
 
@@ -3892,9 +6479,9 @@ function updateZoneAnalytics(){
 }
 
 
-/* =========================================================
-   PARETO
-========================================================= */
+/* =====================================================
+PARETO
+===================================================== */
 
 let paretoZoneChart=null;
 let paretoEquipmentChart=null;
@@ -3908,25 +6495,29 @@ function getParetoZoneData(){
 
     const map={};
 
+
     db.interventions
         .filter(isBreakdown)
         .forEach(i=>{
 
-            const zone =
+            const zone=
                 getInterventionZone(i);
 
-            const value =
+            const value=
                 Number(i.downtime)||0;
 
-            map[zone] =
-                (map[zone]||0)+value;
+
+            map[zone]=
+                (map[zone]||0)+
+                value;
 
         });
 
 
-    return Object
-        .entries(map)
-        .sort((a,b)=>b[1]-a[1]);
+    return Object.entries(map)
+        .sort(
+            (a,b)=>b[1]-a[1]
+        );
 
 }
 
@@ -3935,169 +6526,201 @@ function getParetoEquipmentData(){
 
     const map={};
 
+
     db.interventions
         .filter(isBreakdown)
         .forEach(i=>{
 
-            const equipment =
+            const equipment=
                 getEquipmentLabel(i);
 
-            const value =
+            const value=
                 Number(i.downtime)||0;
 
-            map[equipment] =
-                (map[equipment]||0)+value;
+
+            map[equipment]=
+                (map[equipment]||0)+
+                value;
 
         });
 
 
-    return Object
-        .entries(map)
-        .sort((a,b)=>b[1]-a[1]);
+    return Object.entries(map)
+        .sort(
+            (a,b)=>b[1]-a[1]
+        );
 
 }
 
 
-function createParetoChart(canvasId,data,title){
+function createParetoChart(
+    canvasId,
+    data
+){
 
-    const canvas =
-        document.getElementById(canvasId);
-
-    if(!canvas) return null;
-
-    const ctx =
-        canvas.getContext("2d");
-
-    const labels =
-        data.map(x=>x[0]);
-
-    const values =
-        data.map(x=>x[1]);
+    const canvas=
+        document.getElementById(
+            canvasId
+        );
 
 
-    const total =
+    if(!canvas)
+        return null;
+
+
+    const values=
+        data.map(
+            x=>x[1]
+        );
+
+
+    const labels=
+        data.map(
+            x=>x[0]
+        );
+
+
+    const total=
         sum(values);
 
 
     let cumulative=0;
 
-    const cumulativeValues =
+
+    const cumulativeValues=
         values.map(v=>{
 
             cumulative+=v;
 
+
             return total
-                ?(cumulative/total*100).toFixed(1)
-                :0;
+                ?
+                Number(
+                    cumulative/
+                    total*
+                    100
+                ).toFixed(1)
+                :
+                0;
 
         });
 
 
-    return new Chart(ctx,{
+    return new Chart(
+        canvas.getContext("2d"),
+        {
 
-        data:{
+            data:{
 
-            labels,
+                labels,
 
-            datasets:[
+                datasets:[
 
-                {
+                    {
 
-                    type:"bar",
+                        type:"bar",
 
-                    label:"Temps d'arrêt (min)",
+                        label:
+                            "Temps d'arrêt (min)",
 
-                    data:values,
+                        data:values,
 
-                    yAxisID:"y"
+                        yAxisID:"y"
 
-                },
+                    },
 
-                {
+                    {
 
-                    type:"line",
+                        type:"line",
 
-                    label:"Cumul (%)",
+                        label:
+                            "Cumul (%)",
 
-                    data:cumulativeValues,
+                        data:
+                            cumulativeValues,
 
-                    yAxisID:"y1",
+                        yAxisID:"y1",
 
-                    tension:.25
+                        tension:.25
 
-                }
-
-            ]
-
-        },
-
-        options:{
-
-            responsive:true,
-
-            maintainAspectRatio:false,
-
-            plugins:{
-
-                legend:{
-                    labels:{
-                        color:"#b6cae0"
                     }
-                },
 
-                title:{
-                    display:false,
-                    text:title
-                }
+                ]
 
             },
 
-            scales:{
 
-                x:{
-                    ticks:{
-                        color:"#91aac0"
-                    },
+            options:{
 
-                    grid:{
-                        color:"#173149"
-                    }
-                },
+                responsive:true,
 
-                y:{
-                    beginAtZero:true,
+                maintainAspectRatio:false,
 
-                    ticks:{
-                        color:"#91aac0"
-                    },
+                plugins:{
 
-                    grid:{
-                        color:"#173149"
-                    },
+                    legend:{
 
-                    title:{
-                        display:true,
-                        text:"Minutes",
-                        color:"#91aac0"
+                        labels:{
+                            color:"#b6cae0"
+                        }
+
                     }
 
                 },
 
-                y1:{
 
-                    beginAtZero:true,
+                scales:{
 
-                    max:100,
+                    x:{
 
-                    position:"right",
+                        ticks:{
+                            color:"#91aac0"
+                        },
 
-                    ticks:{
-                        color:"#91aac0",
-                        callback:value=>value+"%"
+                        grid:{
+                            color:"#173149"
+                        }
+
                     },
 
-                    grid:{
-                        drawOnChartArea:false
+
+                    y:{
+
+                        beginAtZero:true,
+
+                        ticks:{
+                            color:"#91aac0"
+                        },
+
+                        grid:{
+                            color:"#173149"
+                        }
+
+                    },
+
+
+                    y1:{
+
+                        beginAtZero:true,
+
+                        max:100,
+
+                        position:"right",
+
+                        ticks:{
+
+                            color:"#91aac0",
+
+                            callback:
+                                value=>
+                                value+"%"
+
+                        },
+
+                        grid:{
+                            drawOnChartArea:false
+                        }
+
                     }
 
                 }
@@ -4106,67 +6729,73 @@ function createParetoChart(canvasId,data,title){
 
         }
 
-    });
+    );
 
 }
 
 
 function updateCharts(){
 
-    const zoneData =
+    const zoneData=
         getParetoZoneData();
 
-    const equipmentData =
+    const equipmentData=
         getParetoEquipmentData();
 
 
-    if(paretoZoneChart)
-        paretoZoneChart.destroy();
+    [
+        "paretoZoneChart",
+        "paretoEquipmentChart",
+        "paretoZoneChartModal",
+        "paretoEquipmentChartModal"
+    ].forEach((x,i)=>{
 
-    if(paretoEquipmentChart)
-        paretoEquipmentChart.destroy();
-
-    if(paretoZoneChartModal)
-        paretoZoneChartModal.destroy();
-
-    if(paretoEquipmentChartModal)
-        paretoEquipmentChartModal.destroy();
+        const charts=[
+            paretoZoneChart,
+            paretoEquipmentChart,
+            paretoZoneChartModal,
+            paretoEquipmentChartModal
+        ];
 
 
-    paretoZoneChart =
+        if(charts[i])
+            charts[i].destroy();
+
+    });
+
+
+    paretoZoneChart=
         createParetoChart(
             "paretoZoneChart",
-            zoneData,
-            "Pareto Zone"
+            zoneData
         );
 
 
-    paretoEquipmentChart =
+    paretoEquipmentChart=
         createParetoChart(
             "paretoEquipmentChart",
-            equipmentData,
-            "Pareto Equipment"
+            equipmentData
         );
 
 
-    paretoZoneChartModal =
+    paretoZoneChartModal=
         createParetoChart(
             "paretoZoneChartModal",
-            zoneData,
-            "Pareto Zone"
+            zoneData
         );
 
 
-    paretoEquipmentChartModal =
+    paretoEquipmentChartModal=
         createParetoChart(
             "paretoEquipmentChartModal",
-            equipmentData,
-            "Pareto Equipment"
+            equipmentData
         );
 
 
-    const statusCanvas =
-        document.getElementById("statusChart");
+    const statusCanvas=
+        document.getElementById(
+            "statusChart"
+        );
 
 
     if(statusCanvas){
@@ -4174,24 +6803,25 @@ function updateCharts(){
         if(statusChart)
             statusChart.destroy();
 
-        const statuses={
 
+        const statuses={
             "Ouvert":0,
             "En cours":0,
             "Clôturé":0
-
         };
 
 
         db.interventions.forEach(i=>{
 
-            if(statuses[i.status]!==undefined)
+            if(
+                statuses[i.status]!==undefined
+            )
                 statuses[i.status]++;
 
         });
 
 
-        statusChart =
+        statusChart=
             new Chart(
                 statusCanvas.getContext("2d"),
                 {
@@ -4200,11 +6830,17 @@ function updateCharts(){
 
                     data:{
 
-                        labels:Object.keys(statuses),
+                        labels:
+                            Object.keys(
+                                statuses
+                            ),
 
                         datasets:[{
 
-                            data:Object.values(statuses)
+                            data:
+                                Object.values(
+                                    statuses
+                                )
 
                         }]
 
@@ -4217,11 +6853,15 @@ function updateCharts(){
                         maintainAspectRatio:false,
 
                         plugins:{
+
                             legend:{
+
                                 labels:{
                                     color:"#b6cae0"
                                 }
+
                             }
+
                         }
 
                     }
@@ -4233,8 +6873,10 @@ function updateCharts(){
     }
 
 
-    const downtimeCanvas =
-        document.getElementById("downtimeChart");
+    const downtimeCanvas=
+        document.getElementById(
+            "downtimeChart"
+        );
 
 
     if(downtimeCanvas){
@@ -4243,12 +6885,12 @@ function updateCharts(){
             downtimeChart.destroy();
 
 
-        const data =
+        const data=
             getParetoEquipmentData()
             .slice(0,10);
 
 
-        downtimeChart =
+        downtimeChart=
             new Chart(
                 downtimeCanvas.getContext("2d"),
                 {
@@ -4258,14 +6900,19 @@ function updateCharts(){
                     data:{
 
                         labels:
-                            data.map(x=>x[0]),
+                            data.map(
+                                x=>x[0]
+                            ),
 
                         datasets:[{
 
-                            label:"Temps d'arrêt (min)",
+                            label:
+                                "Temps d'arrêt (min)",
 
                             data:
-                                data.map(x=>x[1])
+                                data.map(
+                                    x=>x[1]
+                                )
 
                         }]
 
@@ -4278,22 +6925,29 @@ function updateCharts(){
                         maintainAspectRatio:false,
 
                         plugins:{
+
                             legend:{
+
                                 labels:{
                                     color:"#b6cae0"
                                 }
+
                             }
+
                         },
 
                         scales:{
 
                             x:{
+
                                 ticks:{
                                     color:"#91aac0"
                                 }
+
                             },
 
                             y:{
+
                                 beginAtZero:true,
 
                                 ticks:{
@@ -4315,66 +6969,104 @@ function updateCharts(){
 }
 
 
-/* =========================================================
-   DAILY REPORT
-========================================================= */
+/* =====================================================
+REPORT
+===================================================== */
 
 function generateReport(){
 
-    const date =
-        document.getElementById("reportDate").value ||
-        new Date().toISOString().slice(0,10);
+    const date=
+        document.getElementById(
+            "reportDate"
+        ).value ||
+        new Date()
+        .toISOString()
+        .slice(0,10);
 
-    const list =
+
+    const list=
         db.interventions.filter(
             i=>i.date===date
         );
 
-    const curative =
-        list.filter(isBreakdown);
 
-    const preventive =
+    const di=
+        db.demandes.filter(
+            d=>d.date===date
+        );
+
+
+    const curative=
         list.filter(
-            i=>String(i.type).toLowerCase()
+            isBreakdown
+        );
+
+
+    const preventive=
+        list.filter(
+            i=>
+            String(i.type)
+                .toLowerCase()
                 .includes("préventive")
         );
 
-    const downtime =
+
+    const downtime=
         sum(
             list.map(
-                i=>Number(i.downtime)||0
+                i=>i.downtime
             )
         );
 
-    const repair =
+
+    const repair=
         sum(
             list.map(
-                i=>Number(i.repair)||0
+                i=>i.repair
             )
         );
 
 
     let rows="";
 
+
     list.forEach(i=>{
 
-        rows += `
+        rows+=`
 
         <tr>
 
-            <td>${escapeHTML(getEquipmentLabel(i))}</td>
+            <td>
+                ${escapeHTML(
+                    getEquipmentLabel(i)
+                )}
+            </td>
 
-            <td>${escapeHTML(getInterventionZone(i))}</td>
+            <td>
+                ${escapeHTML(
+                    getInterventionZone(i)
+                )}
+            </td>
 
-            <td>${escapeHTML(i.type)}</td>
+            <td>
+                ${escapeHTML(i.type)}
+            </td>
 
-            <td>${escapeHTML(i.status)}</td>
+            <td>
+                ${escapeHTML(i.status)}
+            </td>
 
-            <td>${Number(i.downtime)||0}</td>
+            <td>
+                ${Number(i.downtime)||0}
+            </td>
 
-            <td>${escapeHTML(i.problem)}</td>
+            <td>
+                ${escapeHTML(i.problem)}
+            </td>
 
-            <td>${escapeHTML(i.action)}</td>
+            <td>
+                ${escapeHTML(i.action)}
+            </td>
 
         </tr>
 
@@ -4385,14 +7077,15 @@ function generateReport(){
 
     if(!rows){
 
-        rows = `
+        rows=`
 
         <tr>
 
-            <td colspan="7" style="text-align:center">
-
+            <td
+                colspan="7"
+                style="text-align:center"
+            >
                 Aucun OT pour cette date.
-
             </td>
 
         </tr>
@@ -4402,14 +7095,19 @@ function generateReport(){
     }
 
 
-    document.getElementById("dailyReport").innerHTML=`
+    document.getElementById(
+        "dailyReport"
+    ).innerHTML=`
 
         <div class="report">
 
-            <h2>Rapport journalier de maintenance</h2>
+            <h2>
+                Rapport journalier de maintenance
+            </h2>
 
             <p>
-                <strong>Date :</strong> ${date}
+                <strong>Date :</strong>
+                ${date}
             </p>
 
             <br>
@@ -4422,7 +7120,12 @@ function generateReport(){
                 </tr>
 
                 <tr>
-                    <td>Nombre total OT</td>
+                    <td>Demandes d'intervention</td>
+                    <td>${di.length}</td>
+                </tr>
+
+                <tr>
+                    <td>OT</td>
                     <td>${list.length}</td>
                 </tr>
 
@@ -4450,7 +7153,9 @@ function generateReport(){
 
             <br>
 
-            <h3>Détail des interventions</h3>
+            <h3>
+                Détail des interventions
+            </h3>
 
             <br>
 
@@ -4464,7 +7169,7 @@ function generateReport(){
                         <th>Zone</th>
                         <th>Type</th>
                         <th>Statut</th>
-                        <th>Arrêt min</th>
+                        <th>Arrêt</th>
                         <th>Problème</th>
                         <th>Action</th>
 
@@ -4483,7 +7188,8 @@ function generateReport(){
             <br>
 
             <p>
-                Rapport généré automatiquement par GMAO PRO V3.
+                Rapport généré automatiquement
+                par GMAO PRO V4.
             </p>
 
         </div>
@@ -4493,47 +7199,16 @@ function generateReport(){
 }
 
 
-/* =========================================================
-   EXPORT EXCEL
-========================================================= */
-
-function calculateExportZoneKPI(){
-
-    return calculateZoneKPIs().map(x=>({
-
-        Zone:x.zone.name,
-
-        Equipements:x.equipments,
-
-        OT:x.ot,
-
-        Pannes:x.pannes,
-
-        "Temps arrêt (min)":x.downtime,
-
-        "Temps arrêt (h)":
-            Number(x.downtime/60).toFixed(2),
-
-        "MTTR (min)":
-            Number(x.mttr).toFixed(2),
-
-        "MTBF (h)":
-            Number(x.mtbf).toFixed(2),
-
-        "Disponibilité (%)":
-            Number(x.availability).toFixed(2)
-
-    }));
-
-}
-
+/* =====================================================
+EXCEL
+===================================================== */
 
 function exportExcel(){
 
     if(typeof XLSX==="undefined"){
 
         alert(
-            "La bibliothèque Excel n'est pas disponible. Vérifiez votre connexion Internet."
+            "Bibliothèque Excel indisponible."
         );
 
         return;
@@ -4541,12 +7216,47 @@ function exportExcel(){
     }
 
 
-    const zoneKPI =
-        calculateExportZoneKPI();
+    const zoneKPI=
+        calculateZoneKPIs()
+        .map(x=>({
+
+            Zone:x.zone.name,
+
+            Equipements:x.equipments,
+
+            OT:x.ot,
+
+            Pannes:x.pannes,
+
+            "Temps arrêt (min)":
+                x.downtime,
+
+            "Temps arrêt (h)":
+                Number(
+                    x.downtime/60
+                ).toFixed(2),
+
+            "MTTR (min)":
+                Number(
+                    x.mttr
+                ).toFixed(2),
+
+            "MTBF (h)":
+                Number(
+                    x.mtbf
+                ).toFixed(2),
+
+            "Disponibilité (%)":
+                Number(
+                    x.availability
+                ).toFixed(2)
+
+        }));
 
 
-    const paretoZone =
-        getParetoZoneData().map(x=>({
+    const paretoZone=
+        getParetoZoneData()
+        .map(x=>({
 
             Zone:x[0],
 
@@ -4555,8 +7265,9 @@ function exportExcel(){
         }));
 
 
-    const paretoEquipment =
-        getParetoEquipmentData().map(x=>({
+    const paretoEquipment=
+        getParetoEquipmentData()
+        .map(x=>({
 
             Equipement:x[0],
 
@@ -4565,14 +7276,20 @@ function exportExcel(){
         }));
 
 
-    const wb =
+    const wb=
         XLSX.utils.book_new();
 
 
-    function addSheet(name,data){
+    function addSheet(
+        name,
+        data
+    ){
 
-        const ws =
-            XLSX.utils.json_to_sheet(data);
+        const ws=
+            XLSX.utils.json_to_sheet(
+                data
+            );
+
 
         XLSX.utils.book_append_sheet(
             wb,
@@ -4584,13 +7301,19 @@ function exportExcel(){
 
 
     addSheet(
+        "Demandes_Intervention",
+        db.demandes
+    );
+
+
+    addSheet(
         "Equipements",
         db.equipments
     );
 
 
     addSheet(
-        "Interventions",
+        "Interventions_OT",
         db.interventions
     );
 
@@ -4645,15 +7368,15 @@ function exportExcel(){
 
     XLSX.writeFile(
         wb,
-        "GMAO_PRO_V3.xlsx"
+        "GMAO_PRO_V4.xlsx"
     );
 
 }
 
 
-/* =========================================================
-   DATABASE RESET
-========================================================= */
+/* =====================================================
+RESET
+===================================================== */
 
 function clearDatabase(){
 
@@ -4665,12 +7388,14 @@ function clearDatabase(){
         return;
 
 
-    db =
+    db=
         defaultDB();
+
 
     saveDB();
 
     refreshAll();
+
 
     alert(
         "Base GMAO réinitialisée."
@@ -4679,27 +7404,9 @@ function clearDatabase(){
 }
 
 
-/* =========================================================
-   HELPERS
-========================================================= */
-
-function clearInputs(ids){
-
-    ids.forEach(id=>{
-
-        const el =
-            document.getElementById(id);
-
-        if(el) el.value="";
-
-    });
-
-}
-
-
-/* =========================================================
-   GLOBAL REFRESH
-========================================================= */
+/* =====================================================
+REFRESH ALL
+===================================================== */
 
 function refreshAll(){
 
@@ -4710,6 +7417,10 @@ function refreshAll(){
     refreshEquipment();
 
     refreshEquipmentSelects();
+
+    refreshDISelect();
+
+    refreshDI();
 
     refreshInterventions();
 
@@ -4728,34 +7439,35 @@ function refreshAll(){
 }
 
 
-/* =========================================================
-   INITIAL DATE
-========================================================= */
+/* =====================================================
+INITIALIZATION
+===================================================== */
 
 document.addEventListener(
     "DOMContentLoaded",
     ()=>{
 
-        const today =
+        const today=
             new Date()
             .toISOString()
             .slice(0,10);
 
-        const ids=[
 
+        [
             "intDate",
+            "diDate",
             "rcaDate",
             "reportDate",
             "planDate"
+        ].forEach(id=>{
 
-        ];
+            const el=
+                document.getElementById(
+                    id
+                );
 
-        ids.forEach(id=>{
-
-            const el =
-                document.getElementById(id);
-
-            if(el) el.value=today;
+            if(el)
+                el.value=today;
 
         });
 
@@ -4763,20 +7475,18 @@ document.addEventListener(
 );
 
 
-/* =========================================================
-   MODAL CLOSE CLICK OUTSIDE
-========================================================= */
+/* =====================================================
+CLICK OUTSIDE MODAL
+===================================================== */
 
-document.getElementById("gmaoModal")
-.addEventListener(
+document.getElementById(
+    "gmaoModal"
+).addEventListener(
     "click",
     function(e){
 
-        if(e.target===this){
-
+        if(e.target===this)
             closeModal();
-
-        }
 
     }
 );
