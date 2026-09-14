@@ -1,189 +1,414 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GMAO PRO</title>
+
+<title>Plateforme Intégrée Sage X3 & GMAO PRO</title>
 
 <style>
+
+/* =========================================================
+   RESET
+========================================================= */
+
 *{
     box-sizing:border-box;
     margin:0;
     padding:0;
-    font-family:Arial, Helvetica, sans-serif;
+    font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 }
 
 body{
-    background:#f4f6f9;
-    color:#172033;
+    background:#0f172a;
+    color:white;
+    min-height:100vh;
+    overflow-x:hidden;
 }
 
-/* ================= SIDEBAR ================= */
+button,
+input,
+select,
+textarea{
+    font-family:inherit;
+}
 
-.sidebar{
+
+/* =========================================================
+   AUTHENTIFICATION
+========================================================= */
+
+.auth-overlay{
     position:fixed;
-    left:0;
-    top:0;
-    width:250px;
-    height:100vh;
-    background:#101a2e;
-    color:white;
-    padding:25px 15px;
-}
-
-.logo{
-    font-size:25px;
-    font-weight:bold;
-    text-align:center;
-    margin-bottom:35px;
-}
-
-.logo span{
-    color:#2f80ed;
-}
-
-.menu{
+    inset:0;
+    background:#0f172a;
+    z-index:9999;
     display:flex;
-    flex-direction:column;
-    gap:8px;
+    align-items:center;
+    justify-content:center;
 }
 
-.menu button{
-    border:none;
-    background:transparent;
-    color:#cbd3e1;
-    padding:14px 15px;
-    border-radius:8px;
-    text-align:left;
-    font-size:15px;
-    cursor:pointer;
+.auth-card{
+    background:#1e3a8a;
+    border:2px solid #2563eb;
+    border-radius:18px;
+    padding:35px;
+    width:90%;
+    max-width:420px;
+    text-align:center;
+    box-shadow:0 20px 50px rgba(0,0,0,.5);
 }
 
-.menu button:hover,
-.menu button.active{
-    background:#2675dc;
-    color:white;
-}
-
-.menu-icon{
-    width:25px;
-    display:inline-block;
-}
-
-/* ================= MAIN ================= */
-
-.main{
-    margin-left:250px;
-    padding:30px;
-}
-
-.page{
-    display:none;
-}
-
-.page.active{
-    display:block;
-}
-
-.header-card{
-    background:white;
-    padding:25px;
-    border-radius:12px;
-    box-shadow:0 3px 15px rgba(0,0,0,.06);
-    margin-bottom:25px;
-}
-
-.header-card h1{
-    font-size:28px;
-    margin-bottom:7px;
-}
-
-.header-card p{
-    color:#697386;
-}
-
-/* ================= KPI ================= */
-
-.kpis{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:18px;
-    margin-bottom:25px;
-}
-
-.kpi{
-    background:white;
-    padding:22px;
-    border-radius:12px;
-    box-shadow:0 3px 15px rgba(0,0,0,.05);
-}
-
-.kpi-title{
-    color:#697386;
-    font-size:14px;
+.auth-card h2{
     margin-bottom:10px;
 }
 
-.kpi-value{
-    font-size:30px;
-    font-weight:bold;
-}
-
-/* ================= CARD ================= */
-
-.card{
-    background:white;
-    border-radius:12px;
-    padding:22px;
-    box-shadow:0 3px 15px rgba(0,0,0,.05);
-}
-
-.card-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+.auth-card p{
+    color:#bfdbfe;
+    font-size:.9rem;
     margin-bottom:20px;
 }
 
-.card-header h2{
+.auth-card input{
+    width:100%;
+    padding:13px;
+    background:#0f172a;
+    border:1px solid #3b82f6;
+    border-radius:8px;
+    color:white;
+    font-size:1.1rem;
+    text-align:center;
+    letter-spacing:5px;
+    outline:none;
+    margin-bottom:15px;
+}
+
+.auth-card button{
+    width:100%;
+    padding:13px;
+    background:#2563eb;
+    border:none;
+    border-radius:8px;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.auth-card button:hover{
+    background:#1d4ed8;
+}
+
+.error-msg{
+    display:none;
+    color:#f87171!important;
+    margin-top:12px;
+}
+
+
+/* =========================================================
+   APPLICATION
+========================================================= */
+
+#mainApp{
+    display:none;
+    width:100%;
+    min-height:100vh;
+    flex-direction:column;
+    align-items:center;
+}
+
+header{
+    text-align:center;
+    margin-top:20px;
+    margin-bottom:10px;
+}
+
+header h1{
+    font-size:2rem;
+    letter-spacing:1px;
+}
+
+header p{
+    color:#93c5fd;
+    margin-top:7px;
+}
+
+
+/* =========================================================
+   HUB
+========================================================= */
+
+.hub-container{
+    position:relative;
+    width:780px;
+    height:700px;
+    margin:15px auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.circle-track{
+    position:absolute;
+    width:560px;
+    height:560px;
+    border:2px dashed #3b82f6;
+    border-radius:50%;
+    pointer-events:none;
+}
+
+.center-logo{
+    position:absolute;
+    width:175px;
+    height:175px;
+    background:white;
+    border:4px solid #3b82f6;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 0 35px rgba(59,130,246,.4);
+    z-index:10;
+    cursor:pointer;
+    overflow:hidden;
+}
+
+.center-logo div{
+    color:#0f172a;
+    text-align:center;
+}
+
+.center-logo strong{
+    display:block;
+    font-size:22px;
+}
+
+.center-logo span{
+    color:#2563eb;
+    font-weight:bold;
+}
+
+.module-node{
+    position:absolute;
+    width:145px;
+    min-height:105px;
+    background:#1e293b;
+    border:2px solid #3b82f6;
+    border-radius:13px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:10px;
+    cursor:pointer;
+    transition:.2s;
+    box-shadow:0 8px 18px rgba(0,0,0,.35);
+    z-index:5;
+}
+
+.module-node:hover{
+    background:#1e3a8a;
+    border-color:#60a5fa;
+    transform:scale(1.05)!important;
+}
+
+.module-node .icon-box{
+    font-size:30px;
+    margin-bottom:6px;
+}
+
+.module-node .title{
+    font-size:.72rem;
+    font-weight:bold;
+    line-height:1.2;
+}
+
+
+/* =========================================================
+   BOTTOM BAR
+========================================================= */
+
+.bottom-bar{
+    width:95%;
+    max-width:1100px;
+    background:#1e293b;
+    border:2px solid #3b82f6;
+    border-radius:12px;
+    padding:13px;
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:30px;
+}
+
+.bottom-item{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    padding:9px 14px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+    font-size:.82rem;
+}
+
+.bottom-item:hover{
+    background:#1e3a8a;
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.modal-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(15,23,42,.82);
+    backdrop-filter:blur(5px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:1000;
+    padding:20px;
+}
+
+.modal-overlay.active{
+    display:flex;
+}
+
+.modal-content{
+    background:white;
+    color:#0f172a;
+    width:95%;
+    max-width:1100px;
+    max-height:90vh;
+    overflow-y:auto;
+    border-radius:16px;
+    border:2px solid #1e3a8a;
+    padding:25px;
+    box-shadow:0 25px 60px rgba(0,0,0,.5);
+}
+
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:2px solid #e2e8f0;
+    padding-bottom:15px;
+    margin-bottom:20px;
+}
+
+.modal-header h2{
+    color:#1e3a8a;
+    font-size:1.35rem;
+}
+
+.close-btn{
+    width:34px;
+    height:34px;
+    border:none;
+    border-radius:50%;
+    background:#e2e8f0;
+    cursor:pointer;
     font-size:20px;
 }
 
-/* ================= BUTTONS ================= */
+.close-btn:hover{
+    background:#ef4444;
+    color:white;
+}
+
+
+/* =========================================================
+   FORMS
+========================================================= */
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+    margin-bottom:18px;
+}
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+}
+
+.form-group.full{
+    grid-column:span 2;
+}
+
+.form-group label{
+    font-size:.82rem;
+    font-weight:bold;
+    color:#1e3a8a;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+    width:100%;
+    background:#f8fafc;
+    border:1.5px solid #cbd5e1;
+    border-radius:8px;
+    padding:10px;
+    outline:none;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+    border-color:#2563eb;
+}
+
+.form-actions{
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+}
 
 .btn{
     border:none;
-    border-radius:7px;
     padding:10px 15px;
+    border-radius:8px;
     cursor:pointer;
     font-weight:bold;
 }
 
 .btn-primary{
-    background:#2675dc;
+    background:#1e3a8a;
     color:white;
 }
 
 .btn-primary:hover{
-    background:#185fb9;
+    background:#2563eb;
 }
 
 .btn-secondary{
-    background:#e9edf3;
-    color:#26344d;
+    background:#64748b;
+    color:white;
 }
 
 .btn-danger{
-    background:#dc3545;
+    background:#dc2626;
     color:white;
 }
 
 .btn-success{
-    background:#198754;
+    background:#15803d;
     color:white;
 }
 
-/* ================= TABLE ================= */
+
+/* =========================================================
+   TABLE
+========================================================= */
 
 .table-container{
     overflow-x:auto;
@@ -192,217 +417,240 @@ body{
 table{
     width:100%;
     border-collapse:collapse;
+    font-size:.84rem;
 }
 
 th{
-    background:#f7f9fc;
-    color:#657084;
-    font-size:13px;
+    background:#0f172a;
+    color:white;
+    padding:12px;
     text-align:left;
-    padding:14px;
 }
 
 td{
-    padding:14px;
-    border-top:1px solid #edf0f4;
-    font-size:14px;
+    padding:11px;
+    border-bottom:1px solid #e2e8f0;
 }
 
 tr:hover{
-    background:#fafcff;
+    background:#f8fafc;
 }
 
-/* ================= BADGES ================= */
+.actions-cell{
+    display:flex;
+    gap:5px;
+}
+
+.btn-edit{
+    background:#dbeafe;
+    color:#1e3a8a;
+    border:1px solid #2563eb;
+    padding:5px 9px;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.btn-delete{
+    background:#fee2e2;
+    color:#dc2626;
+    border:1px solid #ef4444;
+    padding:5px 9px;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.ref-tag{
+    color:#2563eb;
+    font-family:monospace;
+    font-weight:bold;
+}
 
 .badge{
     display:inline-block;
-    padding:5px 9px;
-    border-radius:20px;
-    font-size:12px;
+    padding:4px 8px;
+    border-radius:12px;
+    background:#1e3a8a;
+    color:white;
+    font-size:.72rem;
     font-weight:bold;
 }
 
 .badge-green{
-    background:#dff5e8;
-    color:#168044;
+    background:#16a34a;
 }
 
 .badge-orange{
-    background:#fff0d5;
-    color:#a66400;
+    background:#d97706;
 }
 
 .badge-red{
-    background:#ffe1e4;
-    color:#bd2635;
+    background:#dc2626;
 }
 
-.badge-gray{
-    background:#e9edf2;
-    color:#657084;
+.badge-blue{
+    background:#2563eb;
 }
 
-/* ================= SEARCH ================= */
+.badge-rca{
+    background:#d97706;
+    color:white;
+    padding:4px 8px;
+    border-radius:5px;
+    font-weight:bold;
+}
 
-.filters{
+.badge-bda{
+    background:#db2777;
+    color:white;
+    padding:4px 8px;
+    border-radius:5px;
+    font-weight:bold;
+}
+
+
+/* =========================================================
+   GMAO DASHBOARD
+========================================================= */
+
+.gmao-dashboard{
+    display:none;
+}
+
+.gmao-dashboard.active{
+    display:block;
+}
+
+.gmao-header{
+    background:#f8fafc;
+    border-radius:10px;
+    padding:18px;
+    margin-bottom:18px;
+}
+
+.gmao-header h3{
+    color:#0f172a;
+    font-size:1.5rem;
+}
+
+.gmao-header p{
+    color:#64748b;
+    margin-top:5px;
+}
+
+.gmao-tabs{
     display:flex;
-    gap:10px;
+    gap:8px;
     flex-wrap:wrap;
     margin-bottom:20px;
 }
 
-.input,
-.select{
-    border:1px solid #d9dee7;
-    border-radius:7px;
-    padding:11px 12px;
-    background:white;
-    outline:none;
-}
-
-.input:focus,
-.select:focus{
-    border-color:#2675dc;
-}
-
-/* ================= MODAL ================= */
-
-.modal-overlay{
-    position:fixed;
-    inset:0;
-    background:rgba(10,20,40,.55);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    z-index:1000;
-}
-
-.modal-overlay.show{
-    display:flex;
-}
-
-.modal{
-    background:white;
-    width:700px;
-    max-width:95%;
-    max-height:90vh;
-    overflow-y:auto;
-    border-radius:12px;
-    padding:25px;
-}
-
-.modal-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:22px;
-}
-
-.close{
+.gmao-tab{
     border:none;
-    background:none;
-    font-size:25px;
+    background:#e2e8f0;
+    padding:10px 15px;
+    border-radius:8px;
     cursor:pointer;
-    color:#687386;
-}
-
-.form-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:15px;
-}
-
-.form-group{
-    display:flex;
-    flex-direction:column;
-    gap:6px;
-}
-
-.form-group.full{
-    grid-column:1 / -1;
-}
-
-.form-group label{
-    font-size:13px;
     font-weight:bold;
-    color:#4d596d;
 }
 
-.form-group input,
-.form-group select,
-.form-group textarea{
-    border:1px solid #d9dee7;
-    border-radius:7px;
-    padding:11px;
-    outline:none;
+.gmao-tab.active{
+    background:#1e3a8a;
+    color:white;
 }
 
-.form-group textarea{
-    min-height:80px;
-    resize:vertical;
+.gmao-section{
+    display:none;
 }
 
-.modal-footer{
-    margin-top:25px;
-    display:flex;
-    justify-content:flex-end;
-    gap:10px;
+.gmao-section.active{
+    display:block;
 }
 
-/* ================= EMPTY ================= */
+
+/* =========================================================
+   KPI
+========================================================= */
+
+.kpi-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+    margin-bottom:20px;
+}
+
+.kpi-card{
+    background:#f8fafc;
+    border:1px solid #e2e8f0;
+    border-radius:10px;
+    padding:18px;
+}
+
+.kpi-card span{
+    color:#64748b;
+    font-size:.78rem;
+}
+
+.kpi-card strong{
+    display:block;
+    color:#0f172a;
+    font-size:1.7rem;
+    margin-top:7px;
+}
+
+
+/* =========================================================
+   EMPTY
+========================================================= */
 
 .empty{
     text-align:center;
-    padding:50px 20px;
-    color:#7a8495;
+    padding:30px;
+    color:#64748b;
 }
 
-.empty-icon{
-    font-size:45px;
-    margin-bottom:10px;
-}
 
-/* ================= RESPONSIVE ================= */
+/* =========================================================
+   RESPONSIVE
+========================================================= */
 
-@media(max-width:1000px){
+@media(max-width:850px){
 
-    .kpis{
-        grid-template-columns:repeat(2,1fr);
+    .hub-container{
+        width:100%;
+        height:auto;
+        min-height:850px;
+    }
+
+    .circle-track{
+        display:none;
+    }
+
+    .center-logo{
+        top:50%;
+        left:50%;
+        transform:translate(-50%,-50%);
+    }
+
+    .module-node{
+        position:relative;
+        transform:none!important;
+        margin:8px;
+    }
+
+    .hub-container{
+        display:flex;
+        flex-wrap:wrap;
+        align-content:center;
+    }
+
+    .kpi-grid{
+        grid-template-columns:1fr 1fr;
     }
 }
 
-@media(max-width:700px){
-
-    .sidebar{
-        width:70px;
-        padding:20px 8px;
-    }
-
-    .logo{
-        font-size:0;
-    }
-
-    .logo span{
-        font-size:20px;
-    }
-
-    .menu button{
-        text-align:center;
-        font-size:0;
-    }
-
-    .menu-icon{
-        font-size:20px;
-    }
-
-    .main{
-        margin-left:70px;
-        padding:15px;
-    }
-
-    .kpis{
-        grid-template-columns:1fr;
-    }
+@media(max-width:600px){
 
     .form-grid{
         grid-template-columns:1fr;
@@ -411,189 +659,979 @@ tr:hover{
     .form-group.full{
         grid-column:auto;
     }
+
+    .kpi-grid{
+        grid-template-columns:1fr;
+    }
+
+    header h1{
+        font-size:1.4rem;
+    }
 }
+
 </style>
 </head>
 
+
 <body>
 
-<!-- ================= SIDEBAR ================= -->
 
-<aside class="sidebar">
+<!-- =========================================================
+     AUTH
+========================================================= -->
 
-    <div class="logo">
-        GMAO <span>PRO</span>
-    </div>
+<div class="auth-overlay" id="authScreen">
 
-    <nav class="menu">
+    <div class="auth-card">
 
-        <button class="active" onclick="showPage('dashboard',this)">
-            <span class="menu-icon">🏠</span>
-            Dashboard
+        <h2>🔐 Connexion Sécurisée</h2>
+
+        <p>
+            Veuillez saisir le code secret pour accéder à l'application
+        </p>
+
+        <input
+            type="password"
+            id="secretInput"
+            maxlength="8"
+            placeholder="****"
+        >
+
+        <button onclick="checkAuth()">
+            Accéder au Système
         </button>
 
-        <button onclick="showPage('equipements',this)">
-            <span class="menu-icon">⚙️</span>
-            Équipements
-        </button>
-
-        <button onclick="showPage('interventions',this)">
-            <span class="menu-icon">🔧</span>
-            Pannes / Interventions
-        </button>
-
-        <button onclick="showPage('preventif',this)">
-            <span class="menu-icon">📅</span>
-            Préventif
-        </button>
-
-        <button onclick="showPage('rapports',this)">
-            <span class="menu-icon">📊</span>
-            Rapport journalier
-        </button>
-
-    </nav>
-
-</aside>
-
-
-<!-- ================= MAIN ================= -->
-
-<main class="main">
-
-
-<!-- ================= DASHBOARD ================= -->
-
-<section id="dashboard" class="page active">
-
-    <div class="header-card">
-        <h1>GMAO Maintenance</h1>
-        <p>Gestion de maintenance • Suivi des équipements • Rapports</p>
-    </div>
-
-    <div class="kpis">
-
-        <div class="kpi">
-            <div class="kpi-title">Équipements</div>
-            <div class="kpi-value" id="kpiEquipements">0</div>
-        </div>
-
-        <div class="kpi">
-            <div class="kpi-title">Interventions</div>
-            <div class="kpi-value" id="kpiInterventions">0</div>
-        </div>
-
-        <div class="kpi">
-            <div class="kpi-title">Arrêts aujourd'hui</div>
-            <div class="kpi-value" id="kpiArrets">0</div>
-        </div>
-
-        <div class="kpi">
-            <div class="kpi-title">Temps arrêt aujourd'hui</div>
-            <div class="kpi-value" id="kpiTemps">0 min</div>
-        </div>
+        <p
+            class="error-msg"
+            id="authError">
+            ❌ Code incorrect, réessayez !
+        </p>
 
     </div>
 
-    <div class="card">
+</div>
 
-        <div class="card-header">
-            <h2>Dernières interventions</h2>
-        </div>
 
-        <div class="empty">
-            <div class="empty-icon">🔧</div>
-            <p>Aucune intervention enregistrée.</p>
+<!-- =========================================================
+     MAIN APP
+========================================================= -->
+
+<div id="mainApp">
+
+<header>
+
+    <h1>
+        Plateforme Intégrée Sage X3 & GMAO
+    </h1>
+
+    <p>
+        Gestion des KPIs • Maintenance • RCA / BDA • Plans d'Action
+    </p>
+
+</header>
+
+
+<!-- =========================================================
+     RADIAL HUB
+========================================================= -->
+
+<div
+    class="hub-container"
+    id="hub"
+>
+
+    <div class="circle-track"></div>
+
+    <div
+        class="center-logo"
+        onclick="openGMAODashboard()"
+    >
+
+        <div>
+
+            <strong>SAGE</strong>
+
+            <strong>
+                <span>X3</span>
+            </strong>
+
+            <small>
+                GMAO PRO
+            </small>
+
         </div>
 
     </div>
 
-</section>
+</div>
 
 
-<!-- ================= EQUIPEMENTS ================= -->
+<!-- =========================================================
+     BOTTOM TOOLBAR
+========================================================= -->
 
-<section id="equipements" class="page">
+<div class="bottom-bar">
 
-    <div class="header-card">
-        <h1>Équipements</h1>
-        <p>Gestion du parc machines et équipements</p>
+    <div
+        class="bottom-item"
+        onclick="openModal('REPORTING','📊 RCA / BDA & Actions')"
+    >
+        📊 RCA & BDA
     </div>
 
-    <div class="card">
+    <div
+        class="bottom-item"
+        onclick="openModal('ZONES_PROD','🏭 Zones de Production')"
+    >
+        🏭 Zones Prod
+    </div>
 
-        <div class="card-header">
+    <div
+        class="bottom-item"
+        onclick="openModal('PIECES_RECHANGE','⚙️ Pièces de Rechange')"
+    >
+        ⚙️ Pièces Rechange
+    </div>
 
-            <h2>Liste des équipements</h2>
+    <div
+        class="bottom-item"
+        onclick="openModal('PLANNING','🔌 Planning')"
+    >
+        🔌 Planning
+    </div>
 
-            <button class="btn btn-primary" onclick="openEquipmentModal()">
-                + Ajouter un équipement
+    <div
+        class="bottom-item"
+        onclick="openModal('ADMIN','🛡️ Administration X3')"
+    >
+        🛡️ Admin X3
+    </div>
+
+</div>
+
+</div>
+
+
+<!-- =========================================================
+     GENERAL MODAL
+========================================================= -->
+
+<div
+    class="modal-overlay"
+    id="modalOverlay"
+>
+
+<div class="modal-content">
+
+    <div class="modal-header">
+
+        <h2 id="modalTitle">
+            Module
+        </h2>
+
+        <button
+            class="close-btn"
+            onclick="closeModal()"
+        >
+            ×
+        </button>
+
+    </div>
+
+
+    <!-- ================= GMAO DASHBOARD ================= -->
+
+    <div
+        id="gmaoDashboard"
+        class="gmao-dashboard"
+    >
+
+        <div class="gmao-header">
+
+            <h3>
+                🛠️ GMAO PRO — Maintenance
+            </h3>
+
+            <p>
+                Gestion des équipements • Interventions • Préventif • Rapports
+            </p>
+
+        </div>
+
+
+        <div class="gmao-tabs">
+
+            <button
+                class="gmao-tab active"
+                onclick="showGmaoTab('gmaoAccueil',this)"
+            >
+                📊 Dashboard
+            </button>
+
+            <button
+                class="gmao-tab"
+                onclick="showGmaoTab('gmaoEquipements',this)"
+            >
+                ⚙️ Équipements
+            </button>
+
+            <button
+                class="gmao-tab"
+                onclick="showGmaoTab('gmaoInterventions',this)"
+            >
+                🔧 Interventions
+            </button>
+
+            <button
+                class="gmao-tab"
+                onclick="showGmaoTab('gmaoPreventif',this)"
+            >
+                📅 Préventif
+            </button>
+
+            <button
+                class="gmao-tab"
+                onclick="showGmaoTab('gmaoRapport',this)"
+            >
+                📊 Rapport journalier
             </button>
 
         </div>
 
-        <div class="filters">
 
-            <input
-                id="searchEquipment"
-                class="input"
-                type="text"
-                placeholder="🔎 Rechercher..."
-                oninput="renderEquipments()"
-            >
+        <!-- DASHBOARD -->
 
-            <select
-                id="filterZone"
-                class="select"
-                onchange="renderEquipments()"
-            >
-                <option value="">Toutes les zones</option>
-            </select>
+        <div
+            id="gmaoAccueil"
+            class="gmao-section active"
+        >
 
-            <select
-                id="filterState"
-                class="select"
-                onchange="renderEquipments()"
-            >
-                <option value="">Tous les états</option>
-                <option value="En service">En service</option>
-                <option value="À l'arrêt">À l'arrêt</option>
-                <option value="Hors service">Hors service</option>
-            </select>
+            <div class="kpi-grid">
 
-            <select
-                id="filterCriticality"
-                class="select"
-                onchange="renderEquipments()"
-            >
-                <option value="">Toutes criticités</option>
-                <option value="Faible">Faible</option>
-                <option value="Moyenne">Moyenne</option>
-                <option value="Haute">Haute</option>
-                <option value="Critique">Critique</option>
-            </select>
+                <div class="kpi-card">
+                    <span>Équipements</span>
+                    <strong id="gmaoKpiEquip">0</strong>
+                </div>
+
+                <div class="kpi-card">
+                    <span>Interventions</span>
+                    <strong id="gmaoKpiInter">0</strong>
+                </div>
+
+                <div class="kpi-card">
+                    <span>Arrêts</span>
+                    <strong id="gmaoKpiArrets">0</strong>
+                </div>
+
+                <div class="kpi-card">
+                    <span>Temps d'arrêt</span>
+                    <strong id="gmaoKpiTemps">0 min</strong>
+                </div>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Référence</th>
+                            <th>Date</th>
+                            <th>Équipement</th>
+                            <th>Panne</th>
+                            <th>Durée</th>
+                            <th>Statut</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="recentInterventions"></tbody>
+
+                </table>
+
+            </div>
 
         </div>
+
+
+        <!-- ÉQUIPEMENTS -->
+
+        <div
+            id="gmaoEquipements"
+            class="gmao-section"
+        >
+
+            <div class="form-actions">
+
+                <button
+                    class="btn btn-primary"
+                    onclick="showEquipmentForm()"
+                >
+                    ➕ Ajouter un équipement
+                </button>
+
+            </div>
+
+
+            <div
+                id="equipmentFormBox"
+                style="display:none"
+            >
+
+                <form id="equipmentForm">
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+                            <label>Code équipement *</label>
+                            <input
+                                id="eqCode"
+                                required
+                                placeholder="EXT-001"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label>Équipement *</label>
+                            <input
+                                id="eqName"
+                                required
+                                placeholder="Extrudeuse"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label>Zone *</label>
+                            <input
+                                id="eqZone"
+                                required
+                                placeholder="Moulage"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label>Marque</label>
+                            <input
+                                id="eqBrand"
+                                placeholder="Bonfanti"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label>Modèle</label>
+                            <input
+                                id="eqModel"
+                                placeholder="EX-500"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label>N° Série</label>
+                            <input
+                                id="eqSerial"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label>Criticité</label>
+
+                            <select id="eqCriticality">
+
+                                <option>Faible</option>
+                                <option selected>Moyenne</option>
+                                <option>Haute</option>
+                                <option>Critique</option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label>État</label>
+
+                            <select id="eqState">
+
+                                <option>En service</option>
+                                <option>À l'arrêt</option>
+                                <option>Hors service</option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label>Date mise en service</label>
+                            <input
+                                type="date"
+                                id="eqDate"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label>Localisation</label>
+                            <input
+                                id="eqLocation"
+                                placeholder="Ligne 01"
+                            >
+                        </div>
+
+                        <div class="form-group full">
+                            <label>Description</label>
+
+                            <textarea
+                                id="eqDescription"
+                                placeholder="Description de l'équipement..."
+                            ></textarea>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-actions">
+
+                        <button
+                            class="btn btn-primary"
+                            type="submit"
+                        >
+                            💾 Enregistrer
+                        </button>
+
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            onclick="cancelEquipmentForm()"
+                        >
+                            Annuler
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Code</th>
+                            <th>Équipement</th>
+                            <th>Zone</th>
+                            <th>Marque</th>
+                            <th>Criticité</th>
+                            <th>État</th>
+                            <th>Actions</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="equipmentTable"></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+        <!-- INTERVENTIONS -->
+
+        <div
+            id="gmaoInterventions"
+            class="gmao-section"
+        >
+
+            <div class="form-actions">
+
+                <button
+                    class="btn btn-primary"
+                    onclick="showInterventionForm()"
+                >
+                    ➕ Nouvelle intervention
+                </button>
+
+            </div>
+
+
+            <div
+                id="interventionFormBox"
+                style="display:none"
+            >
+
+                <form id="interventionForm">
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+                            <label>Équipement *</label>
+
+                            <select
+                                id="interEq"
+                                required
+                            ></select>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>Type *</label>
+
+                            <select id="interType">
+
+                                <option>Corrective</option>
+                                <option>Préventive</option>
+                                <option>Amélioration</option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>Priorité</label>
+
+                            <select id="interPriority">
+
+                                <option>Normale</option>
+                                <option>Urgente</option>
+                                <option>Critique</option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>Date</label>
+
+                            <input
+                                type="date"
+                                id="interDate"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="form-group full">
+
+                            <label>Description panne</label>
+
+                            <textarea
+                                id="interProblem"
+                                required
+                                placeholder="Décrire la panne..."
+                            ></textarea>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>Cause</label>
+
+                            <input
+                                id="interCause"
+                                placeholder="Cause identifiée"
+                            >
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>Action réalisée</label>
+
+                            <input
+                                id="interAction"
+                                placeholder="Action corrective"
+                            >
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>Technicien</label>
+
+                            <input
+                                id="interTech"
+                                placeholder="Nom technicien"
+                            >
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>Durée arrêt (min)</label>
+
+                            <input
+                                type="number"
+                                id="interDuration"
+                                min="0"
+                                value="0"
+                            >
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>Statut</label>
+
+                            <select id="interStatus">
+
+                                <option>Ouverte</option>
+                                <option>En cours</option>
+                                <option>Clôturée</option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-actions">
+
+                        <button
+                            class="btn btn-primary"
+                            type="submit"
+                        >
+                            💾 Enregistrer OT
+                        </button>
+
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            onclick="cancelInterventionForm()"
+                        >
+                            Annuler
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Référence</th>
+                            <th>Date</th>
+                            <th>Équipement</th>
+                            <th>Type</th>
+                            <th>Panne</th>
+                            <th>Durée</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="interventionTable"></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+        <!-- PREVENTIF -->
+
+        <div
+            id="gmaoPreventif"
+            class="gmao-section"
+        >
+
+            <div class="form-actions">
+
+                <button
+                    class="btn btn-primary"
+                    onclick="showPreventiveForm()"
+                >
+                    ➕ Nouveau plan préventif
+                </button>
+
+            </div>
+
+
+            <div
+                id="preventiveFormBox"
+                style="display:none"
+            >
+
+                <form id="preventiveForm">
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+
+                            <label>Équipement</label>
+
+                            <select
+                                id="prevEq"
+                                required
+                            ></select>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>Opération</label>
+
+                            <input
+                                id="prevOperation"
+                                required
+                                placeholder="Graissage moteur"
+                            >
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>Fréquence</label>
+
+                            <select id="prevFrequency">
+
+                                <option>Quotidienne</option>
+                                <option>Hebdomadaire</option>
+                                <option>Mensuelle</option>
+                                <option>Trimestrielle</option>
+                                <option>Semestrielle</option>
+                                <option>Annuelle</option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>Prochaine échéance</label>
+
+                            <input
+                                type="date"
+                                id="prevDate"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="form-group full">
+
+                            <label>Instructions</label>
+
+                            <textarea
+                                id="prevInstructions"
+                                placeholder="Contrôle, nettoyage, graissage..."
+                            ></textarea>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-actions">
+
+                        <button
+                            class="btn btn-primary"
+                            type="submit"
+                        >
+                            💾 Enregistrer
+                        </button>
+
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            onclick="cancelPreventiveForm()"
+                        >
+                            Annuler
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Référence</th>
+                            <th>Équipement</th>
+                            <th>Opération</th>
+                            <th>Fréquence</th>
+                            <th>Échéance</th>
+                            <th>Actions</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="preventiveTable"></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+        <!-- RAPPORT -->
+
+        <div
+            id="gmaoRapport"
+            class="gmao-section"
+        >
+
+            <div class="kpi-grid">
+
+                <div class="kpi-card">
+
+                    <span>
+                        Nombre d'interventions
+                    </span>
+
+                    <strong id="reportInterventions">
+                        0
+                    </strong>
+
+                </div>
+
+                <div class="kpi-card">
+
+                    <span>
+                        Temps d'arrêt
+                    </span>
+
+                    <strong id="reportDowntime">
+                        0 min
+                    </strong>
+
+                </div>
+
+                <div class="kpi-card">
+
+                    <span>
+                        Corrective
+                    </span>
+
+                    <strong id="reportCorrective">
+                        0
+                    </strong>
+
+                </div>
+
+                <div class="kpi-card">
+
+                    <span>
+                        Préventive
+                    </span>
+
+                    <strong id="reportPreventive">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <h3 style="color:#0f172a;margin-bottom:12px;">
+                Rapport journalier
+            </h3>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Référence</th>
+                            <th>Date</th>
+                            <th>Équipement</th>
+                            <th>Panne</th>
+                            <th>Action</th>
+                            <th>Durée</th>
+                            <th>Statut</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="dailyReportTable"></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= GENERAL MODULE ================= -->
+
+    <div
+        id="generalModule"
+    >
+
+        <form id="modalForm">
+
+            <div
+                class="form-grid"
+                id="formDynamicFields"
+            ></div>
+
+            <div class="form-actions">
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                    id="btnSubmitForm"
+                >
+                    ➕ Enregistrer
+                </button>
+
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    id="btnCancelEdit"
+                    style="display:none"
+                    onclick="resetEditState()"
+                >
+                    ❌ Annuler Modification
+                </button>
+
+            </div>
+
+        </form>
+
 
         <div class="table-container">
 
             <table>
 
-                <thead>
+                <thead id="modalTableHeader"></thead>
 
-                    <tr>
-                        <th>Code</th>
-                        <th>Équipement</th>
-                        <th>Zone</th>
-                        <th>Marque</th>
-                        <th>Criticité</th>
-                        <th>État</th>
-                        <th>Actions</th>
-                    </tr>
-
-                </thead>
-
-                <tbody id="equipmentTable"></tbody>
+                <tbody id="modalTableBody"></tbody>
 
             </table>
 
@@ -601,466 +1639,748 @@ tr:hover{
 
     </div>
 
-</section>
-
-
-<!-- ================= INTERVENTIONS ================= -->
-
-<section id="interventions" class="page">
-
-    <div class="header-card">
-        <h1>Pannes / Interventions</h1>
-        <p>Gestion des ordres de travail et interventions de maintenance</p>
-    </div>
-
-    <div class="card">
-
-        <div class="empty">
-            <div class="empty-icon">🔧</div>
-            <p>Le module Interventions sera connecté aux équipements dans la prochaine étape.</p>
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- ================= PREVENTIF ================= -->
-
-<section id="preventif" class="page">
-
-    <div class="header-card">
-        <h1>Maintenance Préventive</h1>
-        <p>Plans et échéances de maintenance préventive</p>
-    </div>
-
-    <div class="card">
-
-        <div class="empty">
-            <div class="empty-icon">📅</div>
-            <p>Le module Préventif sera développé après les interventions.</p>
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- ================= RAPPORTS ================= -->
-
-<section id="rapports" class="page">
-
-    <div class="header-card">
-        <h1>Rapport journalier</h1>
-        <p>Suivi quotidien des activités de maintenance</p>
-    </div>
-
-    <div class="card">
-
-        <div class="empty">
-            <div class="empty-icon">📊</div>
-            <p>Le rapport journalier sera connecté aux interventions.</p>
-        </div>
-
-    </div>
-
-</section>
-
-</main>
-
-
-<!-- ================= MODAL EQUIPMENT ================= -->
-
-<div id="equipmentModal" class="modal-overlay">
-
-    <div class="modal">
-
-        <div class="modal-header">
-
-            <h2 id="modalTitle">Ajouter un équipement</h2>
-
-            <button class="close" onclick="closeEquipmentModal()">
-                ×
-            </button>
-
-        </div>
-
-        <form id="equipmentForm">
-
-            <input type="hidden" id="equipmentId">
-
-            <div class="form-grid">
-
-                <div class="form-group">
-                    <label>Code équipement *</label>
-                    <input id="code" required placeholder="Ex: EXT-001">
-                </div>
-
-                <div class="form-group">
-                    <label>Nom équipement *</label>
-                    <input id="name" required placeholder="Ex: Extrudeuse">
-                </div>
-
-                <div class="form-group">
-                    <label>Zone *</label>
-                    <input id="zone" required placeholder="Ex: Moulage">
-                </div>
-
-                <div class="form-group">
-                    <label>Marque</label>
-                    <input id="brand" placeholder="Ex: Bonfanti">
-                </div>
-
-                <div class="form-group">
-                    <label>Modèle</label>
-                    <input id="model" placeholder="Ex: EX-500">
-                </div>
-
-                <div class="form-group">
-                    <label>N° série</label>
-                    <input id="serial" placeholder="Ex: SN123456">
-                </div>
-
-                <div class="form-group">
-                    <label>Criticité</label>
-
-                    <select id="criticality">
-
-                        <option value="Faible">Faible</option>
-                        <option value="Moyenne" selected>Moyenne</option>
-                        <option value="Haute">Haute</option>
-                        <option value="Critique">Critique</option>
-
-                    </select>
-
-                </div>
-
-                <div class="form-group">
-                    <label>État</label>
-
-                    <select id="state">
-
-                        <option value="En service">En service</option>
-                        <option value="À l'arrêt">À l'arrêt</option>
-                        <option value="Hors service">Hors service</option>
-
-                    </select>
-
-                </div>
-
-                <div class="form-group">
-                    <label>Date mise en service</label>
-                    <input id="commissioningDate" type="date">
-                </div>
-
-                <div class="form-group">
-                    <label>Localisation</label>
-                    <input id="location" placeholder="Ex: Ligne 01">
-                </div>
-
-                <div class="form-group full">
-                    <label>Description</label>
-                    <textarea id="description"
-                        placeholder="Description de l'équipement..."></textarea>
-                </div>
-
-            </div>
-
-            <div class="modal-footer">
-
-                <button
-                    type="button"
-                    class="btn btn-secondary"
-                    onclick="closeEquipmentModal()">
-                    Annuler
-                </button>
-
-                <button
-                    type="submit"
-                    class="btn btn-primary">
-                    Enregistrer
-                </button>
-
-            </div>
-
-        </form>
-
-    </div>
+</div>
 
 </div>
 
 
 <script>
 
-/* =====================================================
-   DATABASE LOCALE
-===================================================== */
+/* =========================================================
+   DATABASE
+========================================================= */
 
-let equipments =
-    JSON.parse(localStorage.getItem("gmao_equipements")) || [];
+const SECRET_CODE = "1234";
 
+const modulesData = [
 
-/* =====================================================
-   NAVIGATION
-===================================================== */
+    {
+        id:'REPORTING',
+        prefix:'RCA',
+        title:'RCA / BDA & Actions',
+        icon:'📊',
+        col1:'Équipement / Panne',
+        col2:"Type d'Analyse"
+    },
 
-function showPage(pageId, button){
+    {
+        id:'ZONES_PROD',
+        prefix:'ZONE',
+        title:'Zones de Production',
+        icon:'🏭',
+        col1:'Nom Zone / Ligne',
+        col2:'Statut Ligne'
+    },
 
-    document.querySelectorAll(".page").forEach(page=>{
-        page.classList.remove("active");
-    });
+    {
+        id:'PIECES_RECHANGE',
+        prefix:'PIECE',
+        title:'Pièces de Rechange',
+        icon:'⚙️',
+        col1:'Désignation Pièce',
+        col2:'Zone de Production Liée'
+    },
 
-    document.getElementById(pageId).classList.add("active");
+    {
+        id:'GMAO',
+        prefix:'GMAO',
+        title:'Maintenance & GMAO',
+        icon:'🛠️',
+        col1:'Équipement / Machine',
+        col2:'Statut Panne'
+    },
 
-    document.querySelectorAll(".menu button").forEach(btn=>{
-        btn.classList.remove("active");
-    });
+    {
+        id:'CRM',
+        prefix:'CRM',
+        title:'CRM & Clients',
+        icon:'📈',
+        col1:'Nom Client',
+        col2:'Statut Prospect'
+    },
 
-    button.classList.add("active");
+    {
+        id:'VENTES',
+        prefix:'VTE',
+        title:'Ventes & Commandes',
+        icon:'🛒',
+        col1:'N° Commande',
+        col2:'Montant (€)'
+    },
 
-    if(pageId === "equipements"){
-        renderEquipments();
+    {
+        id:'ACHATS',
+        prefix:'ACH',
+        title:'Achats & Sous-Traitance',
+        icon:'📦',
+        col1:'Fournisseur',
+        col2:'Article / Service'
+    },
+
+    {
+        id:'PRODUCTION',
+        prefix:'OF',
+        title:'Ordres de Fab (OF)',
+        icon:'🏭',
+        col1:'Ordre de Fab. (OF)',
+        col2:'Quantité'
+    },
+
+    {
+        id:'STOCK',
+        prefix:'STK',
+        title:'Stock Magasin',
+        icon:'📦',
+        col1:'Référence Article',
+        col2:'Quantité En Stock'
+    },
+
+    {
+        id:'QUALITE',
+        prefix:'QLT',
+        title:'Contrôle Qualité',
+        icon:'✅',
+        col1:'N° Lot Testé',
+        col2:'Résultat Conformité'
+    },
+
+    {
+        id:'FINANCE',
+        prefix:'FIN',
+        title:'Finance & Immo',
+        icon:'💰',
+        col1:'Compte Comptable',
+        col2:'Montant'
+    },
+
+    {
+        id:'MOBILE',
+        prefix:'MOB',
+        title:'Mobilité & App',
+        icon:'📱',
+        col1:'Utilisateur Mobile',
+        col2:'Appareil / ID'
     }
 
-    updateDashboard();
-}
+];
 
 
-/* =====================================================
-   MODAL
-===================================================== */
+let database =
+    JSON.parse(
+        localStorage.getItem('sageX3_GMAO_DB')
+    ) || {};
 
-function openEquipmentModal(id = null){
 
-    document.getElementById("equipmentModal")
-        .classList.add("show");
+modulesData.forEach(module=>{
 
-    document.getElementById("equipmentForm").reset();
-
-    document.getElementById("equipmentId").value = "";
-
-    if(id){
-
-        const equipment =
-            equipments.find(e => e.id === id);
-
-        if(!equipment) return;
-
-        document.getElementById("modalTitle").innerText =
-            "Modifier l'équipement";
-
-        document.getElementById("equipmentId").value =
-            equipment.id;
-
-        document.getElementById("code").value =
-            equipment.code;
-
-        document.getElementById("name").value =
-            equipment.name;
-
-        document.getElementById("zone").value =
-            equipment.zone;
-
-        document.getElementById("brand").value =
-            equipment.brand || "";
-
-        document.getElementById("model").value =
-            equipment.model || "";
-
-        document.getElementById("serial").value =
-            equipment.serial || "";
-
-        document.getElementById("criticality").value =
-            equipment.criticality;
-
-        document.getElementById("state").value =
-            equipment.state;
-
-        document.getElementById("commissioningDate").value =
-            equipment.commissioningDate || "";
-
-        document.getElementById("location").value =
-            equipment.location || "";
-
-        document.getElementById("description").value =
-            equipment.description || "";
-
-    }else{
-
-        document.getElementById("modalTitle").innerText =
-            "Ajouter un équipement";
+    if(!database[module.id]){
+        database[module.id] = [];
     }
-}
-
-
-function closeEquipmentModal(){
-
-    document.getElementById("equipmentModal")
-        .classList.remove("show");
-}
-
-
-/* =====================================================
-   ENREGISTRER EQUIPMENT
-===================================================== */
-
-document.getElementById("equipmentForm")
-.addEventListener("submit", function(event){
-
-    event.preventDefault();
-
-    const id =
-        document.getElementById("equipmentId").value;
-
-    const equipment = {
-
-        id: id || Date.now().toString(),
-
-        code:
-            document.getElementById("code").value.trim(),
-
-        name:
-            document.getElementById("name").value.trim(),
-
-        zone:
-            document.getElementById("zone").value.trim(),
-
-        brand:
-            document.getElementById("brand").value.trim(),
-
-        model:
-            document.getElementById("model").value.trim(),
-
-        serial:
-            document.getElementById("serial").value.trim(),
-
-        criticality:
-            document.getElementById("criticality").value,
-
-        state:
-            document.getElementById("state").value,
-
-        commissioningDate:
-            document.getElementById("commissioningDate").value,
-
-        location:
-            document.getElementById("location").value.trim(),
-
-        description:
-            document.getElementById("description").value.trim(),
-
-        createdAt:
-            new Date().toISOString()
-    };
-
-
-    if(id){
-
-        const index =
-            equipments.findIndex(e => e.id === id);
-
-        if(index !== -1){
-            equipments[index] = equipment;
-        }
-
-    }else{
-
-        equipments.push(equipment);
-
-    }
-
-
-    saveEquipments();
-
-    closeEquipmentModal();
-
-    renderEquipments();
-
-    updateDashboard();
 
 });
 
 
-/* =====================================================
-   SAVE
-===================================================== */
+if(!database.GMAO_EQUIPMENTS)
+    database.GMAO_EQUIPMENTS = [];
 
-function saveEquipments(){
+if(!database.GMAO_INTERVENTIONS)
+    database.GMAO_INTERVENTIONS = [];
+
+if(!database.GMAO_PREVENTIVE)
+    database.GMAO_PREVENTIVE = [];
+
+
+[
+    'HUB',
+    'PLANNING',
+    'ADMIN'
+].forEach(id=>{
+
+    if(!database[id]){
+        database[id] = [];
+    }
+
+});
+
+
+let currentActiveModule = null;
+let editingIndex = -1;
+
+
+/* =========================================================
+   AUTH
+========================================================= */
+
+function checkAuth(){
+
+    const input =
+        document.getElementById('secretInput').value;
+
+    const error =
+        document.getElementById('authError');
+
+    if(input === SECRET_CODE){
+
+        document.getElementById('authScreen')
+            .style.display='none';
+
+        document.getElementById('mainApp')
+            .style.display='flex';
+
+    }else{
+
+        error.style.display='block';
+
+    }
+
+}
+
+
+document
+.getElementById('secretInput')
+.addEventListener('keypress',function(e){
+
+    if(e.key === 'Enter'){
+        checkAuth();
+    }
+
+});
+
+
+/* =========================================================
+   SAVE DATABASE
+========================================================= */
+
+function saveDatabase(){
 
     localStorage.setItem(
-        "gmao_equipements",
-        JSON.stringify(equipments)
+        'sageX3_GMAO_DB',
+        JSON.stringify(database)
     );
 
 }
 
 
-/* =====================================================
-   AFFICHAGE TABLE
-===================================================== */
+/* =========================================================
+   AUTO REFERENCE
+========================================================= */
 
-function renderEquipments(){
+function generateAutoRef(prefix){
 
-    const tbody =
-        document.getElementById("equipmentTable");
+    const year =
+        new Date().getFullYear();
 
-    const search =
-        document.getElementById("searchEquipment")
-        .value
-        .toLowerCase();
+    const number =
+        Math.floor(
+            1000 +
+            Math.random()*9000
+        );
 
-    const zone =
-        document.getElementById("filterZone").value;
+    return `${prefix}-${year}-${number}`;
 
-    const state =
-        document.getElementById("filterState").value;
-
-    const criticality =
-        document.getElementById("filterCriticality").value;
+}
 
 
-    const filtered =
-        equipments.filter(e=>{
+/* =========================================================
+   HUB
+========================================================= */
 
-            const matchesSearch =
-                e.code.toLowerCase().includes(search) ||
-                e.name.toLowerCase().includes(search) ||
-                e.zone.toLowerCase().includes(search) ||
-                (e.brand || "").toLowerCase().includes(search);
+function renderCircularHub(){
 
-            const matchesZone =
-                !zone || e.zone === zone;
+    const hub =
+        document.getElementById('hub');
 
-            const matchesState =
-                !state || e.state === state;
+    const nodes =
+        hub.querySelectorAll('.module-node');
 
-            const matchesCriticality =
-                !criticality || e.criticality === criticality;
+    nodes.forEach(node=>node.remove());
 
-            return matchesSearch &&
-                   matchesZone &&
-                   matchesState &&
-                   matchesCriticality;
 
+    const total =
+        modulesData.length;
+
+    const radius = 285;
+
+    modulesData.forEach((module,index)=>{
+
+        const angle =
+            (index/total) *
+            (Math.PI*2)
+            -
+            Math.PI/2;
+
+        const x =
+            radius*Math.cos(angle);
+
+        const y =
+            radius*Math.sin(angle);
+
+
+        const node =
+            document.createElement('div');
+
+        node.className='module-node';
+
+        node.style.transform =
+            `translate(${x}px,${y}px)`;
+
+
+        node.innerHTML=`
+
+            <div class="icon-box">
+                ${module.icon}
+            </div>
+
+            <div class="title">
+                ${module.title}
+            </div>
+
+        `;
+
+
+        node.onclick=()=>{
+
+            if(module.id === 'GMAO'){
+
+                openGMAODashboard();
+
+            }else{
+
+                openModal(
+                    module.id,
+                    module.title
+                );
+
+            }
+
+        };
+
+
+        hub.appendChild(node);
+
+    });
+
+}
+
+
+/* =========================================================
+   OPEN GMAO
+========================================================= */
+
+function openGMAODashboard(){
+
+    const modal =
+        document.getElementById('modalOverlay');
+
+    document.getElementById('modalTitle')
+        .innerText =
+        '🛠️ Maintenance & GMAO PRO';
+
+    document.getElementById('generalModule')
+        .style.display='none';
+
+    document.getElementById('gmaoDashboard')
+        .classList.add('active');
+
+    modal.classList.add('active');
+
+    refreshGMAO();
+
+}
+
+
+/* =========================================================
+   GMAO TABS
+========================================================= */
+
+function showGmaoTab(tabId,button){
+
+    document
+        .querySelectorAll('.gmao-section')
+        .forEach(section=>{
+            section.classList.remove('active');
         });
 
 
-    if(filtered.length === 0){
+    document
+        .querySelectorAll('.gmao-tab')
+        .forEach(tab=>{
+            tab.classList.remove('active');
+        });
 
-        tbody.innerHTML = `
+
+    document
+        .getElementById(tabId)
+        .classList.add('active');
+
+
+    button.classList.add('active');
+
+
+    refreshGMAO();
+
+}
+
+
+/* =========================================================
+   CLOSE MODAL
+========================================================= */
+
+function closeModal(){
+
+    document
+        .getElementById('modalOverlay')
+        .classList.remove('active');
+
+    document
+        .getElementById('gmaoDashboard')
+        .classList.remove('active');
+
+}
+
+
+/* =========================================================
+   GENERAL MODULE
+========================================================= */
+
+function openModal(moduleId,title){
+
+    currentActiveModule = moduleId;
+
+    editingIndex=-1;
+
+    document
+        .getElementById('modalTitle')
+        .innerText=title;
+
+    document
+        .getElementById('generalModule')
+        .style.display='block';
+
+    document
+        .getElementById('gmaoDashboard')
+        .classList.remove('active');
+
+
+    const form =
+        document.getElementById('formDynamicFields');
+
+    const header =
+        document.getElementById('modalTableHeader');
+
+
+    /* RCA / BDA */
+
+    if(moduleId==='REPORTING'){
+
+        form.innerHTML=`
+
+            <div class="form-group">
+
+                <label>
+                    Équipement / Machine Concernée
+                </label>
+
+                <input
+                    id="inputField1"
+                    required
+                    placeholder="Ex: Moteur Extrudeuse Ligne A"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Type d'Analyse Diagnostic
+                </label>
+
+                <select
+                    id="inputField2"
+                    required
+                >
+
+                    <option>
+                        RCA (Root Cause Analysis)
+                    </option>
+
+                    <option>
+                        BDA (Breakdown Analysis)
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group full">
+
+                <label>
+                    Plan d'Action Corrective
+                </label>
+
+                <input
+                    id="inputAction"
+                    required
+                    placeholder="Remplacement, Alignement..."
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Responsable
+                </label>
+
+                <input
+                    id="inputResp"
+                    required
+                    placeholder="Responsable de l'action"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Échéance
+                </label>
+
+                <input
+                    type="date"
+                    id="inputDate"
+                    required
+                >
+
+            </div>
+
+        `;
+
+
+        header.innerHTML=`
 
             <tr>
 
-                <td colspan="7">
+                <th>Réf.</th>
+                <th>Équipement</th>
+                <th>Analyse</th>
+                <th>Plan Action</th>
+                <th>Responsable</th>
+                <th>Délai</th>
+                <th>Actions</th>
 
-                    <div class="empty">
+            </tr>
 
-                        <div class="empty-icon">⚙️</div>
+        `;
 
-                        <p>Aucun équipement trouvé.</p>
+    }
 
-                    </div>
 
+    /* PIECES */
+
+    else if(moduleId==='PIECES_RECHANGE'){
+
+        const zones =
+            database.ZONES_PROD || [];
+
+        const options =
+            zones.length
+
+            ?
+
+            zones.map(z=>
+                `<option>${z.val1}</option>`
+            ).join('')
+
+            :
+
+            `<option>Stock Général</option>`;
+
+
+        form.innerHTML=`
+
+            <div class="form-group">
+
+                <label>
+                    Désignation Pièce
+                </label>
+
+                <input
+                    id="inputField1"
+                    required
+                    placeholder="Nom de la pièce"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Zone de Production Liée
+                </label>
+
+                <select
+                    id="inputField2"
+                    required
+                >
+
+                    ${options}
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group full">
+
+                <label>
+                    Remarques / Quantité
+                </label>
+
+                <input
+                    id="inputField3"
+                    placeholder="Informations complémentaires"
+                >
+
+            </div>
+
+        `;
+
+
+        header.innerHTML=`
+
+            <tr>
+
+                <th>Référence</th>
+                <th>Désignation</th>
+                <th>Zone</th>
+                <th>Description</th>
+                <th>Actions</th>
+
+            </tr>
+
+        `;
+
+    }
+
+
+    /* GENERAL */
+
+    else{
+
+        const config =
+            modulesData.find(
+                m=>m.id===moduleId
+            );
+
+
+        form.innerHTML=`
+
+            <div class="form-group">
+
+                <label>
+                    ${config.col1}
+                </label>
+
+                <input
+                    id="inputField1"
+                    required
+                    placeholder="Saisir..."
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    ${config.col2}
+                </label>
+
+                <input
+                    id="inputField2"
+                    required
+                    placeholder="Saisir..."
+                >
+
+            </div>
+
+
+            <div class="form-group full">
+
+                <label>
+                    Description / Remarques
+                </label>
+
+                <input
+                    id="inputField3"
+                    placeholder="Informations complémentaires"
+                >
+
+            </div>
+
+        `;
+
+
+        header.innerHTML=`
+
+            <tr>
+
+                <th>Référence</th>
+                <th>${config.col1}</th>
+                <th>${config.col2}</th>
+                <th>Description</th>
+                <th>Actions</th>
+
+            </tr>
+
+        `;
+
+    }
+
+
+    resetEditState();
+
+    renderTableData();
+
+    document
+        .getElementById('modalOverlay')
+        .classList.add('active');
+
+}
+
+
+/* =========================================================
+   GENERAL TABLE
+========================================================= */
+
+function renderTableData(){
+
+    const tbody =
+        document.getElementById('modalTableBody');
+
+    const items =
+        database[currentActiveModule] || [];
+
+    tbody.innerHTML='';
+
+
+    if(!items.length){
+
+        tbody.innerHTML=`
+
+            <tr>
+
+                <td
+                    colspan="7"
+                    style="text-align:center;color:#64748b"
+                >
+                    Aucun enregistrement.
                 </td>
 
             </tr>
@@ -1072,314 +2392,1437 @@ function renderEquipments(){
     }
 
 
-    tbody.innerHTML =
-        filtered.map(e=>`
+    items.forEach((item,index)=>{
 
-        <tr>
+        const tr =
+            document.createElement('tr');
 
-            <td>
-                <strong>${escapeHTML(e.code)}</strong>
-            </td>
 
-            <td>
-                ${escapeHTML(e.name)}
-            </td>
+        if(currentActiveModule==='REPORTING'){
 
-            <td>
-                ${escapeHTML(e.zone)}
-            </td>
+            tr.innerHTML=`
 
-            <td>
-                ${escapeHTML(e.brand || "-")}
-            </td>
+                <td>
+                    <span class="ref-tag">
+                        ${item.code}
+                    </span>
+                </td>
 
-            <td>
-                ${criticalityBadge(e.criticality)}
-            </td>
+                <td>
+                    <strong>${safe(item.eq)}</strong>
+                </td>
 
-            <td>
-                ${stateBadge(e.state)}
-            </td>
+                <td>
+                    ${
+                        item.type.includes('RCA')
+                        ?
+                        '<span class="badge-rca">RCA</span>'
+                        :
+                        '<span class="badge-bda">BDA</span>'
+                    }
+                </td>
 
-            <td>
+                <td>${safe(item.action)}</td>
 
-                <button
-                    class="btn btn-secondary"
-                    onclick="viewEquipment('${e.id}')">
-                    👁️
-                </button>
+                <td>
+                    <span class="badge">
+                        ${safe(item.resp)}
+                    </span>
+                </td>
 
-                <button
-                    class="btn btn-primary"
-                    onclick="openEquipmentModal('${e.id}')">
-                    ✏️
-                </button>
+                <td>${safe(item.date)}</td>
 
-                <button
-                    class="btn btn-danger"
-                    onclick="deleteEquipment('${e.id}')">
-                    🗑️
-                </button>
+                <td>
+                    ${actionButtons(index)}
+                </td>
 
-            </td>
+            `;
 
-        </tr>
+        }else{
 
-    `).join("");
+            tr.innerHTML=`
 
-    updateZoneFilter();
+                <td>
+                    <span class="ref-tag">
+                        ${item.code}
+                    </span>
+                </td>
+
+                <td>
+                    <strong>
+                        ${safe(item.val1)}
+                    </strong>
+                </td>
+
+                <td>
+                    ${safe(item.val2)}
+                </td>
+
+                <td>
+                    ${safe(item.val3 || '-')}
+                </td>
+
+                <td>
+                    ${actionButtons(index)}
+                </td>
+
+            `;
+
+        }
+
+
+        tbody.appendChild(tr);
+
+    });
 
 }
 
 
-/* =====================================================
-   BADGES
-===================================================== */
+function actionButtons(index){
 
-function stateBadge(state){
+    return `
 
-    if(state === "En service"){
-        return `<span class="badge badge-green">${state}</span>`;
-    }
+        <div class="actions-cell">
 
-    if(state === "À l'arrêt"){
-        return `<span class="badge badge-orange">${state}</span>`;
-    }
+            <button
+                class="btn-edit"
+                onclick="editItem(${index})"
+            >
+                ✏️
+            </button>
 
-    return `<span class="badge badge-red">${state}</span>`;
+            <button
+                class="btn-delete"
+                onclick="deleteItem(${index})"
+            >
+                🗑️
+            </button>
+
+        </div>
+
+    `;
+
 }
 
 
-function criticalityBadge(value){
+/* =========================================================
+   GENERAL EDIT
+========================================================= */
 
-    if(value === "Critique"){
-        return `<span class="badge badge-red">${value}</span>`;
+function editItem(index){
+
+    editingIndex=index;
+
+    const item =
+        database[currentActiveModule][index];
+
+
+    if(currentActiveModule==='REPORTING'){
+
+        document.getElementById('inputField1')
+            .value=item.eq;
+
+        document.getElementById('inputField2')
+            .value=item.type;
+
+        document.getElementById('inputAction')
+            .value=item.action;
+
+        document.getElementById('inputResp')
+            .value=item.resp;
+
+        document.getElementById('inputDate')
+            .value=item.date;
+
+    }else{
+
+        document.getElementById('inputField1')
+            .value=item.val1;
+
+        document.getElementById('inputField2')
+            .value=item.val2;
+
+        if(document.getElementById('inputField3')){
+
+            document.getElementById('inputField3')
+                .value=item.val3 || '';
+
+        }
+
     }
 
-    if(value === "Haute"){
-        return `<span class="badge badge-orange">${value}</span>`;
-    }
 
-    if(value === "Moyenne"){
-        return `<span class="badge badge-gray">${value}</span>`;
-    }
+    document.getElementById('btnSubmitForm')
+        .innerText='💾 Enregistrer les Modifications';
 
-    return `<span class="badge badge-green">${value}</span>`;
+    document.getElementById('btnCancelEdit')
+        .style.display='block';
+
 }
 
 
-/* =====================================================
-   DELETE
-===================================================== */
+function resetEditState(){
 
-function deleteEquipment(id){
+    editingIndex=-1;
 
-    const equipment =
-        equipments.find(e=>e.id === id);
+    document
+        .getElementById('modalForm')
+        .reset();
 
-    if(!equipment) return;
+    document
+        .getElementById('btnSubmitForm')
+        .innerText='➕ Enregistrer';
 
-    const confirmation =
-        confirm(
-            "Voulez-vous vraiment supprimer l'équipement " +
-            equipment.name + " ?"
+    document
+        .getElementById('btnCancelEdit')
+        .style.display='none';
+
+}
+
+
+/* =========================================================
+   GENERAL FORM
+========================================================= */
+
+document
+.getElementById('modalForm')
+.addEventListener('submit',function(e){
+
+    e.preventDefault();
+
+
+    if(currentActiveModule==='REPORTING'){
+
+        const data={
+
+            code:
+                editingIndex>=0
+
+                ?
+                database[currentActiveModule]
+                    [editingIndex].code
+
+                :
+                generateAutoRef('RCA'),
+
+            eq:
+                document.getElementById('inputField1').value,
+
+            type:
+                document.getElementById('inputField2').value,
+
+            action:
+                document.getElementById('inputAction').value,
+
+            resp:
+                document.getElementById('inputResp').value,
+
+            date:
+                document.getElementById('inputDate').value
+
+        };
+
+
+        if(editingIndex>=0){
+
+            database[currentActiveModule]
+                [editingIndex]=data;
+
+        }else{
+
+            database[currentActiveModule]
+                .push(data);
+
+        }
+
+    }
+
+
+    else{
+
+        const prefix =
+            modulesData.find(
+                m=>m.id===currentActiveModule
+            )?.prefix || 'REF';
+
+
+        const data={
+
+            code:
+                editingIndex>=0
+
+                ?
+                database[currentActiveModule]
+                    [editingIndex].code
+
+                :
+                generateAutoRef(prefix),
+
+            val1:
+                document.getElementById('inputField1').value,
+
+            val2:
+                document.getElementById('inputField2').value,
+
+            val3:
+                document.getElementById('inputField3')
+                ?.value || ''
+
+        };
+
+
+        if(editingIndex>=0){
+
+            database[currentActiveModule]
+                [editingIndex]=data;
+
+        }else{
+
+            database[currentActiveModule]
+                .push(data);
+
+        }
+
+    }
+
+
+    saveDatabase();
+
+    resetEditState();
+
+    renderTableData();
+
+});
+
+
+/* =========================================================
+   DELETE GENERAL
+========================================================= */
+
+function deleteItem(index){
+
+    if(!confirm('Supprimer cet enregistrement ?'))
+        return;
+
+
+    database[currentActiveModule]
+        .splice(index,1);
+
+    saveDatabase();
+
+    renderTableData();
+
+}
+
+
+/* =========================================================
+   GMAO EQUIPMENT FORM
+========================================================= */
+
+function showEquipmentForm(){
+
+    document
+        .getElementById('equipmentFormBox')
+        .style.display='block';
+
+    updateEquipmentSelects();
+
+}
+
+
+function cancelEquipmentForm(){
+
+    document
+        .getElementById('equipmentForm')
+        .reset();
+
+    document
+        .getElementById('equipmentFormBox')
+        .style.display='none';
+
+}
+
+
+/* =========================================================
+   SAVE EQUIPMENT
+========================================================= */
+
+document
+.getElementById('equipmentForm')
+.addEventListener('submit',function(e){
+
+    e.preventDefault();
+
+
+    const code =
+        document.getElementById('eqCode').value.trim();
+
+
+    const exists =
+        database.GMAO_EQUIPMENTS
+        .some(
+            item=>item.code===code
         );
 
-    if(!confirmation) return;
 
-    equipments =
-        equipments.filter(e=>e.id !== id);
+    if(exists){
 
-    saveEquipments();
+        alert(
+            'Ce code équipement existe déjà.'
+        );
 
-    renderEquipments();
+        return;
 
-    updateDashboard();
+    }
+
+
+    database.GMAO_EQUIPMENTS.push({
+
+        id:Date.now().toString(),
+
+        code:code,
+
+        name:
+            document.getElementById('eqName').value,
+
+        zone:
+            document.getElementById('eqZone').value,
+
+        brand:
+            document.getElementById('eqBrand').value,
+
+        model:
+            document.getElementById('eqModel').value,
+
+        serial:
+            document.getElementById('eqSerial').value,
+
+        criticality:
+            document.getElementById('eqCriticality').value,
+
+        state:
+            document.getElementById('eqState').value,
+
+        date:
+            document.getElementById('eqDate').value,
+
+        location:
+            document.getElementById('eqLocation').value,
+
+        description:
+            document.getElementById('eqDescription').value
+
+    });
+
+
+    saveDatabase();
+
+    cancelEquipmentForm();
+
+    refreshGMAO();
+
+});
+
+
+/* =========================================================
+   EQUIPMENT TABLE
+========================================================= */
+
+function renderEquipments(){
+
+    const tbody =
+        document.getElementById('equipmentTable');
+
+    tbody.innerHTML='';
+
+
+    const items =
+        database.GMAO_EQUIPMENTS;
+
+
+    if(!items.length){
+
+        tbody.innerHTML=`
+
+            <tr>
+
+                <td
+                    colspan="7"
+                    class="empty"
+                >
+                    Aucun équipement enregistré.
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    items.forEach((item,index)=>{
+
+        const tr =
+            document.createElement('tr');
+
+
+        tr.innerHTML=`
+
+            <td>
+                <span class="ref-tag">
+                    ${safe(item.code)}
+                </span>
+            </td>
+
+            <td>
+                <strong>
+                    ${safe(item.name)}
+                </strong>
+            </td>
+
+            <td>
+                ${safe(item.zone)}
+            </td>
+
+            <td>
+                ${safe(item.brand || '-')}
+            </td>
+
+            <td>
+                ${criticalityBadge(item.criticality)}
+            </td>
+
+            <td>
+                ${stateBadge(item.state)}
+            </td>
+
+            <td>
+
+                <div class="actions-cell">
+
+                    <button
+                        class="btn-edit"
+                        onclick="viewEquipment(${index})"
+                    >
+                        👁️
+                    </button>
+
+                    <button
+                        class="btn-delete"
+                        onclick="deleteEquipment(${index})"
+                    >
+                        🗑️
+                    </button>
+
+                </div>
+
+            </td>
+
+        `;
+
+
+        tbody.appendChild(tr);
+
+    });
 
 }
 
 
-/* =====================================================
-   FICHE EQUIPMENT
-===================================================== */
+function deleteEquipment(index){
 
-function viewEquipment(id){
+    const equipment =
+        database.GMAO_EQUIPMENTS[index];
+
+
+    if(
+        confirm(
+            'Supprimer '+equipment.name+' ?'
+        )
+    ){
+
+        database.GMAO_EQUIPMENTS
+            .splice(index,1);
+
+        saveDatabase();
+
+        refreshGMAO();
+
+    }
+
+}
+
+
+function viewEquipment(index){
 
     const e =
-        equipments.find(e=>e.id === id);
+        database.GMAO_EQUIPMENTS[index];
 
-    if(!e) return;
 
     alert(
 
-        "FICHE ÉQUIPEMENT\n\n" +
+        'FICHE ÉQUIPEMENT\n\n'+
 
-        "Code : " + e.code + "\n" +
+        'Code : '+e.code+'\n'+
 
-        "Équipement : " + e.name + "\n" +
+        'Équipement : '+e.name+'\n'+
 
-        "Zone : " + e.zone + "\n" +
+        'Zone : '+e.zone+'\n'+
 
-        "Marque : " + (e.brand || "-") + "\n" +
+        'Marque : '+(e.brand||'-')+'\n'+
 
-        "Modèle : " + (e.model || "-") + "\n" +
+        'Modèle : '+(e.model||'-')+'\n'+
 
-        "N° série : " + (e.serial || "-") + "\n" +
+        'N° série : '+(e.serial||'-')+'\n'+
 
-        "Criticité : " + e.criticality + "\n" +
+        'Criticité : '+e.criticality+'\n'+
 
-        "État : " + e.state + "\n" +
+        'État : '+e.state+'\n'+
 
-        "Localisation : " + (e.location || "-") + "\n\n" +
+        'Localisation : '+(e.location||'-')+'\n\n'+
 
-        "Description :\n" +
-
-        (e.description || "-")
+        'Description :\n'+
+        (e.description||'-')
 
     );
 
 }
 
 
-/* =====================================================
-   FILTRE ZONE
-===================================================== */
+/* =========================================================
+   INTERVENTION FORM
+========================================================= */
 
-function updateZoneFilter(){
+function showInterventionForm(){
 
-    const select =
-        document.getElementById("filterZone");
+    updateEquipmentSelects();
 
-    const current =
-        select.value;
+    document
+        .getElementById('interventionFormBox')
+        .style.display='block';
 
-    const zones =
-        [...new Set(
-            equipments
-                .map(e=>e.zone)
-                .filter(Boolean)
-        )].sort();
+}
 
 
-    select.innerHTML =
-        `<option value="">Toutes les zones</option>` +
+function cancelInterventionForm(){
 
-        zones.map(zone=>
-            `<option value="${escapeHTML(zone)}">
-                ${escapeHTML(zone)}
+    document
+        .getElementById('interventionForm')
+        .reset();
+
+    document
+        .getElementById('interventionFormBox')
+        .style.display='none';
+
+}
+
+
+/* =========================================================
+   SAVE INTERVENTION
+========================================================= */
+
+document
+.getElementById('interventionForm')
+.addEventListener('submit',function(e){
+
+    e.preventDefault();
+
+
+    const eqId =
+        document.getElementById('interEq').value;
+
+
+    const equipment =
+        database.GMAO_EQUIPMENTS
+        .find(
+            item=>item.id===eqId
+        );
+
+
+    if(!equipment){
+
+        alert(
+            'Veuillez sélectionner un équipement.'
+        );
+
+        return;
+
+    }
+
+
+    database.GMAO_INTERVENTIONS.push({
+
+        id:Date.now().toString(),
+
+        code:
+            generateAutoRef('OT'),
+
+        date:
+            document.getElementById('interDate').value,
+
+        equipmentId:eqId,
+
+        equipment:
+            equipment.name,
+
+        type:
+            document.getElementById('interType').value,
+
+        priority:
+            document.getElementById('interPriority').value,
+
+        problem:
+            document.getElementById('interProblem').value,
+
+        cause:
+            document.getElementById('interCause').value,
+
+        action:
+            document.getElementById('interAction').value,
+
+        technician:
+            document.getElementById('interTech').value,
+
+        duration:
+            Number(
+                document.getElementById('interDuration').value
+            ) || 0,
+
+        status:
+            document.getElementById('interStatus').value
+
+    });
+
+
+    saveDatabase();
+
+    cancelInterventionForm();
+
+    refreshGMAO();
+
+});
+
+
+/* =========================================================
+   INTERVENTION TABLE
+========================================================= */
+
+function renderInterventions(){
+
+    const tbody =
+        document.getElementById('interventionTable');
+
+    tbody.innerHTML='';
+
+
+    const items =
+        database.GMAO_INTERVENTIONS;
+
+
+    if(!items.length){
+
+        tbody.innerHTML=`
+
+            <tr>
+
+                <td
+                    colspan="8"
+                    class="empty"
+                >
+                    Aucune intervention enregistrée.
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    items.forEach((item,index)=>{
+
+        const tr =
+            document.createElement('tr');
+
+
+        tr.innerHTML=`
+
+            <td>
+                <span class="ref-tag">
+                    ${safe(item.code)}
+                </span>
+            </td>
+
+            <td>
+                ${safe(item.date)}
+            </td>
+
+            <td>
+                <strong>
+                    ${safe(item.equipment)}
+                </strong>
+            </td>
+
+            <td>
+                <span class="badge">
+                    ${safe(item.type)}
+                </span>
+            </td>
+
+            <td>
+                ${safe(item.problem)}
+            </td>
+
+            <td>
+                ${item.duration} min
+            </td>
+
+            <td>
+                ${statusBadge(item.status)}
+            </td>
+
+            <td>
+
+                <button
+                    class="btn-delete"
+                    onclick="deleteIntervention(${index})"
+                >
+                    🗑️
+                </button>
+
+            </td>
+
+        `;
+
+
+        tbody.appendChild(tr);
+
+    });
+
+}
+
+
+function deleteIntervention(index){
+
+    if(
+        confirm(
+            'Supprimer cette intervention ?'
+        )
+    ){
+
+        database.GMAO_INTERVENTIONS
+            .splice(index,1);
+
+        saveDatabase();
+
+        refreshGMAO();
+
+    }
+
+}
+
+
+/* =========================================================
+   PREVENTIVE
+========================================================= */
+
+function showPreventiveForm(){
+
+    updateEquipmentSelects();
+
+    document
+        .getElementById('preventiveFormBox')
+        .style.display='block';
+
+}
+
+
+function cancelPreventiveForm(){
+
+    document
+        .getElementById('preventiveForm')
+        .reset();
+
+    document
+        .getElementById('preventiveFormBox')
+        .style.display='none';
+
+}
+
+
+document
+.getElementById('preventiveForm')
+.addEventListener('submit',function(e){
+
+    e.preventDefault();
+
+
+    const eqId =
+        document.getElementById('prevEq').value;
+
+
+    const equipment =
+        database.GMAO_EQUIPMENTS
+        .find(
+            item=>item.id===eqId
+        );
+
+
+    if(!equipment){
+
+        alert(
+            'Veuillez sélectionner un équipement.'
+        );
+
+        return;
+
+    }
+
+
+    database.GMAO_PREVENTIVE.push({
+
+        id:Date.now().toString(),
+
+        code:
+            generateAutoRef('PM'),
+
+        equipmentId:eqId,
+
+        equipment:
+            equipment.name,
+
+        operation:
+            document.getElementById('prevOperation').value,
+
+        frequency:
+            document.getElementById('prevFrequency').value,
+
+        date:
+            document.getElementById('prevDate').value,
+
+        instructions:
+            document.getElementById('prevInstructions').value
+
+    });
+
+
+    saveDatabase();
+
+    cancelPreventiveForm();
+
+    refreshGMAO();
+
+});
+
+
+function renderPreventive(){
+
+    const tbody =
+        document.getElementById('preventiveTable');
+
+    tbody.innerHTML='';
+
+
+    const items =
+        database.GMAO_PREVENTIVE;
+
+
+    if(!items.length){
+
+        tbody.innerHTML=`
+
+            <tr>
+
+                <td
+                    colspan="6"
+                    class="empty"
+                >
+                    Aucun plan préventif enregistré.
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    items.forEach((item,index)=>{
+
+        const tr =
+            document.createElement('tr');
+
+
+        tr.innerHTML=`
+
+            <td>
+                <span class="ref-tag">
+                    ${safe(item.code)}
+                </span>
+            </td>
+
+            <td>
+                ${safe(item.equipment)}
+            </td>
+
+            <td>
+                ${safe(item.operation)}
+            </td>
+
+            <td>
+                ${safe(item.frequency)}
+            </td>
+
+            <td>
+                ${safe(item.date)}
+            </td>
+
+            <td>
+
+                <button
+                    class="btn-delete"
+                    onclick="deletePreventive(${index})"
+                >
+                    🗑️
+                </button>
+
+            </td>
+
+        `;
+
+
+        tbody.appendChild(tr);
+
+    });
+
+}
+
+
+function deletePreventive(index){
+
+    if(confirm('Supprimer ce plan préventif ?')){
+
+        database.GMAO_PREVENTIVE
+            .splice(index,1);
+
+        saveDatabase();
+
+        refreshGMAO();
+
+    }
+
+}
+
+
+/* =========================================================
+   EQUIPMENT SELECTS
+========================================================= */
+
+function updateEquipmentSelects(){
+
+    const equipments =
+        database.GMAO_EQUIPMENTS;
+
+
+    const options =
+        equipments.length
+
+        ?
+
+        equipments.map(e=>
+            `<option value="${e.id}">
+                ${safe(e.code)} — ${safe(e.name)}
             </option>`
-        ).join("");
+        ).join('')
+
+        :
+
+        `<option value="">
+            Aucun équipement disponible
+        </option>`;
 
 
-    select.value = current;
+    document.getElementById('interEq')
+        .innerHTML=options;
+
+    document.getElementById('prevEq')
+        .innerHTML=options;
 
 }
 
 
-/* =====================================================
+/* =========================================================
    DASHBOARD
-===================================================== */
+========================================================= */
 
-function updateDashboard(){
-
-    document.getElementById("kpiEquipements")
-        .innerText = equipments.length;
-
-}
-
-
-/* =====================================================
-   DEMO DATA
-===================================================== */
-
-function loadDemoData(){
-
-    const demo = [
-
-        {
-            id:"demo1",
-            code:"EXT-001",
-            name:"Extrudeuse",
-            zone:"Moulage",
-            brand:"Bonfanti",
-            model:"EX-500",
-            serial:"EXT12345",
-            criticality:"Critique",
-            state:"En service",
-            commissioningDate:"2024-05-10",
-            location:"Ligne 01",
-            description:"Extrudeuse principale de production.",
-            createdAt:new Date().toISOString()
-        },
-
-        {
-            id:"demo2",
-            code:"MEL-001",
-            name:"Mélangeur",
-            zone:"Préparation",
-            brand:"Morando",
-            model:"MX-300",
-            serial:"MEL67890",
-            criticality:"Haute",
-            state:"En service",
-            commissioningDate:"2023-03-15",
-            location:"Préparation",
-            description:"Mélangeur de préparation matière.",
-            createdAt:new Date().toISOString()
-        },
-
-        {
-            id:"demo3",
-            code:"CONV-001",
-            name:"Convoyeur",
-            zone:"Préparation",
-            brand:"SEW",
-            model:"CV-100",
-            serial:"CV00123",
-            criticality:"Moyenne",
-            state:"À l'arrêt",
-            commissioningDate:"2022-08-20",
-            location:"Convoyeur principal",
-            description:"Convoyeur de transfert matière.",
-            createdAt:new Date().toISOString()
-        }
-
-    ];
-
-
-    equipments =
-        equipments.length ? equipments : demo;
-
-    saveEquipments();
+function refreshGMAO(){
 
     renderEquipments();
 
-    updateDashboard();
+    renderInterventions();
+
+    renderPreventive();
+
+    updateEquipmentSelects();
+
+    updateGmaoKPI();
+
+    renderRecentInterventions();
+
+    renderDailyReport();
 
 }
 
 
-/* =====================================================
+function updateGmaoKPI(){
+
+    const equipments =
+        database.GMAO_EQUIPMENTS;
+
+    const interventions =
+        database.GMAO_INTERVENTIONS;
+
+
+    const totalDowntime =
+        interventions.reduce(
+            (sum,item)=>
+                sum + Number(item.duration || 0),
+            0
+        );
+
+
+    const today =
+        new Date()
+        .toISOString()
+        .split('T')[0];
+
+
+    const todayInterventions =
+        interventions.filter(
+            item=>item.date===today
+        );
+
+
+    const todayDowntime =
+        todayInterventions.reduce(
+            (sum,item)=>
+                sum + Number(item.duration || 0),
+            0
+        );
+
+
+    document.getElementById('gmaoKpiEquip')
+        .innerText=
+        equipments.length;
+
+
+    document.getElementById('gmaoKpiInter')
+        .innerText=
+        interventions.length;
+
+
+    document.getElementById('gmaoKpiArrets')
+        .innerText=
+        todayInterventions.length;
+
+
+    document.getElementById('gmaoKpiTemps')
+        .innerText=
+        todayDowntime+' min';
+
+
+    document.getElementById('reportInterventions')
+        .innerText=
+        todayInterventions.length;
+
+
+    document.getElementById('reportDowntime')
+        .innerText=
+        todayDowntime+' min';
+
+
+    document.getElementById('reportCorrective')
+        .innerText=
+        todayInterventions.filter(
+            i=>i.type==='Corrective'
+        ).length;
+
+
+    document.getElementById('reportPreventive')
+        .innerText=
+        todayInterventions.filter(
+            i=>i.type==='Préventive'
+        ).length;
+
+}
+
+
+function renderRecentInterventions(){
+
+    const tbody =
+        document.getElementById(
+            'recentInterventions'
+        );
+
+    tbody.innerHTML='';
+
+
+    const items =
+        [...database.GMAO_INTERVENTIONS]
+        .slice(-8)
+        .reverse();
+
+
+    if(!items.length){
+
+        tbody.innerHTML=`
+
+            <tr>
+
+                <td
+                    colspan="6"
+                    class="empty"
+                >
+                    Aucune intervention.
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    items.forEach(item=>{
+
+        const tr =
+            document.createElement('tr');
+
+
+        tr.innerHTML=`
+
+            <td>
+                <span class="ref-tag">
+                    ${safe(item.code)}
+                </span>
+            </td>
+
+            <td>
+                ${safe(item.date)}
+            </td>
+
+            <td>
+                ${safe(item.equipment)}
+            </td>
+
+            <td>
+                ${safe(item.problem)}
+            </td>
+
+            <td>
+                ${item.duration} min
+            </td>
+
+            <td>
+                ${statusBadge(item.status)}
+            </td>
+
+        `;
+
+
+        tbody.appendChild(tr);
+
+    });
+
+}
+
+
+/* =========================================================
+   DAILY REPORT
+========================================================= */
+
+function renderDailyReport(){
+
+    const tbody =
+        document.getElementById(
+            'dailyReportTable'
+        );
+
+    tbody.innerHTML='';
+
+
+    const today =
+        new Date()
+        .toISOString()
+        .split('T')[0];
+
+
+    const items =
+        database.GMAO_INTERVENTIONS
+        .filter(
+            item=>item.date===today
+        );
+
+
+    if(!items.length){
+
+        tbody.innerHTML=`
+
+            <tr>
+
+                <td
+                    colspan="7"
+                    class="empty"
+                >
+                    Aucune intervention aujourd'hui.
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    items.forEach(item=>{
+
+        const tr =
+            document.createElement('tr');
+
+
+        tr.innerHTML=`
+
+            <td>
+                ${safe(item.code)}
+            </td>
+
+            <td>
+                ${safe(item.date)}
+            </td>
+
+            <td>
+                ${safe(item.equipment)}
+            </td>
+
+            <td>
+                ${safe(item.problem)}
+            </td>
+
+            <td>
+                ${safe(item.action || '-')}
+            </td>
+
+            <td>
+                ${item.duration} min
+            </td>
+
+            <td>
+                ${statusBadge(item.status)}
+            </td>
+
+        `;
+
+
+        tbody.appendChild(tr);
+
+    });
+
+}
+
+
+/* =========================================================
+   BADGES
+========================================================= */
+
+function statusBadge(status){
+
+    if(status==='Clôturée')
+        return `<span class="badge badge-green">${status}</span>`;
+
+    if(status==='En cours')
+        return `<span class="badge badge-orange">${status}</span>`;
+
+    return `<span class="badge badge-red">${status}</span>`;
+
+}
+
+
+function stateBadge(state){
+
+    if(state==='En service')
+        return `<span class="badge badge-green">${state}</span>`;
+
+    if(state==='À l'arrêt')
+        return `<span class="badge badge-orange">${state}</span>`;
+
+    return `<span class="badge badge-red">${state}</span>`;
+
+}
+
+
+function criticalityBadge(value){
+
+    if(value==='Critique')
+        return `<span class="badge badge-red">${value}</span>`;
+
+    if(value==='Haute')
+        return `<span class="badge badge-orange">${value}</span>`;
+
+    if(value==='Moyenne')
+        return `<span class="badge badge-blue">${value}</span>`;
+
+    return `<span class="badge badge-green">${value}</span>`;
+
+}
+
+
+/* =========================================================
    SECURITY HTML
-===================================================== */
+========================================================= */
 
-function escapeHTML(text){
+function safe(value){
 
-    return String(text)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
+    return String(value ?? '')
+        .replace(/&/g,'&amp;')
+        .replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;')
+        .replace(/'/g,'&#039;');
 
 }
 
 
-/* =====================================================
-   INITIALISATION
-===================================================== */
+/* =========================================================
+   CLOSE MODAL BY CLICK OUTSIDE
+========================================================= */
 
-updateDashboard();
+document
+.getElementById('modalOverlay')
+.addEventListener('click',function(e){
+
+    if(e.target===this){
+
+        closeModal();
+
+    }
+
+});
+
+
+/* =========================================================
+   START
+========================================================= */
+
+renderCircularHub();
 
 </script>
 
