@@ -1,677 +1,1719 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Plateforme Intégrée Sage X3 & GMAO PRO</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Sage X3 & GMAO PRO</title>
 
 <style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:"Segoe UI",Arial,sans-serif}
+body{background:#0f172a;color:#fff;min-height:100vh}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
 
-/* =========================================================
-    RESET
-========================================================= */
+header{text-align:center;padding:22px 10px 5px}
+header h1{font-size:28px}
+header p{color:#93c5fd;margin-top:6px}
 
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-    font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
-}
+#mainApp{min-height:100vh}
 
-body{
-    background:#0f172a;
-    color:white;
-    min-height:100vh;
-    overflow-x:hidden;
-}
-
-button,
-input,
-select,
-textarea{
-    font-family:inherit;
-}
-
-
-/* =========================================================
-    AUTHENTIFICATION
-========================================================= */
-
-.auth-overlay{
-    position:fixed;
-    inset:0;
-    background:#0f172a;
-    z-index:9999;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
-
-.auth-card{
-    background:#1e3a8a;
-    border:2px solid #2563eb;
-    border-radius:18px;
-    padding:35px;
-    width:90%;
-    max-width:420px;
-    text-align:center;
-    box-shadow:0 20px 50px rgba(0,0,0,.5);
-}
-
-.auth-card h2{
-    margin-bottom:10px;
-}
-
-.auth-card p{
-    color:#bfdbfe;
-    font-size:.9rem;
-    margin-bottom:20px;
-}
-
-.auth-card input{
-    width:100%;
-    padding:13px;
-    background:#0f172a;
-    border:1px solid #3b82f6;
-    border-radius:8px;
-    color:white;
-    font-size:1.1rem;
-    text-align:center;
-    letter-spacing:5px;
-    outline:none;
-    margin-bottom:15px;
-}
-
-.auth-card button{
-    width:100%;
-    padding:13px;
-    background:#2563eb;
-    border:none;
-    border-radius:8px;
-    color:white;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-.auth-card button:hover{
-    background:#1d4ed8;
-}
-
-.error-msg{
-    display:none;
-    color:#f87171!important;
-    margin-top:12px;
-}
-
-
-/* =========================================================
-    APPLICATION
-========================================================= */
-
-#mainApp{
-    display:none;
-    width:100%;
-    min-height:100vh;
-    flex-direction:column;
-    align-items:center;
-}
-
-header{
-    text-align:center;
-    margin-top:20px;
-    margin-bottom:10px;
-}
-
-header h1{
-    font-size:2rem;
-    letter-spacing:1px;
-}
-
-header p{
-    color:#93c5fd;
-    margin-top:7px;
-}
-
-
-/* =========================================================
-    HUB
-========================================================= */
-
-.hub-container{
+.hub{
+    max-width:1100px;
+    min-height:570px;
+    margin:auto;
     position:relative;
-    width:780px;
-    height:600px;
-    margin:15px auto;
     display:flex;
     align-items:center;
-    justify-content:center;
+    justify-content:center
 }
-
-.circle-track{
-    position:absolute;
-    width:500px;
-    height:500px;
-    border:2px dashed #3b82f6;
+.circle{
+    width:480px;height:480px;
+    border:2px dashed #2563eb;
     border-radius:50%;
-    pointer-events:none;
+    position:absolute
 }
-
-.center-logo{
-    position:absolute;
-    width:175px;
-    height:175px;
-    background:white;
-    border:4px solid #3b82f6;
+.logo{
+    width:175px;height:175px;
+    background:#fff;color:#0f172a;
+    border:5px solid #2563eb;
     border-radius:50%;
     display:flex;
     align-items:center;
     justify-content:center;
-    box-shadow:0 0 35px rgba(59,130,246,.4);
-    z-index:10;
-    cursor:pointer;
-    overflow:hidden;
-}
-
-.center-logo div{
-    color:#0f172a;
     text-align:center;
+    z-index:5;
+    cursor:pointer;
+    box-shadow:0 0 35px #2563eb55
 }
+.logo strong{display:block;font-size:25px}
+.logo span{color:#2563eb}
 
-.center-logo strong{
-    display:block;
-    font-size:22px;
-}
-
-.center-logo span{
-    color:#2563eb;
-    font-weight:bold;
-}
-
-.module-node{
+.node{
     position:absolute;
-    width:145px;
-    min-height:105px;
+    width:150px;
+    min-height:95px;
     background:#1e293b;
-    border:2px solid #3b82f6;
-    border-radius:13px;
+    border:2px solid #2563eb;
+    border-radius:14px;
     display:flex;
     flex-direction:column;
-    align-items:center;
     justify-content:center;
+    align-items:center;
     text-align:center;
-    padding:10px;
-    cursor:pointer;
     transition:.2s;
-    box-shadow:0 8px 18px rgba(0,0,0,.35);
-    z-index:5;
+    box-shadow:0 8px 20px #0006
 }
+.node:hover{background:#1e3a8a;transform:scale(1.05)}
+.node b{font-size:27px;margin-bottom:5px}
+.node span{font-size:12px;font-weight:bold}
 
-.module-node:hover{
-    background:#1e3a8a;
-    border-color:#60a5fa;
-    transform:scale(1.05)!important;
-}
+.n1{top:35px;left:50%;transform:translateX(-50%)}
+.n2{top:145px;right:35px}
+.n3{bottom:105px;right:55px}
+.n4{bottom:35px;left:50%;transform:translateX(-50%)}
+.n5{bottom:105px;left:55px}
+.n6{top:145px;left:35px}
 
-.module-node .icon-box{
-    font-size:30px;
-    margin-bottom:6px;
-}
-
-.module-node .title{
-    font-size:.72rem;
-    font-weight:bold;
-    line-height:1.2;
-}
-
-
-/* =========================================================
-    BOTTOM BAR
-========================================================= */
-
-.bottom-bar{
-    width:95%;
+.bottom{
     max-width:1100px;
-    background:#1e293b;
-    border:2px solid #3b82f6;
-    border-radius:12px;
-    padding:13px;
+    margin:auto auto 25px;
+    padding:14px;
     display:flex;
     justify-content:center;
-    gap:10px;
     flex-wrap:wrap;
-    margin-bottom:30px;
+    gap:10px;
+    background:#1e293b;
+    border:1px solid #2563eb;
+    border-radius:12px
 }
-
-.bottom-item{
-    display:flex;
-    align-items:center;
-    gap:7px;
-    padding:9px 14px;
-    border-radius:8px;
-    cursor:pointer;
-    font-weight:bold;
-    font-size:.82rem;
+.bottom button{
     background:#0f172a;
-    border:1px solid #3b82f6;
+    color:white;
+    border:1px solid #2563eb;
+    padding:10px 15px;
+    border-radius:8px
 }
+.bottom button:hover{background:#1e3a8a}
 
-.bottom-item:hover{
-    background:#1e3a8a;
-}
-
-
-/* =========================================================
-    MODAL
-========================================================= */
-
-.modal-overlay{
+.overlay{
+    display:none;
     position:fixed;
     inset:0;
-    background:rgba(15,23,42,.82);
-    backdrop-filter:blur(5px);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    z-index:1000;
+    background:#020617dd;
+    z-index:100;
     padding:20px;
+    overflow:auto
 }
+.overlay.active{display:block}
 
-.modal-overlay.active{
-    display:flex;
-}
-
-.modal-content{
+.modal{
+    max-width:1200px;
+    margin:auto;
     background:white;
     color:#0f172a;
-    width:95%;
-    max-width:1100px;
-    max-height:90vh;
-    overflow-y:auto;
-    border-radius:16px;
-    border:2px solid #1e3a8a;
-    padding:25px;
-    box-shadow:0 25px 60px rgba(0,0,0,.5);
+    border-radius:15px;
+    padding:22px;
+    min-height:90vh
 }
 
-.modal-header{
+.modal-head{
     display:flex;
     justify-content:space-between;
     align-items:center;
     border-bottom:2px solid #e2e8f0;
     padding-bottom:15px;
-    margin-bottom:20px;
+    margin-bottom:15px
 }
-
-.modal-header h2{
-    color:#1e3a8a;
-    font-size:1.35rem;
-}
-
-.close-btn{
-    width:34px;
-    height:34px;
-    border:none;
+.modal-head h2{color:#1e3a8a}
+.close{
+    border:0;
+    width:38px;height:38px;
     border-radius:50%;
     background:#e2e8f0;
-    cursor:pointer;
-    font-size:20px;
+    font-size:22px
 }
 
-.close-btn:hover{
-    background:#ef4444;
-    color:white;
-}
-
-
-/* =========================================================
-    FORMS
-========================================================= */
-
-.form-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:15px;
-    margin-bottom:18px;
-}
-
-.form-group{
+.tabs{
     display:flex;
-    flex-direction:column;
-    gap:5px;
-}
-
-.form-group.full{
-    grid-column:span 2;
-}
-
-.form-group label{
-    font-size:.82rem;
-    font-weight:bold;
-    color:#1e3a8a;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea{
-    width:100%;
-    background:#f8fafc;
-    border:1.5px solid #cbd5e1;
-    border-radius:8px;
-    padding:10px;
-    outline:none;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus{
-    border-color:#2563eb;
-}
-
-.form-actions{
-    display:flex;
-    gap:10px;
-    margin-bottom:20px;
-}
-
-.btn{
-    border:none;
-    padding:10px 15px;
-    border-radius:8px;
-    cursor:pointer;
-    font-weight:bold;
-}
-
-.btn-primary{
-    background:#1e3a8a;
-    color:white;
-}
-
-.btn-primary:hover{
-    background:#2563eb;
-}
-
-.btn-secondary{
-    background:#64748b;
-    color:white;
-}
-
-.btn-danger{
-    background:#dc2626;
-    color:white;
-}
-
-.btn-success{
-    background:#15803d;
-    color:white;
-}
-
-
-/* =========================================================
-    TABLE
-========================================================= */
-
-.table-container{
-    overflow-x:auto;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    font-size:.84rem;
-}
-
-th{
-    background:#0f172a;
-    color:white;
-    padding:12px;
-    text-align:left;
-}
-
-td{
-    padding:11px;
-    border-bottom:1px solid #e2e8f0;
-}
-
-tr:hover{
-    background:#f8fafc;
-}
-
-/* =========================================================
-    GMAO DASHBOARD
-========================================================= */
-
-.gmao-dashboard{
-    display:none;
-}
-
-.gmao-dashboard.active{
-    display:block;
-}
-
-.gmao-header{
-    background:#f8fafc;
-    border-radius:10px;
-    padding:18px;
-    margin-bottom:18px;
-}
-
-.gmao-header h3{
-    color:#0f172a;
-    font-size:1.5rem;
-}
-
-.gmao-header p{
-    color:#64748b;
-    margin-top:5px;
-}
-
-.gmao-tabs{
-    display:flex;
-    gap:8px;
+    gap:7px;
     flex-wrap:wrap;
-    margin-bottom:20px;
+    margin-bottom:18px
 }
-
-.gmao-tab{
-    border:none;
-    background:#e2e8f0;
-    padding:10px 15px;
+.tab{
+    border:0;
+    padding:10px 13px;
     border-radius:8px;
-    cursor:pointer;
-    font-weight:bold;
+    background:#e2e8f0;
+    font-weight:bold
 }
+.tab.active{background:#1e3a8a;color:white}
 
-.gmao-tab.active{
-    background:#1e3a8a;
-    color:white;
-}
+.section{display:none}
+.section.active{display:block}
 
-.gmao-section{
-    display:none;
-}
-
-.gmao-section.active{
-    display:block;
-}
-
-
-/* =========================================================
-    KPI
-========================================================= */
-
-.kpi-grid{
+.kpis{
     display:grid;
     grid-template-columns:repeat(4,1fr);
     gap:12px;
-    margin-bottom:20px;
+    margin-bottom:20px
 }
-
-.kpi-card{
+.kpi{
     background:#f8fafc;
-    border:1px solid #e2e8f0;
+    border:1px solid #dbe3ed;
     border-radius:10px;
-    padding:18px;
+    padding:18px
 }
-
-.kpi-card span{
-    color:#64748b;
-    font-size:.78rem;
-}
-
-.kpi-card strong{
+.kpi small{color:#64748b}
+.kpi strong{
     display:block;
-    color:#0f172a;
-    font-size:1.7rem;
-    margin-top:7px;
+    margin-top:8px;
+    font-size:25px;
+    color:#0f172a
 }
 
-@media(max-width:850px){
-    .hub-container{
-        width:100%;
-        height:auto;
-        min-height:500px;
-    }
-    .circle-track{
-        display:none;
-    }
-    .kpi-grid{
-        grid-template-columns:1fr 1fr;
-    }
+.form{
+    background:#f8fafc;
+    padding:18px;
+    border-radius:10px;
+    margin-bottom:20px
+}
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px
+}
+.group{display:flex;flex-direction:column;gap:5px}
+.group.full{grid-column:1/-1}
+.group label{font-size:13px;font-weight:bold;color:#334155}
+.group input,.group select,.group textarea{
+    padding:10px;
+    border:1px solid #cbd5e1;
+    border-radius:7px;
+    background:white;
+    color:#0f172a
+}
+textarea{min-height:80px;resize:vertical}
+
+.actions{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-top:12px
+}
+.btn{
+    border:0;
+    padding:9px 14px;
+    border-radius:7px;
+    font-weight:bold
+}
+.primary{background:#1e3a8a;color:white}
+.success{background:#15803d;color:white}
+.danger{background:#dc2626;color:white}
+.secondary{background:#64748b;color:white}
+.warning{background:#d97706;color:white}
+
+.table-wrap{overflow:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{
+    background:#0f172a;
+    color:white;
+    padding:10px;
+    text-align:left
+}
+td{
+    padding:9px;
+    border-bottom:1px solid #e2e8f0
+}
+tr:hover{background:#f8fafc}
+
+.badge{
+    padding:4px 8px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:bold
+}
+.badge-ok{background:#dcfce7;color:#166534}
+.badge-open{background:#fee2e2;color:#991b1b}
+.badge-plan{background:#fef3c7;color:#92400e}
+
+.alert{
+    padding:13px;
+    background:#eff6ff;
+    border-left:4px solid #2563eb;
+    border-radius:5px;
+    margin-bottom:15px
 }
 
+.report{
+    background:#f8fafc;
+    padding:20px;
+    border-radius:10px;
+    line-height:1.7
+}
+
+@media(max-width:800px){
+    .hub{min-height:750px}
+    .circle{display:none}
+    .node{position:static;transform:none!important;width:150px}
+    .hub{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:15px}
+    .logo{grid-column:1/-1;justify-self:center}
+    .kpis{grid-template-columns:1fr 1fr}
+}
 @media(max-width:600px){
-    .form-grid{
-        grid-template-columns:1fr;
-    }
-    .kpi-grid{
-        grid-template-columns:1fr;
-    }
+    .grid{grid-template-columns:1fr}
+    .kpis{grid-template-columns:1fr}
 }
 </style>
 </head>
 
 <body>
 
-<!-- AUTH OVERLAY -->
-<div class="auth-overlay" id="authScreen">
-    <div class="auth-card">
-        <h2>🔐 Connexion Sécurisée</h2>
-        <p>Veuillez saisir le code secret pour accéder à l'application</p>
-        <input type="password" id="secretInput" placeholder="****" value="1234">
-        <button onclick="checkAuth()">Accéder au Système</button>
-        <p class="error-msg" id="authError">❌ Code incorrect, réessayez !</p>
-    </div>
-</div>
-
-<!-- MAIN APP -->
 <div id="mainApp">
-    <header>
-        <h1>Plateforme Intégrée Sage X3 & GMAO</h1>
-        <p>Gestion des KPIs • Maintenance • RCA / BDA • Plans d'Action</p>
-    </header>
 
-    <div class="hub-container" id="hub">
-        <div class="circle-track"></div>
-        <div class="center-logo" onclick="openGMAODashboard()">
-            <div>
-                <strong>SAGE</strong>
-                <strong><span>X3</span></strong>
-                <small>GMAO PRO</small>
-            </div>
-        </div>
-    </div>
+<header>
+<h1>Plateforme Intégrée Sage X3 & GMAO PRO</h1>
+<p>Maintenance • Fiabilité • KPI • RCA • BDA • Reporting</p>
+</header>
 
-    <div class="bottom-bar">
-        <div class="bottom-item" onclick="openModal('REPORTING','📊 RCA / BDA & Actions')">📊 RCA & BDA</div>
-        <div class="bottom-item" onclick="openModal('ZONES_PROD','🏭 Zones de Production')">🏭 Zones Prod</div>
-        <div class="bottom-item" onclick="openModal('PIECES_RECHANGE','⚙️ Pièces de Rechange')">⚙️ Pièces Rechange</div>
-        <div class="bottom-item" onclick="openModal('PLANNING','🔌 Planning')">🔌 Planning</div>
-        <div class="bottom-item" onclick="openModal('ADMIN','🛡️ Administration X3')">🛡️ Admin X3</div>
-    </div>
+<div class="hub">
+
+<div class="circle"></div>
+
+<div class="logo" onclick="openGMAO()">
+<div>
+<strong>SAGE</strong>
+<strong><span>X3</span></strong>
+<small>GMAO PRO</small>
+</div>
 </div>
 
-<!-- GENERAL MODAL -->
-<div class="modal-overlay" id="modalOverlay">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2 id="modalTitle">Module</h2>
-            <button class="close-btn" onclick="closeModal()">×</button>
-        </div>
-
-        <!-- GMAO DASHBOARD -->
-        <div id="gmaoDashboard" class="gmao-dashboard">
-            <div class="gmao-header">
-                <h3>🛠️ GMAO PRO — Maintenance</h3>
-                <p>Gestion des équipements • Interventions • Préventif • Rapports</p>
-            </div>
-
-            <div class="gmao-tabs">
-                <button class="gmao-tab active" onclick="showGmaoTab('gmaoAccueil',this)">📊 Dashboard</button>
-                <button class="gmao-tab" onclick="showGmaoTab('gmaoEquipements',this)">⚙️ Équipements</button>
-                <button class="gmao-tab" onclick="showGmaoTab('gmaoInterventions',this)">🔧 Interventions</button>
-                <button class="gmao-tab" onclick="showGmaoTab('gmaoPreventif',this)">📅 Préventif</button>
-                <button class="gmao-tab" onclick="showGmaoTab('gmaoRapport',this)">📊 Rapport journalier</button>
-            </div>
-
-            <!-- DASHBOARD -->
-            <div id="gmaoAccueil" class="gmao-section active">
-                <div class="kpi-grid">
-                    <div class="kpi-card"><span>Équipements</span><strong id="gmaoKpiEquip">12</strong></div>
-                    <div class="kpi-card"><span>Interventions</span><strong id="gmaoKpiInter">5</strong></div>
-                    <div class="kpi-card"><span>Arrêts</span><strong id="gmaoKpiArrets">2</strong></div>
-                    <div class="kpi-card"><span>Temps d'arrêt</span><strong id="gmaoKpiTemps">45 min</strong></div>
-                </div>
-            </div>
-
-            <!-- RAPPORT -->
-            <div id="gmaoRapport" class="gmao-section">
-                <div class="kpi-grid">
-                    <div class="kpi-card"><span>Nombre d'interventions</span><strong id="reportInterventions">5</strong></div>
-                    <div class="kpi-card"><span>Temps d'arrêt</span><strong id="reportDowntime">45 min</strong></div>
-                </div>
-            </div>
-        </div>
-        <div id="modalBodyCustom"></div>
-    </div>
+<div class="node n1" onclick="openGMAO('dashboard')">
+<b>📊</b><span>DASHBOARD KPI</span>
 </div>
+
+<div class="node n2" onclick="openGMAO('equipment')">
+<b>⚙️</b><span>ÉQUIPEMENTS</span>
+</div>
+
+<div class="node n3" onclick="openGMAO('interventions')">
+<b>🔧</b><span>INTERVENTIONS / PANNES</span>
+</div>
+
+<div class="node n4" onclick="openGMAO('preventif')">
+<b>📅</b><span>MAINTENANCE PRÉVENTIVE</span>
+</div>
+
+<div class="node n5" onclick="openGMAO('rapport')">
+<b>📋</b><span>RAPPORT JOURNALIER</span>
+</div>
+
+<div class="node n6" onclick="openGMAO('rca')">
+<b>🔍</b><span>RCA / BDA</span>
+</div>
+
+</div>
+
+<div class="bottom">
+
+<button onclick="openGMAO('equipment')">⚙️ Équipements</button>
+<button onclick="openGMAO('interventions')">🔧 OT / Pannes</button>
+<button onclick="openGMAO('preventif')">📅 Préventif</button>
+<button onclick="openGMAO('rca')">📊 RCA / BDA</button>
+<button onclick="openGMAO('pieces')">📦 Pièces</button>
+<button onclick="openGMAO('zones')">🏭 Zones</button>
+<button onclick="openGMAO('planning')">🗓️ Planning</button>
+<button onclick="openGMAO('rapport')">📋 Rapport</button>
+</div>
+
+</div>
+
+
+<div class="overlay" id="overlay">
+
+<div class="modal">
+
+<div class="modal-head">
+<h2 id="modalTitle">🛠️ GMAO PRO</h2>
+<button class="close" onclick="closeModal()">×</button>
+</div>
+
+<div class="tabs">
+<button class="tab active" onclick="showSection('dashboard',this)">📊 Dashboard</button>
+<button class="tab" onclick="showSection('equipment',this)">⚙️ Équipements</button>
+<button class="tab" onclick="showSection('interventions',this)">🔧 Interventions</button>
+<button class="tab" onclick="showSection('preventif',this)">📅 Préventif</button>
+<button class="tab" onclick="showSection('rca',this)">🔍 RCA / BDA</button>
+<button class="tab" onclick="showSection('pieces',this)">📦 Pièces</button>
+<button class="tab" onclick="showSection('zones',this)">🏭 Zones</button>
+<button class="tab" onclick="showSection('planning',this)">🗓️ Planning</button>
+<button class="tab" onclick="showSection('rapport',this)">📋 Rapport</button>
+</div>
+
+
+<!-- DASHBOARD -->
+
+<section id="dashboard" class="section active">
+
+<div class="alert">
+<b>GMAO PRO active</b><br>
+Les indicateurs sont calculés automatiquement à partir des interventions enregistrées.
+</div>
+
+<div class="kpis">
+
+<div class="kpi">
+<small>Équipements</small>
+<strong id="kpiEquip">0</strong>
+</div>
+
+<div class="kpi">
+<small>Interventions</small>
+<strong id="kpiInter">0</strong>
+</div>
+
+<div class="kpi">
+<small>Arrêts</small>
+<strong id="kpiStops">0</strong>
+</div>
+
+<div class="kpi">
+<small>Temps d'arrêt</small>
+<strong id="kpiDowntime">0 min</strong>
+</div>
+
+<div class="kpi">
+<small>MTTR</small>
+<strong id="kpiMTTR">0 min</strong>
+</div>
+
+<div class="kpi">
+<small>MTBF</small>
+<strong id="kpiMTBF">0 h</strong>
+</div>
+
+<div class="kpi">
+<small>Disponibilité</small>
+<strong id="kpiAvailability">100 %</strong>
+</div>
+
+<div class="kpi">
+<small>Préventif</small>
+<strong id="kpiPreventif">0</strong>
+</div>
+
+</div>
+
+<div class="form">
+<h3>📌 État actuel de la maintenance</h3>
+<br>
+
+<div id="dashboardMessage">
+Aucune intervention enregistrée pour le moment.
+</div>
+</div>
+
+</section>
+
+
+<!-- EQUIPMENT -->
+
+<section id="equipment" class="section">
+
+<div class="form">
+
+<h3>➕ Ajouter un équipement</h3><br>
+
+<div class="grid">
+
+<div class="group">
+<label>Code équipement</label>
+<input id="eqCode" placeholder="EX: EXT-001">
+</div>
+
+<div class="group">
+<label>Désignation</label>
+<input id="eqName" placeholder="Extrudeuse">
+</div>
+
+<div class="group">
+<label>Zone</label>
+<select id="eqZone">
+<option>Préparation</option>
+<option>Moulage</option>
+<option>Séchoir</option>
+<option>Four</option>
+<option>Empileuse</option>
+<option>Emballage</option>
+<option>Utilités</option>
+</select>
+</div>
+
+<div class="group">
+<label>Criticité</label>
+<select id="eqCriticality">
+<option>A</option>
+<option>B</option>
+<option>C</option>
+</select>
+</div>
+
+<div class="group">
+<label>Marque</label>
+<input id="eqBrand" placeholder="Marque">
+</div>
+
+<div class="group">
+<label>État</label>
+<select id="eqStatus">
+<option>En service</option>
+<option>Arrêt</option>
+<option>Maintenance</option>
+</select>
+</div>
+
+</div>
+
+<div class="actions">
+<button class="btn primary" onclick="addEquipment()">Ajouter</button>
+</div>
+
+</div>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Équipement</th>
+<th>Zone</th>
+<th>Criticité</th>
+<th>Marque</th>
+<th>État</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="equipmentTable"></tbody>
+</table>
+</div>
+
+</section>
+
+
+<!-- INTERVENTIONS -->
+
+<section id="interventions" class="section">
+
+<div class="form">
+
+<h3>🔧 Enregistrer une intervention / panne</h3><br>
+
+<div class="grid">
+
+<div class="group">
+<label>Date</label>
+<input type="date" id="intDate">
+</div>
+
+<div class="group">
+<label>Équipement</label>
+<select id="intEquipment"></select>
+</div>
+
+<div class="group">
+<label>Type</label>
+<select id="intType">
+<option>Curative</option>
+<option>Préventive</option>
+<option>Palliative</option>
+</select>
+</div>
+
+<div class="group">
+<label>Temps d'arrêt (minutes)</label>
+<input type="number" id="intDowntime" min="0" value="0">
+</div>
+
+<div class="group">
+<label>Temps intervention (minutes)</label>
+<input type="number" id="intRepair" min="0" value="0">
+</div>
+
+<div class="group">
+<label>Technicien</label>
+<input id="intTechnician" placeholder="Nom technicien">
+</div>
+
+<div class="group full">
+<label>Symptôme / panne</label>
+<textarea id="intProblem" placeholder="Décrire le problème..."></textarea>
+</div>
+
+<div class="group full">
+<label>Cause détectée</label>
+<textarea id="intCause" placeholder="Cause probable ou confirmée..."></textarea>
+</div>
+
+<div class="group full">
+<label>Action réalisée</label>
+<textarea id="intAction" placeholder="Action corrective réalisée..."></textarea>
+</div>
+
+</div>
+
+<div class="actions">
+<button class="btn primary" onclick="addIntervention()">Enregistrer l'intervention</button>
+</div>
+
+</div>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Équipement</th>
+<th>Type</th>
+<th>Panne</th>
+<th>Arrêt</th>
+<th>Réparation</th>
+<th>Technicien</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="interventionTable"></tbody>
+</table>
+</div>
+
+</section>
+
+
+<!-- PREVENTIF -->
+
+<section id="preventif" class="section">
+
+<div class="form">
+
+<h3>📅 Créer une opération préventive</h3><br>
+
+<div class="grid">
+
+<div class="group">
+<label>Équipement</label>
+<select id="pmEquipment"></select>
+</div>
+
+<div class="group">
+<label>Opération</label>
+<input id="pmOperation" placeholder="Graissage moteur">
+</div>
+
+<div class="group">
+<label>Fréquence</label>
+<select id="pmFrequency">
+<option>Quotidienne</option>
+<option>Hebdomadaire</option>
+<option>Mensuelle</option>
+<option>Trimestrielle</option>
+<option>Semestrielle</option>
+<option>Annuelle</option>
+</select>
+</div>
+
+<div class="group">
+<label>Prochaine date</label>
+<input type="date" id="pmDate">
+</div>
+
+</div>
+
+<div class="actions">
+<button class="btn primary" onclick="addPreventive()">Ajouter</button>
+</div>
+
+</div>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Équipement</th>
+<th>Opération</th>
+<th>Fréquence</th>
+<th>Prochaine date</th>
+<th>Statut</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="preventiveTable"></tbody>
+</table>
+</div>
+
+</section>
+
+
+<!-- RCA -->
+
+<section id="rca" class="section">
+
+<div class="form">
+
+<h3>🔍 Analyse RCA / BDA</h3><br>
+
+<div class="grid">
+
+<div class="group">
+<label>Problème</label>
+<input id="rcaProblem" placeholder="Ex: moteur coupeur brûlé">
+</div>
+
+<div class="group">
+<label>Équipement</label>
+<select id="rcaEquipment"></select>
+</div>
+
+<div class="group">
+<label>Cause 1</label>
+<input id="cause1">
+</div>
+
+<div class="group">
+<label>Cause 2</label>
+<input id="cause2">
+</div>
+
+<div class="group">
+<label>Cause 3</label>
+<input id="cause3">
+</div>
+
+<div class="group">
+<label>Cause racine</label>
+<input id="rootCause">
+</div>
+
+<div class="group full">
+<label>Action corrective</label>
+<textarea id="rcaAction"></textarea>
+</div>
+
+<div class="group">
+<label>Responsable</label>
+<input id="rcaResponsible">
+</div>
+
+<div class="group">
+<label>Date prévue</label>
+<input type="date" id="rcaDate">
+</div>
+
+</div>
+
+<div class="actions">
+<button class="btn primary" onclick="addRCA()">Enregistrer RCA</button>
+</div>
+
+</div>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Problème</th>
+<th>Équipement</th>
+<th>Cause racine</th>
+<th>Action</th>
+<th>Responsable</th>
+<th>Date</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="rcaTable"></tbody>
+</table>
+</div>
+
+</section>
+
+
+<!-- PIECES -->
+
+<section id="pieces" class="section">
+
+<div class="form">
+
+<h3>📦 Gestion des pièces de rechange</h3><br>
+
+<div class="grid">
+
+<div class="group">
+<label>Référence</label>
+<input id="partRef" placeholder="REF-001">
+</div>
+
+<div class="group">
+<label>Désignation</label>
+<input id="partName" placeholder="Roulement">
+</div>
+
+<div class="group">
+<label>Stock</label>
+<input type="number" id="partStock" value="0">
+</div>
+
+<div class="group">
+<label>Stock minimum</label>
+<input type="number" id="partMin" value="1">
+</div>
+
+</div>
+
+<div class="actions">
+<button class="btn primary" onclick="addPart()">Ajouter</button>
+</div>
+
+</div>
+
+<table>
+<thead>
+<tr>
+<th>Référence</th>
+<th>Désignation</th>
+<th>Stock</th>
+<th>Minimum</th>
+<th>État</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="partsTable"></tbody>
+</table>
+
+</section>
+
+
+<!-- ZONES -->
+
+<section id="zones" class="section">
+
+<div class="form">
+<h3>🏭 Zones de production</h3><br>
+
+<div class="grid">
+
+<div class="kpi">
+<small>Préparation</small>
+<strong>Concasseur / Broyeur / Mélangeur</strong>
+</div>
+
+<div class="kpi">
+<small>Moulage</small>
+<strong>Extrudeuse / Coupeur</strong>
+</div>
+
+<div class="kpi">
+<small>Séchoir</small>
+<strong>Ventilation / Chariots</strong>
+</div>
+
+<div class="kpi">
+<small>Four</small>
+<strong>Brûleurs / Convoyeurs</strong>
+</div>
+
+<div class="kpi">
+<small>Empileuse</small>
+<strong>Automatisme / Moteurs</strong>
+</div>
+
+<div class="kpi">
+<small>Emballage</small>
+<strong>Machines packaging</strong>
+</div>
+
+</div>
+</div>
+
+</section>
+
+
+<!-- PLANNING -->
+
+<section id="planning" class="section">
+
+<div class="form">
+
+<h3>🗓️ Planning maintenance</h3><br>
+
+<div class="grid">
+
+<div class="group">
+<label>Date</label>
+<input type="date" id="planDate">
+</div>
+
+<div class="group">
+<label>Équipement</label>
+<select id="planEquipment"></select>
+</div>
+
+<div class="group">
+<label>Intervention</label>
+<input id="planTask" placeholder="Inspection vibration">
+</div>
+
+<div class="group">
+<label>Technicien</label>
+<input id="planTech">
+</div>
+
+</div>
+
+<div class="actions">
+<button class="btn primary" onclick="addPlanning()">Ajouter au planning</button>
+</div>
+
+</div>
+
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Équipement</th>
+<th>Intervention</th>
+<th>Technicien</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="planningTable"></tbody>
+</table>
+
+</section>
+
+
+<!-- RAPPORT -->
+
+<section id="rapport" class="section">
+
+<div class="form">
+
+<h3>📋 Rapport journalier</h3><br>
+
+<div class="grid">
+
+<div class="group">
+<label>Date du rapport</label>
+<input type="date" id="reportDate">
+</div>
+
+</div>
+
+<div class="actions">
+<button class="btn primary" onclick="generateReport()">Générer le rapport</button>
+<button class="btn success" onclick="window.print()">🖨️ Imprimer</button>
+</div>
+
+</div>
+
+<div id="dailyReport" class="report">
+Sélectionnez une date puis cliquez sur « Générer le rapport ».
+</div>
+
+</section>
+
+</div>
+</div>
+
 
 <script>
-function checkAuth(){
-    const input = document.getElementById("secretInput").value;
-    if(input === "1234" || input === ""){
-        document.getElementById("authScreen").style.display = "none";
-        document.getElementById("mainApp").style.display = "flex";
-    } else {
-        document.getElementById("authError").style.display = "block";
-    }
+
+/* =========================================================
+   DATABASE LOCALE
+========================================================= */
+
+let db = JSON.parse(localStorage.getItem("GMAO_PRO_DB")) || {
+    equipments:[],
+    interventions:[],
+    preventive:[],
+    rca:[],
+    parts:[],
+    planning:[]
+};
+
+function saveDB(){
+    localStorage.setItem("GMAO_PRO_DB",JSON.stringify(db));
+    refreshAll();
 }
 
-function openModal(code, title){
-    document.getElementById("modalTitle").innerText = title;
-    document.getElementById("gmaoDashboard").classList.remove("active");
-    document.getElementById("modalBodyCustom").innerHTML = "<p style='padding:20px;'>Contenu du module " + title + " disponible.</p>";
-    document.getElementById("modalOverlay").classList.add("active");
-}
 
-function openGMAODashboard(){
-    document.getElementById("modalTitle").innerText = "🛠️ GMAO PRO";
-    document.getElementById("modalBodyCustom").innerHTML = "";
-    document.getElementById("gmaoDashboard").classList.add("active");
-    document.getElementById("modalOverlay").classList.add("active");
+/* =========================================================
+   INITIALISATION
+========================================================= */
+
+document.addEventListener("DOMContentLoaded",function(){
+
+    let today=new Date().toISOString().split("T")[0];
+
+    document.getElementById("intDate").value=today;
+    document.getElementById("pmDate").value=today;
+    document.getElementById("rcaDate").value=today;
+    document.getElementById("planDate").value=today;
+    document.getElementById("reportDate").value=today;
+
+    refreshAll();
+});
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+function openGMAO(section="dashboard"){
+
+    document.getElementById("overlay").classList.add("active");
+
+    showSection(section);
+
 }
 
 function closeModal(){
-    document.getElementById("modalOverlay").classList.remove("active");
+    document.getElementById("overlay").classList.remove("active");
 }
 
-function showGmaoTab(tabId, btn){
-    document.querySelectorAll(".gmao-section").forEach(sec => sec.classList.remove("active"));
-    document.querySelectorAll(".gmao-tab").forEach(tb => tb.classList.remove("active"));
-    document.getElementById(tabId).classList.add("active");
-    btn.classList.add("active");
+function showSection(id,button=null){
+
+    document.querySelectorAll(".section")
+    .forEach(x=>x.classList.remove("active"));
+
+    document.getElementById(id).classList.add("active");
+
+    document.querySelectorAll(".tab")
+    .forEach(x=>x.classList.remove("active"));
+
+    if(button) button.classList.add("active");
+
+    let titles={
+        dashboard:"📊 Dashboard GMAO",
+        equipment:"⚙️ Gestion des équipements",
+        interventions:"🔧 Interventions / Pannes",
+        preventif:"📅 Maintenance préventive",
+        rca:"🔍 RCA / BDA",
+        pieces:"📦 Pièces de rechange",
+        zones:"🏭 Zones de production",
+        planning:"🗓️ Planning maintenance",
+        rapport:"📋 Rapport journalier"
+    };
+
+    document.getElementById("modalTitle").innerText=titles[id];
 }
+
+
+/* =========================================================
+   EQUIPMENTS
+========================================================= */
+
+function addEquipment(){
+
+    let code=document.getElementById("eqCode").value.trim();
+    let name=document.getElementById("eqName").value.trim();
+
+    if(!code || !name){
+        alert("Veuillez saisir le code et la désignation.");
+        return;
+    }
+
+    db.equipments.push({
+        id:Date.now(),
+        code,
+        name,
+        zone:document.getElementById("eqZone").value,
+        criticality:document.getElementById("eqCriticality").value,
+        brand:document.getElementById("eqBrand").value,
+        status:document.getElementById("eqStatus").value
+    });
+
+    document.getElementById("eqCode").value="";
+    document.getElementById("eqName").value="";
+    document.getElementById("eqBrand").value="";
+
+    saveDB();
+}
+
+function deleteEquipment(id){
+
+    if(confirm("Supprimer cet équipement ?")){
+        db.equipments=db.equipments.filter(x=>x.id!==id);
+        saveDB();
+    }
+
+}
+
+function renderEquipment(){
+
+    let tbody=document.getElementById("equipmentTable");
+
+    tbody.innerHTML="";
+
+    db.equipments.forEach(e=>{
+
+        tbody.innerHTML+=`
+        <tr>
+        <td>${e.code}</td>
+        <td>${e.name}</td>
+        <td>${e.zone}</td>
+        <td>${e.criticality}</td>
+        <td>${e.brand||"-"}</td>
+        <td>${e.status}</td>
+        <td>
+        <button class="btn danger" onclick="deleteEquipment(${e.id})">Supprimer</button>
+        </td>
+        </tr>`;
+
+    });
+
+}
+
+
+/* =========================================================
+   SELECT EQUIPMENT
+========================================================= */
+
+function refreshEquipmentSelects(){
+
+    let ids=[
+        "intEquipment",
+        "pmEquipment",
+        "rcaEquipment",
+        "planEquipment"
+    ];
+
+    ids.forEach(id=>{
+
+        let select=document.getElementById(id);
+
+        if(!select)return;
+
+        select.innerHTML="";
+
+        db.equipments.forEach(e=>{
+
+            select.innerHTML+=`
+            <option value="${e.id}">
+            ${e.code} - ${e.name}
+            </option>`;
+
+        });
+
+    });
+
+}
+
+
+/* =========================================================
+   INTERVENTIONS
+========================================================= */
+
+function addIntervention(){
+
+    if(db.equipments.length===0){
+        alert("Ajoutez d'abord un équipement.");
+        return;
+    }
+
+    let equipmentId=Number(document.getElementById("intEquipment").value);
+
+    let equipment=db.equipments.find(x=>x.id===equipmentId);
+
+    db.interventions.push({
+
+        id:Date.now(),
+
+        date:document.getElementById("intDate").value,
+
+        equipmentId,
+
+        equipment:equipment ? equipment.name : "",
+
+        type:document.getElementById("intType").value,
+
+        downtime:Number(document.getElementById("intDowntime").value)||0,
+
+        repair:Number(document.getElementById("intRepair").value)||0,
+
+        technician:document.getElementById("intTechnician").value,
+
+        problem:document.getElementById("intProblem").value,
+
+        cause:document.getElementById("intCause").value,
+
+        action:document.getElementById("intAction").value
+
+    });
+
+    document.getElementById("intProblem").value="";
+    document.getElementById("intCause").value="";
+    document.getElementById("intAction").value="";
+
+    saveDB();
+
+}
+
+function deleteIntervention(id){
+
+    if(confirm("Supprimer cette intervention ?")){
+
+        db.interventions=
+        db.interventions.filter(x=>x.id!==id);
+
+        saveDB();
+
+    }
+
+}
+
+function renderInterventions(){
+
+    let tbody=document.getElementById("interventionTable");
+
+    tbody.innerHTML="";
+
+    db.interventions
+    .slice()
+    .reverse()
+    .forEach(x=>{
+
+        tbody.innerHTML+=`
+        <tr>
+        <td>${x.date}</td>
+        <td>${x.equipment}</td>
+        <td>${x.type}</td>
+        <td>${x.problem||"-"}</td>
+        <td>${x.downtime} min</td>
+        <td>${x.repair} min</td>
+        <td>${x.technician||"-"}</td>
+        <td>
+        <button class="btn danger"
+        onclick="deleteIntervention(${x.id})">
+        Supprimer
+        </button>
+        </td>
+        </tr>`;
+
+    });
+
+}
+
+
+/* =========================================================
+   PREVENTIVE
+========================================================= */
+
+function addPreventive(){
+
+    if(db.equipments.length===0){
+        alert("Ajoutez d'abord un équipement.");
+        return;
+    }
+
+    let equipmentId=Number(document.getElementById("pmEquipment").value);
+    let equipment=db.equipments.find(x=>x.id===equipmentId);
+
+    db.preventive.push({
+
+        id:Date.now(),
+
+        equipmentId,
+
+        equipment:equipment ? equipment.name : "",
+
+        operation:document.getElementById("pmOperation").value,
+
+        frequency:document.getElementById("pmFrequency").value,
+
+        date:document.getElementById("pmDate").value,
+
+        status:"Planifiée"
+
+    });
+
+    document.getElementById("pmOperation").value="";
+
+    saveDB();
+
+}
+
+function deletePreventive(id){
+
+    db.preventive=db.preventive.filter(x=>x.id!==id);
+    saveDB();
+
+}
+
+function renderPreventive(){
+
+    let tbody=document.getElementById("preventiveTable");
+
+    tbody.innerHTML="";
+
+    db.preventive.forEach(x=>{
+
+        tbody.innerHTML+=`
+        <tr>
+        <td>${x.equipment}</td>
+        <td>${x.operation}</td>
+        <td>${x.frequency}</td>
+        <td>${x.date}</td>
+        <td><span class="badge badge-plan">${x.status}</span></td>
+        <td>
+        <button class="btn danger"
+        onclick="deletePreventive(${x.id})">
+        Supprimer
+        </button>
+        </td>
+        </tr>`;
+
+    });
+
+}
+
+
+/* =========================================================
+   RCA
+========================================================= */
+
+function addRCA(){
+
+    let problem=document.getElementById("rcaProblem").value.trim();
+
+    if(!problem){
+        alert("Veuillez saisir le problème.");
+        return;
+    }
+
+    let equipmentId=Number(document.getElementById("rcaEquipment").value);
+
+    let equipment=db.equipments.find(x=>x.id===equipmentId);
+
+    db.rca.push({
+
+        id:Date.now(),
+
+        problem,
+
+        equipment:equipment ? equipment.name : "",
+
+        cause1:document.getElementById("cause1").value,
+
+        cause2:document.getElementById("cause2").value,
+
+        cause3:document.getElementById("cause3").value,
+
+        rootCause:document.getElementById("rootCause").value,
+
+        action:document.getElementById("rcaAction").value,
+
+        responsible:document.getElementById("rcaResponsible").value,
+
+        date:document.getElementById("rcaDate").value
+
+    });
+
+    saveDB();
+
+}
+
+function deleteRCA(id){
+
+    db.rca=db.rca.filter(x=>x.id!==id);
+    saveDB();
+
+}
+
+function renderRCA(){
+
+    let tbody=document.getElementById("rcaTable");
+
+    tbody.innerHTML="";
+
+    db.rca.forEach(x=>{
+
+        tbody.innerHTML+=`
+        <tr>
+        <td>${x.problem}</td>
+        <td>${x.equipment}</td>
+        <td>${x.rootCause||"-"}</td>
+        <td>${x.action||"-"}</td>
+        <td>${x.responsible||"-"}</td>
+        <td>${x.date}</td>
+        <td>
+        <button class="btn danger"
+        onclick="deleteRCA(${x.id})">
+        Supprimer
+        </button>
+        </td>
+        </tr>`;
+
+    });
+
+}
+
+
+/* =========================================================
+   PIECES
+========================================================= */
+
+function addPart(){
+
+    let ref=document.getElementById("partRef").value.trim();
+    let name=document.getElementById("partName").value.trim();
+
+    if(!ref || !name){
+        alert("Référence et désignation obligatoires.");
+        return;
+    }
+
+    db.parts.push({
+
+        id:Date.now(),
+
+        ref,
+
+        name,
+
+        stock:Number(document.getElementById("partStock").value)||0,
+
+        min:Number(document.getElementById("partMin").value)||0
+
+    });
+
+    saveDB();
+
+}
+
+function deletePart(id){
+
+    db.parts=db.parts.filter(x=>x.id!==id);
+    saveDB();
+
+}
+
+function renderParts(){
+
+    let tbody=document.getElementById("partsTable");
+
+    tbody.innerHTML="";
+
+    db.parts.forEach(x=>{
+
+        let low=x.stock<=x.min;
+
+        tbody.innerHTML+=`
+        <tr>
+        <td>${x.ref}</td>
+        <td>${x.name}</td>
+        <td>${x.stock}</td>
+        <td>${x.min}</td>
+        <td>
+        <span class="badge ${low?'badge-open':'badge-ok'}">
+        ${low?'STOCK BAS':'OK'}
+        </span>
+        </td>
+        <td>
+        <button class="btn danger"
+        onclick="deletePart(${x.id})">
+        Supprimer
+        </button>
+        </td>
+        </tr>`;
+
+    });
+
+}
+
+
+/* =========================================================
+   PLANNING
+========================================================= */
+
+function addPlanning(){
+
+    if(db.equipments.length===0){
+        alert("Ajoutez d'abord un équipement.");
+        return;
+    }
+
+    let equipmentId=Number(document.getElementById("planEquipment").value);
+
+    let equipment=db.equipments.find(x=>x.id===equipmentId);
+
+    db.planning.push({
+
+        id:Date.now(),
+
+        date:document.getElementById("planDate").value,
+
+        equipment:equipment ? equipment.name : "",
+
+        task:document.getElementById("planTask").value,
+
+        tech:document.getElementById("planTech").value
+
+    });
+
+    saveDB();
+
+}
+
+function deletePlanning(id){
+
+    db.planning=db.planning.filter(x=>x.id!==id);
+    saveDB();
+
+}
+
+function renderPlanning(){
+
+    let tbody=document.getElementById("planningTable");
+
+    tbody.innerHTML="";
+
+    db.planning.forEach(x=>{
+
+        tbody.innerHTML+=`
+        <tr>
+        <td>${x.date}</td>
+        <td>${x.equipment}</td>
+        <td>${x.task}</td>
+        <td>${x.tech||"-"}</td>
+        <td>
+        <button class="btn danger"
+        onclick="deletePlanning(${x.id})">
+        Supprimer
+        </button>
+        </td>
+        </tr>`;
+
+    });
+
+}
+
+
+/* =========================================================
+   KPI
+========================================================= */
+
+function updateKPI(){
+
+    let equipmentCount=db.equipments.length;
+    let interventions=db.interventions.length;
+
+    let stops=db.interventions
+        .filter(x=>Number(x.downtime)>0).length;
+
+    let downtime=db.interventions
+        .reduce((sum,x)=>sum+Number(x.downtime||0),0);
+
+    let repair=db.interventions
+        .reduce((sum,x)=>sum+Number(x.repair||0),0);
+
+    let mttr=interventions ? repair/interventions : 0;
+
+    /*
+       Hypothèse simple:
+       période de fonctionnement = 720 h/mois.
+       Pour une version industrielle avancée,
+       cette valeur pourra être paramétrée.
+    */
+
+    let operatingHours=720-(downtime/60);
+
+    let mtbf=stops>0 ? operatingHours/stops : operatingHours;
+
+    let availability=
+        operatingHours>0
+        ? (operatingHours/720)*100
+        : 0;
+
+    document.getElementById("kpiEquip").innerText=equipmentCount;
+    document.getElementById("kpiInter").innerText=interventions;
+    document.getElementById("kpiStops").innerText=stops;
+    document.getElementById("kpiDowntime").innerText=downtime+" min";
+
+    document.getElementById("kpiMTTR").innerText=
+        mttr.toFixed(1)+" min";
+
+    document.getElementById("kpiMTBF").innerText=
+        mtbf.toFixed(1)+" h";
+
+    document.getElementById("kpiAvailability").innerText=
+        availability.toFixed(1)+" %";
+
+    document.getElementById("kpiPreventif").innerText=
+        db.preventive.length;
+
+    let msg=document.getElementById("dashboardMessage");
+
+    if(interventions===0){
+
+        msg.innerHTML=
+        "Aucune intervention enregistrée pour le moment.";
+
+    }else{
+
+        msg.innerHTML=
+        `<b>Situation actuelle :</b><br>
+        ${interventions} intervention(s) enregistrée(s).<br>
+        Temps total d'arrêt : <b>${downtime} minutes</b>.<br>
+        MTTR actuel : <b>${mttr.toFixed(1)} minutes</b>.<br>
+        Disponibilité calculée : <b>${availability.toFixed(1)} %</b>.`;
+
+    }
+
+}
+
+
+/* =========================================================
+   RAPPORT JOURNALIER
+========================================================= */
+
+function generateReport(){
+
+    let date=document.getElementById("reportDate").value;
+
+    let data=db.interventions.filter(x=>x.date===date);
+
+    let downtime=data.reduce(
+        (sum,x)=>sum+Number(x.downtime||0),0
+    );
+
+    let repair=data.reduce(
+        (sum,x)=>sum+Number(x.repair||0),0
+    );
+
+    let curative=data.filter(
+        x=>x.type==="Curative"
+    ).length;
+
+    let preventive=data.filter(
+        x=>x.type==="Préventive"
+    ).length;
+
+    let html=`
+
+    <h2>📋 RAPPORT JOURNALIER MAINTENANCE</h2>
+
+    <p><b>Date :</b> ${date}</p>
+
+    <hr><br>
+
+    <h3>Résumé</h3>
+
+    <p>
+    Nombre total d'interventions :
+    <b>${data.length}</b>
+    </p>
+
+    <p>
+    Interventions curatives :
+    <b>${curative}</b>
+    </p>
+
+    <p>
+    Interventions préventives :
+    <b>${preventive}</b>
+    </p>
+
+    <p>
+    Temps total d'arrêt :
+    <b>${downtime} minutes</b>
+    </p>
+
+    <p>
+    Temps total de réparation :
+    <b>${repair} minutes</b>
+    </p>
+
+    <br>
+
+    <h3>Détail des interventions</h3>
+
+    <br>
+
+    <table>
+
+    <thead>
+    <tr>
+    <th>Équipement</th>
+    <th>Type</th>
+    <th>Panne</th>
+    <th>Arrêt</th>
+    <th>Action</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    `;
+
+    if(data.length===0){
+
+        html+=`
+        <tr>
+        <td colspan="5">
+        Aucune intervention enregistrée pour cette date.
+        </td>
+        </tr>`;
+
+    }else{
+
+        data.forEach(x=>{
+
+            html+=`
+            <tr>
+            <td>${x.equipment}</td>
+            <td>${x.type}</td>
+            <td>${x.problem||"-"}</td>
+            <td>${x.downtime} min</td>
+            <td>${x.action||"-"}</td>
+            </tr>`;
+
+        });
+
+    }
+
+    html+=`
+    </tbody>
+    </table>
+
+    <br>
+
+    <h3>Conclusion</h3>
+
+    <p>
+    Rapport généré automatiquement par la plateforme GMAO PRO.
+    </p>
+    `;
+
+    document.getElementById("dailyReport").innerHTML=html;
+
+}
+
+
+/* =========================================================
+   REFRESH
+========================================================= */
+
+function refreshAll(){
+
+    renderEquipment();
+    renderInterventions();
+    renderPreventive();
+    renderRCA();
+    renderParts();
+    renderPlanning();
+
+    refreshEquipmentSelects();
+
+    updateKPI();
+
+}
+
 </script>
 
 </body>
