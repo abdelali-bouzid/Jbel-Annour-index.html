@@ -10,7 +10,7 @@
 <style>
 
 /* =========================================================
-    RESET
+    RESET & BASE
 ========================================================= */
 
 *{
@@ -33,7 +33,6 @@ select,
 textarea{
     font-family:inherit;
 }
-
 
 /* =========================================================
     APPLICATION
@@ -63,7 +62,6 @@ header p{
     margin-top:7px;
 }
 
-
 /* =========================================================
     HUB
 ========================================================= */
@@ -71,7 +69,7 @@ header p{
 .hub-container{
     position:relative;
     width:780px;
-    height:600px;
+    height:500px;
     margin:15px auto;
     display:flex;
     align-items:center;
@@ -80,8 +78,8 @@ header p{
 
 .circle-track{
     position:absolute;
-    width:500px;
-    height:500px;
+    width:450px;
+    height:450px;
     border:2px dashed #3b82f6;
     border-radius:50%;
     pointer-events:none;
@@ -101,6 +99,11 @@ header p{
     z-index:10;
     cursor:pointer;
     overflow:hidden;
+    transition: transform 0.2s;
+}
+
+.center-logo:hover{
+    transform: scale(1.05);
 }
 
 .center-logo div{
@@ -117,43 +120,6 @@ header p{
     color:#2563eb;
     font-weight:bold;
 }
-
-.module-node{
-    position:absolute;
-    width:145px;
-    min-height:105px;
-    background:#1e293b;
-    border:2px solid #3b82f6;
-    border-radius:13px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    padding:10px;
-    cursor:pointer;
-    transition:.2s;
-    box-shadow:0 8px 18px rgba(0,0,0,.35);
-    z-index:5;
-}
-
-.module-node:hover{
-    background:#1e3a8a;
-    border-color:#60a5fa;
-    transform:scale(1.05)!important;
-}
-
-.module-node .icon-box{
-    font-size:30px;
-    margin-bottom:6px;
-}
-
-.module-node .title{
-    font-size:.72rem;
-    font-weight:bold;
-    line-height:1.2;
-}
-
 
 /* =========================================================
     BOTTOM BAR
@@ -189,7 +155,6 @@ header p{
 .bottom-item:hover{
     background:#1e3a8a;
 }
-
 
 /* =========================================================
     MODAL
@@ -253,26 +218,24 @@ header p{
     color:white;
 }
 
-
 /* =========================================================
-    FORMS
+    FORMS & TABLES
 ========================================================= */
 
 .form-grid{
     display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:15px;
-    margin-bottom:18px;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:12px;
+    margin-bottom:15px;
+    background:#f1f5f9;
+    padding:15px;
+    border-radius:10px;
 }
 
 .form-group{
     display:flex;
     flex-direction:column;
     gap:5px;
-}
-
-.form-group.full{
-    grid-column:span 2;
 }
 
 .form-group label{
@@ -282,20 +245,13 @@ header p{
 }
 
 .form-group input,
-.form-group select,
-.form-group textarea{
+.form-group select{
     width:100%;
-    background:#f8fafc;
+    background:white;
     border:1.5px solid #cbd5e1;
-    border-radius:8px;
-    padding:10px;
+    border-radius:6px;
+    padding:8px;
     outline:none;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus{
-    border-color:#2563eb;
 }
 
 .form-actions{
@@ -306,40 +262,21 @@ header p{
 
 .btn{
     border:none;
-    padding:10px 15px;
-    border-radius:8px;
+    padding:8px 14px;
+    border-radius:6px;
     cursor:pointer;
     font-weight:bold;
+    font-size:0.85rem;
 }
 
-.btn-primary{
-    background:#1e3a8a;
-    color:white;
-}
+.btn-primary{ background:#1e3a8a; color:white; }
+.btn-primary:hover{ background:#2563eb; }
 
-.btn-primary:hover{
-    background:#2563eb;
-}
+.btn-warning{ background:#d97706; color:white; }
+.btn-warning:hover{ background:#f59e0b; }
 
-.btn-secondary{
-    background:#64748b;
-    color:white;
-}
-
-.btn-danger{
-    background:#dc2626;
-    color:white;
-}
-
-.btn-success{
-    background:#15803d;
-    color:white;
-}
-
-
-/* =========================================================
-    TABLE
-========================================================= */
+.btn-danger{ background:#dc2626; color:white; }
+.btn-danger:hover{ background:#ef4444; }
 
 .table-container{
     overflow-x:auto;
@@ -354,12 +291,12 @@ table{
 th{
     background:#0f172a;
     color:white;
-    padding:12px;
+    padding:10px;
     text-align:left;
 }
 
 td{
-    padding:11px;
+    padding:10px;
     border-bottom:1px solid #e2e8f0;
 }
 
@@ -371,35 +308,12 @@ tr:hover{
     GMAO DASHBOARD
 ========================================================= */
 
-.gmao-dashboard{
-    display:none;
-}
-
-.gmao-dashboard.active{
-    display:block;
-}
-
-.gmao-header{
-    background:#f8fafc;
-    border-radius:10px;
-    padding:18px;
-    margin-bottom:18px;
-}
-
-.gmao-header h3{
-    color:#0f172a;
-    font-size:1.5rem;
-}
-
-.gmao-header p{
-    color:#64748b;
-    margin-top:5px;
-}
+.gmao-dashboard{ display:none; }
+.gmao-dashboard.active{ display:block; }
 
 .gmao-tabs{
     display:flex;
     gap:8px;
-    flex-wrap:wrap;
     margin-bottom:20px;
 }
 
@@ -417,18 +331,8 @@ tr:hover{
     color:white;
 }
 
-.gmao-section{
-    display:none;
-}
-
-.gmao-section.active{
-    display:block;
-}
-
-
-/* =========================================================
-    KPI
-========================================================= */
+.gmao-section{ display:none; }
+.gmao-section.active{ display:block; }
 
 .kpi-grid{
     display:grid;
@@ -456,28 +360,16 @@ tr:hover{
     margin-top:7px;
 }
 
-@media(max-width:850px){
-    .hub-container{
-        width:100%;
-        height:auto;
-        min-height:500px;
-    }
-    .circle-track{
-        display:none;
-    }
-    .kpi-grid{
-        grid-template-columns:1fr 1fr;
-    }
+.badge{
+    padding:4px 8px;
+    border-radius:4px;
+    font-size:0.75rem;
+    font-weight:bold;
 }
+.badge-success{ background:#dcfce7; color:#15803d; }
+.badge-danger{ background:#fee2e2; color:#b91c1c; }
+.badge-warning{ background:#fef3c7; color:#b45309; }
 
-@media(max-width:600px){
-    .form-grid{
-        grid-template-columns:1fr;
-    }
-    .kpi-grid{
-        grid-template-columns:1fr;
-    }
-}
 </style>
 </head>
 
@@ -487,7 +379,7 @@ tr:hover{
 <div id="mainApp">
     <header>
         <h1>Plateforme Intégrée Sage X3 & GMAO</h1>
-        <p>Gestion des KPIs • Maintenance • RCA / BDA • Plans d'Action</p>
+        <p>Gestion التفاعلية للمعدات والتدخلات وتعديل البيانات</p>
     </header>
 
     <div class="hub-container" id="hub">
@@ -518,44 +410,146 @@ tr:hover{
             <button class="close-btn" onclick="closeModal()">×</button>
         </div>
 
-        <!-- GMAO DASHBOARD -->
+        <!-- GMAO DASHBOARD MODULE -->
         <div id="gmaoDashboard" class="gmao-dashboard">
-            <div class="gmao-header">
-                <h3>🛠️ GMAO PRO — Maintenance</h3>
-                <p>Gestion des équipements • Interventions • Préventif • Rapports</p>
-            </div>
 
             <div class="gmao-tabs">
-                <button class="gmao-tab active" onclick="showGmaoTab('gmaoAccueil',this)">📊 Dashboard</button>
+                <button class="gmao-tab active" onclick="showGmaoTab('gmaoAccueil',this)">📊 Tableau de Bord</button>
                 <button class="gmao-tab" onclick="showGmaoTab('gmaoEquipements',this)">⚙️ Équipements</button>
                 <button class="gmao-tab" onclick="showGmaoTab('gmaoInterventions',this)">🔧 Interventions</button>
-                <button class="gmao-tab" onclick="showGmaoTab('gmaoPreventif',this)">📅 Préventif</button>
-                <button class="gmao-tab" onclick="showGmaoTab('gmaoRapport',this)">📊 Rapport journalier</button>
             </div>
 
-            <!-- DASHBOARD -->
+            <!-- TAB 1: DASHBOARD -->
             <div id="gmaoAccueil" class="gmao-section active">
                 <div class="kpi-grid">
-                    <div class="kpi-card"><span>Équipements</span><strong id="gmaoKpiEquip">12</strong></div>
-                    <div class="kpi-card"><span>Interventions</span><strong id="gmaoKpiInter">5</strong></div>
-                    <div class="kpi-card"><span>Arrêts</span><strong id="gmaoKpiArrets">2</strong></div>
-                    <div class="kpi-card"><span>Temps d'arrêt</span><strong id="gmaoKpiTemps">45 min</strong></div>
+                    <div class="kpi-card"><span>Total Équipements</span><strong id="gmaoKpiEquip">0</strong></div>
+                    <div class="kpi-card"><span>Interventions Total</span><strong id="gmaoKpiInter">0</strong></div>
+                    <div class="kpi-card"><span>Équipements en Panne</span><strong id="gmaoKpiArrets">0</strong></div>
+                    <div class="kpi-card"><span>Temps d'Arrêt Total</span><strong id="gmaoKpiTemps">0 min</strong></div>
                 </div>
             </div>
 
-            <!-- RAPPORT -->
-            <div id="gmaoRapport" class="gmao-section">
-                <div class="kpi-grid">
-                    <div class="kpi-card"><span>Nombre d'interventions</span><strong id="reportInterventions">5</strong></div>
-                    <div class="kpi-card"><span>Temps d'arrêt</span><strong id="reportDowntime">45 min</strong></div>
+            <!-- TAB 2: ÉQUIPEMENTS (EDITABLE) -->
+            <div id="gmaoEquipements" class="gmao-section">
+                <h4 style="margin-bottom:10px;">Gestion des Équipements (Ajout / Modification)</h4>
+                
+                <form id="equipForm" onsubmit="saveEquipement(event)">
+                    <input type="hidden" id="equipId">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Nom de l'équipement</label>
+                            <input type="text" id="equipNom" required placeholder="Ex: Moteur Convoyeur 1">
+                        </div>
+                        <div class="form-group">
+                            <label>Zone / Emplacement</label>
+                            <input type="text" id="equipZone" required placeholder="Ex: Ligne d'emballage">
+                        </div>
+                        <div class="form-group">
+                            <label>Statut</label>
+                            <select id="equipStatut">
+                                <option value="En Service">En Service</option>
+                                <option value="En Panne">En Panne</option>
+                                <option value="En Maintenance">En Maintenance</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" id="btnSaveEquip">➕ Ajouter Équipement</button>
+                        <button type="button" class="btn btn-warning" onclick="resetEquipForm()">🔄 Réinitialiser</button>
+                    </div>
+                </form>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nom Équipement</th>
+                                <th>Zone</th>
+                                <th>Statut</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="equipTableBody">
+                            <!-- Les données s'affichent ici -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
+
+            <!-- TAB 3: INTERVENTIONS (EDITABLE) -->
+            <div id="gmaoInterventions" class="gmao-section">
+                <h4 style="margin-bottom:10px;">Gestion des Interventions (Ajout / Modification)</h4>
+                
+                <form id="interForm" onsubmit="saveIntervention(event)">
+                    <input type="hidden" id="interId">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Équipement</label>
+                            <select id="interEquipSelect" required></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Type d'intervention</label>
+                            <select id="interType">
+                                <option value="Corrective">Corrective</option>
+                                <option value="Préventive">Préventive</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Temps d'arrêt (min)</label>
+                            <input type="number" id="interDowntime" min="0" required placeholder="Ex: 30">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" id="btnSaveInter">➕ Ajouter Intervention</button>
+                        <button type="button" class="btn btn-warning" onclick="resetInterForm()">🔄 Réinitialiser</button>
+                    </div>
+                </form>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Équipement</th>
+                                <th>Type</th>
+                                <th>Temps d'arrêt</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="interTableBody">
+                            <!-- Les données s'affichent ici -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
+
         <div id="modalBodyCustom"></div>
     </div>
 </div>
 
 <script>
+/* =========================================================
+    DATA & STATE MANAGEMENT
+========================================================= */
+let equipements = [
+    { id: 1, nom: "Compressur Principal A", zone: "Zone Utility", statut: "En Service" },
+    { id: 2, nom: "Presse Hydraulique P2", zone: "Atelier 1", statut: "En Panne" }
+];
+
+let interventions = [
+    { id: 1, equipId: 2, type: "Corrective", downtime: 45 }
+];
+
+/* =========================================================
+    INIT & NAVIGATION
+========================================================= */
+document.addEventListener("DOMContentLoaded", () => {
+    renderAll();
+});
+
 function openModal(code, title){
     document.getElementById("modalTitle").innerText = title;
     document.getElementById("gmaoDashboard").classList.remove("active");
@@ -568,6 +562,7 @@ function openGMAODashboard(){
     document.getElementById("modalBodyCustom").innerHTML = "";
     document.getElementById("gmaoDashboard").classList.add("active");
     document.getElementById("modalOverlay").classList.add("active");
+    renderAll();
 }
 
 function closeModal(){
@@ -579,6 +574,188 @@ function showGmaoTab(tabId, btn){
     document.querySelectorAll(".gmao-tab").forEach(tb => tb.classList.remove("active"));
     document.getElementById(tabId).classList.add("active");
     btn.classList.add("active");
+}
+
+/* =========================================================
+    RENDERING FUNCTIONS
+========================================================= */
+function renderAll(){
+    renderEquipements();
+    renderInterventions();
+    renderKPIs();
+    updateEquipSelectOptions();
+}
+
+function renderKPIs(){
+    document.getElementById("gmaoKpiEquip").innerText = equipements.length;
+    document.getElementById("gmaoKpiInter").innerText = interventions.length;
+    
+    const pannes = equipements.filter(e => e.statut === "En Panne").length;
+    document.getElementById("gmaoKpiArrets").innerText = pannes;
+    
+    const totalDowntime = interventions.reduce((acc, curr) => acc + Number(curr.downtime), 0);
+    document.getElementById("gmaoKpiTemps").innerText = totalDowntime + " min";
+}
+
+function renderEquipements(){
+    const tbody = document.getElementById("equipTableBody");
+    tbody.innerHTML = "";
+
+    equipements.forEach(eq => {
+        let badgeClass = "badge-success";
+        if(eq.statut === "En Panne") badgeClass = "badge-danger";
+        if(eq.statut === "En Maintenance") badgeClass = "badge-warning";
+
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>#${eq.id}</td>
+            <td><strong>${eq.nom}</strong></td>
+            <td>${eq.zone}</td>
+            <td><span class="badge ${badgeClass}">${eq.statut}</span></td>
+            <td>
+                <button class="btn btn-warning" onclick="editEquipement(${eq.id})">✏️ Éditer</button>
+                <button class="btn btn-danger" onclick="deleteEquipement(${eq.id})">🗑️ Supprimer</button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+function renderInterventions(){
+    const tbody = document.getElementById("interTableBody");
+    tbody.innerHTML = "";
+
+    interventions.forEach(inItem => {
+        const eq = equipements.find(e => e.id == inItem.equipId);
+        const eqNom = eq ? eq.nom : "Inconnu";
+
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>#${inItem.id}</td>
+            <td><strong>${eqNom}</strong></td>
+            <td>${inItem.type}</td>
+            <td>${inItem.downtime} min</td>
+            <td>
+                <button class="btn btn-warning" onclick="editIntervention(${inItem.id})">✏️ Éditer</button>
+                <button class="btn btn-danger" onclick="deleteIntervention(${inItem.id})">🗑️ Supprimer</button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+function updateEquipSelectOptions(){
+    const select = document.getElementById("interEquipSelect");
+    select.innerHTML = "";
+    equipements.forEach(eq => {
+        const opt = document.createElement("option");
+        opt.value = eq.id;
+        opt.textContent = eq.nom;
+        select.appendChild(opt);
+    });
+}
+
+/* =========================================================
+    ÉQUIPEMENTS CRUD LOGIC
+========================================================= */
+function saveEquipement(e){
+    e.preventDefault();
+    const id = document.getElementById("equipId").value;
+    const nom = document.getElementById("equipNom").value;
+    const zone = document.getElementById("equipZone").value;
+    const statut = document.getElementById("equipStatut").value;
+
+    if(id){
+        // Update
+        const index = equipements.findIndex(item => item.id == id);
+        if(index !== -1){
+            equipements[index] = { id: Number(id), nom, zone, statut };
+        }
+    } else {
+        // Create
+        const newId = equipements.length ? Math.max(...equipements.map(e => e.id)) + 1 : 1;
+        equipements.push({ id: newId, nom, zone, statut });
+    }
+
+    resetEquipForm();
+    renderAll();
+}
+
+function editEquipement(id){
+    const eq = equipements.find(e => e.id == id);
+    if(!eq) return;
+
+    document.getElementById("equipId").value = eq.id;
+    document.getElementById("equipNom").value = eq.nom;
+    document.getElementById("equipZone").value = eq.zone;
+    document.getElementById("equipStatut").value = eq.statut;
+
+    document.getElementById("btnSaveEquip").innerText = "💾 Enregistrer la Modification";
+}
+
+function deleteEquipement(id){
+    if(confirm("Voulez-vous vraiment supprimer cet équipement ?")){
+        equipements = equipements.filter(e => e.id != id);
+        interventions = interventions.filter(i => i.equipId != id);
+        renderAll();
+    }
+}
+
+function resetEquipForm(){
+    document.getElementById("equipForm").reset();
+    document.getElementById("equipId").value = "";
+    document.getElementById("btnSaveEquip").innerText = "➕ Ajouter Équipement";
+}
+
+/* =========================================================
+    INTERVENTIONS CRUD LOGIC
+========================================================= */
+function saveIntervention(e){
+    e.preventDefault();
+    const id = document.getElementById("interId").value;
+    const equipId = document.getElementById("interEquipSelect").value;
+    const type = document.getElementById("interType").value;
+    const downtime = document.getElementById("interDowntime").value;
+
+    if(id){
+        // Update
+        const index = interventions.findIndex(item => item.id == id);
+        if(index !== -1){
+            interventions[index] = { id: Number(id), equipId: Number(equipId), type, downtime: Number(downtime) };
+        }
+    } else {
+        // Create
+        const newId = interventions.length ? Math.max(...interventions.map(i => i.id)) + 1 : 1;
+        interventions.push({ id: newId, equipId: Number(equipId), type, downtime: Number(downtime) });
+    }
+
+    resetInterForm();
+    renderAll();
+}
+
+function editIntervention(id){
+    const inItem = interventions.find(i => i.id == id);
+    if(!inItem) return;
+
+    document.getElementById("interId").value = inItem.id;
+    document.getElementById("interEquipSelect").value = inItem.equipId;
+    document.getElementById("interType").value = inItem.type;
+    document.getElementById("interDowntime").value = inItem.downtime;
+
+    document.getElementById("btnSaveInter").innerText = "💾 Enregistrer la Modification";
+}
+
+function deleteIntervention(id){
+    if(confirm("Voulez-vous supprimer cette intervention ?")){
+        interventions = interventions.filter(i => i.id != id);
+        renderAll();
+    }
+}
+
+function resetInterForm(){
+    document.getElementById("interForm").reset();
+    document.getElementById("interId").value = "";
+    document.getElementById("btnSaveInter").innerText = "➕ Ajouter Intervention";
 }
 </script>
 
