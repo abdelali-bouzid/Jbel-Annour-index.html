@@ -548,6 +548,67 @@ tr:hover td{
     color:#111;
 }
 
+
+/* EQUIPMENT PHOTOS */
+.eq-photo-upload{
+    border:1px dashed #315a7d;
+    border-radius:10px;
+    padding:12px;
+    background:#081525;
+}
+.eq-photo-preview{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:10px;
+}
+.eq-photo-preview img{
+    width:82px;
+    height:62px;
+    object-fit:cover;
+    border-radius:8px;
+    border:1px solid #315a7d;
+}
+.eq-thumb{
+    width:54px;
+    height:42px;
+    object-fit:cover;
+    border-radius:7px;
+    border:1px solid #315a7d;
+    cursor:pointer;
+}
+.eq-photo-count{
+    color:#83c9ff;
+    font-size:11px;
+    margin-top:6px;
+}
+.code-auto{
+    background:#10253b!important;
+    color:#83c9ff!important;
+    font-weight:bold;
+    letter-spacing:.5px;
+}
+.equipment-detail{
+    display:grid;
+    grid-template-columns:220px 1fr;
+    gap:20px;
+}
+.equipment-gallery{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+}
+.equipment-gallery img{
+    width:150px;
+    height:110px;
+    object-fit:cover;
+    border-radius:10px;
+    border:1px solid #315a7d;
+}
+@media(max-width:700px){
+    .equipment-detail{grid-template-columns:1fr}
+}
+
 /* RESPONSIVE */
 
 @media(max-width:1100px){
@@ -1541,83 +1602,90 @@ EQUIPEMENTS
 
         <br>
 
+        <div class="notification" style="background:#0b2940;border-color:#17658e;color:#9dd9ff">
+            💡 Le code équipement est généré automatiquement à partir de la zone.
+            Exemple : <strong>EQ-PRE-0001</strong>
+        </div>
+
         <div class="form-grid">
 
             <div class="form-group">
-
-                <label>Code équipement</label>
-
+                <label>Code équipement — automatique</label>
                 <input
                     id="eqCode"
-                    placeholder="EXTR-001"
+                    class="code-auto"
+                    readonly
+                    placeholder="Sélectionnez une zone"
                 >
-
             </div>
 
-
             <div class="form-group">
-
                 <label>Désignation</label>
-
                 <input
                     id="eqDesignation"
                     placeholder="Extrudeuse"
+                    oninput="previewEquipmentCode()"
                 >
-
             </div>
 
-
             <div class="form-group">
-
                 <label>Zone</label>
-
-                <select id="eqZone"></select>
-
+                <select
+                    id="eqZone"
+                    onchange="previewEquipmentCode()"
+                ></select>
             </div>
 
-
             <div class="form-group">
-
                 <label>Criticité</label>
-
                 <select id="eqCriticality">
-
                     <option>A</option>
                     <option>B</option>
                     <option>C</option>
-
                 </select>
-
             </div>
 
-
             <div class="form-group">
-
                 <label>Marque</label>
-
                 <input
                     id="eqBrand"
+                    placeholder="SEW, Siemens, Schneider..."
                 >
-
             </div>
 
-
             <div class="form-group">
-
                 <label>État</label>
-
                 <select id="eqStatus">
-
                     <option>En service</option>
                     <option>Arrêt</option>
                     <option>Maintenance</option>
-
                 </select>
+            </div>
 
+            <div class="form-group" style="grid-column:1/-1">
+                <label>Photos de l'équipement</label>
+
+                <div class="eq-photo-upload">
+                    <input
+                        type="file"
+                        id="eqPhotos"
+                        accept="image/*"
+                        multiple
+                        onchange="previewEquipmentPhotos(event)"
+                    >
+
+                    <div class="eq-photo-count" id="eqPhotoCount">
+                        Jusqu'à 4 photos — les images sont enregistrées avec la fiche équipement.
+                    </div>
+
+                    <div
+                        class="eq-photo-preview"
+                        id="eqPhotoPreview"
+                    ></div>
+                </div>
             </div>
 
         </div>
-
 
         <div class="form-actions">
 
@@ -1626,6 +1694,13 @@ EQUIPEMENTS
                 onclick="addEquipment()"
             >
                 + Ajouter
+            </button>
+
+            <button
+                class="btn-secondary"
+                onclick="clearEquipmentForm()"
+            >
+                Réinitialiser
             </button>
 
         </div>
@@ -1650,15 +1725,13 @@ EQUIPEMENTS
 
         </div>
 
-
         <div class="table-wrap">
 
             <table>
 
                 <thead>
-
                     <tr>
-
+                        <th>Photo</th>
                         <th>Code</th>
                         <th>Désignation</th>
                         <th>Zone</th>
@@ -1666,9 +1739,7 @@ EQUIPEMENTS
                         <th>Marque</th>
                         <th>État</th>
                         <th>Action</th>
-
                     </tr>
-
                 </thead>
 
                 <tbody id="equipmentBody"></tbody>
@@ -1680,6 +1751,32 @@ EQUIPEMENTS
     </div>
 
 </section>
+
+
+<!-- MODAL FICHE EQUIPEMENT -->
+
+<div class="modal" id="equipmentDetailModal">
+
+    <div class="modal-content" style="max-width:900px">
+
+        <div class="modal-header">
+
+            <strong>⚙️ Fiche équipement</strong>
+
+            <button
+                class="close"
+                onclick="closeEquipmentDetail()"
+            >
+                ✕
+            </button>
+
+        </div>
+
+        <div id="equipmentDetailBody" class="tab-content" style="display:block"></div>
+
+    </div>
+
+</div>
 
 
 <!-- =====================================================
@@ -2870,6 +2967,12 @@ if(!db){
 
     db.zones=db.zones||[];
 
+    /* Migration des anciennes fiches équipements */
+    db.equipments=db.equipments.map(e=>({
+        ...e,
+        photos:Array.isArray(e.photos)?e.photos:[]
+    }));
+
 }
 
 
@@ -3563,53 +3666,228 @@ function deleteProductionZone(id){
 EQUIPMENT
 ===================================================== */
 
-function addEquipment(){
+/* =====================================================
+EQUIPMENT
+===================================================== */
 
-    const code=
-        document.getElementById(
-            "eqCode"
-        ).value.trim();
+function zoneCode(name){
+
+    const clean=String(name||"")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g,"")
+        .replace(/[^A-Za-z0-9]/g,"")
+        .toUpperCase();
+
+    return clean.slice(0,3)||"GEN";
+}
+
+
+function generateEquipmentCode(zoneId){
+
+    const zone=getZoneById(zoneId);
+
+    if(!zone) return "";
+
+    const prefix="EQ-"+zoneCode(zone.name)+"-";
+
+    const numbers=db.equipments
+        .map(e=>String(e.code||""))
+        .filter(c=>c.startsWith(prefix))
+        .map(c=>parseInt(c.replace(prefix,""),10))
+        .filter(n=>Number.isFinite(n));
+
+    const next=numbers.length ? Math.max(...numbers)+1 : 1;
+
+    return prefix+String(next).padStart(4,"0");
+
+}
+
+
+function previewEquipmentCode(){
+
+    const zoneId=document.getElementById("eqZone")?.value;
+
+    const code=document.getElementById("eqCode");
+
+    if(code)
+        code.value=generateEquipmentCode(zoneId);
+
+}
+
+
+function previewEquipmentPhotos(event){
+
+    const input=event.target;
+    const preview=document.getElementById("eqPhotoPreview");
+    const count=document.getElementById("eqPhotoCount");
+
+    if(!preview) return;
+
+    preview.innerHTML="";
+
+    const files=Array.from(input.files||[]).slice(0,4);
+
+    if(input.files.length>4){
+
+        alert("Maximum 4 photos par équipement. Les 4 premières seront utilisées.");
+
+    }
+
+    count.textContent=
+        files.length+
+        " photo(s) sélectionnée(s) — maximum 4.";
+
+    files.forEach(file=>{
+
+        const reader=new FileReader();
+
+        reader.onload=e=>{
+
+            const img=document.createElement("img");
+
+            img.src=e.target.result;
+
+            preview.appendChild(img);
+
+        };
+
+        reader.readAsDataURL(file);
+
+    });
+
+}
+
+
+function resizeImage(file){
+
+    return new Promise((resolve,reject)=>{
+
+        const reader=new FileReader();
+
+        reader.onload=()=>{
+
+            const img=new Image();
+
+            img.onload=()=>{
+
+                const maxW=1000;
+                const maxH=800;
+
+                let w=img.width;
+                let h=img.height;
+
+                const ratio=Math.min(
+                    maxW/w,
+                    maxH/h,
+                    1
+                );
+
+                w=Math.round(w*ratio);
+                h=Math.round(h*ratio);
+
+                const canvas=document.createElement("canvas");
+
+                canvas.width=w;
+                canvas.height=h;
+
+                const ctx=canvas.getContext("2d");
+
+                ctx.drawImage(img,0,0,w,h);
+
+                resolve(
+                    canvas.toDataURL(
+                        "image/jpeg",
+                        .72
+                    )
+                );
+
+            };
+
+            img.onerror=reject;
+
+            img.src=reader.result;
+
+        };
+
+        reader.onerror=reject;
+
+        reader.readAsDataURL(file);
+
+    });
+
+}
+
+
+async function addEquipment(){
 
     const designation=
-        document.getElementById(
-            "eqDesignation"
-        ).value.trim();
+        document.getElementById("eqDesignation").value.trim();
 
     const zoneId=
-        document.getElementById(
-            "eqZone"
-        ).value;
+        document.getElementById("eqZone").value;
 
     const criticality=
-        document.getElementById(
-            "eqCriticality"
-        ).value;
+        document.getElementById("eqCriticality").value;
 
     const brand=
-        document.getElementById(
-            "eqBrand"
-        ).value.trim();
+        document.getElementById("eqBrand").value.trim();
 
     const status=
-        document.getElementById(
-            "eqStatus"
-        ).value;
+        document.getElementById("eqStatus").value;
 
+    const fileInput=
+        document.getElementById("eqPhotos");
 
-    if(!code||!designation||!zoneId){
+    if(!designation||!zoneId){
 
         alert(
-            "Code, désignation et zone sont obligatoires."
+            "La désignation et la zone sont obligatoires."
         );
 
         return;
 
     }
 
+    const zone=getZoneById(zoneId);
 
-    const zone=
-        getZoneById(zoneId);
+    const code=generateEquipmentCode(zoneId);
 
+    if(!code){
+
+        alert("Impossible de générer le code équipement.");
+
+        return;
+
+    }
+
+    const files=
+        Array.from(fileInput?.files||[])
+        .slice(0,4);
+
+    let photos=[];
+
+    try{
+
+        for(const file of files){
+
+            if(!file.type.startsWith("image/"))
+                continue;
+
+            photos.push(
+                await resizeImage(file)
+            );
+
+        }
+
+    }catch(error){
+
+        alert(
+            "Une photo n'a pas pu être enregistrée."
+        );
+
+        return;
+
+    }
 
     db.equipments.push({
 
@@ -3621,20 +3899,32 @@ function addEquipment(){
 
         zoneId:Number(zoneId),
 
-        zone:
-            zone?zone.name:"",
+        zone:zone?zone.name:"",
 
         criticality,
 
         brand,
 
-        status
+        status,
+
+        photos
 
     });
 
-
     saveDB();
 
+    clearEquipmentForm();
+
+    refreshAll();
+
+    alert(
+        "Équipement ajouté avec succès.\nCode automatique : "+code
+    );
+
+}
+
+
+function clearEquipmentForm(){
 
     [
         "eqCode",
@@ -3642,12 +3932,29 @@ function addEquipment(){
         "eqBrand"
     ].forEach(id=>{
 
-        document.getElementById(id).value="";
+        const el=document.getElementById(id);
+
+        if(el) el.value="";
 
     });
 
+    const zone=document.getElementById("eqZone");
 
-    refreshAll();
+    if(zone) zone.value="";
+
+    const input=document.getElementById("eqPhotos");
+
+    if(input) input.value="";
+
+    const preview=document.getElementById("eqPhotoPreview");
+
+    if(preview) preview.innerHTML="";
+
+    const count=document.getElementById("eqPhotoCount");
+
+    if(count)
+        count.textContent=
+            "Jusqu'à 4 photos — les images sont enregistrées avec la fiche équipement.";
 
 }
 
@@ -3655,12 +3962,9 @@ function addEquipment(){
 function refreshEquipment(){
 
     const body=
-        document.getElementById(
-            "equipmentBody"
-        );
+        document.getElementById("equipmentBody");
 
     if(!body) return;
-
 
     const search=
         (
@@ -3669,9 +3973,7 @@ function refreshEquipment(){
             )?.value||""
         ).toLowerCase();
 
-
     body.innerHTML="";
-
 
     db.equipments
         .filter(e=>
@@ -3686,12 +3988,38 @@ function refreshEquipment(){
         )
         .forEach(e=>{
 
+            const photos=Array.isArray(e.photos)
+                ?e.photos
+                :[];
+
+            const photoHTML=photos.length
+                ?`
+                    <img
+                        class="eq-thumb"
+                        src="${photos[0]}"
+                        alt="Photo équipement"
+                        onclick="showEquipmentDetail(${e.id})"
+                        title="Voir la fiche"
+                    >
+                    ${photos.length>1
+                        ?`<div class="eq-photo-count">+${photos.length-1}</div>`
+                        :""
+                    }
+                 `
+                :`<span style="color:#607d95">—</span>`;
+
             body.innerHTML+=`
 
             <tr>
 
                 <td>
-                    ${escapeHTML(e.code)}
+                    ${photoHTML}
+                </td>
+
+                <td>
+                    <span class="badge badge-blue">
+                        ${escapeHTML(e.code)}
+                    </span>
                 </td>
 
                 <td>
@@ -3699,11 +4027,9 @@ function refreshEquipment(){
                 </td>
 
                 <td>
-
                     <span class="badge badge-blue">
                         ${escapeHTML(e.zone)}
                     </span>
-
                 </td>
 
                 <td>
@@ -3719,6 +4045,14 @@ function refreshEquipment(){
                 </td>
 
                 <td>
+
+                    <button
+                        class="btn-info"
+                        onclick="showEquipmentDetail(${e.id})"
+                        title="Voir la fiche"
+                    >
+                        👁
+                    </button>
 
                     <button
                         class="btn-danger"
@@ -3738,6 +4072,94 @@ function refreshEquipment(){
 }
 
 
+function showEquipmentDetail(id){
+
+    const e=getEquipmentById(id);
+
+    if(!e) return;
+
+    const photos=Array.isArray(e.photos)
+        ?e.photos
+        :[];
+
+    const gallery=photos.length
+        ?photos.map(p=>`
+            <img src="${p}" alt="Photo de ${escapeHTML(e.designation)}">
+        `).join("")
+        :`<div style="color:#7895ae">Aucune photo enregistrée.</div>`;
+
+    const body=document.getElementById("equipmentDetailBody");
+
+    body.innerHTML=`
+
+        <div class="equipment-detail">
+
+            <div>
+
+                <div class="equipment-gallery">
+                    ${gallery}
+                </div>
+
+            </div>
+
+            <div>
+
+                <h2 style="margin-bottom:15px">
+                    ${escapeHTML(e.designation)}
+                </h2>
+
+                <p style="margin-bottom:8px">
+                    <strong>Code :</strong>
+                    <span class="badge badge-blue">
+                        ${escapeHTML(e.code)}
+                    </span>
+                </p>
+
+                <p style="margin-bottom:8px">
+                    <strong>Zone :</strong>
+                    ${escapeHTML(e.zone)}
+                </p>
+
+                <p style="margin-bottom:8px">
+                    <strong>Criticité :</strong>
+                    ${escapeHTML(e.criticality)}
+                </p>
+
+                <p style="margin-bottom:8px">
+                    <strong>Marque :</strong>
+                    ${escapeHTML(e.brand)||"—"}
+                </p>
+
+                <p style="margin-bottom:8px">
+                    <strong>État :</strong>
+                    ${escapeHTML(e.status)}
+                </p>
+
+                <p style="margin-top:18px;color:#7895ae">
+                    ${photos.length} photo(s) associée(s) à cet équipement.
+                </p>
+
+            </div>
+
+        </div>
+    `;
+
+    document.getElementById(
+        "equipmentDetailModal"
+    ).style.display="flex";
+
+}
+
+
+function closeEquipmentDetail(){
+
+    document.getElementById(
+        "equipmentDetailModal"
+    ).style.display="none";
+
+}
+
+
 function deleteEquipment(id){
 
     if(
@@ -3747,12 +4169,10 @@ function deleteEquipment(id){
     )
         return;
 
-
     db.equipments=
         db.equipments.filter(
             e=>e.id!==id
         );
-
 
     saveDB();
 
@@ -3893,6 +4313,8 @@ function refreshEquipmentSelects(){
 
 
     refreshDIEquipment();
+
+    previewEquipmentCode();
 
 }
 
@@ -7487,6 +7909,18 @@ document.getElementById(
 
         if(e.target===this)
             closeModal();
+
+    }
+);
+
+document.getElementById(
+    "equipmentDetailModal"
+).addEventListener(
+    "click",
+    function(e){
+
+        if(e.target===this)
+            closeEquipmentDetail();
 
     }
 );
