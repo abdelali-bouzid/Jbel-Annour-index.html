@@ -9,11 +9,13 @@
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
+
 body{
     font-family:Arial,sans-serif;
     background:#07111f;
     color:#e5eef8;
 }
+
 button,input,select,textarea{font:inherit}
 button{cursor:pointer}
 .hidden{display:none!important}
@@ -36,16 +38,31 @@ button{cursor:pointer}
     box-shadow:0 25px 70px #0008;
 }
 
-.logo{text-align:center;margin-bottom:25px}
-.logo h1{color:#38bdf8;font-size:31px}
-.logo p{color:#8298ae;margin-top:8px}
+.logo{
+    text-align:center;
+    margin-bottom:25px
+}
 
-.form-group{margin-bottom:15px}
+.logo h1{
+    color:#38bdf8;
+    font-size:31px
+}
+
+.logo p{
+    color:#8298ae;
+    margin-top:8px
+}
+
+.form-group{
+    margin-bottom:15px
+}
+
 .form-group label{
     display:block;
     margin-bottom:7px;
-    color:#a9bdd2;
+    color:#a9bdd2
 }
+
 input,select,textarea{
     width:100%;
     padding:11px 12px;
@@ -55,17 +72,25 @@ input,select,textarea{
     color:white;
     outline:none;
 }
-textarea{min-height:90px;resize:vertical}
-input:focus,select:focus,textarea:focus{
-    border-color:#38bdf8;
+
+textarea{
+    min-height:90px;
+    resize:vertical
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:#38bdf8
 }
 
 .btn{
     border:0;
     border-radius:8px;
     padding:10px 15px;
-    color:white;
+    color:white
 }
+
 .btn-primary{background:#0284c7}
 .btn-success{background:#16a34a}
 .btn-warning{background:#d97706}
@@ -73,7 +98,9 @@ input:focus,select:focus,textarea:focus{
 .btn-secondary{background:#334155}
 .full{width:100%}
 
-#app{min-height:100vh}
+#app{
+    min-height:100vh
+}
 
 .sidebar{
     position:fixed;
@@ -89,10 +116,16 @@ input:focus,select:focus,textarea:focus{
 
 .logo-side{
     padding:10px;
-    margin-bottom:20px;
+    margin-bottom:20px
 }
-.logo-side h2{color:#38bdf8}
-.logo-side small{color:#64748b}
+
+.logo-side h2{
+    color:#38bdf8
+}
+
+.logo-side small{
+    color:#64748b
+}
 
 .nav-btn{
     width:100%;
@@ -104,14 +137,16 @@ input:focus,select:focus,textarea:focus{
     border-radius:8px;
     margin-bottom:4px;
 }
-.nav-btn:hover,.nav-btn.active{
+
+.nav-btn:hover,
+.nav-btn.active{
     background:#123452;
-    color:white;
+    color:white
 }
 
 .main{
     margin-left:245px;
-    min-height:100vh;
+    min-height:100vh
 }
 
 .topbar{
@@ -121,14 +156,15 @@ input:focus,select:focus,textarea:focus{
     align-items:center;
     padding:0 25px;
     background:#0b1929;
-    border-bottom:1px solid #203a55;
+    border-bottom:1px solid #203a55
 }
 
 .user{
     display:flex;
     align-items:center;
-    gap:10px;
+    gap:10px
 }
+
 .avatar{
     width:40px;
     height:40px;
@@ -137,39 +173,54 @@ input:focus,select:focus,textarea:focus{
     align-items:center;
     justify-content:center;
     background:#0284c7;
-    font-weight:bold;
+    font-weight:bold
 }
 
-.content{padding:25px}
+.content{
+    padding:25px
+}
 
 .page-title{
     display:flex;
     align-items:center;
     justify-content:space-between;
     gap:15px;
-    margin-bottom:20px;
+    margin-bottom:20px
 }
-.page-title h1{font-size:25px}
-.page-title p{color:#7890a8;margin-top:5px}
+
+.page-title h1{
+    font-size:25px
+}
+
+.page-title p{
+    color:#7890a8;
+    margin-top:5px
+}
 
 .kpis{
     display:grid;
     grid-template-columns:repeat(4,1fr);
     gap:15px;
-    margin-bottom:20px;
+    margin-bottom:20px
 }
+
 .kpi{
     background:#0d1b2e;
     border:1px solid #203a55;
     border-radius:13px;
-    padding:20px;
+    padding:20px
 }
-.kpi-label{font-size:13px;color:#8096ad}
+
+.kpi-label{
+    font-size:13px;
+    color:#8096ad
+}
+
 .kpi-value{
     margin-top:8px;
     font-size:30px;
     font-weight:bold;
-    color:#38bdf8;
+    color:#38bdf8
 }
 
 .card{
@@ -177,54 +228,118 @@ input:focus,select:focus,textarea:focus{
     border:1px solid #203a55;
     border-radius:13px;
     padding:20px;
-    margin-bottom:20px;
+    margin-bottom:20px
 }
 
 .card-title{
     font-size:18px;
     font-weight:bold;
-    margin-bottom:17px;
+    margin-bottom:17px
 }
 
 .filters{
     display:grid;
     grid-template-columns:2fr 1fr 1fr;
     gap:10px;
-    margin-bottom:17px;
+    margin-bottom:17px
 }
 
-.table-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse}
+.table-wrap{
+    overflow-x:auto
+}
+
+table{
+    width:100%;
+    border-collapse:collapse
+}
+
 th,td{
     padding:11px 9px;
     border-bottom:1px solid #203a55;
     text-align:left;
-    white-space:nowrap;
+    white-space:nowrap
 }
+
 th{
     background:#0a1726;
     color:#8fa7bf;
-    font-size:13px;
+    font-size:13px
 }
-tr:hover td{background:#10243a}
+
+tr:hover td{
+    background:#10243a
+}
 
 .badge{
     padding:4px 8px;
     border-radius:20px;
     font-size:12px;
-    display:inline-block;
+    display:inline-block
 }
-.active{background:#14532d;color:#bbf7d0}
-.inactive{background:#450a0a;color:#fecaca}
-.maintenance{background:#78350f;color:#fed7aa}
 
-.critical-A{color:#f87171;font-weight:bold}
-.critical-B{color:#fbbf24;font-weight:bold}
-.critical-C{color:#4ade80;font-weight:bold}
+.active{
+    background:#14532d;
+    color:#bbf7d0
+}
+
+.inactive{
+    background:#450a0a;
+    color:#fecaca
+}
+
+.maintenance{
+    background:#78350f;
+    color:#fed7aa
+}
+
+.status-new{
+    background:#164e63;
+    color:#a5f3fc
+}
+
+.status-progress{
+    background:#78350f;
+    color:#fed7aa
+}
+
+.status-closed{
+    background:#14532d;
+    color:#bbf7d0
+}
+
+.priority-high{
+    background:#7f1d1d;
+    color:#fecaca
+}
+
+.priority-medium{
+    background:#78350f;
+    color:#fed7aa
+}
+
+.priority-low{
+    background:#14532d;
+    color:#bbf7d0
+}
+
+.critical-A{
+    color:#f87171;
+    font-weight:bold
+}
+
+.critical-B{
+    color:#fbbf24;
+    font-weight:bold
+}
+
+.critical-C{
+    color:#4ade80;
+    font-weight:bold
+}
 
 .actions{
     display:flex;
-    gap:5px;
+    gap:5px
 }
 
 .modal{
@@ -235,8 +350,9 @@ tr:hover td{background:#10243a}
     align-items:center;
     justify-content:center;
     z-index:100;
-    padding:20px;
+    padding:20px
 }
+
 .modal-box{
     width:700px;
     max-width:100%;
@@ -245,88 +361,129 @@ tr:hover td{background:#10243a}
     background:#0d1b2e;
     border:1px solid #315879;
     border-radius:15px;
-    padding:25px;
+    padding:25px
 }
+
 .modal-head{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:20px;
+    margin-bottom:20px
 }
+
 .close{
     border:0;
     background:none;
     color:#94a3b8;
-    font-size:27px;
+    font-size:27px
 }
+
 .grid2{
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:15px;
+    gap:15px
 }
-.full-col{grid-column:1/-1}
+
+.full-col{
+    grid-column:1/-1
+}
 
 .modal-actions{
     display:flex;
     justify-content:flex-end;
     gap:10px;
-    margin-top:20px;
+    margin-top:20px
 }
 
 .message{
     padding:11px;
     border-radius:8px;
-    margin-bottom:15px;
+    margin-bottom:15px
 }
+
 .success{
     background:#052e16;
     border:1px solid #166534;
-    color:#bbf7d0;
+    color:#bbf7d0
 }
+
 .error{
     background:#450a0a;
     border:1px solid #991b1b;
-    color:#fecaca;
+    color:#fecaca
 }
 
 .tree{
-    padding:15px;
+    padding:15px
 }
+
 .tree-zone{
     border:1px solid #244662;
     border-radius:10px;
     margin-bottom:12px;
-    overflow:hidden;
+    overflow:hidden
 }
+
 .tree-zone-title{
     padding:13px;
     background:#10283f;
-    font-weight:bold;
+    font-weight:bold
 }
+
 .tree-equipment{
     padding:12px 15px;
-    border-top:1px solid #203a55;
+    border-top:1px solid #203a55
 }
+
 .tree-sub{
     margin:7px 0 0 25px;
     padding:8px 10px;
     background:#081827;
     border-left:2px solid #0284c7;
     border-radius:5px;
-    color:#b5c9dc;
+    color:#b5c9dc
+}
+
+.di-description{
+    max-width:300px;
+    white-space:normal!important;
+    line-height:1.4
 }
 
 @media(max-width:1000px){
-    .kpis{grid-template-columns:repeat(2,1fr)}
+    .kpis{
+        grid-template-columns:repeat(2,1fr)
+    }
 }
 
 @media(max-width:700px){
-    .sidebar{width:68px}
-    .logo-side h2,.logo-side small,.nav-btn span{display:none}
-    .main{margin-left:68px}
-    .kpis{grid-template-columns:1fr}
-    .filters,.grid2{grid-template-columns:1fr}
-    .full-col{grid-column:auto}
+
+    .sidebar{
+        width:68px
+    }
+
+    .logo-side h2,
+    .logo-side small,
+    .nav-btn span{
+        display:none
+    }
+
+    .main{
+        margin-left:68px
+    }
+
+    .kpis{
+        grid-template-columns:1fr
+    }
+
+    .filters,
+    .grid2{
+        grid-template-columns:1fr
+    }
+
+    .full-col{
+        grid-column:auto
+    }
 }
 </style>
 </head>
@@ -348,19 +505,27 @@ tr:hover td{background:#10243a}
 
 <div class="form-group">
 <label>Email</label>
-<input id="loginEmail"
+
+<input
+id="loginEmail"
 value="abdelali.bouzid.98@gmail.com"
 type="email">
 </div>
 
 <div class="form-group">
+
 <label>Mot de passe</label>
-<input id="loginPassword"
+
+<input
+id="loginPassword"
 type="password"
 placeholder="Votre mot de passe">
+
 </div>
 
-<button class="btn btn-primary full" onclick="login()">
+<button
+class="btn btn-primary full"
+onclick="login()">
 Se connecter
 </button>
 
@@ -390,59 +555,81 @@ Réinitialiser le mot de passe
 <small>V10.2</small>
 </div>
 
-<button class="nav-btn active"
+<button
+class="nav-btn active"
 onclick="showPage('dashboard',this)">
 📊 <span>Dashboard</span>
 </button>
 
-<button class="nav-btn"
+<button
+class="nav-btn"
 onclick="showPage('personnel',this)">
 👥 <span>Personnel</span>
 </button>
 
-<button class="nav-btn"
+<button
+class="nav-btn"
 onclick="showPage('zones',this)">
 🏭 <span>Zones</span>
 </button>
 
-<button class="nav-btn"
+<button
+class="nav-btn"
 onclick="showPage('equipment',this)">
 ⚙️ <span>Équipements</span>
 </button>
 
-<button class="nav-btn"
+<button
+class="nav-btn"
 onclick="showPage('subequipment',this)">
 🔩 <span>Sous-équipements</span>
 </button>
 
-<button class="nav-btn">
+<!-- DI ACTIVE -->
+
+<button
+class="nav-btn"
+onclick="showPage('di',this);loadDI();">
 📥 <span>Demandes DI</span>
 </button>
 
-<button class="nav-btn">
+<!-- FUTURE MODULES -->
+
+<button
+class="nav-btn"
+onclick="futureModule('Ordres de Travail')">
 🔧 <span>Ordres de Travail</span>
 </button>
 
-<button class="nav-btn">
+<button
+class="nav-btn"
+onclick="futureModule('Préventif')">
 📅 <span>Préventif</span>
 </button>
 
-<button class="nav-btn">
+<button
+class="nav-btn"
+onclick="futureModule('RCA / BDA')">
 🔎 <span>RCA / BDA</span>
 </button>
 
-<button class="nav-btn">
+<button
+class="nav-btn"
+onclick="futureModule('Rapports')">
 📑 <span>Rapports</span>
 </button>
 
 <hr style="border-color:#203a55;margin:15px 0">
 
-<button class="nav-btn"
+<button
+class="nav-btn"
 onclick="showPage('settings',this)">
 ⚙️ <span>Paramètres</span>
 </button>
 
-<button class="nav-btn" onclick="logout()">
+<button
+class="nav-btn"
+onclick="logout()">
 🚪 <span>Déconnexion</span>
 </button>
 
@@ -479,10 +666,17 @@ onclick="showPage('settings',this)">
 <div id="page-dashboard">
 
 <div class="page-title">
+
 <div>
+
 <h1>Dashboard Maintenance</h1>
-<p>Vue générale des ressources techniques</p>
+
+<p>
+Vue générale des ressources techniques
+</p>
+
 </div>
+
 </div>
 
 <div class="kpis">
@@ -511,7 +705,9 @@ onclick="showPage('settings',this)">
 
 <div class="card">
 
-<div class="card-title">Structure technique</div>
+<div class="card-title">
+Structure technique
+</div>
 
 <div id="equipmentTree" class="tree">
 Chargement...
@@ -529,10 +725,17 @@ Chargement...
 <div id="page-personnel" class="hidden">
 
 <div class="page-title">
+
 <div>
+
 <h1>Gestion du Personnel</h1>
-<p>Administrateurs, responsables et techniciens</p>
+
+<p>
+Administrateurs, responsables et techniciens
+</p>
+
 </div>
+
 </div>
 
 <div class="card">
@@ -542,6 +745,7 @@ Chargement...
 <table>
 
 <thead>
+
 <tr>
 <th>Code</th>
 <th>Nom</th>
@@ -550,6 +754,7 @@ Chargement...
 <th>Poste</th>
 <th>État</th>
 </tr>
+
 </thead>
 
 <tbody id="personnelTable"></tbody>
@@ -572,8 +777,13 @@ Chargement...
 <div class="page-title">
 
 <div>
+
 <h1>Zones</h1>
-<p>Organisation des secteurs industriels</p>
+
+<p>
+Organisation des secteurs industriels
+</p>
+
 </div>
 
 <button
@@ -588,13 +798,31 @@ onclick="openZoneModal()">
 <div class="kpis">
 
 <div class="kpi">
-<div class="kpi-label">Total zones</div>
-<div class="kpi-value" id="zoneCount">0</div>
+
+<div class="kpi-label">
+Total zones
+</div>
+
+<div
+class="kpi-value"
+id="zoneCount">
+0
+</div>
+
 </div>
 
 <div class="kpi">
-<div class="kpi-label">Zones actives</div>
-<div class="kpi-value" id="activeZoneCount">0</div>
+
+<div class="kpi-label">
+Zones actives
+</div>
+
+<div
+class="kpi-value"
+id="activeZoneCount">
+0
+</div>
+
 </div>
 
 </div>
@@ -608,11 +836,22 @@ id="zoneSearch"
 placeholder="🔎 Rechercher une zone..."
 oninput="filterZones()">
 
-<select id="zoneStatusFilter"
+<select
+id="zoneStatusFilter"
 onchange="filterZones()">
-<option value="">Tous les états</option>
-<option value="active">Actives</option>
-<option value="inactive">Inactives</option>
+
+<option value="">
+Tous les états
+</option>
+
+<option value="active">
+Actives
+</option>
+
+<option value="inactive">
+Inactives
+</option>
+
 </select>
 
 <div></div>
@@ -624,6 +863,7 @@ onchange="filterZones()">
 <table>
 
 <thead>
+
 <tr>
 <th>Code</th>
 <th>Zone</th>
@@ -631,6 +871,7 @@ onchange="filterZones()">
 <th>État</th>
 <th>Actions</th>
 </tr>
+
 </thead>
 
 <tbody id="zoneTable"></tbody>
@@ -653,8 +894,13 @@ onchange="filterZones()">
 <div class="page-title">
 
 <div>
+
 <h1>Équipements</h1>
-<p>Gestion du parc machine</p>
+
+<p>
+Gestion du parc machine
+</p>
+
 </div>
 
 <button
@@ -669,23 +915,59 @@ onclick="openEquipmentModal()">
 <div class="kpis">
 
 <div class="kpi">
-<div class="kpi-label">Équipements</div>
-<div class="kpi-value" id="equipmentCount">0</div>
+
+<div class="kpi-label">
+Équipements
+</div>
+
+<div
+class="kpi-value"
+id="equipmentCount">
+0
+</div>
+
 </div>
 
 <div class="kpi">
-<div class="kpi-label">Criticité A</div>
-<div class="kpi-value" id="criticalACount">0</div>
+
+<div class="kpi-label">
+Criticité A
+</div>
+
+<div
+class="kpi-value"
+id="criticalACount">
+0
+</div>
+
 </div>
 
 <div class="kpi">
-<div class="kpi-label">Criticité B</div>
-<div class="kpi-value" id="criticalBCount">0</div>
+
+<div class="kpi-label">
+Criticité B
+</div>
+
+<div
+class="kpi-value"
+id="criticalBCount">
+0
+</div>
+
 </div>
 
 <div class="kpi">
-<div class="kpi-label">Criticité C</div>
-<div class="kpi-value" id="criticalCCount">0</div>
+
+<div class="kpi-label">
+Criticité C
+</div>
+
+<div
+class="kpi-value"
+id="criticalCCount">
+0
+</div>
+
 </div>
 
 </div>
@@ -702,16 +984,33 @@ oninput="filterEquipment()">
 <select
 id="equipmentZoneFilter"
 onchange="filterEquipment()">
-<option value="">Toutes les zones</option>
+
+<option value="">
+Toutes les zones
+</option>
+
 </select>
 
 <select
 id="equipmentCriticalityFilter"
 onchange="filterEquipment()">
-<option value="">Toutes criticités</option>
-<option value="A">A - Critique</option>
-<option value="B">B - Moyenne</option>
-<option value="C">C - Faible</option>
+
+<option value="">
+Toutes criticités
+</option>
+
+<option value="A">
+A - Critique
+</option>
+
+<option value="B">
+B - Moyenne
+</option>
+
+<option value="C">
+C - Faible
+</option>
+
 </select>
 
 </div>
@@ -721,6 +1020,7 @@ onchange="filterEquipment()">
 <table>
 
 <thead>
+
 <tr>
 <th>Code</th>
 <th>Désignation</th>
@@ -732,6 +1032,7 @@ onchange="filterEquipment()">
 <th>État</th>
 <th>Actions</th>
 </tr>
+
 </thead>
 
 <tbody id="equipmentTable"></tbody>
@@ -746,7 +1047,7 @@ onchange="filterEquipment()">
 
 
 <!-- ======================================================
- SOUS EQUIPEMENTS
+ SUB EQUIPMENT
 ====================================================== -->
 
 <div id="page-subequipment" class="hidden">
@@ -754,15 +1055,22 @@ onchange="filterEquipment()">
 <div class="page-title">
 
 <div>
+
 <h1>Sous-équipements</h1>
-<p>Composants et ensembles rattachés aux équipements</p>
+
+<p>
+Composants et ensembles rattachés aux équipements
+</p>
+
 </div>
 
 <button
 id="addSubEquipmentButton"
 class="btn btn-primary"
 onclick="openSubEquipmentModal()">
+
 + Ajouter sous-équipement
+
 </button>
 
 </div>
@@ -779,16 +1087,25 @@ oninput="filterSubEquipment()">
 <select
 id="subEquipmentFilter"
 onchange="filterSubEquipment()">
-<option value="">Tous les équipements</option>
+
+<option value="">
+Tous les équipements
+</option>
+
 </select>
 
 <select
 id="subCriticalityFilter"
 onchange="filterSubEquipment()">
-<option value="">Toutes criticités</option>
+
+<option value="">
+Toutes criticités
+</option>
+
 <option value="A">A</option>
 <option value="B">B</option>
 <option value="C">C</option>
+
 </select>
 
 </div>
@@ -798,6 +1115,7 @@ onchange="filterSubEquipment()">
 <table>
 
 <thead>
+
 <tr>
 <th>Code</th>
 <th>Désignation</th>
@@ -809,9 +1127,190 @@ onchange="filterSubEquipment()">
 <th>État</th>
 <th>Actions</th>
 </tr>
+
 </thead>
 
 <tbody id="subEquipmentTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ======================================================
+ DEMANDES D'INTERVENTION
+====================================================== -->
+
+<div id="page-di" class="hidden">
+
+<div class="page-title">
+
+<div>
+
+<h1>Demandes d'Intervention</h1>
+
+<p>
+Création et suivi des demandes de maintenance
+</p>
+
+</div>
+
+<button
+class="btn btn-primary"
+onclick="openDIModal()">
+
++ Nouvelle DI
+
+</button>
+
+</div>
+
+
+<div class="kpis">
+
+<div class="kpi">
+
+<div class="kpi-label">
+Total DI
+</div>
+
+<div
+class="kpi-value"
+id="diCount">
+0
+</div>
+
+</div>
+
+<div class="kpi">
+
+<div class="kpi-label">
+Nouvelles
+</div>
+
+<div
+class="kpi-value"
+id="diNewCount">
+0
+</div>
+
+</div>
+
+<div class="kpi">
+
+<div class="kpi-label">
+En cours
+</div>
+
+<div
+class="kpi-value"
+id="diProgressCount">
+0
+</div>
+
+</div>
+
+<div class="kpi">
+
+<div class="kpi-label">
+Clôturées
+</div>
+
+<div
+class="kpi-value"
+id="diClosedCount">
+0
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="filters">
+
+<input
+id="diSearch"
+placeholder="🔎 Code, demandeur, équipement..."
+oninput="filterDI()">
+
+<select
+id="diStatusFilter"
+onchange="filterDI()">
+
+<option value="">
+Tous les statuts
+</option>
+
+<option value="new">
+Nouveau
+</option>
+
+<option value="in_progress">
+En cours
+</option>
+
+<option value="closed">
+Clôturé
+</option>
+
+</select>
+
+<select
+id="diPriorityFilter"
+onchange="filterDI()">
+
+<option value="">
+Toutes les priorités
+</option>
+
+<option value="high">
+Haute
+</option>
+
+<option value="medium">
+Moyenne
+</option>
+
+<option value="low">
+Basse
+</option>
+
+</select>
+
+</div>
+
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Code</th>
+<th>Date</th>
+<th>Demandeur</th>
+<th>Zone</th>
+<th>Équipement</th>
+<th>Sous-équipement</th>
+<th>Priorité</th>
+<th>Type</th>
+<th>Statut</th>
+<th>Description</th>
+
+</tr>
+
+</thead>
+
+<tbody id="diTable"></tbody>
 
 </table>
 
@@ -829,7 +1328,9 @@ onchange="filterSubEquipment()">
 <div id="page-settings" class="hidden">
 
 <div class="page-title">
+
 <h1>Paramètres</h1>
+
 </div>
 
 <div class="card">
@@ -838,16 +1339,23 @@ onchange="filterSubEquipment()">
 Compte connecté
 </div>
 
-<p id="settingsEmail" style="color:#94a3b8"></p>
+<p
+id="settingsEmail"
+style="color:#94a3b8">
+</p>
 
-<p id="settingsCode"
-style="color:#94a3b8;margin-top:8px"></p>
+<p
+id="settingsCode"
+style="color:#94a3b8;margin-top:8px">
+</p>
 
 <button
 class="btn btn-warning"
 style="margin-top:15px"
 onclick="resetPassword()">
+
 Réinitialiser mon mot de passe
+
 </button>
 
 </div>
@@ -864,51 +1372,98 @@ Réinitialiser mon mot de passe
  ZONE MODAL
 ====================================================== -->
 
-<div id="zoneModal" class="modal hidden">
+<div
+id="zoneModal"
+class="modal hidden">
 
 <div class="modal-box">
 
 <div class="modal-head">
-<h2 id="zoneModalTitle">Ajouter une zone</h2>
-<button class="close" onclick="closeZoneModal()">×</button>
+
+<h2 id="zoneModalTitle">
+Ajouter une zone
+</h2>
+
+<button
+class="close"
+onclick="closeZoneModal()">
+×
+</button>
+
 </div>
 
 <div id="zoneModalMessage"></div>
 
 <form onsubmit="saveZone(event)">
 
-<input type="hidden" id="zoneId">
+<input
+type="hidden"
+id="zoneId">
 
 <div class="form-group">
-<label>Nom de la zone *</label>
-<input id="zoneName" required
+
+<label>
+Nom de la zone *
+</label>
+
+<input
+id="zoneName"
+required
 placeholder="Ex : Préparation">
+
 </div>
 
 <div class="form-group">
-<label>Description</label>
-<textarea id="zoneDescription"
-placeholder="Description de la zone"></textarea>
+
+<label>
+Description
+</label>
+
+<textarea
+id="zoneDescription"
+placeholder="Description de la zone">
+</textarea>
+
 </div>
 
 <div class="form-group">
-<label>État</label>
+
+<label>
+État
+</label>
+
 <select id="zoneStatus">
-<option value="active">Active</option>
-<option value="inactive">Inactive</option>
+
+<option value="active">
+Active
+</option>
+
+<option value="inactive">
+Inactive
+</option>
+
 </select>
+
 </div>
 
 <div class="modal-actions">
-<button type="button"
+
+<button
+type="button"
 class="btn btn-secondary"
 onclick="closeZoneModal()">
+
 Annuler
+
 </button>
 
-<button class="btn btn-success">
+<button
+class="btn btn-success">
+
 Enregistrer
+
 </button>
+
 </div>
 
 </form>
@@ -921,103 +1476,206 @@ Enregistrer
  EQUIPMENT MODAL
 ====================================================== -->
 
-<div id="equipmentModal" class="modal hidden">
+<div
+id="equipmentModal"
+class="modal hidden">
 
 <div class="modal-box">
 
 <div class="modal-head">
-<h2 id="equipmentModalTitle">Ajouter équipement</h2>
-<button class="close"
-onclick="closeEquipmentModal()">×</button>
+
+<h2 id="equipmentModalTitle">
+Ajouter équipement
+</h2>
+
+<button
+class="close"
+onclick="closeEquipmentModal()">
+×
+</button>
+
 </div>
 
 <div id="equipmentModalMessage"></div>
 
 <form onsubmit="saveEquipment(event)">
 
-<input type="hidden" id="equipmentId">
+<input
+type="hidden"
+id="equipmentId">
 
 <div class="grid2">
 
 <div class="form-group">
-<label>Désignation *</label>
-<input id="equipmentDesignation"
+
+<label>
+Désignation *
+</label>
+
+<input
+id="equipmentDesignation"
 required
 placeholder="Ex : Extrudeuse">
+
 </div>
 
 <div class="form-group">
-<label>Zone *</label>
-<select id="equipmentZone" required></select>
+
+<label>
+Zone *
+</label>
+
+<select
+id="equipmentZone"
+required>
+</select>
+
 </div>
 
 <div class="form-group">
-<label>Type</label>
-<input id="equipmentType"
+
+<label>
+Type
+</label>
+
+<input
+id="equipmentType"
 placeholder="Machine">
+
 </div>
 
 <div class="form-group">
-<label>Marque</label>
-<input id="equipmentBrand"
+
+<label>
+Marque
+</label>
+
+<input
+id="equipmentBrand"
 placeholder="Ex : Cavanna">
+
 </div>
 
 <div class="form-group">
-<label>Modèle</label>
-<input id="equipmentModel">
+
+<label>
+Modèle
+</label>
+
+<input
+id="equipmentModel">
+
 </div>
 
 <div class="form-group">
-<label>N° série</label>
-<input id="equipmentSerial">
+
+<label>
+N° série
+</label>
+
+<input
+id="equipmentSerial">
+
 </div>
 
 <div class="form-group">
-<label>Criticité</label>
+
+<label>
+Criticité
+</label>
+
 <select id="equipmentCriticality">
-<option value="A">A - Critique</option>
-<option value="B" selected>B - Moyenne</option>
-<option value="C">C - Faible</option>
+
+<option value="A">
+A - Critique
+</option>
+
+<option
+value="B"
+selected>
+B - Moyenne
+</option>
+
+<option value="C">
+C - Faible
+</option>
+
 </select>
+
 </div>
 
 <div class="form-group">
-<label>État</label>
+
+<label>
+État
+</label>
+
 <select id="equipmentStatus">
-<option value="active">Actif</option>
-<option value="maintenance">Maintenance</option>
-<option value="inactive">Inactif</option>
+
+<option value="active">
+Actif
+</option>
+
+<option value="maintenance">
+Maintenance
+</option>
+
+<option value="inactive">
+Inactif
+</option>
+
 </select>
+
 </div>
 
 <div class="form-group">
-<label>Date mise en service</label>
-<input id="equipmentInstallation" type="date">
+
+<label>
+Date mise en service
+</label>
+
+<input
+id="equipmentInstallation"
+type="date">
+
 </div>
 
 <div class="form-group full-col">
-<label>Description</label>
-<textarea id="equipmentDescription"></textarea>
+
+<label>
+Description
+</label>
+
+<textarea
+id="equipmentDescription">
+</textarea>
+
 </div>
 
 </div>
 
 <div class="modal-actions">
 
-<button type="button"
+<button
+type="button"
 class="btn btn-secondary"
 onclick="closeEquipmentModal()">
+
 Annuler
+
 </button>
 
-<button class="btn btn-success">
+<button
+class="btn btn-success">
+
 Enregistrer
+
 </button>
 
 </div>
 
 </form>
+
 </div>
 </div>
 
@@ -1026,106 +1684,397 @@ Enregistrer
  SUB EQUIPMENT MODAL
 ====================================================== -->
 
-<div id="subEquipmentModal" class="modal hidden">
+<div
+id="subEquipmentModal"
+class="modal hidden">
 
 <div class="modal-box">
 
 <div class="modal-head">
+
 <h2 id="subEquipmentModalTitle">
 Ajouter sous-équipement
 </h2>
 
-<button class="close"
-onclick="closeSubEquipmentModal()">×</button>
+<button
+class="close"
+onclick="closeSubEquipmentModal()">
+×
+</button>
+
 </div>
 
 <div id="subEquipmentModalMessage"></div>
 
 <form onsubmit="saveSubEquipment(event)">
 
-<input type="hidden" id="subEquipmentId">
+<input
+type="hidden"
+id="subEquipmentId">
 
 <div class="grid2">
 
 <div class="form-group">
-<label>Équipement *</label>
-<select id="subEquipmentParent" required></select>
+
+<label>
+Équipement *
+</label>
+
+<select
+id="subEquipmentParent"
+required>
+</select>
+
 </div>
 
 <div class="form-group">
-<label>Désignation *</label>
-<input id="subEquipmentDesignation"
+
+<label>
+Désignation *
+</label>
+
+<input
+id="subEquipmentDesignation"
 required
 placeholder="Ex : Moteur principal">
+
 </div>
 
 <div class="form-group">
-<label>Type</label>
-<input id="subEquipmentType"
+
+<label>
+Type
+</label>
+
+<input
+id="subEquipmentType"
 placeholder="Moteur / Réducteur / Pompe...">
+
 </div>
 
 <div class="form-group">
-<label>Marque</label>
-<input id="subEquipmentBrand">
+
+<label>
+Marque
+</label>
+
+<input
+id="subEquipmentBrand">
+
 </div>
 
 <div class="form-group">
-<label>Modèle</label>
-<input id="subEquipmentModel">
+
+<label>
+Modèle
+</label>
+
+<input
+id="subEquipmentModel">
+
 </div>
 
 <div class="form-group">
-<label>N° série</label>
-<input id="subEquipmentSerial">
+
+<label>
+N° série
+</label>
+
+<input
+id="subEquipmentSerial">
+
 </div>
 
 <div class="form-group">
-<label>Criticité</label>
+
+<label>
+Criticité
+</label>
+
 <select id="subEquipmentCriticality">
+
 <option value="A">A</option>
 <option value="B" selected>B</option>
 <option value="C">C</option>
+
 </select>
+
 </div>
 
 <div class="form-group">
-<label>État</label>
+
+<label>
+État
+</label>
+
 <select id="subEquipmentStatus">
-<option value="active">Actif</option>
-<option value="maintenance">Maintenance</option>
-<option value="inactive">Inactif</option>
+
+<option value="active">
+Actif
+</option>
+
+<option value="maintenance">
+Maintenance
+</option>
+
+<option value="inactive">
+Inactif
+</option>
+
 </select>
+
 </div>
 
 <div class="form-group full-col">
-<label>Spécification</label>
-<textarea id="subEquipmentSpecification"
-placeholder="Puissance, vitesse, tension, dimensions..."></textarea>
+
+<label>
+Spécification
+</label>
+
+<textarea
+id="subEquipmentSpecification"
+placeholder="Puissance, vitesse, tension, dimensions...">
+</textarea>
+
 </div>
 
 <div class="form-group full-col">
-<label>Observation</label>
-<textarea id="subEquipmentObservation"></textarea>
+
+<label>
+Observation
+</label>
+
+<textarea
+id="subEquipmentObservation">
+</textarea>
+
 </div>
 
 </div>
 
 <div class="modal-actions">
 
-<button type="button"
+<button
+type="button"
 class="btn btn-secondary"
 onclick="closeSubEquipmentModal()">
+
 Annuler
+
 </button>
 
-<button class="btn btn-success">
+<button
+class="btn btn-success">
+
 Enregistrer
+
 </button>
 
 </div>
 
 </form>
+
+</div>
+</div>
+
+
+<!-- ======================================================
+ DI MODAL
+====================================================== -->
+
+<div
+id="diModal"
+class="modal hidden">
+
+<div class="modal-box">
+
+<div class="modal-head">
+
+<div>
+
+<h2>
+Nouvelle Demande d'Intervention
+</h2>
+
+<p
+style="color:#7890a8;margin-top:5px">
+
+Création d'une demande de maintenance
+
+</p>
+
+</div>
+
+<button
+class="close"
+onclick="closeDIModal()">
+×
+</button>
+
+</div>
+
+<div id="diModalMessage"></div>
+
+<form onsubmit="saveDI(event)">
+
+<div class="grid2">
+
+<div class="form-group">
+
+<label>
+Zone *
+</label>
+
+<select
+id="diZone"
+required
+onchange="populateDIEquipment()">
+
+<option value="">
+Sélectionner une zone
+</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>
+Équipement *
+</label>
+
+<select
+id="diEquipment"
+required
+onchange="populateDISubEquipment()">
+
+<option value="">
+Sélectionner un équipement
+</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>
+Sous-équipement
+</label>
+
+<select
+id="diSubEquipment">
+
+<option value="">
+Aucun
+</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>
+Demandeur *
+</label>
+
+<input
+id="diRequester"
+required
+placeholder="Nom du demandeur">
+
+</div>
+
+<div class="form-group">
+
+<label>
+Priorité
+</label>
+
+<select id="diPriority">
+
+<option value="high">
+Haute
+</option>
+
+<option
+value="medium"
+selected>
+Moyenne
+</option>
+
+<option value="low">
+Basse
+</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>
+Type
+</label>
+
+<select id="diType">
+
+<option value="curative">
+Curative
+</option>
+
+<option value="preventive">
+Préventive
+</option>
+
+<option value="improvement">
+Amélioration
+</option>
+
+</select>
+
+</div>
+
+<div class="form-group full-col">
+
+<label>
+Description de la demande *
+</label>
+
+<textarea
+id="diDescription"
+required
+placeholder="Décrire le problème constaté...">
+</textarea>
+
+</div>
+
+</div>
+
+<div class="modal-actions">
+
+<button
+type="button"
+class="btn btn-secondary"
+onclick="closeDIModal()">
+
+Annuler
+
+</button>
+
+<button
+class="btn btn-success">
+
+📥 Enregistrer la DI
+
+</button>
+
+</div>
+
+</form>
+
 </div>
 </div>
 
@@ -1161,6 +2110,10 @@ let zones=[];
 let equipment=[];
 let subEquipment=[];
 
+/* DI */
+
+let interventionRequests=[];
+
 
 /* ======================================================
  LOGIN
@@ -1169,10 +2122,12 @@ let subEquipment=[];
 async function login(){
 
 const email=
-document.getElementById('loginEmail').value.trim();
+document.getElementById('loginEmail')
+.value.trim();
 
 const password=
-document.getElementById('loginPassword').value;
+document.getElementById('loginPassword')
+.value;
 
 const msg=
 document.getElementById('loginMessage');
@@ -1218,6 +2173,7 @@ await sb
 if(error){
 
 alert(error.message);
+
 return;
 }
 
@@ -1240,21 +2196,30 @@ document
 .getElementById('app')
 .classList.remove('hidden');
 
-document.getElementById('userName')
-.textContent=data.full_name || currentUser.email;
-
-document.getElementById('userRole')
-.textContent=roleLabel(data.role);
-
-document.getElementById('avatar')
+document
+.getElementById('userName')
 .textContent=
-(data.full_name || 'A').charAt(0).toUpperCase();
+data.full_name || currentUser.email;
 
-document.getElementById('settingsEmail')
+document
+.getElementById('userRole')
+.textContent=
+roleLabel(data.role);
+
+document
+.getElementById('avatar')
+.textContent=
+(data.full_name || 'A')
+.charAt(0)
+.toUpperCase();
+
+document
+.getElementById('settingsEmail')
 .textContent=
 'Email : '+currentUser.email;
 
-document.getElementById('settingsCode')
+document
+.getElementById('settingsCode')
 .textContent=
 'Code personnel : '+(data.employee_code || '-');
 
@@ -1270,10 +2235,17 @@ await loadAll();
 async function loadAll(){
 
 await Promise.all([
+
 loadPersonnel(),
+
 loadZones(),
+
 loadEquipment(),
-loadSubEquipment()
+
+loadSubEquipment(),
+
+loadDI()
+
 ]);
 
 updateDashboard();
@@ -1294,7 +2266,9 @@ await sb
 .order('created_at',{ascending:false});
 
 if(error){
+
 console.error(error);
+
 return;
 }
 
@@ -1302,6 +2276,8 @@ personnel=data || [];
 
 const tbody=
 document.getElementById('personnelTable');
+
+if(!tbody)return;
 
 tbody.innerHTML='';
 
@@ -1311,20 +2287,34 @@ const tr=document.createElement('tr');
 
 tr.innerHTML=`
 
-<td>${esc(p.employee_code || '-')}</td>
-
-<td>${esc(p.full_name || '-')}</td>
-
-<td>${roleLabel(p.role)}</td>
-
-<td>${esc(p.department || '-')}</td>
-
-<td>${esc(p.position || '-')}</td>
+<td>
+${esc(p.employee_code || '-')}
+</td>
 
 <td>
+${esc(p.full_name || '-')}
+</td>
+
+<td>
+${roleLabel(p.role)}
+</td>
+
+<td>
+${esc(p.department || '-')}
+</td>
+
+<td>
+${esc(p.position || '-')}
+</td>
+
+<td>
+
 <span class="badge ${p.active?'active':'inactive'}">
+
 ${p.active?'Actif':'Inactif'}
+
 </span>
+
 </td>
 
 `;
@@ -1373,6 +2363,8 @@ function renderZones(list){
 const tbody=
 document.getElementById('zoneTable');
 
+if(!tbody)return;
+
 tbody.innerHTML='';
 
 document.getElementById('zoneCount')
@@ -1382,19 +2374,24 @@ document.getElementById('activeZoneCount')
 .textContent=
 zones.filter(z=>z.status==='active').length;
 
-
 if(!list.length){
 
 tbody.innerHTML=`
+
 <tr>
-<td colspan="5" style="text-align:center;color:#7187a0">
+
+<td
+colspan="5"
+style="text-align:center;color:#7187a0">
+
 Aucune zone.
+
 </td>
+
 </tr>`;
 
 return;
 }
-
 
 list.forEach(z=>{
 
@@ -1402,16 +2399,28 @@ const tr=document.createElement('tr');
 
 tr.innerHTML=`
 
-<td><strong>${esc(z.code)}</strong></td>
-
-<td>${esc(z.name)}</td>
-
-<td>${esc(z.description || '-')}</td>
+<td>
+<strong>${esc(z.code)}</strong>
+</td>
 
 <td>
+${esc(z.name)}
+</td>
+
+<td>
+${esc(z.description || '-')}
+</td>
+
+<td>
+
 <span class="badge ${z.status}">
-${z.status==='active'?'Active':'Inactive'}
+
+${z.status==='active'
+?'Active'
+:'Inactive'}
+
 </span>
+
 </td>
 
 <td>
@@ -1422,15 +2431,19 @@ ${
 canManage()
 ?
 `
-<button class="btn btn-warning"
+
+<button
+class="btn btn-warning"
 onclick="editZone('${z.id}')">
 ✏️
 </button>
 
-<button class="btn btn-danger"
+<button
+class="btn btn-danger"
 onclick="deleteZone('${z.id}')">
 🗑️
 </button>
+
 `
 :''
 }
@@ -1459,6 +2472,8 @@ document.getElementById('equipmentZone');
 
 const filter=
 document.getElementById('equipmentZoneFilter');
+
+if(!select || !filter)return;
 
 select.innerHTML=
 '<option value="">Choisir une zone</option>';
@@ -1491,7 +2506,9 @@ function openZoneModal(){
 
 if(!canManage()){
 
-alert('Accès réservé à Admin / Responsable.');
+alert(
+'Accès réservé à Admin / Responsable.'
+);
 
 return;
 }
@@ -1505,7 +2522,8 @@ document.getElementById('zoneDescription').value='';
 document.getElementById('zoneStatus').value='active';
 
 document.getElementById('zoneModalTitle')
-.textContent='Ajouter une zone';
+.textContent=
+'Ajouter une zone';
 
 document.getElementById('zoneModal')
 .classList.remove('hidden');
@@ -1529,7 +2547,7 @@ async function saveZone(e){
 
 e.preventDefault();
 
-if(!canManage()) return;
+if(!canManage())return;
 
 const id=
 document.getElementById('zoneId').value;
@@ -1537,13 +2555,16 @@ document.getElementById('zoneId').value;
 const payload={
 
 name:
-document.getElementById('zoneName').value.trim(),
+document.getElementById('zoneName')
+.value.trim(),
 
 description:
-document.getElementById('zoneDescription').value.trim(),
+document.getElementById('zoneDescription')
+.value.trim(),
 
 status:
-document.getElementById('zoneStatus').value
+document.getElementById('zoneStatus')
+.value
 
 };
 
@@ -1559,7 +2580,8 @@ await sb
 
 }else{
 
-payload.created_by=currentUser.id;
+payload.created_by=
+currentUser.id;
 
 result=
 await sb
@@ -1594,6 +2616,8 @@ updateDashboard();
 
 function editZone(id){
 
+if(!canManage())return;
+
 const z=
 zones.find(x=>x.id===id);
 
@@ -1601,7 +2625,8 @@ if(!z)return;
 
 document.getElementById('zoneId').value=z.id;
 
-document.getElementById('zoneName').value=z.name;
+document.getElementById('zoneName').value=
+z.name;
 
 document.getElementById('zoneDescription').value=
 z.description || '';
@@ -1610,7 +2635,8 @@ document.getElementById('zoneStatus').value=
 z.status || 'active';
 
 document.getElementById('zoneModalTitle')
-.textContent='Modifier zone';
+.textContent=
+'Modifier zone';
 
 document.getElementById('zoneModal')
 .classList.remove('hidden');
@@ -1644,7 +2670,9 @@ return;
 }
 
 await loadZones();
+
 await loadEquipment();
+
 updateDashboard();
 
 }
@@ -1687,6 +2715,8 @@ function renderEquipment(list){
 const tbody=
 document.getElementById('equipmentTable');
 
+if(!tbody)return;
+
 tbody.innerHTML='';
 
 document.getElementById('equipmentCount')
@@ -1704,20 +2734,24 @@ document.getElementById('criticalCCount')
 .textContent=
 equipment.filter(x=>x.criticality==='C').length;
 
-
 if(!list.length){
 
 tbody.innerHTML=`
+
 <tr>
-<td colspan="9"
+
+<td
+colspan="9"
 style="text-align:center;color:#7187a0">
+
 Aucun équipement.
+
 </td>
+
 </tr>`;
 
 return;
 }
-
 
 list.forEach(eq=>{
 
@@ -1732,34 +2766,52 @@ tr.innerHTML=`
 <strong>${esc(eq.code)}</strong>
 </td>
 
-<td>${esc(eq.designation)}</td>
-
 <td>
-${zone
-?esc(zone.code+' — '+zone.name)
-:'-'}
+${esc(eq.designation)}
 </td>
 
-<td>${esc(eq.type || '-')}</td>
-
-<td>${esc(eq.brand || '-')}</td>
-
-<td>${esc(eq.model || '-')}</td>
+<td>
+${
+zone
+?esc(zone.code+' — '+zone.name)
+:'-'
+}
+</td>
 
 <td>
+${esc(eq.type || '-')}
+</td>
+
+<td>
+${esc(eq.brand || '-')}
+</td>
+
+<td>
+${esc(eq.model || '-')}
+</td>
+
+<td>
+
 <span class="critical-${eq.criticality}">
 ${esc(eq.criticality)}
 </span>
+
 </td>
 
 <td>
+
 <span class="badge ${eq.status}">
-${eq.status==='active'
+
+${
+eq.status==='active'
 ?'Actif'
 :eq.status==='maintenance'
 ?'Maintenance'
-:'Inactif'}
+:'Inactif'
+}
+
 </span>
+
 </td>
 
 <td>
@@ -1770,15 +2822,19 @@ ${
 canManage()
 ?
 `
-<button class="btn btn-warning"
+
+<button
+class="btn btn-warning"
 onclick="editEquipment('${eq.id}')">
 ✏️
 </button>
 
-<button class="btn btn-danger"
+<button
+class="btn btn-danger"
 onclick="deleteEquipment('${eq.id}')">
 🗑️
 </button>
+
 `
 :''
 }
@@ -1807,6 +2863,8 @@ document.getElementById('subEquipmentParent');
 
 const filter=
 document.getElementById('subEquipmentFilter');
+
+if(!select || !filter)return;
 
 select.innerHTML=
 '<option value="">Choisir équipement</option>';
@@ -1839,7 +2897,9 @@ function openEquipmentModal(){
 
 if(!canManage()){
 
-alert('Accès réservé à Admin / Responsable.');
+alert(
+'Accès réservé à Admin / Responsable.'
+);
 
 return;
 }
@@ -1867,7 +2927,11 @@ document.getElementById('equipmentInstallation').value='';
 document.getElementById('equipmentDescription').value='';
 
 document.getElementById('equipmentModalTitle')
-.textContent='Ajouter équipement';
+.textContent=
+'Ajouter équipement';
+
+document.getElementById('equipmentModalMessage')
+.innerHTML='';
 
 document.getElementById('equipmentModal')
 .classList.remove('hidden');
@@ -1903,31 +2967,40 @@ document.getElementById('equipmentDesignation')
 .value.trim(),
 
 zone_id:
-document.getElementById('equipmentZone').value || null,
+document.getElementById('equipmentZone')
+.value || null,
 
 type:
-document.getElementById('equipmentType').value.trim(),
+document.getElementById('equipmentType')
+.value.trim(),
 
 brand:
-document.getElementById('equipmentBrand').value.trim(),
+document.getElementById('equipmentBrand')
+.value.trim(),
 
 model:
-document.getElementById('equipmentModel').value.trim(),
+document.getElementById('equipmentModel')
+.value.trim(),
 
 serial_number:
-document.getElementById('equipmentSerial').value.trim(),
+document.getElementById('equipmentSerial')
+.value.trim(),
 
 criticality:
-document.getElementById('equipmentCriticality').value,
+document.getElementById('equipmentCriticality')
+.value,
 
 status:
-document.getElementById('equipmentStatus').value,
+document.getElementById('equipmentStatus')
+.value,
 
 installation_date:
-document.getElementById('equipmentInstallation').value || null,
+document.getElementById('equipmentInstallation')
+.value || null,
 
 description:
-document.getElementById('equipmentDescription').value.trim()
+document.getElementById('equipmentDescription')
+.value.trim()
 
 };
 
@@ -1943,7 +3016,8 @@ await sb
 
 }else{
 
-payload.created_by=currentUser.id;
+payload.created_by=
+currentUser.id;
 
 result=
 await sb
@@ -1977,6 +3051,8 @@ updateDashboard();
 ====================================================== */
 
 function editEquipment(id){
+
+if(!canManage())return;
 
 const eq=
 equipment.find(x=>x.id===id);
@@ -2016,7 +3092,8 @@ document.getElementById('equipmentDescription').value=
 eq.description || '';
 
 document.getElementById('equipmentModalTitle')
-.textContent='Modifier équipement';
+.textContent=
+'Modifier équipement';
 
 document.getElementById('equipmentModal')
 .classList.remove('hidden');
@@ -2050,6 +3127,7 @@ return;
 }
 
 await loadEquipment();
+
 await loadSubEquipment();
 
 updateDashboard();
@@ -2092,22 +3170,28 @@ function renderSubEquipment(list){
 const tbody=
 document.getElementById('subEquipmentTable');
 
-tbody.innerHTML='';
+if(!tbody)return;
 
+tbody.innerHTML='';
 
 if(!list.length){
 
 tbody.innerHTML=`
+
 <tr>
-<td colspan="9"
+
+<td
+colspan="9"
 style="text-align:center;color:#7187a0">
+
 Aucun sous-équipement.
+
 </td>
+
 </tr>`;
 
 return;
 }
-
 
 list.forEach(se=>{
 
@@ -2122,34 +3206,54 @@ tr.innerHTML=`
 <strong>${esc(se.code)}</strong>
 </td>
 
-<td>${esc(se.designation)}</td>
-
 <td>
-${eq
-?esc(eq.code+' — '+eq.designation)
-:'-'}
+${esc(se.designation)}
 </td>
 
-<td>${esc(se.type || '-')}</td>
+<td>
 
-<td>${esc(se.brand || '-')}</td>
+${
+eq
+?esc(eq.code+' — '+eq.designation)
+:'-'
+}
 
-<td>${esc(se.model || '-')}</td>
+</td>
 
 <td>
+${esc(se.type || '-')}
+</td>
+
+<td>
+${esc(se.brand || '-')}
+</td>
+
+<td>
+${esc(se.model || '-')}
+</td>
+
+<td>
+
 <span class="critical-${se.criticality}">
 ${esc(se.criticality)}
 </span>
+
 </td>
 
 <td>
+
 <span class="badge ${se.status}">
-${se.status==='active'
+
+${
+se.status==='active'
 ?'Actif'
 :se.status==='maintenance'
 ?'Maintenance'
-:'Inactif'}
+:'Inactif'
+}
+
 </span>
+
 </td>
 
 <td>
@@ -2160,15 +3264,19 @@ ${
 canManage()
 ?
 `
-<button class="btn btn-warning"
+
+<button
+class="btn btn-warning"
 onclick="editSubEquipment('${se.id}')">
 ✏️
 </button>
 
-<button class="btn btn-danger"
+<button
+class="btn btn-danger"
 onclick="deleteSubEquipment('${se.id}')">
 🗑️
 </button>
+
 `
 :''
 }
@@ -2194,7 +3302,9 @@ function openSubEquipmentModal(){
 
 if(!canManage()){
 
-alert('Accès réservé à Admin / Responsable.');
+alert(
+'Accès réservé à Admin / Responsable.'
+);
 
 return;
 }
@@ -2222,7 +3332,11 @@ document.getElementById('subEquipmentSpecification').value='';
 document.getElementById('subEquipmentObservation').value='';
 
 document.getElementById('subEquipmentModalTitle')
-.textContent='Ajouter sous-équipement';
+.textContent=
+'Ajouter sous-équipement';
+
+document.getElementById('subEquipmentModalMessage')
+.innerHTML='';
 
 document.getElementById('subEquipmentModal')
 .classList.remove('hidden');
@@ -2254,7 +3368,8 @@ document.getElementById('subEquipmentId').value;
 const payload={
 
 equipment_id:
-document.getElementById('subEquipmentParent').value,
+document.getElementById('subEquipmentParent')
+.value,
 
 designation:
 document.getElementById('subEquipmentDesignation')
@@ -2277,10 +3392,12 @@ document.getElementById('subEquipmentSerial')
 .value.trim(),
 
 criticality:
-document.getElementById('subEquipmentCriticality').value,
+document.getElementById('subEquipmentCriticality')
+.value,
 
 status:
-document.getElementById('subEquipmentStatus').value,
+document.getElementById('subEquipmentStatus')
+.value,
 
 specification:
 document.getElementById('subEquipmentSpecification')
@@ -2291,7 +3408,6 @@ document.getElementById('subEquipmentObservation')
 .value.trim()
 
 };
-
 
 let result;
 
@@ -2305,7 +3421,8 @@ await sb
 
 }else{
 
-payload.created_by=currentUser.id;
+payload.created_by=
+currentUser.id;
 
 result=
 await sb
@@ -2313,7 +3430,6 @@ await sb
 .insert(payload);
 
 }
-
 
 if(result.error){
 
@@ -2341,12 +3457,15 @@ updateDashboard();
 
 function editSubEquipment(id){
 
+if(!canManage())return;
+
 const se=
 subEquipment.find(x=>x.id===id);
 
 if(!se)return;
 
-document.getElementById('subEquipmentId').value=se.id;
+document.getElementById('subEquipmentId').value=
+se.id;
 
 document.getElementById('subEquipmentParent').value=
 se.equipment_id;
@@ -2379,7 +3498,8 @@ document.getElementById('subEquipmentObservation').value=
 se.observation || '';
 
 document.getElementById('subEquipmentModalTitle')
-.textContent='Modifier sous-équipement';
+.textContent=
+'Modifier sous-équipement';
 
 document.getElementById('subEquipmentModal')
 .classList.remove('hidden');
@@ -2395,8 +3515,9 @@ async function deleteSubEquipment(id){
 
 if(!isAdmin())return;
 
-if(!confirm('Supprimer ce sous-équipement ?'))
-return;
+if(!confirm(
+'Supprimer ce sous-équipement ?'
+))return;
 
 const {error}=
 await sb
@@ -2419,6 +3540,754 @@ updateDashboard();
 
 
 /* ======================================================
+ DI - LOAD
+====================================================== */
+
+async function loadDI(){
+
+const tbody=
+document.getElementById('diTable');
+
+if(!tbody)return;
+
+const {data,error}=
+await sb
+.from('intervention_requests')
+.select(`
+    *,
+    zones(code,name),
+    equipment(code,designation),
+    sub_equipment(code,designation)
+`)
+.order('created_at',{ascending:false});
+
+if(error){
+
+console.error('DI LOAD ERROR:',error);
+
+tbody.innerHTML=`
+
+<tr>
+
+<td
+colspan="10"
+style="text-align:center;color:#f87171">
+
+Erreur chargement DI :
+${esc(error.message)}
+
+</td>
+
+</tr>`;
+
+return;
+}
+
+interventionRequests=data || [];
+
+renderDI(interventionRequests);
+
+}
+
+
+/* ======================================================
+ DI - RENDER
+====================================================== */
+
+function renderDI(list){
+
+const tbody=
+document.getElementById('diTable');
+
+if(!tbody)return;
+
+tbody.innerHTML='';
+
+
+document.getElementById('diCount')
+.textContent=
+interventionRequests.length;
+
+
+document.getElementById('diNewCount')
+.textContent=
+interventionRequests
+.filter(x=>x.status==='new')
+.length;
+
+
+document.getElementById('diProgressCount')
+.textContent=
+interventionRequests
+.filter(x=>x.status==='in_progress')
+.length;
+
+
+document.getElementById('diClosedCount')
+.textContent=
+interventionRequests
+.filter(x=>x.status==='closed')
+.length;
+
+
+if(!list.length){
+
+tbody.innerHTML=`
+
+<tr>
+
+<td
+colspan="10"
+style="text-align:center;color:#7187a0;padding:30px">
+
+Aucune demande d'intervention.
+
+</td>
+
+</tr>`;
+
+return;
+}
+
+
+list.forEach(di=>{
+
+const tr=
+document.createElement('tr');
+
+
+const priorityClass=
+di.priority==='high'
+?'priority-high'
+:di.priority==='medium'
+?'priority-medium'
+:'priority-low';
+
+
+const priorityText=
+di.priority==='high'
+?'Haute'
+:di.priority==='medium'
+?'Moyenne'
+:'Basse';
+
+
+const statusClass=
+di.status==='new'
+?'status-new'
+:di.status==='in_progress'
+?'status-progress'
+:'status-closed';
+
+
+const statusText=
+di.status==='new'
+?'Nouveau'
+:di.status==='in_progress'
+?'En cours'
+:di.status==='closed'
+?'Clôturé'
+:di.status;
+
+
+const typeText=
+di.type==='curative'
+?'Curative'
+:di.type==='preventive'
+?'Préventive'
+:di.type==='improvement'
+?'Amélioration'
+:di.type || '-';
+
+
+tr.innerHTML=`
+
+<td>
+<strong>${esc(di.code || '-')}</strong>
+</td>
+
+<td>
+${esc(di.date || formatDate(di.created_at))}
+</td>
+
+<td>
+${esc(di.requester || '-')}
+</td>
+
+<td>
+${
+di.zones
+?esc(
+(di.zones.code || '')+
+' — '+
+(di.zones.name || '')
+)
+:'-'
+}
+</td>
+
+<td>
+${
+di.equipment
+?esc(
+(di.equipment.code || '')+
+' — '+
+(di.equipment.designation || '')
+)
+:'-'
+}
+</td>
+
+<td>
+${
+di.sub_equipment
+?esc(
+(di.sub_equipment.code || '')+
+' — '+
+(di.sub_equipment.designation || '')
+)
+:'-'
+}
+</td>
+
+<td>
+
+<span class="badge ${priorityClass}">
+${priorityText}
+</span>
+
+</td>
+
+<td>
+${typeText}
+</td>
+
+<td>
+
+<span class="badge ${statusClass}">
+${statusText}
+</span>
+
+</td>
+
+<td class="di-description">
+${esc(di.description || '-')}
+</td>
+
+`;
+
+tbody.appendChild(tr);
+
+});
+
+}
+
+
+/* ======================================================
+ DI - OPEN MODAL
+====================================================== */
+
+function openDIModal(){
+
+if(!currentUser){
+
+alert('Session utilisateur introuvable.');
+
+return;
+}
+
+
+const modal=
+document.getElementById('diModal');
+
+
+document.getElementById('diModalMessage')
+.innerHTML='';
+
+
+const zoneSelect=
+document.getElementById('diZone');
+
+
+zoneSelect.innerHTML=`
+
+<option value="">
+Sélectionner une zone
+</option>
+
+`;
+
+
+zones
+.filter(z=>z.status!=='inactive')
+.forEach(z=>{
+
+zoneSelect.innerHTML+=`
+
+<option value="${z.id}">
+
+${esc(z.code)} — ${esc(z.name)}
+
+</option>
+
+`;
+
+});
+
+
+document.getElementById('diEquipment').innerHTML=`
+
+<option value="">
+Sélectionner un équipement
+</option>
+
+`;
+
+
+document.getElementById('diSubEquipment').innerHTML=`
+
+<option value="">
+Aucun
+</option>
+
+`;
+
+
+document.getElementById('diRequester').value=
+currentProfile?.full_name ||
+currentUser.email ||
+'';
+
+
+document.getElementById('diPriority').value=
+'medium';
+
+
+document.getElementById('diType').value=
+'curative';
+
+
+document.getElementById('diDescription').value='';
+
+
+modal.classList.remove('hidden');
+
+}
+
+
+/* ======================================================
+ DI - CLOSE MODAL
+====================================================== */
+
+function closeDIModal(){
+
+document
+.getElementById('diModal')
+.classList.add('hidden');
+
+}
+
+
+/* ======================================================
+ DI - EQUIPMENT BY ZONE
+====================================================== */
+
+function populateDIEquipment(){
+
+const zoneId=
+document.getElementById('diZone')
+.value;
+
+
+const select=
+document.getElementById('diEquipment');
+
+
+select.innerHTML=`
+
+<option value="">
+Sélectionner un équipement
+</option>
+
+`;
+
+
+document.getElementById('diSubEquipment')
+.innerHTML=`
+
+<option value="">
+Aucun
+</option>
+
+`;
+
+
+if(!zoneId)return;
+
+
+equipment
+.filter(eq=>
+eq.zone_id===zoneId &&
+eq.status!=='inactive'
+)
+.forEach(eq=>{
+
+select.innerHTML+=`
+
+<option value="${eq.id}">
+
+${esc(eq.code)} — ${esc(eq.designation)}
+
+</option>
+
+`;
+
+});
+
+}
+
+
+/* ======================================================
+ DI - SUB EQUIPMENT
+====================================================== */
+
+function populateDISubEquipment(){
+
+const equipmentId=
+document.getElementById('diEquipment')
+.value;
+
+
+const select=
+document.getElementById('diSubEquipment');
+
+
+select.innerHTML=`
+
+<option value="">
+Aucun
+</option>
+
+`;
+
+
+if(!equipmentId)return;
+
+
+subEquipment
+.filter(se=>
+se.equipment_id===equipmentId &&
+se.status!=='inactive'
+)
+.forEach(se=>{
+
+select.innerHTML+=`
+
+<option value="${se.id}">
+
+${esc(se.code)} — ${esc(se.designation)}
+
+</option>
+
+`;
+
+});
+
+}
+
+
+/* ======================================================
+ DI - SAVE
+====================================================== */
+
+async function saveDI(e){
+
+e.preventDefault();
+
+
+if(!currentUser){
+
+alert('Utilisateur non connecté.');
+
+return;
+}
+
+
+const message=
+document.getElementById('diModalMessage');
+
+
+message.innerHTML='';
+
+
+const zoneId=
+document.getElementById('diZone')
+.value;
+
+
+const equipmentId=
+document.getElementById('diEquipment')
+.value;
+
+
+const subEquipmentId=
+document.getElementById('diSubEquipment')
+.value;
+
+
+const requester=
+document.getElementById('diRequester')
+.value
+.trim();
+
+
+const priority=
+document.getElementById('diPriority')
+.value;
+
+
+const type=
+document.getElementById('diType')
+.value;
+
+
+const description=
+document.getElementById('diDescription')
+.value
+.trim();
+
+
+if(!zoneId){
+
+message.innerHTML=`
+
+<div class="message error">
+
+Veuillez sélectionner une zone.
+
+</div>
+
+`;
+
+return;
+}
+
+
+if(!equipmentId){
+
+message.innerHTML=`
+
+<div class="message error">
+
+Veuillez sélectionner un équipement.
+
+</div>
+
+`;
+
+return;
+}
+
+
+if(!requester){
+
+message.innerHTML=`
+
+<div class="message error">
+
+Veuillez saisir le demandeur.
+
+</div>
+
+`;
+
+return;
+}
+
+
+if(!description){
+
+message.innerHTML=`
+
+<div class="message error">
+
+Veuillez décrire le problème.
+
+</div>
+
+`;
+
+return;
+}
+
+
+const payload={
+
+requester:requester,
+
+zone_id:zoneId,
+
+equipment_id:equipmentId,
+
+sub_equipment_id:
+subEquipmentId || null,
+
+priority:priority,
+
+type:type,
+
+status:'new',
+
+description:description,
+
+created_by:currentUser.id
+
+};
+
+
+const {data,error}=
+await sb
+.from('intervention_requests')
+.insert(payload)
+.select()
+.single();
+
+
+if(error){
+
+console.error('DI SAVE ERROR:',error);
+
+
+message.innerHTML=`
+
+<div class="message error">
+
+<strong>Erreur création DI</strong><br>
+
+${esc(error.message)}
+
+</div>
+
+`;
+
+return;
+}
+
+
+message.innerHTML=`
+
+<div class="message success">
+
+<strong>DI créée avec succès.</strong><br>
+
+Code :
+<strong>${esc(data.code || 'DI')}</strong>
+
+</div>
+
+`;
+
+
+await loadDI();
+
+
+setTimeout(()=>{
+
+closeDIModal();
+
+},700);
+
+}
+
+
+/* ======================================================
+ DI - FILTER
+====================================================== */
+
+function filterDI(){
+
+const search=
+(
+document.getElementById('diSearch')
+.value || ''
+)
+.toLowerCase()
+.trim();
+
+
+const status=
+document.getElementById('diStatusFilter')
+.value;
+
+
+const priority=
+document.getElementById('diPriorityFilter')
+.value;
+
+
+const result=
+interventionRequests.filter(di=>{
+
+const text=`
+
+${di.code || ''}
+
+${di.requester || ''}
+
+${di.description || ''}
+
+${di.zones?.code || ''}
+
+${di.zones?.name || ''}
+
+${di.equipment?.code || ''}
+
+${di.equipment?.designation || ''}
+
+${di.sub_equipment?.code || ''}
+
+${di.sub_equipment?.designation || ''}
+
+`
+.toLowerCase();
+
+
+return(
+
+(!search || text.includes(search))
+
+&&
+
+(!status || di.status===status)
+
+&&
+
+(!priority || di.priority===priority)
+
+);
+
+});
+
+
+renderDI(result);
+
+}
+
+
+/* ======================================================
+ FUTURE MODULE MESSAGE
+====================================================== */
+
+function futureModule(name){
+
+alert(
+`Le module "${name}" sera activé dans la prochaine étape.`
+);
+
+}
+
+
+/* ======================================================
  FILTERS
 ====================================================== */
 
@@ -2426,23 +4295,36 @@ function filterZones(){
 
 const search=
 document.getElementById('zoneSearch')
-.value.toLowerCase();
+.value
+.toLowerCase();
+
 
 const status=
 document.getElementById('zoneStatusFilter')
 .value;
 
+
 const result=
 zones.filter(z=>
 
-(!search ||
-(z.name||'').toLowerCase().includes(search) ||
-(z.code||'').toLowerCase().includes(search))
+(
+!search ||
+
+(z.name||'')
+.toLowerCase()
+.includes(search) ||
+
+(z.code||'')
+.toLowerCase()
+.includes(search)
+)
 
 &&
+
 (!status || z.status===status)
 
 );
+
 
 renderZones(result);
 
@@ -2453,23 +4335,30 @@ function filterEquipment(){
 
 const search=
 document.getElementById('equipmentSearch')
-.value.toLowerCase();
+.value
+.toLowerCase();
+
 
 const zone=
 document.getElementById('equipmentZoneFilter')
 .value;
 
+
 const criticality=
 document.getElementById('equipmentCriticalityFilter')
 .value;
 
+
 const result=
 equipment.filter(eq=>
 
-(!search ||
+(
+!search ||
+
 `${eq.code} ${eq.designation} ${eq.brand} ${eq.model}`
 .toLowerCase()
-.includes(search))
+.includes(search)
+)
 
 &&
 
@@ -2477,9 +4366,11 @@ equipment.filter(eq=>
 
 &&
 
-(!criticality || eq.criticality===criticality)
+(!criticality ||
+eq.criticality===criticality)
 
 );
+
 
 renderEquipment(result);
 
@@ -2490,33 +4381,43 @@ function filterSubEquipment(){
 
 const search=
 document.getElementById('subSearch')
-.value.toLowerCase();
+.value
+.toLowerCase();
+
 
 const parent=
 document.getElementById('subEquipmentFilter')
 .value;
 
+
 const criticality=
 document.getElementById('subCriticalityFilter')
 .value;
 
+
 const result=
 subEquipment.filter(se=>
 
-(!search ||
+(
+!search ||
+
 `${se.code} ${se.designation} ${se.type} ${se.brand} ${se.model}`
 .toLowerCase()
-.includes(search))
+.includes(search)
+)
 
 &&
 
-(!parent || se.equipment_id===parent)
+(!parent ||
+se.equipment_id===parent)
 
 &&
 
-(!criticality || se.criticality===criticality)
+(!criticality ||
+se.criticality===criticality)
 
 );
+
 
 renderSubEquipment(result);
 
@@ -2530,20 +4431,31 @@ renderSubEquipment(result);
 function updateDashboard(){
 
 document.getElementById('kpiPersonnel')
-.textContent=personnel.length;
+.textContent=
+personnel.length;
+
 
 document.getElementById('kpiZones')
-.textContent=zones.length;
+.textContent=
+zones.length;
+
 
 document.getElementById('kpiEquipment')
-.textContent=equipment.length;
+.textContent=
+equipment.length;
+
 
 document.getElementById('kpiSubEquipment')
-.textContent=subEquipment.length;
+.textContent=
+subEquipment.length;
 
 
 const tree=
 document.getElementById('equipmentTree');
+
+
+if(!tree)return;
+
 
 if(!zones.length){
 
@@ -2552,6 +4464,7 @@ tree.innerHTML=
 
 return;
 }
+
 
 tree.innerHTML='';
 
@@ -2563,54 +4476,89 @@ document.createElement('div');
 
 zoneBox.className='tree-zone';
 
+
 let html=`
+
 <div class="tree-zone-title">
+
 🏭 ${esc(zone.code)} — ${esc(zone.name)}
+
 </div>
+
 `;
 
+
 const eqs=
-equipment.filter(e=>e.zone_id===zone.id);
+equipment.filter(
+e=>e.zone_id===zone.id
+);
+
 
 eqs.forEach(eq=>{
 
 html+=`
+
 <div class="tree-equipment">
 
-⚙️ <strong>
-${esc(eq.code)} — ${esc(eq.designation)}
+⚙️
+
+<strong>
+
+${esc(eq.code)} —
+${esc(eq.designation)}
+
 </strong>
+
 `;
+
 
 const subs=
 subEquipment.filter(
 s=>s.equipment_id===eq.id
 );
 
+
 subs.forEach(se=>{
 
 html+=`
+
 <div class="tree-sub">
-🔩 ${esc(se.code)} — ${esc(se.designation)}
+
+🔩 ${esc(se.code)} —
+${esc(se.designation)}
+
 </div>
+
 `;
 
 });
 
-html+=`</div>`;
+
+html+=`
+
+</div>
+
+`;
 
 });
+
 
 if(!eqs.length){
 
 html+=`
-<div class="tree-equipment"
+
+<div
+class="tree-equipment"
 style="color:#7187a0">
+
 Aucun équipement dans cette zone.
+
 </div>
+
 `;
 
 }
+
 
 zoneBox.innerHTML=html;
 
@@ -2629,30 +4577,69 @@ function showPage(page,button){
 
 document
 .querySelectorAll('[id^="page-"]')
-.forEach(x=>x.classList.add('hidden'));
+.forEach(x=>
+x.classList.add('hidden')
+);
 
-document
-.getElementById('page-'+page)
-.classList.remove('hidden');
+
+const target=
+document.getElementById('page-'+page);
+
+
+if(!target){
+
+console.error(
+'Page introuvable :',
+page
+);
+
+return;
+}
+
+
+target.classList.remove('hidden');
+
 
 document
 .querySelectorAll('.nav-btn')
-.forEach(x=>x.classList.remove('active'));
+.forEach(x=>
+x.classList.remove('active')
+);
+
 
 if(button)
 button.classList.add('active');
 
+
 const names={
+
 dashboard:'Dashboard',
+
 personnel:'Personnel',
+
 zones:'Zones',
+
 equipment:'Équipements',
+
 subequipment:'Sous-équipements',
+
+di:'Demandes d\'Intervention',
+
 settings:'Paramètres'
+
 };
 
+
 document.getElementById('pageTitle')
-.textContent=names[page] || page;
+.textContent=
+names[page] || page;
+
+
+if(page==='di'){
+
+loadDI();
+
+}
 
 }
 
@@ -2667,12 +4654,15 @@ return currentProfile?.role==='admin';
 
 }
 
+
 function canManage(){
 
 return currentProfile?.role==='admin'
-|| currentProfile?.role==='manager';
+||
+currentProfile?.role==='manager';
 
 }
+
 
 function roleLabel(role){
 
@@ -2691,6 +4681,28 @@ return role || '-';
 
 
 /* ======================================================
+ DATE
+====================================================== */
+
+function formatDate(value){
+
+if(!value)return '-';
+
+try{
+
+return new Date(value)
+.toLocaleDateString('fr-FR');
+
+}catch{
+
+return value;
+
+}
+
+}
+
+
+/* ======================================================
  RESET PASSWORD
 ====================================================== */
 
@@ -2698,22 +4710,29 @@ async function resetPassword(){
 
 const email=
 document.getElementById('loginEmail')
-.value.trim();
+.value
+.trim();
+
 
 if(!email){
 
-alert('Veuillez saisir votre email.');
+alert(
+'Veuillez saisir votre email.'
+);
 
 return;
 }
+
 
 const {error}=
 await sb.auth.resetPasswordForEmail(
 email,
 {
-redirectTo:window.location.href
+redirectTo:
+window.location.href
 }
 );
+
 
 if(error){
 
@@ -2721,6 +4740,7 @@ alert(error.message);
 
 return;
 }
+
 
 alert(
 'Un lien de réinitialisation a été envoyé par email.'
@@ -2751,9 +4771,11 @@ async function checkSession(){
 const {data}=
 await sb.auth.getSession();
 
+
 if(data.session){
 
-currentUser=data.session.user;
+currentUser=
+data.session.user;
 
 await loadProfile();
 
@@ -2769,10 +4791,15 @@ await loadProfile();
 function esc(value){
 
 return String(value ?? '')
+
 .replace(/&/g,'&amp;')
+
 .replace(/</g,'&lt;')
+
 .replace(/>/g,'&gt;')
+
 .replace(/"/g,'&quot;')
+
 .replace(/'/g,'&#039;');
 
 }
