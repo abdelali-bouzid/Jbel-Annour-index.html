@@ -2,8 +2,8 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>GMAO PRO V11.0</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GMAO PRO — DI & OT</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -11,2642 +11,1610 @@
 *{
     box-sizing:border-box;
     margin:0;
-    padding:0
+    padding:0;
+}
+
+:root{
+    --bg:#07111f;
+    --panel:#0d1b2d;
+    --panel2:#10243a;
+    --border:#1d3854;
+    --text:#e8f1f8;
+    --muted:#91a7bb;
+    --primary:#1683ff;
+    --primary2:#0b63c7;
+    --success:#18b978;
+    --warning:#f4b740;
+    --danger:#ef5350;
+    --info:#31b6d4;
 }
 
 body{
-    font-family:Arial,sans-serif;
-    background:#07111f;
-    color:#e5eef8
-}
-
-button,input,select,textarea{
-    font:inherit
-}
-
-button{
-    cursor:pointer
-}
-
-.hidden{
-    display:none!important
+    font-family:Arial,Helvetica,sans-serif;
+    background:var(--bg);
+    color:var(--text);
 }
 
 /* LOGIN */
-
 #loginPage{
     min-height:100vh;
     display:flex;
-    align-items:center;
     justify-content:center;
-    background:radial-gradient(circle at top,#12385d,#07111f 60%)
+    align-items:center;
+    background:
+        radial-gradient(circle at top,#123052 0,#07111f 50%);
 }
 
 .login-card{
     width:420px;
-    max-width:94%;
-    background:#0d1b2e;
-    border:1px solid #294966;
+    max-width:92%;
+    background:rgba(13,27,45,.96);
+    border:1px solid var(--border);
     border-radius:18px;
     padding:35px;
-    box-shadow:0 25px 70px #0008
+    box-shadow:0 25px 70px rgba(0,0,0,.45);
 }
 
 .logo{
     text-align:center;
-    margin-bottom:25px
+    font-size:30px;
+    font-weight:800;
+    color:#fff;
+    margin-bottom:8px;
 }
 
-.logo h1{
-    color:#38bdf8;
-    font-size:31px
+.logo span{
+    color:var(--primary);
 }
 
-.logo p{
-    color:#8298ae;
-    margin-top:8px
+.login-sub{
+    text-align:center;
+    color:var(--muted);
+    margin-bottom:28px;
 }
 
 .form-group{
-    margin-bottom:15px
+    margin-bottom:15px;
 }
 
-.form-group label{
+label{
     display:block;
     margin-bottom:7px;
-    color:#a9bdd2
+    font-size:13px;
+    color:#b9c9d8;
+    font-weight:600;
 }
 
-input,select,textarea{
-    width:100%;
-    padding:11px 12px;
-    border:1px solid #294966;
-    border-radius:8px;
-    background:#081524;
-    color:white;
-    outline:none
-}
-
+input,
+select,
 textarea{
-    min-height:90px;
-    resize:vertical
+    width:100%;
+    border:1px solid var(--border);
+    background:#081725;
+    color:var(--text);
+    padding:11px 12px;
+    border-radius:8px;
+    outline:none;
 }
 
 input:focus,
 select:focus,
 textarea:focus{
-    border-color:#38bdf8
+    border-color:var(--primary);
+    box-shadow:0 0 0 2px rgba(22,131,255,.12);
 }
 
-/* BUTTONS */
+textarea{
+    resize:vertical;
+    min-height:90px;
+}
 
 .btn{
     border:0;
     border-radius:8px;
-    padding:9px 13px;
-    color:white
+    padding:10px 15px;
+    cursor:pointer;
+    color:white;
+    font-weight:700;
+    transition:.2s;
 }
 
-.btn-primary{background:#0284c7}
-.btn-success{background:#16a34a}
-.btn-warning{background:#d97706}
-.btn-danger{background:#dc2626}
-.btn-secondary{background:#334155}
-.btn-info{background:#2563eb}
-.full{width:100%}
+.btn:hover{
+    transform:translateY(-1px);
+    opacity:.92;
+}
 
-/* SIDEBAR */
+.btn-primary{background:var(--primary);}
+.btn-success{background:var(--success);}
+.btn-warning{background:var(--warning);color:#111;}
+.btn-danger{background:var(--danger);}
+.btn-secondary{background:#30485f;}
+.btn-info{background:var(--info);color:#07111f;}
 
+.login-btn{
+    width:100%;
+    margin-top:10px;
+    padding:13px;
+}
+
+#errorLogin{
+    margin-top:15px;
+    color:#ff7777;
+    font-size:13px;
+    text-align:center;
+}
+
+/* APP */
 #app{
-    min-height:100vh
+    display:none;
+    min-height:100vh;
+}
+
+.layout{
+    display:flex;
+    min-height:100vh;
 }
 
 .sidebar{
+    width:245px;
+    background:#081522;
+    border-right:1px solid var(--border);
+    padding:20px 13px;
     position:fixed;
     left:0;
     top:0;
     bottom:0;
-    width:245px;
-    padding:18px 13px;
-    background:#091827;
-    border-right:1px solid #203a55;
     overflow-y:auto;
-    z-index:20
 }
 
-.logo-side{
-    padding:10px;
-    margin-bottom:20px
+.brand{
+    padding:10px 12px 25px;
+    font-size:23px;
+    font-weight:800;
 }
 
-.logo-side h2{
-    color:#38bdf8
+.brand span{
+    color:var(--primary);
 }
 
-.logo-side small{
-    color:#64748b
-}
-
-.nav-btn{
-    width:100%;
-    background:transparent;
-    border:0;
-    color:#9eb3c8;
-    text-align:left;
+.user-box{
+    background:#0e2034;
+    border:1px solid var(--border);
+    border-radius:10px;
     padding:12px;
+    margin-bottom:18px;
+}
+
+.user-name{
+    font-weight:bold;
+}
+
+.user-role{
+    color:var(--muted);
+    font-size:12px;
+    margin-top:4px;
+}
+
+.nav-title{
+    color:#58718a;
+    font-size:11px;
+    text-transform:uppercase;
+    margin:15px 12px 7px;
+}
+
+.nav-item{
+    padding:11px 13px;
+    margin:3px 0;
     border-radius:8px;
-    margin-bottom:4px
+    cursor:pointer;
+    color:#b7c8d8;
+    font-size:14px;
 }
 
-.nav-btn:hover,
-.nav-btn.active{
-    background:#123452;
-    color:white
+.nav-item:hover{
+    background:#10263d;
+    color:#fff;
 }
 
-/* MAIN */
+.nav-item.active{
+    background:linear-gradient(90deg,#126ed2,#0e4d91);
+    color:#fff;
+}
 
 .main{
     margin-left:245px;
-    min-height:100vh
+    width:calc(100% - 245px);
+    min-height:100vh;
 }
 
 .topbar{
     height:70px;
+    border-bottom:1px solid var(--border);
+    background:#091827;
     display:flex;
-    justify-content:space-between;
     align-items:center;
+    justify-content:space-between;
     padding:0 25px;
-    background:#0b1929;
-    border-bottom:1px solid #203a55;
     position:sticky;
     top:0;
-    z-index:10
-}
-
-.user{
-    display:flex;
-    align-items:center;
-    gap:10px
-}
-
-.avatar{
-    width:40px;
-    height:40px;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:#0284c7;
-    font-weight:bold
-}
-
-.content{
-    padding:25px
+    z-index:20;
 }
 
 .page-title{
+    font-size:21px;
+    font-weight:700;
+}
+
+.content{
+    padding:25px;
+}
+
+/* PAGES */
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+.page-header{
     display:flex;
-    align-items:center;
     justify-content:space-between;
+    align-items:center;
     gap:15px;
-    margin-bottom:20px
+    margin-bottom:22px;
 }
 
-.page-title h1{
-    font-size:25px
+.page-header h2{
+    font-size:24px;
 }
 
-.page-title p{
-    color:#7890a8;
-    margin-top:5px
-}
-
-/* KPI */
-
-.kpis{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:15px;
-    margin-bottom:20px
-}
-
-.kpi{
-    background:#0d1b2e;
-    border:1px solid #203a55;
-    border-radius:13px;
-    padding:20px
-}
-
-.kpi-label{
+.page-header p{
+    color:var(--muted);
+    margin-top:5px;
     font-size:13px;
-    color:#8096ad
-}
-
-.kpi-value{
-    margin-top:8px;
-    font-size:30px;
-    font-weight:bold;
-    color:#38bdf8
-}
-
-/* CARDS */
-
-.card{
-    background:#0d1b2e;
-    border:1px solid #203a55;
-    border-radius:13px;
-    padding:20px;
-    margin-bottom:20px
-}
-
-.card-title{
-    font-size:18px;
-    font-weight:bold;
-    margin-bottom:17px
-}
-
-/* FILTERS */
-
-.filters{
-    display:grid;
-    grid-template-columns:2fr 1fr 1fr;
-    gap:10px;
-    margin-bottom:17px
-}
-
-/* TABLE */
-
-.table-wrap{
-    overflow-x:auto
-}
-
-table{
-    width:100%;
-    border-collapse:collapse
-}
-
-th,td{
-    padding:11px 9px;
-    border-bottom:1px solid #203a55;
-    text-align:left;
-    white-space:nowrap
-}
-
-th{
-    background:#0a1726;
-    color:#8fa7bf;
-    font-size:13px
-}
-
-tr:hover td{
-    background:#10243a
-}
-
-/* BADGES */
-
-.badge{
-    padding:4px 8px;
-    border-radius:20px;
-    font-size:12px;
-    display:inline-block
-}
-
-.active{
-    background:#14532d;
-    color:#bbf7d0
-}
-
-.inactive{
-    background:#450a0a;
-    color:#fecaca
-}
-
-.maintenance{
-    background:#78350f;
-    color:#fed7aa
-}
-
-.status-new{
-    background:#164e63;
-    color:#a5f3fc
-}
-
-.status-progress{
-    background:#78350f;
-    color:#fed7aa
-}
-
-.status-validated{
-    background:#1e3a8a;
-    color:#bfdbfe
-}
-
-.status-closed{
-    background:#14532d;
-    color:#bbf7d0
-}
-
-.status-planned{
-    background:#312e81;
-    color:#c7d2fe
-}
-
-.priority-high{
-    background:#7f1d1d;
-    color:#fecaca
-}
-
-.priority-medium{
-    background:#78350f;
-    color:#fed7aa
-}
-
-.priority-low{
-    background:#14532d;
-    color:#bbf7d0
-}
-
-.critical-A{
-    color:#f87171;
-    font-weight:bold
-}
-
-.critical-B{
-    color:#fbbf24;
-    font-weight:bold
-}
-
-.critical-C{
-    color:#4ade80;
-    font-weight:bold
 }
 
 .actions{
     display:flex;
-    gap:5px;
-    flex-wrap:wrap
+    gap:8px;
+    flex-wrap:wrap;
 }
 
-.actions .btn{
-    padding:6px 9px
+/* KPI */
+.kpi-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-bottom:22px;
+}
+
+.kpi{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:18px;
+}
+
+.kpi-label{
+    color:var(--muted);
+    font-size:12px;
+}
+
+.kpi-value{
+    font-size:29px;
+    font-weight:800;
+    margin-top:8px;
+}
+
+.kpi-primary .kpi-value{color:#3da0ff;}
+.kpi-success .kpi-value{color:#25d492;}
+.kpi-warning .kpi-value{color:#f5c44d;}
+.kpi-danger .kpi-value{color:#ff6767;}
+
+/* CARDS */
+.card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:18px;
+    margin-bottom:18px;
+}
+
+.card-title{
+    font-size:16px;
+    font-weight:bold;
+    margin-bottom:15px;
+}
+
+/* FILTER */
+.filters{
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr 1fr auto;
+    gap:10px;
+    margin-bottom:18px;
+}
+
+/* TABLE */
+.table-wrap{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:900px;
+}
+
+th,
+td{
+    padding:12px 10px;
+    border-bottom:1px solid #193149;
+    text-align:left;
+    font-size:13px;
+}
+
+th{
+    color:#8fa8be;
+    font-size:11px;
+    text-transform:uppercase;
+    background:#0b1a2a;
+}
+
+tr:hover td{
+    background:#0e2033;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.badge-new{
+    background:rgba(49,182,212,.15);
+    color:#54d0e8;
+}
+
+.badge-progress{
+    background:rgba(244,183,64,.15);
+    color:#f5c44d;
+}
+
+.badge-validated{
+    background:rgba(22,131,255,.15);
+    color:#51a6ff;
+}
+
+.badge-closed{
+    background:rgba(24,185,120,.15);
+    color:#36d797;
+}
+
+.badge-high{
+    background:rgba(239,83,80,.15);
+    color:#ff7777;
+}
+
+.badge-medium{
+    background:rgba(244,183,64,.15);
+    color:#f5c44d;
+}
+
+.badge-low{
+    background:rgba(24,185,120,.15);
+    color:#36d797;
+}
+
+.action-group{
+    display:flex;
+    gap:5px;
+    flex-wrap:wrap;
+}
+
+.action-btn{
+    border:1px solid var(--border);
+    background:#10263b;
+    color:#d9e7f3;
+    padding:6px 8px;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:11px;
+}
+
+.action-btn:hover{
+    background:#16446d;
 }
 
 /* MODAL */
-
 .modal{
+    display:none;
     position:fixed;
+    z-index:100;
     inset:0;
-    background:#000b;
-    display:flex;
+    background:rgba(0,0,0,.7);
     align-items:center;
     justify-content:center;
-    z-index:100;
-    padding:20px
+    padding:20px;
+}
+
+.modal.show{
+    display:flex;
 }
 
 .modal-box{
-    width:760px;
+    width:850px;
     max-width:100%;
     max-height:92vh;
-    overflow:auto;
-    background:#0d1b2e;
-    border:1px solid #315879;
-    border-radius:15px;
-    padding:25px
+    overflow-y:auto;
+    background:#0c1b2c;
+    border:1px solid var(--border);
+    border-radius:14px;
+    box-shadow:0 30px 90px rgba(0,0,0,.5);
 }
 
-.modal-head{
+.modal-header{
+    padding:18px 20px;
+    border-bottom:1px solid var(--border);
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:20px
 }
 
-.close{
+.modal-header h3{
+    font-size:18px;
+}
+
+.modal-close{
     border:0;
-    background:none;
-    color:#94a3b8;
-    font-size:27px
+    background:transparent;
+    color:#9eb2c4;
+    font-size:25px;
+    cursor:pointer;
 }
 
-.grid2{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:15px
+.modal-body{
+    padding:20px;
 }
 
-.full-col{
-    grid-column:1/-1
-}
-
-.modal-actions{
+.modal-footer{
+    padding:15px 20px;
+    border-top:1px solid var(--border);
     display:flex;
     justify-content:flex-end;
-    gap:10px;
-    margin-top:20px
+    gap:8px;
 }
 
-.message{
-    padding:11px;
-    border-radius:8px;
-    margin-bottom:15px
-}
-
-.success{
-    background:#052e16;
-    border:1px solid #166534;
-    color:#bbf7d0
-}
-
-.error{
-    background:#450a0a;
-    border:1px solid #991b1b;
-    color:#fecaca
-}
-
-.warning-box{
-    padding:15px;
-    border-radius:8px;
-    background:#422006;
-    border:1px solid #92400e;
-    color:#fed7aa;
-    margin-bottom:15px
-}
-
-/* TREE */
-
-.tree{
-    padding:15px
-}
-
-.tree-zone{
-    border:1px solid #244662;
-    border-radius:10px;
-    margin-bottom:12px;
-    overflow:hidden
-}
-
-.tree-zone-title{
-    padding:13px;
-    background:#10283f;
-    font-weight:bold
-}
-
-.tree-equipment{
-    padding:12px 15px;
-    border-top:1px solid #203a55
-}
-
-.tree-sub{
-    margin:7px 0 0 25px;
-    padding:8px 10px;
-    background:#081827;
-    border-left:2px solid #0284c7;
-    border-radius:5px;
-    color:#b5c9dc
-}
-
-.di-description{
-    max-width:300px;
-    white-space:normal!important;
-    line-height:1.4
-}
-
-.report-box{
-    border:1px solid #203a55;
-    background:#081827;
-    border-radius:10px;
-    padding:15px;
-    margin-bottom:15px
-}
-
-.report-box h3{
-    margin-bottom:10px;
-    color:#38bdf8
-}
-
-.report-grid{
+.form-grid{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:12px
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
 }
 
-.report-item{
-    background:#0d1b2e;
-    border:1px solid #203a55;
-    border-radius:8px;
-    padding:13px
+.full{
+    grid-column:1/-1;
 }
 
-.report-item strong{
-    display:block;
-    font-size:22px;
-    color:#38bdf8;
-    margin-top:5px
+/* DASHBOARD */
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:18px;
 }
 
-/* PRINT */
-
-@media print{
-
-body{
-    background:white;
-    color:black
+.stat-list{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
 }
 
-.sidebar,
-.topbar,
-.no-print{
-    display:none!important
+.stat-line{
+    display:flex;
+    justify-content:space-between;
+    padding:10px;
+    background:#0b1b2c;
+    border-radius:7px;
 }
 
-.main{
-    margin-left:0
+.empty{
+    text-align:center;
+    padding:35px;
+    color:var(--muted);
 }
 
-.content{
-    padding:0
+/* TOAST */
+#toast{
+    position:fixed;
+    right:25px;
+    bottom:25px;
+    z-index:500;
+    min-width:280px;
+    max-width:450px;
+    padding:14px 18px;
+    border-radius:9px;
+    display:none;
+    box-shadow:0 15px 40px rgba(0,0,0,.35);
 }
 
-.card,
-.kpi,
-.report-box{
-    background:white;
-    color:black;
-    border:1px solid #ccc
+.toast-success{
+    background:#116b4b;
 }
 
-.page-title h1,
-.card-title,
-.report-box h3{
-    color:black
+.toast-error{
+    background:#852c2c;
 }
 
+.toast-info{
+    background:#15527a;
 }
 
 /* RESPONSIVE */
-
 @media(max-width:1000px){
+    .sidebar{
+        width:210px;
+    }
 
-.kpis{
-    grid-template-columns:repeat(2,1fr)
-}
+    .main{
+        margin-left:210px;
+        width:calc(100% - 210px);
+    }
 
-.report-grid{
-    grid-template-columns:1fr 1fr
-}
+    .kpi-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
 
+    .filters{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .dashboard-grid{
+        grid-template-columns:1fr;
+    }
 }
 
 @media(max-width:700px){
+    .sidebar{
+        position:relative;
+        width:100%;
+        min-height:auto;
+    }
 
-.sidebar{
-    width:68px
+    .layout{
+        display:block;
+    }
+
+    .main{
+        margin-left:0;
+        width:100%;
+    }
+
+    .kpi-grid{
+        grid-template-columns:1fr;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .filters{
+        grid-template-columns:1fr;
+    }
 }
 
-.logo-side h2,
-.logo-side small,
-.nav-btn span{
-    display:none
-}
+/* PRINT */
+@media print{
+    .sidebar,
+    .topbar,
+    .actions,
+    .filters,
+    .no-print{
+        display:none!important;
+    }
 
-.main{
-    margin-left:68px
-}
+    .main{
+        margin:0;
+        width:100%;
+    }
 
-.kpis{
-    grid-template-columns:1fr
-}
+    body{
+        background:#fff;
+        color:#111;
+    }
 
-.filters,
-.grid2,
-.report-grid{
-    grid-template-columns:1fr
-}
-
-.full-col{
-    grid-column:auto
-}
-
-.topbar{
-    padding:0 12px
-}
-
-.content{
-    padding:15px
-}
-
+    .card{
+        border:1px solid #ccc;
+        color:#111;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<!-- ======================================================
-LOGIN
-====================================================== -->
-
+<!-- LOGIN -->
 <section id="loginPage">
+    <div class="login-card">
+        <div class="logo">GMAO <span>PRO</span></div>
+        <div class="login-sub">
+            Plateforme Maintenance & Fiabilité
+        </div>
 
-<div class="login-card">
+        <div class="form-group">
+            <label>Email</label>
+            <input id="loginEmail"
+                   type="email"
+                   value="abdelali.bouzid.98@gmail.com">
+        </div>
 
-<div class="logo">
-<h1>GMAO PRO</h1>
-<p>Maintenance Management System V11.0</p>
-</div>
+        <div class="form-group">
+            <label>Mot de passe</label>
+            <input id="loginPassword" type="password">
+        </div>
 
-<div class="form-group">
-<label>Email</label>
-<input
-id="loginEmail"
-value="abdelali.bouzid.98@gmail.com"
-type="email">
-</div>
+        <button class="btn btn-primary login-btn"
+                onclick="login()">
+            Se connecter
+        </button>
 
-<div class="form-group">
-<label>Mot de passe</label>
-<input
-id="loginPassword"
-type="password"
-placeholder="Votre mot de passe">
-</div>
-
-<button
-class="btn btn-primary full"
-onclick="login()">
-Se connecter
-</button>
-
-<button
-class="btn btn-secondary full"
-style="margin-top:10px"
-onclick="resetPassword()">
-Réinitialiser le mot de passe
-</button>
-
-<div id="loginMessage"></div>
-
-</div>
+        <div id="errorLogin"></div>
+    </div>
 </section>
 
 
-<!-- ======================================================
-APP
-====================================================== -->
+<!-- APPLICATION -->
+<div id="app">
 
-<section id="app" class="hidden">
+<div class="layout">
 
+<!-- SIDEBAR -->
 <aside class="sidebar">
 
-<div class="logo-side">
-<h2>GMAO PRO</h2>
-<small>V11.0</small>
-</div>
+    <div class="brand">
+        GMAO <span>PRO</span>
+    </div>
 
-<button class="nav-btn active"
-onclick="showPage('dashboard',this)">
-📊 <span>Dashboard</span>
-</button>
+    <div class="user-box">
+        <div class="user-name" id="currentUserName">Utilisateur</div>
+        <div class="user-role" id="currentUserRole">—</div>
+    </div>
 
-<button class="nav-btn"
-onclick="showPage('personnel',this)">
-👥 <span>Personnel</span>
-</button>
+    <div class="nav-title">Pilotage</div>
 
-<button class="nav-btn"
-onclick="showPage('zones',this)">
-🏭 <span>Zones</span>
-</button>
+    <div class="nav-item active"
+         onclick="showPage('dashboard',this)">
+        📊 Dashboard
+    </div>
 
-<button class="nav-btn"
-onclick="showPage('equipment',this)">
-⚙️ <span>Équipements</span>
-</button>
+    <div class="nav-title">Référentiel</div>
 
-<button class="nav-btn"
-onclick="showPage('subequipment',this)">
-🔩 <span>Sous-équipements</span>
-</button>
+    <div class="nav-item"
+         onclick="showPage('personnel',this)">
+        👥 Personnel
+    </div>
 
-<button class="nav-btn"
-onclick="showPage('di',this);loadDI()">
-📥 <span>Demandes DI</span>
-</button>
+    <div class="nav-item"
+         onclick="showPage('zones',this)">
+        📍 Zones
+    </div>
 
-<button class="nav-btn"
-onclick="showPage('ot',this);loadOT()">
-🔧 <span>Ordres de Travail</span>
-</button>
+    <div class="nav-item"
+         onclick="showPage('equipment',this)">
+        ⚙️ Équipements
+    </div>
 
-<button class="nav-btn"
-onclick="showPage('preventive',this);loadPreventive()">
-📅 <span>Préventif</span>
-</button>
+    <div class="nav-item"
+         onclick="showPage('subequipment',this)">
+        🔩 Sous-équipements
+    </div>
 
-<button class="nav-btn"
-onclick="showPage('rca',this);loadRCA()">
-🔎 <span>RCA / BDA</span>
-</button>
+    <div class="nav-title">Maintenance</div>
 
-<button class="nav-btn"
-onclick="showPage('reports',this);loadReports()">
-📑 <span>Rapports</span>
-</button>
+    <div class="nav-item"
+         onclick="showPage('di',this)">
+        📩 Demandes d’intervention
+    </div>
 
-<hr style="border-color:#203a55;margin:15px 0">
+    <div class="nav-item"
+         onclick="showPage('ot',this)">
+        🛠️ Ordres de travail
+    </div>
 
-<button class="nav-btn"
-onclick="showPage('settings',this)">
-⚙️ <span>Paramètres</span>
-</button>
+    <div class="nav-item"
+         onclick="showPage('preventive',this)">
+        🔄 Préventif
+    </div>
 
-<button class="nav-btn"
-onclick="logout()">
-🚪 <span>Déconnexion</span>
-</button>
+    <div class="nav-item"
+         onclick="showPage('rca',this)">
+        🔎 RCA / BDA
+    </div>
+
+    <div class="nav-item"
+         onclick="showPage('reports',this)">
+        📑 Rapports
+    </div>
+
+    <div class="nav-title">Système</div>
+
+    <div class="nav-item"
+         onclick="showPage('settings',this)">
+        ⚙️ Paramètres
+    </div>
+
+    <div class="nav-item"
+         onclick="logout()">
+        🚪 Déconnexion
+    </div>
 
 </aside>
 
 
+<!-- MAIN -->
 <main class="main">
 
 <header class="topbar">
+    <div class="page-title" id="pageTitle">
+        Dashboard
+    </div>
 
-<strong id="pageTitle">Dashboard</strong>
-
-<div class="user">
-
-<div class="avatar" id="avatar">A</div>
-
-<div>
-<div id="userName">-</div>
-<small id="userRole">-</small>
-</div>
-
-</div>
-
+    <div>
+        <span id="connectionStatus"
+              class="badge badge-closed">
+            Supabase connecté
+        </span>
+    </div>
 </header>
-
 
 <div class="content">
 
 
-<!-- ======================================================
-DASHBOARD
-====================================================== -->
-
-<div id="page-dashboard">
-
-<div class="page-title">
-
-<div>
-<h1>Dashboard Maintenance</h1>
-<p>Vue générale des ressources techniques et maintenance</p>
-</div>
-
-</div>
-
-<div class="kpis">
-
-<div class="kpi">
-<div class="kpi-label">Personnel</div>
-<div class="kpi-value" id="kpiPersonnel">0</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">Zones</div>
-<div class="kpi-value" id="kpiZones">0</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">Équipements</div>
-<div class="kpi-value" id="kpiEquipment">0</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">Sous-équipements</div>
-<div class="kpi-value" id="kpiSubEquipment">0</div>
-</div>
-
-</div>
-
-<div class="kpis">
-
-<div class="kpi">
-<div class="kpi-label">Demandes DI</div>
-<div class="kpi-value" id="kpiDI">0</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">OT</div>
-<div class="kpi-value" id="kpiOT">0</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">Préventif</div>
-<div class="kpi-value" id="kpiPM">0</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">RCA / BDA</div>
-<div class="kpi-value" id="kpiRCA">0</div>
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="card-title">
-Structure technique
-</div>
-
-<div id="equipmentTree" class="tree">
-Chargement...
-</div>
-
-</div>
-
-</div>
-
-
-<!-- ======================================================
-PERSONNEL
-====================================================== -->
-
-<div id="page-personnel" class="hidden">
-
-<div class="page-title">
-<div>
-<h1>Gestion du Personnel</h1>
-<p>Administrateurs, responsables et techniciens</p>
-</div>
-</div>
-
-<div class="card">
-
-<div class="table-wrap">
-
-<table>
-
-<thead>
-<tr>
-<th>Code</th>
-<th>Nom</th>
-<th>Rôle</th>
-<th>Département</th>
-<th>Poste</th>
-<th>État</th>
-</tr>
-</thead>
-
-<tbody id="personnelTable"></tbody>
-
-</table>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- ======================================================
-ZONES
-====================================================== -->
-
-<div id="page-zones" class="hidden">
-
-<div class="page-title">
-
-<div>
-<h1>Zones</h1>
-<p>Organisation des secteurs industriels</p>
-</div>
-
-<button
-class="btn btn-primary"
-onclick="openZoneModal()">
-+ Ajouter zone
-</button>
-
-</div>
-
-<div class="kpis">
-
-<div class="kpi">
-<div class="kpi-label">Total zones</div>
-<div class="kpi-value" id="zoneCount">0</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">Zones actives</div>
-<div class="kpi-value" id="activeZoneCount">0</div>
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="filters">
-
-<input
-id="zoneSearch"
-placeholder="🔎 Rechercher une zone..."
-oninput="filterZones()">
-
-<select
-id="zoneStatusFilter"
-onchange="filterZones()">
-
-<option value="">Tous les états</option>
-<option value="active">Actives</option>
-<option value="inactive">Inactives</option>
-
-</select>
-
-<div></div>
-
-</div>
-
-<div class="table-wrap">
-
-<table>
-
-<thead>
-<tr>
-<th>Code</th>
-<th>Zone</th>
-<th>Description</th>
-<th>État</th>
-<th>Actions</th>
-</tr>
-</thead>
-
-<tbody id="zoneTable"></tbody>
-
-</table>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- ======================================================
-EQUIPMENT
-====================================================== -->
-
-<div id="page-equipment" class="hidden">
-
-<div class="page-title">
-
-<div>
-<h1>Équipements</h1>
-<p>Gestion du parc machine</p>
-</div>
-
-<button
-class="btn btn-primary"
-onclick="openEquipmentModal()">
-+ Ajouter équipement
-</button>
-
-</div>
-
-<div class="kpis">
-
-<div class="kpi">
-<div class="kpi-label">Équipements</div>
-<div class="kpi-value" id="equipmentCount">0</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">Criticité A</div>
-<div class="kpi-value" id="criticalACount">0</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">Criticité B</div>
-<div class="kpi-value" id="criticalBCount">0</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">Criticité C</div>
-<div class="kpi-value" id="criticalCCount">0</div>
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="filters">
-
-<input
-id="equipmentSearch"
-placeholder="🔎 Code, désignation, marque..."
-oninput="filterEquipment()">
-
-<select
-id="equipmentZoneFilter"
-onchange="filterEquipment()">
-
-<option value="">Toutes les zones</option>
-
-</select>
-
-<select
-id="equipmentCriticalityFilter"
-onchange="filterEquipment()">
-
-<option value="">Toutes criticités</option>
-<option value="A">A - Critique</option>
-<option value="B">B - Moyenne</option>
-<option value="C">C - Faible</option>
-
-</select>
-
-</div>
-
-<div class="table-wrap">
-
-<table>
-
-<thead>
-<tr>
-<th>Code</th>
-<th>Désignation</th>
-<th>Zone</th>
-<th>Type</th>
-<th>Marque</th>
-<th>Modèle</th>
-<th>Criticité</th>
-<th>État</th>
-<th>Actions</th>
-</tr>
-</thead>
-
-<tbody id="equipmentTable"></tbody>
-
-</table>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- ======================================================
-SUB EQUIPMENT
-====================================================== -->
-
-<div id="page-subequipment" class="hidden">
-
-<div class="page-title">
-
-<div>
-<h1>Sous-équipements</h1>
-<p>Composants et ensembles rattachés aux équipements</p>
-</div>
-
-<button
-class="btn btn-primary"
-onclick="openSubEquipmentModal()">
-+ Ajouter sous-équipement
-</button>
-
-</div>
-
-<div class="card">
-
-<div class="filters">
-
-<input
-id="subSearch"
-placeholder="🔎 Rechercher..."
-oninput="filterSubEquipment()">
-
-<select
-id="subEquipmentFilter"
-onchange="filterSubEquipment()">
-
-<option value="">Tous les équipements</option>
-
-</select>
-
-<select
-id="subCriticalityFilter"
-onchange="filterSubEquipment()">
-
-<option value="">Toutes criticités</option>
-<option value="A">A</option>
-<option value="B">B</option>
-<option value="C">C</option>
-
-</select>
-
-</div>
-
-<div class="table-wrap">
-
-<table>
-
-<thead>
-<tr>
-<th>Code</th>
-<th>Désignation</th>
-<th>Équipement</th>
-<th>Type</th>
-<th>Marque</th>
-<th>Modèle</th>
-<th>Criticité</th>
-<th>État</th>
-<th>Actions</th>
-</tr>
-</thead>
-
-<tbody id="subEquipmentTable"></tbody>
-
-</table>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- ======================================================
-DI
-====================================================== -->
-
-<div id="page-di" class="hidden">
-
-<div class="page-title">
-
-<div>
-<h1>Demandes d'Intervention</h1>
-<p>Création et suivi des demandes de maintenance</p>
-</div>
-
-<button
-class="btn btn-primary"
-onclick="openDIModal()">
-+ Nouvelle DI
-</button>
-
-</div>
-
-<div class="kpis">
-
-<div class="kpi">
-<div class="kpi-label">Total DI</div>
-<div class="kpi-value" id="diCount">0</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">Nouvelles</div>
-<div class="kpi-value" id="diNewCount">0</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">En cours</div>
-<div class="kpi-value" id="diProgressCount">0</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">Clôturées</div>
-<div class="kpi-value" id="diClosedCount">0</div>
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="filters">
-
-<input
-id="diSearch"
-placeholder="🔎 Code, demandeur, équipement..."
-oninput="filterDI()">
-
-<select
-id="diStatusFilter"
-onchange="filterDI()">
-
-<option value="">Tous les statuts</option>
-<option value="new">Nouveau</option>
-<option value="in_progress">En cours</option>
-<option value="closed">Clôturé</option>
-
-</select>
-
-<select
-id="diPriorityFilter"
-onchange="filterDI()">
-
-<option value="">Toutes les priorités</option>
-<option value="high">Haute</option>
-<option value="medium">Moyenne</option>
-<option value="low">Basse</option>
-
-</select>
-
-</div>
-
-<div class="table-wrap">
-
-<table>
-
-<thead>
-<tr>
-<th>Code</th>
-<th>Date</th>
-<th>Demandeur</th>
-<th>Zone</th>
-<th>Équipement</th>
-<th>Sous-équipement</th>
-<th>Priorité</th>
-<th>Type</th>
-<th>Statut</th>
-<th>Description</th>
-<th>Actions</th>
-</tr>
-</thead>
-
-<tbody id="diTable"></tbody>
-
-</table>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- ======================================================
-OT
-====================================================== -->
-
-<div id="page-ot" class="hidden">
-
-<div class="page-title">
-
-<div>
-<h1>Ordres de Travail</h1>
-<p>Planification, affectation et exécution des interventions</p>
-</div>
-
-<button
-class="btn btn-primary"
-onclick="openOTModal()">
-+ Nouvel OT
-</button>
-
-</div>
-
-<div class="kpis">
-
-<div class="kpi">
-<div class="kpi-label">Total OT</div>
-<div class="kpi-value" id="otCount">0</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">Ouverts</div>
-<div class="kpi-value" id="otOpenCount">0</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">En cours</div>
-<div class="kpi-value" id="otProgressCount">0</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">Clôturés</div>
-<div class="kpi-value" id="otClosedCount">0</div>
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="filters">
-
-<input
-id="otSearch"
-placeholder="🔎 OT, DI, équipement, technicien..."
-oninput="filterOT()">
-
-<select
-id="otStatusFilter"
-onchange="filterOT()">
-
-<option value="">Tous les statuts</option>
-<option value="open">Ouvert</option>
-<option value="planned">Planifié</option>
-<option value="in_progress">En cours</option>
-<option value="validated">Validé</option>
-<option value="closed">Clôturé</option>
-
-</select>
-
-<select
-id="otTechnicianFilter"
-onchange="filterOT()">
-
-<option value="">Tous les techniciens</option>
-
-</select>
-
-</div>
-
-<div class="table-wrap">
-
-<table>
-
-<thead>
-<tr>
-<th>Code</th>
-<th>Date</th>
-<th>DI</th>
-<th>Équipement</th>
-<th>Technicien</th>
-<th>Priorité</th>
-<th>Statut</th>
-<th>Description</th>
-<th>Actions</th>
-</tr>
-</thead>
-
-<tbody id="otTable"></tbody>
-
-</table>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- ======================================================
-PREVENTIVE
-====================================================== -->
-
-<div id="page-preventive" class="hidden">
-
-<div class="page-title">
-
-<div>
-<h1>Maintenance Préventive</h1>
-<p>Plans, fréquences et échéances de maintenance</p>
-</div>
-
-<button
-class="btn btn-primary"
-onclick="openPreventiveModal()">
-+ Nouveau plan PM
-</button>
-
-</div>
-
-<div class="kpis">
-
-<div class="kpi">
-<div class="kpi-label">Plans PM</div>
-<div class="kpi-value" id="pmCount">0</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">Planifiées</div>
-<div class="kpi-value" id="pmActiveCount">0</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">À faire</div>
-<div class="kpi-value" id="pmDueCount">0</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">En retard</div>
-<div class="kpi-value" id="pmLateCount">0</div>
-</div>
-
-</div>
-
-<div id="pmTableMessage"></div>
-
-<div class="card">
-
-<div class="filters">
-
-<input
-id="pmSearch"
-placeholder="🔎 Code, équipement, désignation..."
-oninput="filterPreventive()">
-
-<select
-id="pmStatusFilter"
-onchange="filterPreventive()">
-
-<option value="">Tous les statuts</option>
-<option value="active">Actif</option>
-<option value="paused">En pause</option>
-<option value="closed">Clôturé</option>
-
-</select>
-
-<select
-id="pmFrequencyFilter"
-onchange="filterPreventive()">
-
-<option value="">Toutes fréquences</option>
-<option value="daily">Quotidienne</option>
-<option value="weekly">Hebdomadaire</option>
-<option value="monthly">Mensuelle</option>
-<option value="quarterly">Trimestrielle</option>
-<option value="yearly">Annuelle</option>
-
-</select>
-
-</div>
-
-<div class="table-wrap">
-
-<table>
-
-<thead>
-<tr>
-<th>Code</th>
-<th>Désignation</th>
-<th>Équipement</th>
-<th>Fréquence</th>
-<th>Dernière réalisation</th>
-<th>Prochaine échéance</th>
-<th>Technicien</th>
-<th>Statut</th>
-<th>Actions</th>
-</tr>
-</thead>
-
-<tbody id="pmTable"></tbody>
-
-</table>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- ======================================================
-RCA BDA
-====================================================== -->
-
-<div id="page-rca" class="hidden">
-
-<div class="page-title">
-
-<div>
-<h1>RCA / BDA</h1>
-<p>Analyse des causes racines et actions correctives</p>
-</div>
-
-<button
-class="btn btn-primary"
-onclick="openRCAModal()">
-+ Nouvelle RCA / BDA
-</button>
-
-</div>
-
-<div class="kpis">
-
-<div class="kpi">
-<div class="kpi-label">Total RCA</div>
-<div class="kpi-value" id="rcaCount">0</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">Ouvertes</div>
-<div class="kpi-value" id="rcaOpenCount">0</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">En cours</div>
-<div class="kpi-value" id="rcaProgressCount">0</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">Clôturées</div>
-<div class="kpi-value" id="rcaClosedCount">0</div>
-</div>
-
-</div>
-
-<div id="rcaTableMessage"></div>
-
-<div class="card">
-
-<div class="filters">
-
-<input
-id="rcaSearch"
-placeholder="🔎 RCA, problème, équipement..."
-oninput="filterRCA()">
-
-<select
-id="rcaStatusFilter"
-onchange="filterRCA()">
-
-<option value="">Tous les statuts</option>
-<option value="open">Ouverte</option>
-<option value="in_progress">En cours</option>
-<option value="closed">Clôturée</option>
-
-</select>
-
-<select
-id="rcaMethodFilter"
-onchange="filterRCA()">
-
-<option value="">Toutes méthodes</option>
-<option value="5_why">5 Pourquoi</option>
-<option value="5m">5M</option>
-<option value="ishikawa">Ishikawa</option>
-<option value="8d">8D</option>
-
-</select>
-
-</div>
-
-<div class="table-wrap">
-
-<table>
-
-<thead>
-<tr>
-<th>Code</th>
-<th>Date</th>
-<th>OT</th>
-<th>Équipement</th>
-<th>Problème</th>
-<th>Méthode</th>
-<th>Responsable</th>
-<th>Statut</th>
-<th>Actions</th>
-</tr>
-</thead>
-
-<tbody id="rcaTable"></tbody>
-
-</table>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- ======================================================
-REPORTS
-====================================================== -->
-
-<div id="page-reports" class="hidden">
-
-<div class="page-title">
-
-<div>
-<h1>Rapports Maintenance</h1>
-<p>Indicateurs, activité et rapport journalier</p>
-</div>
-
-<div class="actions no-print">
-
-<button
-class="btn btn-secondary"
-onclick="loadReports()">
-↻ Actualiser
-</button>
-
-<button
-class="btn btn-primary"
-onclick="window.print()">
-🖨️ Imprimer
-</button>
-
-</div>
-
-</div>
-
-<div class="card no-print">
-
-<div class="grid2">
-
-<div class="form-group">
-<label>Date début</label>
-<input
-type="date"
-id="reportStartDate">
-</div>
-
-<div class="form-group">
-<label>Date fin</label>
-<input
-type="date"
-id="reportEndDate">
-</div>
-
-</div>
-
-<button
-class="btn btn-primary"
-onclick="generateReport()">
-Générer le rapport
-</button>
-
-</div>
-
-<div id="reportContent">
-
-<div class="report-box">
-
-<h3>Résumé GMAO</h3>
-
-<div class="report-grid">
-
-<div class="report-item">
-Personnel
-<strong id="reportPersonnel">0</strong>
-</div>
-
-<div class="report-item">
-Zones
-<strong id="reportZones">0</strong>
-</div>
-
-<div class="report-item">
-Équipements
-<strong id="reportEquipment">0</strong>
-</div>
-
-<div class="report-item">
-DI
-<strong id="reportDI">0</strong>
-</div>
-
-<div class="report-item">
-OT
-<strong id="reportOT">0</strong>
-</div>
-
-<div class="report-item">
-Préventif
-<strong id="reportPM">0</strong>
-</div>
-
-</div>
-
-</div>
-
-<div class="report-box">
-
-<h3>État des DI</h3>
-
-<div class="report-grid">
-
-<div class="report-item">
-Nouvelles
-<strong id="reportDINew">0</strong>
-</div>
-
-<div class="report-item">
-En cours
-<strong id="reportDIProgress">0</strong>
-</div>
-
-<div class="report-item">
-Clôturées
-<strong id="reportDIClosed">0</strong>
-</div>
-
-</div>
-
-</div>
-
-<div class="report-box">
-
-<h3>État des OT</h3>
-
-<div class="report-grid">
-
-<div class="report-item">
-Ouverts
-<strong id="reportOTOpen">0</strong>
-</div>
-
-<div class="report-item">
-En cours
-<strong id="reportOTProgress">0</strong>
-</div>
-
-<div class="report-item">
-Clôturés
-<strong id="reportOTClosed">0</strong>
-</div>
-
-</div>
-
-</div>
-
-<div class="report-box">
-
-<h3>Rapport journalier</h3>
-
-<div class="table-wrap">
-
-<table>
-
-<thead>
-<tr>
-<th>Type</th>
-<th>Code</th>
-<th>Date</th>
-<th>Équipement</th>
-<th>Technicien / Demandeur</th>
-<th>Statut</th>
-<th>Description</th>
-</tr>
-</thead>
-
-<tbody id="dailyReportTable"></tbody>
-
-</table>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- ======================================================
-SETTINGS
-====================================================== -->
-
-<div id="page-settings" class="hidden">
-
-<div class="page-title">
-<h1>Paramètres</h1>
-</div>
-
-<div class="card">
-
-<div class="card-title">
-Compte connecté
-</div>
-
-<p id="settingsEmail" style="color:#94a3b8"></p>
-
-<p id="settingsCode"
-style="color:#94a3b8;margin-top:8px"></p>
-
-<button
-class="btn btn-warning"
-style="margin-top:15px"
-onclick="resetPassword()">
-Réinitialiser mon mot de passe
-</button>
-
-</div>
-
-</div>
+<!-- DASHBOARD -->
+<section id="page-dashboard" class="page active">
+
+    <div class="page-header">
+        <div>
+            <h2>Dashboard Maintenance</h2>
+            <p>Vue globale de l'activité maintenance.</p>
+        </div>
+    </div>
+
+    <div class="kpi-grid">
+
+        <div class="kpi kpi-primary">
+            <div class="kpi-label">Équipements</div>
+            <div class="kpi-value" id="dashEquipment">0</div>
+        </div>
+
+        <div class="kpi kpi-warning">
+            <div class="kpi-label">DI ouvertes</div>
+            <div class="kpi-value" id="dashDI">0</div>
+        </div>
+
+        <div class="kpi kpi-success">
+            <div class="kpi-label">OT</div>
+            <div class="kpi-value" id="dashOT">0</div>
+        </div>
+
+        <div class="kpi kpi-danger">
+            <div class="kpi-label">OT en cours</div>
+            <div class="kpi-value" id="dashOTProgress">0</div>
+        </div>
+
+    </div>
+
+    <div class="dashboard-grid">
+
+        <div class="card">
+            <div class="card-title">
+                Flux DI → OT
+            </div>
+
+            <div class="stat-list">
+
+                <div class="stat-line">
+                    <span>DI nouvelles</span>
+                    <strong id="dashNewDI">0</strong>
+                </div>
+
+                <div class="stat-line">
+                    <span>DI en cours</span>
+                    <strong id="dashProgressDI">0</strong>
+                </div>
+
+                <div class="stat-line">
+                    <span>DI clôturées</span>
+                    <strong id="dashClosedDI">0</strong>
+                </div>
+
+                <div class="stat-line">
+                    <span>OT ouverts</span>
+                    <strong id="dashOpenOT">0</strong>
+                </div>
+
+                <div class="stat-line">
+                    <span>OT validés</span>
+                    <strong id="dashValidatedOT">0</strong>
+                </div>
+
+                <div class="stat-line">
+                    <span>OT clôturés</span>
+                    <strong id="dashClosedOT">0</strong>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">
+                Priorités DI
+            </div>
+
+            <div class="stat-list">
+
+                <div class="stat-line">
+                    <span>Haute</span>
+                    <strong id="dashHighDI">0</strong>
+                </div>
+
+                <div class="stat-line">
+                    <span>Moyenne</span>
+                    <strong id="dashMediumDI">0</strong>
+                </div>
+
+                <div class="stat-line">
+                    <span>Basse</span>
+                    <strong id="dashLowDI">0</strong>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- PERSONNEL -->
+<section id="page-personnel" class="page">
+
+    <div class="page-header">
+        <div>
+            <h2>Personnel</h2>
+            <p>Personnel maintenance enregistré.</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Nom</th>
+                        <th>Rôle</th>
+                        <th>Département</th>
+                        <th>Poste</th>
+                        <th>Actif</th>
+                    </tr>
+                </thead>
+                <tbody id="personnelTable"></tbody>
+            </table>
+        </div>
+    </div>
+
+</section>
+
+
+<!-- ZONES -->
+<section id="page-zones" class="page">
+
+    <div class="page-header">
+        <div>
+            <h2>Zones</h2>
+            <p>Zones industrielles.</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Zone</th>
+                        <th>Description</th>
+                        <th>Statut</th>
+                    </tr>
+                </thead>
+                <tbody id="zonesTable"></tbody>
+            </table>
+        </div>
+    </div>
+
+</section>
+
+
+<!-- EQUIPMENT -->
+<section id="page-equipment" class="page">
+
+    <div class="page-header">
+        <div>
+            <h2>Équipements</h2>
+            <p>Référentiel équipements.</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Désignation</th>
+                        <th>Zone</th>
+                        <th>Type</th>
+                        <th>Marque</th>
+                        <th>Criticité</th>
+                        <th>Statut</th>
+                    </tr>
+                </thead>
+                <tbody id="equipmentTable"></tbody>
+            </table>
+        </div>
+    </div>
+
+</section>
+
+
+<!-- SUB EQUIPMENT -->
+<section id="page-subequipment" class="page">
+
+    <div class="page-header">
+        <div>
+            <h2>Sous-équipements</h2>
+            <p>Composants et organes des équipements.</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Désignation</th>
+                        <th>Équipement</th>
+                        <th>Type</th>
+                        <th>Marque</th>
+                        <th>Criticité</th>
+                    </tr>
+                </thead>
+                <tbody id="subEquipmentTable"></tbody>
+            </table>
+        </div>
+    </div>
+
+</section>
+
+
+<!-- DI -->
+<section id="page-di" class="page">
+
+    <div class="page-header">
+        <div>
+            <h2>Demandes d’Intervention</h2>
+            <p>Création, suivi et transformation des DI en OT.</p>
+        </div>
+
+        <div class="actions">
+            <button class="btn btn-primary"
+                    onclick="openDIModal()">
+                + Nouvelle DI
+            </button>
+        </div>
+    </div>
+
+    <div class="kpi-grid">
+
+        <div class="kpi kpi-primary">
+            <div class="kpi-label">Total DI</div>
+            <div class="kpi-value" id="diTotal">0</div>
+        </div>
+
+        <div class="kpi kpi-warning">
+            <div class="kpi-label">Nouvelles</div>
+            <div class="kpi-value" id="diNew">0</div>
+        </div>
+
+        <div class="kpi kpi-primary">
+            <div class="kpi-label">En cours</div>
+            <div class="kpi-value" id="diProgress">0</div>
+        </div>
+
+        <div class="kpi kpi-success">
+            <div class="kpi-label">Clôturées</div>
+            <div class="kpi-value" id="diClosed">0</div>
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="filters">
+
+            <input id="diSearch"
+                   placeholder="Rechercher DI, demandeur, équipement..."
+                   oninput="renderDI()">
+
+            <select id="diStatusFilter"
+                    onchange="renderDI()">
+                <option value="">Tous les statuts</option>
+                <option value="new">Nouvelle</option>
+                <option value="in_progress">En cours</option>
+                <option value="closed">Clôturée</option>
+            </select>
+
+            <select id="diPriorityFilter"
+                    onchange="renderDI()">
+                <option value="">Toutes priorités</option>
+                <option value="high">Haute</option>
+                <option value="medium">Moyenne</option>
+                <option value="low">Basse</option>
+            </select>
+
+            <select id="diTypeFilter"
+                    onchange="renderDI()">
+                <option value="">Tous types</option>
+                <option value="curative">Curative</option>
+                <option value="preventive">Préventive</option>
+                <option value="improvement">Amélioration</option>
+                <option value="inspection">Inspection</option>
+            </select>
+
+            <button class="btn btn-secondary"
+                    onclick="loadDI()">
+                Actualiser
+            </button>
+
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Date</th>
+                        <th>Demandeur</th>
+                        <th>Zone</th>
+                        <th>Équipement</th>
+                        <th>Priorité</th>
+                        <th>Type</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody id="diTable"></tbody>
+            </table>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- OT -->
+<section id="page-ot" class="page">
+
+    <div class="page-header">
+
+        <div>
+            <h2>Ordres de Travail</h2>
+            <p>
+                Gestion des OT issus des demandes d’intervention.
+            </p>
+        </div>
+
+        <div class="actions">
+            <button class="btn btn-primary"
+                    onclick="openOTModal()">
+                + Nouvel OT
+            </button>
+        </div>
+
+    </div>
+
+
+    <div class="kpi-grid">
+
+        <div class="kpi kpi-primary">
+            <div class="kpi-label">Total OT</div>
+            <div class="kpi-value" id="otTotal">0</div>
+        </div>
+
+        <div class="kpi kpi-warning">
+            <div class="kpi-label">Ouverts</div>
+            <div class="kpi-value" id="otOpen">0</div>
+        </div>
+
+        <div class="kpi kpi-primary">
+            <div class="kpi-label">En cours</div>
+            <div class="kpi-value" id="otProgress">0</div>
+        </div>
+
+        <div class="kpi kpi-success">
+            <div class="kpi-label">Clôturés</div>
+            <div class="kpi-value" id="otClosed">0</div>
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="filters">
+
+            <input id="otSearch"
+                   placeholder="Rechercher OT, DI, équipement..."
+                   oninput="renderOT()">
+
+            <select id="otStatusFilter"
+                    onchange="renderOT()">
+                <option value="">Tous statuts</option>
+                <option value="open">Ouvert</option>
+                <option value="in_progress">En cours</option>
+                <option value="validated">Validé</option>
+                <option value="closed">Clôturé</option>
+            </select>
+
+            <select id="otTechnicianFilter"
+                    onchange="renderOT()">
+                <option value="">Tous techniciens</option>
+            </select>
+
+            <select id="otPriorityFilter"
+                    onchange="renderOT()">
+                <option value="">Toutes priorités</option>
+                <option value="high">Haute</option>
+                <option value="medium">Moyenne</option>
+                <option value="low">Basse</option>
+            </select>
+
+            <button class="btn btn-secondary"
+                    onclick="loadOT()">
+                Actualiser
+            </button>
+
+        </div>
+
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>OT</th>
+                        <th>Date</th>
+                        <th>DI</th>
+                        <th>Équipement</th>
+                        <th>Technicien</th>
+                        <th>Priorité</th>
+                        <th>Statut</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody id="otTable"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- PREVENTIVE -->
+<section id="page-preventive" class="page">
+
+    <div class="page-header">
+        <div>
+            <h2>Maintenance Préventive</h2>
+            <p>Module prévu pour la prochaine phase.</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="empty">
+            🔄 Le module Préventif sera activé après OT.
+        </div>
+    </div>
+
+</section>
+
+
+<!-- RCA -->
+<section id="page-rca" class="page">
+
+    <div class="page-header">
+        <div>
+            <h2>RCA / BDA</h2>
+            <p>Analyse des causes racines.</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="empty">
+            🔎 Le module RCA / BDA sera activé après le Préventif.
+        </div>
+    </div>
+
+</section>
+
+
+<!-- REPORTS -->
+<section id="page-reports" class="page">
+
+    <div class="page-header">
+
+        <div>
+            <h2>Rapports</h2>
+            <p>Reporting maintenance.</p>
+        </div>
+
+        <div class="actions">
+            <button class="btn btn-secondary"
+                    onclick="window.print()">
+                🖨 Imprimer
+            </button>
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="kpi-grid">
+
+            <div class="kpi">
+                <div class="kpi-label">DI</div>
+                <div class="kpi-value" id="reportDI">0</div>
+            </div>
+
+            <div class="kpi">
+                <div class="kpi-label">OT</div>
+                <div class="kpi-value" id="reportOT">0</div>
+            </div>
+
+            <div class="kpi">
+                <div class="kpi-label">Équipements</div>
+                <div class="kpi-value" id="reportEquipment">0</div>
+            </div>
+
+            <div class="kpi">
+                <div class="kpi-label">Personnel</div>
+                <div class="kpi-value" id="reportPersonnel">0</div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- SETTINGS -->
+<section id="page-settings" class="page">
+
+    <div class="page-header">
+        <div>
+            <h2>Paramètres</h2>
+            <p>Informations système.</p>
+        </div>
+    </div>
+
+    <div class="card">
+
+        <div class="card-title">
+            GMAO PRO
+        </div>
+
+        <p style="color:#9eb2c4;line-height:1.8">
+            Version : OT Phase 1<br>
+            Backend : Supabase<br>
+            Module actif : Demandes d’Intervention<br>
+            Module actif : Ordres de Travail
+        </p>
+
+    </div>
+
+</section>
 
 
 </div>
 </main>
-</section>
 
-
-<!-- ======================================================
-ZONE MODAL
-====================================================== -->
-
-<div id="zoneModal" class="modal hidden">
-
-<div class="modal-box">
-
-<div class="modal-head">
-
-<h2 id="zoneModalTitle">Ajouter une zone</h2>
-
-<button class="close"
-onclick="closeZoneModal()">×</button>
-
-</div>
-
-<div id="zoneModalMessage"></div>
-
-<form onsubmit="saveZone(event)">
-
-<input type="hidden" id="zoneId">
-
-<div class="form-group">
-<label>Nom de la zone *</label>
-<input id="zoneName" required placeholder="Ex : Préparation">
-</div>
-
-<div class="form-group">
-<label>Description</label>
-<textarea id="zoneDescription"></textarea>
-</div>
-
-<div class="form-group">
-<label>État</label>
-<select id="zoneStatus">
-<option value="active">Active</option>
-<option value="inactive">Inactive</option>
-</select>
-</div>
-
-<div class="modal-actions">
-
-<button
-type="button"
-class="btn btn-secondary"
-onclick="closeZoneModal()">
-Annuler
-</button>
-
-<button class="btn btn-success">
-Enregistrer
-</button>
-
-</div>
-
-</form>
 </div>
 </div>
 
 
-<!-- ======================================================
-EQUIPMENT MODAL
-====================================================== -->
-
-<div id="equipmentModal" class="modal hidden">
+<!-- DI MODAL -->
+<div id="diModal" class="modal">
 
 <div class="modal-box">
 
-<div class="modal-head">
+    <div class="modal-header">
 
-<h2 id="equipmentModalTitle">Ajouter équipement</h2>
+        <h3 id="diModalTitle">
+            Nouvelle Demande d’Intervention
+        </h3>
 
-<button class="close"
-onclick="closeEquipmentModal()">×</button>
+        <button class="modal-close"
+                onclick="closeModal('diModal')">
+            ×
+        </button>
 
-</div>
+    </div>
 
-<div id="equipmentModalMessage"></div>
+    <div class="modal-body">
 
-<form onsubmit="saveEquipment(event)">
+        <input type="hidden" id="diId">
 
-<input type="hidden" id="equipmentId">
+        <div class="form-grid">
 
-<div class="grid2">
+            <div class="form-group">
+                <label>Demandeur</label>
+                <input id="diRequester">
+            </div>
 
-<div class="form-group">
-<label>Désignation *</label>
-<input id="equipmentDesignation" required>
-</div>
+            <div class="form-group">
+                <label>Priorité</label>
 
-<div class="form-group">
-<label>Zone *</label>
-<select id="equipmentZone" required></select>
-</div>
+                <select id="diPriority">
+                    <option value="high">Haute</option>
+                    <option value="medium" selected>Moyenne</option>
+                    <option value="low">Basse</option>
+                </select>
 
-<div class="form-group">
-<label>Type</label>
-<input id="equipmentType">
-</div>
+            </div>
 
-<div class="form-group">
-<label>Marque</label>
-<input id="equipmentBrand">
-</div>
+            <div class="form-group">
 
-<div class="form-group">
-<label>Modèle</label>
-<input id="equipmentModel">
-</div>
+                <label>Zone</label>
 
-<div class="form-group">
-<label>N° série</label>
-<input id="equipmentSerial">
-</div>
+                <select id="diZone"
+                        onchange="updateDIEquipmentSelect()">
 
-<div class="form-group">
-<label>Criticité</label>
-<select id="equipmentCriticality">
-<option value="A">A - Critique</option>
-<option value="B" selected>B - Moyenne</option>
-<option value="C">C - Faible</option>
-</select>
-</div>
+                </select>
 
-<div class="form-group">
-<label>État</label>
-<select id="equipmentStatus">
-<option value="active">Actif</option>
-<option value="maintenance">Maintenance</option>
-<option value="inactive">Inactif</option>
-</select>
-</div>
+            </div>
 
-<div class="form-group">
-<label>Date mise en service</label>
-<input id="equipmentInstallation" type="date">
-</div>
+            <div class="form-group">
 
-<div class="form-group full-col">
-<label>Description</label>
-<textarea id="equipmentDescription"></textarea>
-</div>
+                <label>Équipement</label>
 
-</div>
+                <select id="diEquipment"
+                        onchange="updateDISubEquipmentSelect()">
 
-<div class="modal-actions">
+                </select>
 
-<button
-type="button"
-class="btn btn-secondary"
-onclick="closeEquipmentModal()">
-Annuler
-</button>
+            </div>
 
-<button class="btn btn-success">
-Enregistrer
-</button>
+            <div class="form-group">
 
-</div>
+                <label>Sous-équipement</label>
 
-</form>
-</div>
-</div>
+                <select id="diSubEquipment">
 
+                </select>
 
-<!-- ======================================================
-SUB EQUIPMENT MODAL
-====================================================== -->
+            </div>
 
-<div id="subEquipmentModal" class="modal hidden">
+            <div class="form-group">
 
-<div class="modal-box">
+                <label>Type</label>
 
-<div class="modal-head">
+                <select id="diType">
+                    <option value="curative">Curative</option>
+                    <option value="preventive">Préventive</option>
+                    <option value="improvement">Amélioration</option>
+                    <option value="inspection">Inspection</option>
+                </select>
 
-<h2 id="subEquipmentModalTitle">
-Ajouter sous-équipement
-</h2>
+            </div>
 
-<button class="close"
-onclick="closeSubEquipmentModal()">×</button>
+            <div class="form-group full">
 
-</div>
+                <label>Description</label>
 
-<div id="subEquipmentModalMessage"></div>
+                <textarea id="diDescription"
+                          placeholder="Décrire l'anomalie ou le besoin d'intervention..."></textarea>
 
-<form onsubmit="saveSubEquipment(event)">
+            </div>
 
-<input type="hidden" id="subEquipmentId">
+        </div>
 
-<div class="grid2">
+    </div>
 
-<div class="form-group">
-<label>Équipement *</label>
-<select id="subEquipmentParent" required></select>
-</div>
+    <div class="modal-footer">
 
-<div class="form-group">
-<label>Désignation *</label>
-<input id="subEquipmentDesignation" required>
-</div>
+        <button class="btn btn-secondary"
+                onclick="closeModal('diModal')">
+            Annuler
+        </button>
 
-<div class="form-group">
-<label>Type</label>
-<input id="subEquipmentType">
-</div>
+        <button class="btn btn-primary"
+                onclick="saveDI()">
+            Enregistrer
+        </button>
 
-<div class="form-group">
-<label>Marque</label>
-<input id="subEquipmentBrand">
-</div>
+    </div>
 
-<div class="form-group">
-<label>Modèle</label>
-<input id="subEquipmentModel">
-</div>
-
-<div class="form-group">
-<label>N° série</label>
-<input id="subEquipmentSerial">
-</div>
-
-<div class="form-group">
-<label>Criticité</label>
-<select id="subEquipmentCriticality">
-<option value="A">A</option>
-<option value="B" selected>B</option>
-<option value="C">C</option>
-</select>
-</div>
-
-<div class="form-group">
-<label>État</label>
-<select id="subEquipmentStatus">
-<option value="active">Actif</option>
-<option value="maintenance">Maintenance</option>
-<option value="inactive">Inactif</option>
-</select>
-</div>
-
-<div class="form-group full-col">
-<label>Spécification</label>
-<textarea id="subEquipmentSpecification"></textarea>
-</div>
-
-<div class="form-group full-col">
-<label>Observation</label>
-<textarea id="subEquipmentObservation"></textarea>
-</div>
-
-</div>
-
-<div class="modal-actions">
-
-<button
-type="button"
-class="btn btn-secondary"
-onclick="closeSubEquipmentModal()">
-Annuler
-</button>
-
-<button class="btn btn-success">
-Enregistrer
-</button>
-
-</div>
-
-</form>
 </div>
 </div>
 
 
-<!-- ======================================================
-DI MODAL
-====================================================== -->
-
-<div id="diModal" class="modal hidden">
+<!-- OT MODAL -->
+<div id="otModal" class="modal">
 
 <div class="modal-box">
 
-<div class="modal-head">
-
-<div>
-<h2>Nouvelle Demande d'Intervention</h2>
-<p style="color:#7890a8;margin-top:5px">
-Création d'une demande de maintenance
-</p>
-</div>
-
-<button class="close"
-onclick="closeDIModal()">×</button>
-
-</div>
-
-<div id="diModalMessage"></div>
-
-<form onsubmit="saveDI(event)">
-
-<div class="grid2">
-
-<div class="form-group">
-<label>Zone *</label>
-<select
-id="diZone"
-required
-onchange="populateDIEquipment()">
-<option value="">Sélectionner une zone</option>
-</select>
-</div>
-
-<div class="form-group">
-<label>Équipement *</label>
-<select
-id="diEquipment"
-required
-onchange="populateDISubEquipment()">
-<option value="">Sélectionner un équipement</option>
-</select>
-</div>
-
-<div class="form-group">
-<label>Sous-équipement</label>
-<select id="diSubEquipment">
-<option value="">Aucun</option>
-</select>
-</div>
-
-<div class="form-group">
-<label>Demandeur *</label>
-<input id="diRequester" required>
-</div>
-
-<div class="form-group">
-<label>Priorité</label>
-<select id="diPriority">
-<option value="high">Haute</option>
-<option value="medium" selected>Moyenne</option>
-<option value="low">Basse</option>
-</select>
-</div>
-
-<div class="form-group">
-<label>Type</label>
-<select id="diType">
-<option value="curative">Curative</option>
-<option value="preventive">Préventive</option>
-<option value="improvement">Amélioration</option>
-<option value="inspection">Inspection</option>
-</select>
-</div>
-
-<div class="form-group full-col">
-<label>Description de la demande *</label>
-<textarea
-id="diDescription"
-required
-placeholder="Décrire le problème constaté..."></textarea>
-</div>
-
-</div>
-
-<div class="modal-actions">
-
-<button
-type="button"
-class="btn btn-secondary"
-onclick="closeDIModal()">
-Annuler
-</button>
-
-<button class="btn btn-success">
-📥 Enregistrer la DI
-</button>
-
-</div>
-
-</form>
-</div>
-</div>
-
-
-<!-- ======================================================
-OT MODAL
-====================================================== -->
-
-<div id="otModal" class="modal hidden">
-
-<div class="modal-box">
-
-<div class="modal-head">
-
-<div>
-<h2 id="otModalTitle">Nouvel Ordre de Travail</h2>
-<p style="color:#7890a8;margin-top:5px">
-Planification et affectation d'une intervention
-</p>
-</div>
-
-<button class="close"
-onclick="closeOTModal()">×</button>
-
-</div>
-
-<div id="otModalMessage"></div>
-
-<form onsubmit="saveOT(event)">
-
-<input type="hidden" id="otId">
-
-<div class="grid2">
-
-<div class="form-group">
-<label>Demande DI</label>
-<select id="otDI">
-<option value="">Aucune DI</option>
-</select>
-</div>
-
-<div class="form-group">
-<label>Technicien</label>
-<select id="otTechnician">
-<option value="">Non affecté</option>
-</select>
-</div>
-
-<div class="form-group">
-<label>Zone</label>
-<select
-id="otZone"
-onchange="populateOTEquipment()">
-<option value="">Choisir zone</option>
-</select>
-</div>
-
-<div class="form-group">
-<label>Équipement</label>
-<select
-id="otEquipment"
-onchange="populateOTSubEquipment()">
-<option value="">Choisir équipement</option>
-</select>
-</div>
-
-<div class="form-group">
-<label>Sous-équipement</label>
-<select id="otSubEquipment">
-<option value="">Aucun</option>
-</select>
-</div>
-
-<div class="form-group">
-<label>Priorité</label>
-<select id="otPriority">
-<option value="high">Haute</option>
-<option value="medium" selected>Moyenne</option>
-<option value="low">Basse</option>
-</select>
-</div>
-
-<div class="form-group">
-<label>Date prévue</label>
-<input id="otPlannedDate" type="date">
-</div>
-
-<div class="form-group">
-<label>Durée prévue (min)</label>
-<input id="otDuration" type="number" min="0">
-</div>
-
-<div class="form-group full-col">
-<label>Description / travail demandé</label>
-<textarea id="otDescription"></textarea>
-</div>
-
-</div>
+    <div class="modal-header">
 
-<div class="modal-actions">
+        <h3 id="otModalTitle">
+            Nouvel Ordre de Travail
+        </h3>
 
-<button
-type="button"
-class="btn btn-secondary"
-onclick="closeOTModal()">
-Annuler
-</button>
+        <button class="modal-close"
+                onclick="closeModal('otModal')">
+            ×
+        </button>
 
-<button class="btn btn-success">
-🔧 Enregistrer OT
-</button>
+    </div>
 
-</div>
-
-</form>
-</div>
-</div>
-
-
-<!-- ======================================================
-OT EXECUTION MODAL
-====================================================== -->
-
-<div id="otExecutionModal" class="modal hidden">
-
-<div class="modal-box">
-
-<div class="modal-head">
-
-<div>
-<h2 id="otExecutionTitle">Exécution OT</h2>
-<p style="color:#7890a8;margin-top:5px">
-Compte rendu d'intervention
-</p>
-</div>
-
-<button class="close"
-onclick="closeOTExecutionModal()">×</button>
-
-</div>
-
-<div id="otExecutionMessage"></div>
-
-<form onsubmit="saveOTExecution(event)">
+    <div class="modal-body">
 
-<input type="hidden" id="executionOTId">
+        <input type="hidden" id="otId">
 
-<div class="form-group">
-<label>Travail effectué *</label>
-<textarea
-id="otWorkPerformed"
-required
-placeholder="Décrire les opérations réalisées..."></textarea>
-</div>
-
-<div class="form-group">
-<label>Rapport d'intervention</label>
-<textarea
-id="otInterventionReport"
-placeholder="Constat, mesures, pièces remplacées, observations..."></textarea>
-</div>
-
-<div class="modal-actions">
-
-<button
-type="button"
-class="btn btn-secondary"
-onclick="closeOTExecutionModal()">
-Annuler
-</button>
-
-<button class="btn btn-success">
-💾 Enregistrer intervention
-</button>
-
-</div>
+        <div class="form-grid">
 
-</form>
-</div>
-</div>
-
-
-<!-- ======================================================
-PREVENTIVE MODAL
-====================================================== -->
+            <div class="form-group">
+                <label>Demande d’intervention</label>
 
-<div id="preventiveModal" class="modal hidden">
+                <select id="otDI">
+                    <option value="">— Sans DI —</option>
+                </select>
 
-<div class="modal-box">
+            </div>
 
-<div class="modal-head">
+            <div class="form-group">
 
-<div>
-<h2 id="preventiveModalTitle">Nouveau plan préventif</h2>
-</div>
-
-<button class="close"
-onclick="closePreventiveModal()">×</button>
+                <label>Technicien affecté</label>
 
-</div>
+                <select id="otTechnician">
+                    <option value="">— Non affecté —</option>
+                </select>
 
-<div id="preventiveModalMessage"></div>
+            </div>
 
-<form onsubmit="savePreventive(event)">
+            <div class="form-group">
 
-<input type="hidden" id="pmId">
+                <label>Équipement</label>
 
-<div class="grid2">
-
-<div class="form-group">
-<label>Désignation *</label>
-<input
-id="pmDesignation"
-required
-placeholder="Ex : Graissage moteur">
-</div>
+                <select id="otEquipment"
+                        onchange="updateOTSubEquipmentSelect()">
 
-<div class="form-group">
-<label>Équipement *</label>
-<select id="pmEquipment" required>
-<option value="">Choisir équipement</option>
-</select>
-</div>
+                </select>
 
-<div class="form-group">
-<label>Sous-équipement</label>
-<select id="pmSubEquipment">
-<option value="">Aucun</option>
-</select>
-</div>
+            </div>
 
-<div class="form-group">
-<label>Fréquence</label>
-<select id="pmFrequency">
-<option value="daily">Quotidienne</option>
-<option value="weekly">Hebdomadaire</option>
-<option value="monthly" selected>Mensuelle</option>
-<option value="quarterly">Trimestrielle</option>
-<option value="yearly">Annuelle</option>
-</select>
-</div>
+            <div class="form-group">
 
-<div class="form-group">
-<label>Dernière réalisation</label>
-<input id="pmLastDone" type="date">
-</div>
+                <label>Sous-équipement</label>
 
-<div class="form-group">
-<label>Prochaine échéance *</label>
-<input id="pmNextDue" type="date" required>
-</div>
+                <select id="otSubEquipment">
 
-<div class="form-group">
-<label>Technicien responsable</label>
-<select id="pmTechnician">
-<option value="">Non affecté</option>
-</select>
-</div>
+                </select>
 
-<div class="form-group">
-<label>Durée prévue (min)</label>
-<input id="pmDuration" type="number" min="0">
-</div>
+            </div>
 
-<div class="form-group">
-<label>Statut</label>
-<select id="pmStatus">
-<option value="active">Actif</option>
-<option value="paused">En pause</option>
-<option value="closed">Clôturé</option>
-</select>
-</div>
+            <div class="form-group">
 
-<div class="form-group full-col">
-<label>Instructions</label>
-<textarea id="pmInstructions"
-placeholder="Consignes de maintenance..."></textarea>
-</div>
+                <label>Priorité</label>
 
-</div>
+                <select id="otPriority">
+                    <option value="high">Haute</option>
+                    <option value="medium" selected>Moyenne</option>
+                    <option value="low">Basse</option>
+                </select>
 
-<div class="modal-actions">
+            </div>
 
-<button
-type="button"
-class="btn btn-secondary"
-onclick="closePreventiveModal()">
-Annuler
-</button>
+            <div class="form-group">
 
-<button class="btn btn-success">
-📅 Enregistrer PM
-</button>
+                <label>Statut</label>
 
-</div>
+                <select id="otStatus">
 
-</form>
-</div>
-</div>
+                    <option value="open">
+                        Ouvert
+                    </option>
 
+                    <option value="in_progress">
+                        En cours
+                    </option>
 
-<!-- ======================================================
-RCA MODAL
-====================================================== -->
+                    <option value="validated">
+                        Validé
+                    </option>
 
-<div id="rcaModal" class="modal hidden">
+                    <option value="closed">
+                        Clôturé
+                    </option>
 
-<div class="modal-box">
+                </select>
 
-<div class="modal-head">
+            </div>
 
-<div>
-<h2 id="rcaModalTitle">Nouvelle RCA / BDA</h2>
-<p style="color:#7890a8;margin-top:5px">
-Analyse structurée d'une défaillance
-</p>
-</div>
+            <div class="form-group full">
 
-<button class="close"
-onclick="closeRCAModal()">×</button>
+                <label>Description / Travail demandé</label>
 
-</div>
+                <textarea id="otDescription"></textarea>
 
-<div id="rcaModalMessage"></div>
+            </div>
 
-<form onsubmit="saveRCA(event)">
+            <div class="form-group full">
 
-<input type="hidden" id="rcaId">
+                <label>Travail effectué</label>
 
-<div class="grid2">
+                <textarea id="otWorkPerformed"
+                          placeholder="Décrire les travaux réalisés..."></textarea>
 
-<div class="form-group">
-<label>Ordre de travail</label>
-<select id="rcaOT">
-<option value="">Aucun</option>
-</select>
-</div>
+            </div>
 
-<div class="form-group">
-<label>Équipement</label>
-<select id="rcaEquipment">
-<option value="">Choisir équipement</option>
-</select>
-</div>
+            <div class="form-group full">
 
-<div class="form-group">
-<label>Sous-équipement</label>
-<select id="rcaSubEquipment">
-<option value="">Aucun</option>
-</select>
-</div>
+                <label>Rapport d’intervention</label>
 
-<div class="form-group">
-<label>Méthode</label>
-<select id="rcaMethod">
-<option value="5_why">5 Pourquoi</option>
-<option value="5m">5M</option>
-<option value="ishikawa">Ishikawa</option>
-<option value="8d">8D</option>
-</select>
-</div>
+                <textarea id="otInterventionReport"
+                          placeholder="Résultat, pièces changées, mesures, observations..."></textarea>
 
-<div class="form-group full-col">
-<label>Problème constaté *</label>
-<textarea id="rcaProblem" required></textarea>
-</div>
+            </div>
 
-<div class="form-group full-col">
-<label>Action immédiate</label>
-<textarea id="rcaImmediateAction"></textarea>
-</div>
+        </div>
 
-<div class="form-group full-col">
-<label>Cause racine</label>
-<textarea id="rcaRootCause"></textarea>
-</div>
+    </div>
 
-<div class="form-group full-col">
-<label>Action corrective</label>
-<textarea id="rcaCorrectiveAction"></textarea>
-</div>
+    <div class="modal-footer">
 
-<div class="form-group full-col">
-<label>Action préventive</label>
-<textarea id="rcaPreventiveAction"></textarea>
-</div>
+        <button class="btn btn-secondary"
+                onclick="closeModal('otModal')">
+            Annuler
+        </button>
 
-<div class="form-group">
-<label>Responsable</label>
-<input id="rcaResponsible">
-</div>
+        <button class="btn btn-primary"
+                onclick="saveOT()">
+            Enregistrer OT
+        </button>
 
-<div class="form-group">
-<label>Date d'échéance</label>
-<input id="rcaDueDate" type="date">
-</div>
+    </div>
 
-<div class="form-group">
-<label>Statut</label>
-<select id="rcaStatus">
-<option value="open">Ouverte</option>
-<option value="in_progress">En cours</option>
-<option value="closed">Clôturée</option>
-</select>
 </div>
-
 </div>
-
-<div class="modal-actions">
 
-<button
-type="button"
-class="btn btn-secondary"
-onclick="closeRCAModal()">
-Annuler
-</button>
 
-<button class="btn btn-success">
-🔎 Enregistrer RCA
-</button>
-
-</div>
-
-</form>
-</div>
-</div>
+<div id="toast"></div>
 
 
 <script>
 
-/* ======================================================
-SUPABASE
-====================================================== */
+/* ============================================================
+   SUPABASE
+============================================================ */
 
 const SUPABASE_URL =
 'https://qnrfkfrornozwvgewcwk.supabase.co';
@@ -2656,4283 +1624,2421 @@ const SUPABASE_ANON_KEY =
 
 const sb =
 window.supabase.createClient(
-SUPABASE_URL,
-SUPABASE_ANON_KEY
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
 );
 
 
-/* ======================================================
-VARIABLES
-====================================================== */
+/* ============================================================
+   GLOBAL STATE
+============================================================ */
 
-let currentUser=null;
-let currentProfile=null;
+let currentUser = null;
+let currentProfile = null;
 
-let personnel=[];
-let zones=[];
-let equipment=[];
-let subEquipment=[];
-
-let interventionRequests=[];
-let workOrders=[];
-let preventivePlans=[];
-let rcaRecords=[];
-
-let pmTableAvailable=true;
-let rcaTableAvailable=true;
+let personnel = [];
+let zones = [];
+let equipment = [];
+let subEquipment = [];
+let interventionRequests = [];
+let workOrders = [];
 
 
-/* ======================================================
-LOGIN
-====================================================== */
+/* ============================================================
+   HELPERS
+============================================================ */
+
+function escapeHTML(value){
+
+    if(value === null || value === undefined){
+        return '';
+    }
+
+    return String(value)
+        .replaceAll('&','&amp;')
+        .replaceAll('<','&lt;')
+        .replaceAll('>','&gt;')
+        .replaceAll('"','&quot;')
+        .replaceAll("'","&#039;");
+}
+
+
+function formatDate(value){
+
+    if(!value){
+        return '—';
+    }
+
+    try{
+        return new Date(value).toLocaleDateString('fr-FR');
+    }catch{
+        return value;
+    }
+}
+
+
+function formatDateTime(value){
+
+    if(!value){
+        return '—';
+    }
+
+    try{
+        return new Date(value).toLocaleString('fr-FR');
+    }catch{
+        return value;
+    }
+}
+
+
+function canManage(){
+
+    return currentProfile &&
+        ['admin','manager'].includes(
+            currentProfile.role
+        );
+}
+
+
+function canExecuteOT(){
+
+    return currentProfile &&
+        ['admin','manager','technician'].includes(
+            currentProfile.role
+        );
+}
+
+
+function canCloseOT(){
+
+    return currentProfile &&
+        ['admin','manager'].includes(
+            currentProfile.role
+        );
+}
+
+
+function showToast(message,type='info'){
+
+    const toast =
+        document.getElementById('toast');
+
+    toast.textContent = message;
+
+    toast.className = '';
+
+    toast.id = 'toast';
+
+    if(type === 'success'){
+        toast.classList.add('toast-success');
+    }else if(type === 'error'){
+        toast.classList.add('toast-error');
+    }else{
+        toast.classList.add('toast-info');
+    }
+
+    toast.style.display = 'block';
+
+    setTimeout(()=>{
+        toast.style.display = 'none';
+    },3500);
+}
+
+
+function closeModal(id){
+
+    document.getElementById(id)
+        .classList.remove('show');
+}
+
+
+/* ============================================================
+   AUTH
+============================================================ */
 
 async function login(){
 
-const email=
-document.getElementById('loginEmail').value.trim();
+    const email =
+        document.getElementById('loginEmail').value.trim();
 
-const password=
-document.getElementById('loginPassword').value;
+    const password =
+        document.getElementById('loginPassword').value;
 
-const msg=
-document.getElementById('loginMessage');
+    const error =
+        document.getElementById('errorLogin');
 
-msg.innerHTML='';
+    error.textContent = '';
 
-const {data,error}=
-await sb.auth.signInWithPassword({
-email,
-password
-});
+    if(!email || !password){
 
-if(error){
+        error.textContent =
+            'Veuillez saisir votre email et votre mot de passe.';
 
-msg.innerHTML=
-`<span style="color:#f87171">
-${esc(error.message)}
-</span>`;
+        return;
+    }
 
-return;
+    const {data,error:authError} =
+        await sb.auth.signInWithPassword({
+            email,
+            password
+        });
+
+    if(authError){
+
+        error.textContent =
+            authError.message;
+
+        return;
+    }
+
+    currentUser = data.user;
+
+    await loadProfile();
+
+    document.getElementById('loginPage')
+        .style.display = 'none';
+
+    document.getElementById('app')
+        .style.display = 'block';
+
+    await loadAll();
+
+    showToast(
+        'Connexion réussie.',
+        'success'
+    );
 }
 
-currentUser=data.user;
 
-await loadProfile();
+async function logout(){
 
+    await sb.auth.signOut();
+
+    currentUser = null;
+    currentProfile = null;
+
+    document.getElementById('app')
+        .style.display = 'none';
+
+    document.getElementById('loginPage')
+        .style.display = 'flex';
+
+    document.getElementById('loginPassword')
+        .value = '';
 }
 
-
-/* ======================================================
-PROFILE
-====================================================== */
 
 async function loadProfile(){
 
-const {data,error}=
-await sb
-.from('profiles')
-.select('*')
-.eq('id',currentUser.id)
-.single();
+    if(!currentUser){
+        return;
+    }
 
-if(error){
+    const {data,error} =
+        await sb
+            .from('profiles')
+            .select('*')
+            .eq('id',currentUser.id)
+            .maybeSingle();
 
-alert(error.message);
-return;
+    if(error){
 
-}
+        console.error(error);
 
-currentProfile=data;
+        currentProfile = {
+            id:currentUser.id,
+            full_name:
+                currentUser.email,
+            role:'technician'
+        };
 
-if(!data.active){
+    }else{
 
-await sb.auth.signOut();
+        currentProfile = data;
 
-alert('Compte désactivé.');
-return;
+    }
 
-}
+    document.getElementById('currentUserName')
+        .textContent =
+        currentProfile?.full_name ||
+        currentUser.email;
 
-document.getElementById('loginPage')
-.classList.add('hidden');
-
-document.getElementById('app')
-.classList.remove('hidden');
-
-document.getElementById('userName')
-.textContent=
-data.full_name || currentUser.email;
-
-document.getElementById('userRole')
-.textContent=
-roleLabel(data.role);
-
-document.getElementById('avatar')
-.textContent=
-(data.full_name || 'A')
-.charAt(0)
-.toUpperCase();
-
-document.getElementById('settingsEmail')
-.textContent=
-'Email : '+currentUser.email;
-
-document.getElementById('settingsCode')
-.textContent=
-'Code personnel : '+(data.employee_code || '-');
-
-await loadAll();
-
+    document.getElementById('currentUserRole')
+        .textContent =
+        currentProfile?.role || 'technician';
 }
 
 
-/* ======================================================
-LOAD ALL
-====================================================== */
+/* ============================================================
+   LOAD ALL
+============================================================ */
 
 async function loadAll(){
 
-await loadPersonnel();
-await loadZones();
-await loadEquipment();
-await loadSubEquipment();
-await loadDI();
-await loadOT();
-await loadPreventive();
-await loadRCA();
+    await loadPersonnel();
+    await loadZones();
+    await loadEquipment();
+    await loadSubEquipment();
+    await loadDI();
+    await loadOT();
 
-updateDashboard();
-
+    updateDashboard();
 }
 
 
-/* ======================================================
-PERSONNEL
-====================================================== */
+/* ============================================================
+   PERSONNEL
+============================================================ */
 
 async function loadPersonnel(){
 
-const {data,error}=
-await sb
-.from('profiles')
-.select('*')
-.order('created_at',{ascending:false});
+    const {data,error} =
+        await sb
+            .from('profiles')
+            .select('*')
+            .order('full_name');
 
-if(error){
-console.error(error);
-return;
-}
+    if(error){
 
-personnel=data || [];
+        console.error(error);
 
-const tbody=
-document.getElementById('personnelTable');
+        personnel = [];
 
-if(!tbody)return;
+        return;
+    }
 
-tbody.innerHTML='';
+    personnel = data || [];
 
-personnel.forEach(p=>{
-
-const tr=document.createElement('tr');
-
-tr.innerHTML=`
-
-<td>${esc(p.employee_code || '-')}</td>
-
-<td>${esc(p.full_name || '-')}</td>
-
-<td>${roleLabel(p.role)}</td>
-
-<td>${esc(p.department || '-')}</td>
-
-<td>${esc(p.position || '-')}</td>
-
-<td>
-<span class="badge ${p.active?'active':'inactive'}">
-${p.active?'Actif':'Inactif'}
-</span>
-</td>
-
-`;
-
-tbody.appendChild(tr);
-
-});
-
+    renderPersonnel();
+    fillTechnicianSelects();
 }
 
 
-/* ======================================================
-ZONES
-====================================================== */
+function renderPersonnel(){
+
+    const tbody =
+        document.getElementById('personnelTable');
+
+    if(!tbody){
+        return;
+    }
+
+    if(!personnel.length){
+
+        tbody.innerHTML =
+            `<tr><td colspan="6"
+             class="empty">
+             Aucun personnel.
+             </td></tr>`;
+
+        return;
+    }
+
+    tbody.innerHTML =
+        personnel.map(p=>`
+
+        <tr>
+
+            <td>
+                ${escapeHTML(p.employee_code || '—')}
+            </td>
+
+            <td>
+                ${escapeHTML(p.full_name || '—')}
+            </td>
+
+            <td>
+                ${escapeHTML(p.role || '—')}
+            </td>
+
+            <td>
+                ${escapeHTML(p.department || '—')}
+            </td>
+
+            <td>
+                ${escapeHTML(p.position || '—')}
+            </td>
+
+            <td>
+                ${p.active === false
+                    ? 'Non'
+                    : 'Oui'}
+            </td>
+
+        </tr>
+
+    `).join('');
+}
+
+
+/* ============================================================
+   ZONES
+============================================================ */
 
 async function loadZones(){
 
-const {data,error}=
-await sb
-.from('zones')
-.select('*')
-.order('code');
+    const {data,error} =
+        await sb
+            .from('zones')
+            .select('*')
+            .order('name');
 
-if(error){
+    if(error){
 
-console.error(error);
-return;
+        console.error(error);
 
-}
+        zones = [];
 
-zones=data || [];
+        return;
+    }
 
-renderZones(zones);
-populateZoneSelects();
+    zones = data || [];
 
-}
-
-
-function renderZones(list){
-
-const tbody=
-document.getElementById('zoneTable');
-
-if(!tbody)return;
-
-tbody.innerHTML='';
-
-document.getElementById('zoneCount').textContent=
-zones.length;
-
-document.getElementById('activeZoneCount').textContent=
-zones.filter(z=>z.status==='active').length;
-
-if(!list.length){
-
-tbody.innerHTML=`
-<tr>
-<td colspan="5"
-style="text-align:center;color:#7187a0">
-Aucune zone.
-</td>
-</tr>`;
-
-return;
-
-}
-
-list.forEach(z=>{
-
-const tr=document.createElement('tr');
-
-tr.innerHTML=`
-
-<td><strong>${esc(z.code)}</strong></td>
-
-<td>${esc(z.name)}</td>
-
-<td>${esc(z.description || '-')}</td>
-
-<td>
-<span class="badge ${z.status}">
-${z.status==='active'?'Active':'Inactive'}
-</span>
-</td>
-
-<td>
-<div class="actions">
-
-${canManage()?`
-
-<button class="btn btn-warning"
-onclick="editZone('${z.id}')">
-✏️
-</button>
-
-${isAdmin()?`
-
-<button class="btn btn-danger"
-onclick="deleteZone('${z.id}')">
-🗑️
-</button>
-
-`:''}
-
-`:''}
-
-</div>
-</td>
-
-`;
-
-tbody.appendChild(tr);
-
-});
-
+    renderZones();
+    fillZoneSelects();
 }
 
 
-function populateZoneSelects(){
+function renderZones(){
 
-const select=
-document.getElementById('equipmentZone');
+    const tbody =
+        document.getElementById('zonesTable');
 
-const filter=
-document.getElementById('equipmentZoneFilter');
+    if(!tbody){
+        return;
+    }
 
-if(select){
+    tbody.innerHTML =
+        zones.length
+        ?
+        zones.map(z=>`
 
-select.innerHTML=
-'<option value="">Choisir une zone</option>';
+        <tr>
+            <td>${escapeHTML(z.code)}</td>
+            <td>${escapeHTML(z.name)}</td>
+            <td>${escapeHTML(z.description || '—')}</td>
+            <td>${escapeHTML(z.status || 'active')}</td>
+        </tr>
 
-zones.forEach(z=>{
-
-select.innerHTML+=
-`<option value="${z.id}">
-${esc(z.code)} — ${esc(z.name)}
-</option>`;
-
-});
-
-}
-
-if(filter){
-
-filter.innerHTML=
-'<option value="">Toutes les zones</option>';
-
-zones.forEach(z=>{
-
-filter.innerHTML+=
-`<option value="${z.id}">
-${esc(z.code)} — ${esc(z.name)}
-</option>`;
-
-});
-
-}
-
+        `).join('')
+        :
+        `<tr>
+            <td colspan="4"
+                class="empty">
+                Aucune zone.
+            </td>
+        </tr>`;
 }
 
 
-function openZoneModal(){
+function fillZoneSelects(){
 
-if(!canManage()){
+    const select =
+        document.getElementById('diZone');
 
-alert('Accès réservé à Admin / Responsable.');
-return;
+    if(!select){
+        return;
+    }
 
-}
-
-document.getElementById('zoneId').value='';
-document.getElementById('zoneName').value='';
-document.getElementById('zoneDescription').value='';
-document.getElementById('zoneStatus').value='active';
-
-document.getElementById('zoneModalTitle')
-.textContent='Ajouter une zone';
-
-document.getElementById('zoneModalMessage').innerHTML='';
-
-document.getElementById('zoneModal')
-.classList.remove('hidden');
-
+    select.innerHTML =
+        `<option value="">— Sélectionner —</option>`+
+        zones.map(z=>`
+            <option value="${z.id}">
+                ${escapeHTML(z.code)} — ${escapeHTML(z.name)}
+            </option>
+        `).join('');
 }
 
 
-function closeZoneModal(){
-
-document.getElementById('zoneModal')
-.classList.add('hidden');
-
-}
-
-
-async function saveZone(e){
-
-e.preventDefault();
-
-if(!canManage())return;
-
-const id=
-document.getElementById('zoneId').value;
-
-const payload={
-
-name:document.getElementById('zoneName').value.trim(),
-
-description:
-document.getElementById('zoneDescription').value.trim(),
-
-status:
-document.getElementById('zoneStatus').value
-
-};
-
-let result;
-
-if(id){
-
-result=
-await sb
-.from('zones')
-.update(payload)
-.eq('id',id);
-
-}else{
-
-payload.created_by=currentUser.id;
-
-result=
-await sb
-.from('zones')
-.insert(payload);
-
-}
-
-if(result.error){
-
-document.getElementById('zoneModalMessage').innerHTML=
-`<div class="message error">
-${esc(result.error.message)}
-</div>`;
-
-return;
-
-}
-
-closeZoneModal();
-
-await loadZones();
-await loadEquipment();
-updateDashboard();
-
-}
-
-
-function editZone(id){
-
-if(!canManage())return;
-
-const z=zones.find(x=>x.id===id);
-
-if(!z)return;
-
-document.getElementById('zoneId').value=z.id;
-document.getElementById('zoneName').value=z.name || '';
-document.getElementById('zoneDescription').value=z.description || '';
-document.getElementById('zoneStatus').value=z.status || 'active';
-
-document.getElementById('zoneModalTitle')
-.textContent='Modifier zone';
-
-document.getElementById('zoneModal')
-.classList.remove('hidden');
-
-}
-
-
-async function deleteZone(id){
-
-if(!isAdmin())return;
-
-if(!confirm('Supprimer cette zone ?'))return;
-
-const {error}=
-await sb
-.from('zones')
-.delete()
-.eq('id',id);
-
-if(error){
-
-alert(error.message);
-return;
-
-}
-
-await loadZones();
-await loadEquipment();
-updateDashboard();
-
-}
-
-
-/* ======================================================
-EQUIPMENT
-====================================================== */
+/* ============================================================
+   EQUIPMENT
+============================================================ */
 
 async function loadEquipment(){
 
-const {data,error}=
-await sb
-.from('equipment')
-.select('*')
-.order('code');
+    const {data,error} =
+        await sb
+            .from('equipment')
+            .select('*')
+            .order('designation');
 
-if(error){
+    if(error){
 
-console.error(error);
-return;
+        console.error(error);
 
-}
+        equipment = [];
 
-equipment=data || [];
+        return;
+    }
 
-renderEquipment(equipment);
-populateEquipmentSelects();
-populatePMEquipment();
-populateRCAEquipment();
+    equipment = data || [];
 
-}
-
-
-function renderEquipment(list){
-
-const tbody=
-document.getElementById('equipmentTable');
-
-if(!tbody)return;
-
-tbody.innerHTML='';
-
-document.getElementById('equipmentCount').textContent=
-equipment.length;
-
-document.getElementById('criticalACount').textContent=
-equipment.filter(x=>x.criticality==='A').length;
-
-document.getElementById('criticalBCount').textContent=
-equipment.filter(x=>x.criticality==='B').length;
-
-document.getElementById('criticalCCount').textContent=
-equipment.filter(x=>x.criticality==='C').length;
-
-if(!list.length){
-
-tbody.innerHTML=`
-<tr>
-<td colspan="9"
-style="text-align:center;color:#7187a0">
-Aucun équipement.
-</td>
-</tr>`;
-
-return;
-
-}
-
-list.forEach(eq=>{
-
-const zone=
-zones.find(z=>z.id===eq.zone_id);
-
-const tr=document.createElement('tr');
-
-tr.innerHTML=`
-
-<td><strong>${esc(eq.code)}</strong></td>
-
-<td>${esc(eq.designation)}</td>
-
-<td>
-${zone
-?esc(zone.code+' — '+zone.name)
-:'-'}
-</td>
-
-<td>${esc(eq.type || '-')}</td>
-
-<td>${esc(eq.brand || '-')}</td>
-
-<td>${esc(eq.model || '-')}</td>
-
-<td>
-<span class="critical-${eq.criticality}">
-${esc(eq.criticality)}
-</span>
-</td>
-
-<td>
-<span class="badge ${eq.status}">
-${eq.status==='active'
-?'Actif'
-:eq.status==='maintenance'
-?'Maintenance'
-:'Inactif'}
-</span>
-</td>
-
-<td>
-
-<div class="actions">
-
-${canManage()?`
-
-<button class="btn btn-warning"
-onclick="editEquipment('${eq.id}')">
-✏️
-</button>
-
-${isAdmin()?`
-
-<button class="btn btn-danger"
-onclick="deleteEquipment('${eq.id}')">
-🗑️
-</button>
-
-`:''}
-
-`:''}
-
-</div>
-
-</td>
-
-`;
-
-tbody.appendChild(tr);
-
-});
-
+    renderEquipment();
+    fillEquipmentSelects();
 }
 
 
-function populateEquipmentSelects(){
+function renderEquipment(){
 
-const select=
-document.getElementById('subEquipmentParent');
+    const tbody =
+        document.getElementById('equipmentTable');
 
-const filter=
-document.getElementById('subEquipmentFilter');
+    if(!tbody){
+        return;
+    }
 
-if(select){
+    tbody.innerHTML =
+        equipment.length
+        ?
+        equipment.map(e=>{
 
-select.innerHTML=
-'<option value="">Choisir équipement</option>';
+            const zone =
+                zones.find(z=>z.id===e.zone_id);
 
-equipment.forEach(eq=>{
+            return `
 
-select.innerHTML+=
-`<option value="${eq.id}">
-${esc(eq.code)} — ${esc(eq.designation)}
-</option>`;
+            <tr>
 
-});
+                <td>${escapeHTML(e.code)}</td>
 
-}
+                <td>${escapeHTML(e.designation)}</td>
 
-if(filter){
+                <td>
+                    ${escapeHTML(zone?.name || '—')}
+                </td>
 
-filter.innerHTML=
-'<option value="">Tous les équipements</option>';
+                <td>${escapeHTML(e.type || '—')}</td>
 
-equipment.forEach(eq=>{
+                <td>${escapeHTML(e.brand || '—')}</td>
 
-filter.innerHTML+=
-`<option value="${eq.id}">
-${esc(eq.code)} — ${esc(eq.designation)}
-</option>`;
+                <td>
+                    ${escapeHTML(e.criticality || '—')}
+                </td>
 
-});
+                <td>
+                    ${escapeHTML(e.status || '—')}
+                </td>
 
-}
+            </tr>
 
-}
+            `;
 
-
-function openEquipmentModal(){
-
-if(!canManage()){
-
-alert('Accès réservé à Admin / Responsable.');
-return;
-
-}
-
-document.getElementById('equipmentId').value='';
-document.getElementById('equipmentDesignation').value='';
-document.getElementById('equipmentZone').value='';
-document.getElementById('equipmentType').value='';
-document.getElementById('equipmentBrand').value='';
-document.getElementById('equipmentModel').value='';
-document.getElementById('equipmentSerial').value='';
-document.getElementById('equipmentCriticality').value='B';
-document.getElementById('equipmentStatus').value='active';
-document.getElementById('equipmentInstallation').value='';
-document.getElementById('equipmentDescription').value='';
-
-document.getElementById('equipmentModalTitle')
-.textContent='Ajouter équipement';
-
-document.getElementById('equipmentModalMessage')
-.innerHTML='';
-
-document.getElementById('equipmentModal')
-.classList.remove('hidden');
-
+        }).join('')
+        :
+        `<tr>
+            <td colspan="7"
+                class="empty">
+                Aucun équipement.
+            </td>
+        </tr>`;
 }
 
 
-function closeEquipmentModal(){
+function fillEquipmentSelects(){
 
-document.getElementById('equipmentModal')
-.classList.add('hidden');
+    const selects = [
+        'diEquipment',
+        'otEquipment'
+    ];
 
+    selects.forEach(id=>{
+
+        const select =
+            document.getElementById(id);
+
+        if(!select){
+            return;
+        }
+
+        select.innerHTML =
+            `<option value="">
+                — Sélectionner —
+             </option>`+
+            equipment.map(e=>`
+
+                <option value="${e.id}">
+                    ${escapeHTML(e.code)}
+                    —
+                    ${escapeHTML(e.designation)}
+                </option>
+
+            `).join('');
+
+    });
 }
 
 
-async function saveEquipment(e){
-
-e.preventDefault();
-
-if(!canManage())return;
-
-const id=
-document.getElementById('equipmentId').value;
-
-const payload={
-
-designation:
-document.getElementById('equipmentDesignation').value.trim(),
-
-zone_id:
-document.getElementById('equipmentZone').value || null,
-
-type:
-document.getElementById('equipmentType').value.trim(),
-
-brand:
-document.getElementById('equipmentBrand').value.trim(),
-
-model:
-document.getElementById('equipmentModel').value.trim(),
-
-serial_number:
-document.getElementById('equipmentSerial').value.trim(),
-
-criticality:
-document.getElementById('equipmentCriticality').value,
-
-status:
-document.getElementById('equipmentStatus').value,
-
-installation_date:
-document.getElementById('equipmentInstallation').value || null,
-
-description:
-document.getElementById('equipmentDescription').value.trim()
-
-};
-
-let result;
-
-if(id){
-
-result=
-await sb
-.from('equipment')
-.update(payload)
-.eq('id',id);
-
-}else{
-
-payload.created_by=currentUser.id;
-
-result=
-await sb
-.from('equipment')
-.insert(payload);
-
-}
-
-if(result.error){
-
-document.getElementById('equipmentModalMessage').innerHTML=
-`<div class="message error">
-${esc(result.error.message)}
-</div>`;
-
-return;
-
-}
-
-closeEquipmentModal();
-
-await loadEquipment();
-updateDashboard();
-
-}
-
-
-function editEquipment(id){
-
-if(!canManage())return;
-
-const eq=equipment.find(x=>x.id===id);
-
-if(!eq)return;
-
-document.getElementById('equipmentId').value=eq.id;
-document.getElementById('equipmentDesignation').value=eq.designation || '';
-document.getElementById('equipmentZone').value=eq.zone_id || '';
-document.getElementById('equipmentType').value=eq.type || '';
-document.getElementById('equipmentBrand').value=eq.brand || '';
-document.getElementById('equipmentModel').value=eq.model || '';
-document.getElementById('equipmentSerial').value=eq.serial_number || '';
-document.getElementById('equipmentCriticality').value=eq.criticality || 'B';
-document.getElementById('equipmentStatus').value=eq.status || 'active';
-document.getElementById('equipmentInstallation').value=eq.installation_date || '';
-document.getElementById('equipmentDescription').value=eq.description || '';
-
-document.getElementById('equipmentModalTitle')
-.textContent='Modifier équipement';
-
-document.getElementById('equipmentModal')
-.classList.remove('hidden');
-
-}
-
-
-async function deleteEquipment(id){
-
-if(!isAdmin())return;
-
-if(!confirm('Supprimer cet équipement ?'))return;
-
-const {error}=
-await sb
-.from('equipment')
-.delete()
-.eq('id',id);
-
-if(error){
-
-alert(error.message);
-return;
-
-}
-
-await loadEquipment();
-await loadSubEquipment();
-updateDashboard();
-
-}
-
-
-/* ======================================================
-SUB EQUIPMENT
-====================================================== */
+/* ============================================================
+   SUB EQUIPMENT
+============================================================ */
 
 async function loadSubEquipment(){
 
-const {data,error}=
-await sb
-.from('sub_equipment')
-.select('*')
-.order('code');
+    const {data,error} =
+        await sb
+            .from('sub_equipment')
+            .select('*')
+            .order('designation');
 
-if(error){
+    if(error){
 
-console.error(error);
-return;
+        console.error(error);
 
-}
+        subEquipment = [];
 
-subEquipment=data || [];
+        return;
+    }
 
-renderSubEquipment(subEquipment);
+    subEquipment = data || [];
 
-}
-
-
-function renderSubEquipment(list){
-
-const tbody=
-document.getElementById('subEquipmentTable');
-
-if(!tbody)return;
-
-tbody.innerHTML='';
-
-if(!list.length){
-
-tbody.innerHTML=`
-<tr>
-<td colspan="9"
-style="text-align:center;color:#7187a0">
-Aucun sous-équipement.
-</td>
-</tr>`;
-
-return;
-
-}
-
-list.forEach(se=>{
-
-const eq=
-equipment.find(x=>x.id===se.equipment_id);
-
-const tr=document.createElement('tr');
-
-tr.innerHTML=`
-
-<td><strong>${esc(se.code)}</strong></td>
-
-<td>${esc(se.designation)}</td>
-
-<td>
-${eq
-?esc(eq.code+' — '+eq.designation)
-:'-'}
-</td>
-
-<td>${esc(se.type || '-')}</td>
-<td>${esc(se.brand || '-')}</td>
-<td>${esc(se.model || '-')}</td>
-
-<td>
-<span class="critical-${se.criticality}">
-${esc(se.criticality)}
-</span>
-</td>
-
-<td>
-<span class="badge ${se.status}">
-${se.status==='active'
-?'Actif'
-:se.status==='maintenance'
-?'Maintenance'
-:'Inactif'}
-</span>
-</td>
-
-<td>
-
-<div class="actions">
-
-${canManage()?`
-
-<button class="btn btn-warning"
-onclick="editSubEquipment('${se.id}')">
-✏️
-</button>
-
-${isAdmin()?`
-
-<button class="btn btn-danger"
-onclick="deleteSubEquipment('${se.id}')">
-🗑️
-</button>
-
-`:''}
-
-`:''}
-
-</div>
-
-</td>
-
-`;
-
-tbody.appendChild(tr);
-
-});
-
+    renderSubEquipment();
 }
 
 
-function openSubEquipmentModal(){
+function renderSubEquipment(){
 
-if(!canManage()){
+    const tbody =
+        document.getElementById('subEquipmentTable');
 
-alert('Accès réservé à Admin / Responsable.');
-return;
+    if(!tbody){
+        return;
+    }
 
-}
+    tbody.innerHTML =
+        subEquipment.length
+        ?
+        subEquipment.map(s=>{
 
-document.getElementById('subEquipmentId').value='';
-document.getElementById('subEquipmentParent').value='';
-document.getElementById('subEquipmentDesignation').value='';
-document.getElementById('subEquipmentType').value='';
-document.getElementById('subEquipmentBrand').value='';
-document.getElementById('subEquipmentModel').value='';
-document.getElementById('subEquipmentSerial').value='';
-document.getElementById('subEquipmentCriticality').value='B';
-document.getElementById('subEquipmentStatus').value='active';
-document.getElementById('subEquipmentSpecification').value='';
-document.getElementById('subEquipmentObservation').value='';
+            const eq =
+                equipment.find(
+                    e=>e.id===s.equipment_id
+                );
 
-document.getElementById('subEquipmentModalTitle')
-.textContent='Ajouter sous-équipement';
+            return `
 
-document.getElementById('subEquipmentModalMessage')
-.innerHTML='';
+            <tr>
 
-document.getElementById('subEquipmentModal')
-.classList.remove('hidden');
+                <td>${escapeHTML(s.code)}</td>
 
-}
+                <td>${escapeHTML(s.designation)}</td>
 
+                <td>${escapeHTML(eq?.designation || '—')}</td>
 
-function closeSubEquipmentModal(){
+                <td>${escapeHTML(s.type || '—')}</td>
 
-document.getElementById('subEquipmentModal')
-.classList.add('hidden');
+                <td>${escapeHTML(s.brand || '—')}</td>
 
-}
+                <td>${escapeHTML(s.criticality || '—')}</td>
 
+            </tr>
 
-async function saveSubEquipment(e){
+            `;
 
-e.preventDefault();
-
-if(!canManage())return;
-
-const id=
-document.getElementById('subEquipmentId').value;
-
-const payload={
-
-equipment_id:
-document.getElementById('subEquipmentParent').value,
-
-designation:
-document.getElementById('subEquipmentDesignation').value.trim(),
-
-type:
-document.getElementById('subEquipmentType').value.trim(),
-
-brand:
-document.getElementById('subEquipmentBrand').value.trim(),
-
-model:
-document.getElementById('subEquipmentModel').value.trim(),
-
-serial_number:
-document.getElementById('subEquipmentSerial').value.trim(),
-
-criticality:
-document.getElementById('subEquipmentCriticality').value,
-
-status:
-document.getElementById('subEquipmentStatus').value,
-
-specification:
-document.getElementById('subEquipmentSpecification').value.trim(),
-
-observation:
-document.getElementById('subEquipmentObservation').value.trim()
-
-};
-
-let result;
-
-if(id){
-
-result=
-await sb
-.from('sub_equipment')
-.update(payload)
-.eq('id',id);
-
-}else{
-
-payload.created_by=currentUser.id;
-
-result=
-await sb
-.from('sub_equipment')
-.insert(payload);
-
-}
-
-if(result.error){
-
-document.getElementById('subEquipmentModalMessage')
-.innerHTML=
-`<div class="message error">
-${esc(result.error.message)}
-</div>`;
-
-return;
-
-}
-
-closeSubEquipmentModal();
-
-await loadSubEquipment();
-updateDashboard();
-
+        }).join('')
+        :
+        `<tr>
+            <td colspan="6"
+                class="empty">
+                Aucun sous-équipement.
+            </td>
+        </tr>`;
 }
 
 
-function editSubEquipment(id){
+function updateDISubEquipmentSelect(){
 
-if(!canManage())return;
+    const equipmentId =
+        document.getElementById('diEquipment').value;
 
-const se=
-subEquipment.find(x=>x.id===id);
+    const select =
+        document.getElementById('diSubEquipment');
 
-if(!se)return;
+    const list =
+        subEquipment.filter(
+            s=>s.equipment_id===equipmentId
+        );
 
-document.getElementById('subEquipmentId').value=se.id;
-document.getElementById('subEquipmentParent').value=se.equipment_id;
-document.getElementById('subEquipmentDesignation').value=se.designation || '';
-document.getElementById('subEquipmentType').value=se.type || '';
-document.getElementById('subEquipmentBrand').value=se.brand || '';
-document.getElementById('subEquipmentModel').value=se.model || '';
-document.getElementById('subEquipmentSerial').value=se.serial_number || '';
-document.getElementById('subEquipmentCriticality').value=se.criticality || 'B';
-document.getElementById('subEquipmentStatus').value=se.status || 'active';
-document.getElementById('subEquipmentSpecification').value=se.specification || '';
-document.getElementById('subEquipmentObservation').value=se.observation || '';
-
-document.getElementById('subEquipmentModalTitle')
-.textContent='Modifier sous-équipement';
-
-document.getElementById('subEquipmentModal')
-.classList.remove('hidden');
-
+    select.innerHTML =
+        `<option value="">
+            — Aucun —
+         </option>`+
+        list.map(s=>`
+            <option value="${s.id}">
+                ${escapeHTML(s.code)}
+                —
+                ${escapeHTML(s.designation)}
+            </option>
+        `).join('');
 }
 
 
-async function deleteSubEquipment(id){
+function updateDIEquipmentSelect(){
 
-if(!isAdmin())return;
+    const zoneId =
+        document.getElementById('diZone').value;
 
-if(!confirm('Supprimer ce sous-équipement ?'))return;
+    const select =
+        document.getElementById('diEquipment');
 
-const {error}=
-await sb
-.from('sub_equipment')
-.delete()
-.eq('id',id);
+    const list =
+        equipment.filter(
+            e=>!zoneId || e.zone_id===zoneId
+        );
 
-if(error){
+    select.innerHTML =
+        `<option value="">
+            — Sélectionner —
+         </option>`+
+        list.map(e=>`
+            <option value="${e.id}">
+                ${escapeHTML(e.code)}
+                —
+                ${escapeHTML(e.designation)}
+            </option>
+        `).join('');
 
-alert(error.message);
-return;
-
+    updateDISubEquipmentSelect();
 }
 
-await loadSubEquipment();
-updateDashboard();
 
+function updateOTSubEquipmentSelect(){
+
+    const equipmentId =
+        document.getElementById('otEquipment').value;
+
+    const select =
+        document.getElementById('otSubEquipment');
+
+    const list =
+        subEquipment.filter(
+            s=>s.equipment_id===equipmentId
+        );
+
+    select.innerHTML =
+        `<option value="">
+            — Aucun —
+         </option>`+
+        list.map(s=>`
+            <option value="${s.id}">
+                ${escapeHTML(s.code)}
+                —
+                ${escapeHTML(s.designation)}
+            </option>
+        `).join('');
 }
 
 
-/* ======================================================
-DI
-====================================================== */
+/* ============================================================
+   DI
+============================================================ */
 
 async function loadDI(){
 
-const tbody=
-document.getElementById('diTable');
+    const {data,error} =
+        await sb
+            .from('intervention_requests')
+            .select('*')
+            .order('created_at',{
+                ascending:false
+            });
 
-if(!tbody)return;
+    if(error){
 
-const {data,error}=
-await sb
-.from('intervention_requests')
-.select(`
-    *,
-    zones(code,name),
-    equipment(code,designation),
-    sub_equipment(code,designation)
-`)
-.order('created_at',{ascending:false});
+        console.error(error);
 
-if(error){
+        interventionRequests = [];
 
-console.error('DI LOAD ERROR:',error);
+        showToast(
+            'Erreur chargement DI : '+error.message,
+            'error'
+        );
 
-tbody.innerHTML=`
-<tr>
-<td colspan="11"
-style="text-align:center;color:#f87171">
-Erreur chargement DI : ${esc(error.message)}
-</td>
-</tr>`;
+        renderDI();
 
-return;
+        return;
+    }
 
-}
+    interventionRequests = data || [];
 
-interventionRequests=data || [];
+    renderDI();
+    updateDIKPI();
+    fillOTDISelect();
 
-renderDI(interventionRequests);
-
+    updateDashboard();
 }
 
 
-function renderDI(list){
+function updateDIKPI(){
 
-const tbody=
-document.getElementById('diTable');
+    const total =
+        interventionRequests.length;
 
-if(!tbody)return;
+    const nouveau =
+        interventionRequests.filter(
+            d=>d.status==='new'
+        ).length;
 
-tbody.innerHTML='';
+    const progress =
+        interventionRequests.filter(
+            d=>d.status==='in_progress'
+        ).length;
 
-document.getElementById('diCount').textContent=
-interventionRequests.length;
+    const closed =
+        interventionRequests.filter(
+            d=>d.status==='closed'
+        ).length;
 
-document.getElementById('diNewCount').textContent=
-interventionRequests.filter(x=>x.status==='new').length;
+    document.getElementById('diTotal')
+        .textContent = total;
 
-document.getElementById('diProgressCount').textContent=
-interventionRequests.filter(x=>x.status==='in_progress').length;
+    document.getElementById('diNew')
+        .textContent = nouveau;
 
-document.getElementById('diClosedCount').textContent=
-interventionRequests.filter(x=>x.status==='closed').length;
+    document.getElementById('diProgress')
+        .textContent = progress;
 
-if(!list.length){
-
-tbody.innerHTML=`
-<tr>
-<td colspan="11"
-style="text-align:center;color:#7187a0;padding:30px">
-Aucune demande d'intervention.
-</td>
-</tr>`;
-
-return;
-
-}
-
-list.forEach(di=>{
-
-const priorityClass=
-di.priority==='high'
-?'priority-high'
-:di.priority==='medium'
-?'priority-medium'
-:'priority-low';
-
-const priorityText=
-di.priority==='high'
-?'Haute'
-:di.priority==='medium'
-?'Moyenne'
-:'Basse';
-
-const statusClass=
-di.status==='new'
-?'status-new'
-:di.status==='in_progress'
-?'status-progress'
-:'status-closed';
-
-const statusText=
-di.status==='new'
-?'Nouveau'
-:di.status==='in_progress'
-?'En cours'
-:di.status==='closed'
-?'Clôturé'
-:di.status;
-
-const typeText=
-di.type==='curative'
-?'Curative'
-:di.type==='preventive'
-?'Préventive'
-:di.type==='improvement'
-?'Amélioration'
-:di.type==='inspection'
-?'Inspection'
-:di.type || '-';
-
-let actions='';
-
-if(di.status!=='closed' && canManage()){
-
-actions+=`
-<button class="btn btn-info"
-onclick="createOTFromDI('${di.id}')">
-🔧 OT
-</button>`;
-
-}
-
-if(di.status!=='closed' &&
-(di.created_by===currentUser?.id || canManage())){
-
-actions+=`
-<button class="btn btn-warning"
-onclick="closeDI('${di.id}')">
-${di.status==='new'?'▶':'✓'}
-</button>`;
-
-}
-
-if(isAdmin()){
-
-actions+=`
-<button class="btn btn-danger"
-onclick="deleteDI('${di.id}')">
-🗑️
-</button>`;
-
-}
-
-const tr=document.createElement('tr');
-
-tr.innerHTML=`
-
-<td><strong>${esc(di.code || '-')}</strong></td>
-
-<td>${esc(di.date || formatDate(di.created_at))}</td>
-
-<td>${esc(di.requester || '-')}</td>
-
-<td>
-${di.zones
-?esc((di.zones.code||'')+' — '+(di.zones.name||''))
-:'-'}
-</td>
-
-<td>
-${di.equipment
-?esc((di.equipment.code||'')+' — '+(di.equipment.designation||''))
-:'-'}
-</td>
-
-<td>
-${di.sub_equipment
-?esc((di.sub_equipment.code||'')+' — '+(di.sub_equipment.designation||''))
-:'-'}
-</td>
-
-<td>
-<span class="badge ${priorityClass}">
-${priorityText}
-</span>
-</td>
-
-<td>${typeText}</td>
-
-<td>
-<span class="badge ${statusClass}">
-${statusText}
-</span>
-</td>
-
-<td class="di-description">
-${esc(di.description || '-')}
-</td>
-
-<td>
-<div class="actions">${actions}</div>
-</td>
-
-`;
-
-tbody.appendChild(tr);
-
-});
-
+    document.getElementById('diClosed')
+        .textContent = closed;
 }
 
 
-function openDIModal(){
+function priorityBadge(priority){
 
-if(!currentUser){
+    const labels = {
+        high:'Haute',
+        medium:'Moyenne',
+        low:'Basse'
+    };
 
-alert('Session utilisateur introuvable.');
-return;
-
-}
-
-const modal=
-document.getElementById('diModal');
-
-document.getElementById('diModalMessage').innerHTML='';
-
-const zoneSelect=
-document.getElementById('diZone');
-
-zoneSelect.innerHTML=
-'<option value="">Sélectionner une zone</option>';
-
-zones
-.filter(z=>z.status!=='inactive')
-.forEach(z=>{
-
-zoneSelect.innerHTML+=`
-<option value="${z.id}">
-${esc(z.code)} — ${esc(z.name)}
-</option>`;
-
-});
-
-document.getElementById('diEquipment').innerHTML=
-'<option value="">Sélectionner un équipement</option>';
-
-document.getElementById('diSubEquipment').innerHTML=
-'<option value="">Aucun</option>';
-
-document.getElementById('diRequester').value=
-currentProfile?.full_name ||
-currentUser.email ||
-'';
-
-document.getElementById('diPriority').value='medium';
-document.getElementById('diType').value='curative';
-document.getElementById('diDescription').value='';
-
-modal.classList.remove('hidden');
-
+    return `
+        <span class="badge badge-${priority || 'medium'}">
+            ${labels[priority] || priority || 'Moyenne'}
+        </span>
+    `;
 }
 
 
-function closeDIModal(){
+function statusBadge(status){
 
-document.getElementById('diModal')
-.classList.add('hidden');
+    const labels = {
+        new:'Nouvelle',
+        open:'Ouvert',
+        in_progress:'En cours',
+        validated:'Validé',
+        closed:'Clôturé'
+    };
 
+    let cls = 'new';
+
+    if(status === 'in_progress'){
+        cls='progress';
+    }
+
+    if(status === 'validated'){
+        cls='validated';
+    }
+
+    if(status === 'closed'){
+        cls='closed';
+    }
+
+    return `
+        <span class="badge badge-${cls}">
+            ${labels[status] || status || '—'}
+        </span>
+    `;
 }
 
 
-function populateDIEquipment(){
+function renderDI(){
 
-const zoneId=
-document.getElementById('diZone').value;
+    const tbody =
+        document.getElementById('diTable');
 
-const select=
-document.getElementById('diEquipment');
+    if(!tbody){
+        return;
+    }
 
-select.innerHTML=
-'<option value="">Sélectionner un équipement</option>';
+    const search =
+        (
+            document.getElementById('diSearch')?.value ||
+            ''
+        ).toLowerCase();
 
-document.getElementById('diSubEquipment').innerHTML=
-'<option value="">Aucun</option>';
+    const status =
+        document.getElementById('diStatusFilter')?.value ||
+        '';
 
-if(!zoneId)return;
+    const priority =
+        document.getElementById('diPriorityFilter')?.value ||
+        '';
 
-equipment
-.filter(eq=>
-eq.zone_id===zoneId &&
-eq.status!=='inactive'
-)
-.forEach(eq=>{
+    const type =
+        document.getElementById('diTypeFilter')?.value ||
+        '';
 
-select.innerHTML+=`
-<option value="${eq.id}">
-${esc(eq.code)} — ${esc(eq.designation)}
-</option>`;
+    const list =
+        interventionRequests.filter(d=>{
 
-});
+            const eq =
+                equipment.find(
+                    e=>e.id===d.equipment_id
+                );
 
+            const zone =
+                zones.find(
+                    z=>z.id===d.zone_id
+                );
+
+            const text =
+                `${d.code || ''}
+                 ${d.requester || ''}
+                 ${d.description || ''}
+                 ${eq?.designation || ''}
+                 ${zone?.name || ''}`
+                .toLowerCase();
+
+            return (
+                (!search || text.includes(search)) &&
+                (!status || d.status===status) &&
+                (!priority || d.priority===priority) &&
+                (!type || d.type===type)
+            );
+
+        });
+
+    if(!list.length){
+
+        tbody.innerHTML =
+            `<tr>
+                <td colspan="9"
+                    class="empty">
+                    Aucune demande d’intervention.
+                </td>
+            </tr>`;
+
+        return;
+    }
+
+    tbody.innerHTML =
+        list.map(d=>{
+
+            const eq =
+                equipment.find(
+                    e=>e.id===d.equipment_id
+                );
+
+            const zone =
+                zones.find(
+                    z=>z.id===d.zone_id
+                );
+
+            let actions = `
+                <button class="action-btn"
+                    onclick="editDI('${d.id}')">
+                    Modifier
+                </button>
+            `;
+
+            if(
+                canManage() &&
+                d.status !== 'closed'
+            ){
+
+                actions += `
+                    <button class="action-btn"
+                        onclick="createOTFromDI('${d.id}')">
+                        Créer OT
+                    </button>
+                `;
+
+            }
+
+            if(
+                canManage() &&
+                d.status !== 'closed'
+            ){
+
+                actions += `
+                    <button class="action-btn"
+                        onclick="closeDI('${d.id}')">
+                        Clôturer
+                    </button>
+                `;
+
+            }
+
+            return `
+
+            <tr>
+
+                <td>
+                    <strong>
+                        ${escapeHTML(d.code || '—')}
+                    </strong>
+                </td>
+
+                <td>
+                    ${formatDate(d.date || d.created_at)}
+                </td>
+
+                <td>
+                    ${escapeHTML(d.requester || '—')}
+                </td>
+
+                <td>
+                    ${escapeHTML(zone?.name || '—')}
+                </td>
+
+                <td>
+                    ${escapeHTML(eq?.designation || '—')}
+                </td>
+
+                <td>
+                    ${priorityBadge(d.priority)}
+                </td>
+
+                <td>
+                    ${escapeHTML(d.type || '—')}
+                </td>
+
+                <td>
+                    ${statusBadge(d.status)}
+                </td>
+
+                <td>
+                    <div class="action-group">
+                        ${actions}
+                    </div>
+                </td>
+
+            </tr>
+
+            `;
+
+        }).join('');
 }
 
 
-function populateDISubEquipment(){
+function openDIModal(id=null){
 
-const equipmentId=
-document.getElementById('diEquipment').value;
+    document.getElementById('diId').value = '';
+    document.getElementById('diRequester').value =
+        currentProfile?.full_name || '';
 
-const select=
-document.getElementById('diSubEquipment');
+    document.getElementById('diPriority').value =
+        'medium';
 
-select.innerHTML='<option value="">Aucun</option>';
+    document.getElementById('diType').value =
+        'curative';
 
-if(!equipmentId)return;
+    document.getElementById('diDescription').value =
+        '';
 
-subEquipment
-.filter(se=>
-se.equipment_id===equipmentId &&
-se.status!=='inactive'
-)
-.forEach(se=>{
+    document.getElementById('diZone').value =
+        '';
 
-select.innerHTML+=`
-<option value="${se.id}">
-${esc(se.code)} — ${esc(se.designation)}
-</option>`;
+    updateDIEquipmentSelect();
 
-});
+    document.getElementById('diModalTitle')
+        .textContent =
+        'Nouvelle Demande d’Intervention';
 
+    if(id){
+        editDI(id);
+        return;
+    }
+
+    document.getElementById('diModal')
+        .classList.add('show');
 }
 
 
-async function saveDI(e){
+function editDI(id){
 
-e.preventDefault();
+    const d =
+        interventionRequests.find(
+            x=>x.id===id
+        );
 
-const message=
-document.getElementById('diModalMessage');
+    if(!d){
+        return;
+    }
 
-const zoneId=
-document.getElementById('diZone').value;
+    document.getElementById('diId').value =
+        d.id;
 
-const equipmentId=
-document.getElementById('diEquipment').value;
+    document.getElementById('diRequester').value =
+        d.requester || '';
 
-const subEquipmentId=
-document.getElementById('diSubEquipment').value;
+    document.getElementById('diPriority').value =
+        d.priority || 'medium';
 
-const requester=
-document.getElementById('diRequester').value.trim();
+    document.getElementById('diType').value =
+        d.type || 'curative';
 
-const priority=
-document.getElementById('diPriority').value;
+    document.getElementById('diDescription').value =
+        d.description || '';
 
-const type=
-document.getElementById('diType').value;
+    document.getElementById('diZone').value =
+        d.zone_id || '';
 
-const description=
-document.getElementById('diDescription').value.trim();
+    updateDIEquipmentSelect();
 
-if(!zoneId ||
-!equipmentId ||
-!requester ||
-!description){
+    document.getElementById('diEquipment').value =
+        d.equipment_id || '';
 
-message.innerHTML=
-`<div class="message error">
-Veuillez remplir les champs obligatoires.
-</div>`;
+    updateDISubEquipmentSelect();
 
-return;
+    document.getElementById('diSubEquipment').value =
+        d.sub_equipment_id || '';
 
-}
+    document.getElementById('diModalTitle')
+        .textContent =
+        'Modifier la Demande '+(d.code || '');
 
-const payload={
-
-requester,
-zone_id:zoneId,
-equipment_id:equipmentId,
-sub_equipment_id:subEquipmentId || null,
-priority,
-type,
-status:'new',
-description,
-created_by:currentUser.id
-
-};
-
-const {data,error}=
-await sb
-.from('intervention_requests')
-.insert(payload)
-.select()
-.single();
-
-if(error){
-
-message.innerHTML=
-`<div class="message error">
-<strong>Erreur création DI</strong><br>
-${esc(error.message)}
-</div>`;
-
-return;
-
-}
-
-message.innerHTML=
-`<div class="message success">
-<strong>DI créée avec succès.</strong><br>
-Code : <strong>${esc(data.code || '-')}</strong>
-</div>`;
-
-await loadDI();
-
-setTimeout(closeDIModal,700);
-
+    document.getElementById('diModal')
+        .classList.add('show');
 }
 
 
-function filterDI(){
+async function saveDI(){
 
-const search=
-(document.getElementById('diSearch').value||'')
-.toLowerCase()
-.trim();
+    const id =
+        document.getElementById('diId').value;
 
-const status=
-document.getElementById('diStatusFilter').value;
+    const payload = {
 
-const priority=
-document.getElementById('diPriorityFilter').value;
+        requester:
+            document.getElementById('diRequester').value.trim(),
 
-const result=
-interventionRequests.filter(di=>{
+        zone_id:
+            document.getElementById('diZone').value || null,
 
-const text=`
+        equipment_id:
+            document.getElementById('diEquipment').value || null,
 
-${di.code||''}
-${di.requester||''}
-${di.description||''}
-${di.zones?.code||''}
-${di.zones?.name||''}
-${di.equipment?.code||''}
-${di.equipment?.designation||''}
-${di.sub_equipment?.code||''}
-${di.sub_equipment?.designation||''}
+        sub_equipment_id:
+            document.getElementById('diSubEquipment').value || null,
 
-`.toLowerCase();
+        priority:
+            document.getElementById('diPriority').value,
 
-return
-(!search || text.includes(search)) &&
-(!status || di.status===status) &&
-(!priority || di.priority===priority);
+        type:
+            document.getElementById('diType').value,
 
-});
+        description:
+            document.getElementById('diDescription').value.trim(),
 
-renderDI(result);
+        updated_at:
+            new Date().toISOString()
 
+    };
+
+
+    if(!payload.description){
+
+        showToast(
+            'La description est obligatoire.',
+            'error'
+        );
+
+        return;
+    }
+
+
+    let result;
+
+    if(id){
+
+        result =
+            await sb
+                .from('intervention_requests')
+                .update(payload)
+                .eq('id',id);
+
+    }else{
+
+        payload.created_by =
+            currentUser.id;
+
+        result =
+            await sb
+                .from('intervention_requests')
+                .insert(payload);
+
+    }
+
+
+    if(result.error){
+
+        console.error(result.error);
+
+        showToast(
+            'Erreur DI : '+result.error.message,
+            'error'
+        );
+
+        return;
+    }
+
+
+    closeModal('diModal');
+
+    showToast(
+        id
+        ? 'DI modifiée.'
+        : 'DI créée avec succès.',
+        'success'
+    );
+
+    await loadDI();
 }
 
 
 async function closeDI(id){
 
-const di=
-interventionRequests.find(x=>x.id===id);
+    if(!canManage()){
+        showToast(
+            'Droit insuffisant.',
+            'error'
+        );
+        return;
+    }
 
-if(!di)return;
+    const {error} =
+        await sb
+            .from('intervention_requests')
+            .update({
+                status:'closed',
+                updated_at:
+                    new Date().toISOString()
+            })
+            .eq('id',id);
 
-if(di.status==='new'){
+    if(error){
 
-const {error}=
-await sb
-.from('intervention_requests')
-.update({status:'in_progress'})
-.eq('id',id);
+        showToast(
+            error.message,
+            'error'
+        );
 
-if(error){
-alert(error.message);
-return;
-}
+        return;
+    }
 
-}else{
+    showToast(
+        'DI clôturée.',
+        'success'
+    );
 
-const {error}=
-await sb
-.from('intervention_requests')
-.update({status:'closed'})
-.eq('id',id);
-
-if(error){
-alert(error.message);
-return;
-}
-
-}
-
-await loadDI();
-
-}
-
-
-async function deleteDI(id){
-
-if(!isAdmin())return;
-
-if(!confirm('Supprimer cette DI ?'))return;
-
-const {error}=
-await sb
-.from('intervention_requests')
-.delete()
-.eq('id',id);
-
-if(error){
-
-alert(error.message);
-return;
-
-}
-
-await loadDI();
-
+    await loadDI();
 }
 
 
-/* ======================================================
-OT
-====================================================== */
+/* ============================================================
+   OT
+============================================================ */
 
 async function loadOT(){
 
-const tbody=
-document.getElementById('otTable');
+    const {data,error} =
+        await sb
+            .from('work_orders')
+            .select('*')
+            .order('created_at',{
+                ascending:false
+            });
 
-if(!tbody)return;
+    if(error){
 
-const {data,error}=
-await sb
-.from('work_orders')
-.select('*')
-.order('created_at',{ascending:false});
+        console.error(error);
 
-if(error){
+        workOrders = [];
 
-console.error('OT LOAD ERROR:',error);
+        renderOT();
+        updateOTKPI();
 
-tbody.innerHTML=
-`<tr>
-<td colspan="9"
-style="text-align:center;color:#f87171">
-Erreur chargement OT : ${esc(error.message)}
-</td>
-</tr>`;
+        showToast(
+            'Erreur chargement OT : '+error.message,
+            'error'
+        );
 
-return;
+        return;
+    }
 
-}
+    workOrders = data || [];
 
-workOrders=data || [];
+    renderOT();
+    updateOTKPI();
+    fillOTTechnicianSelect();
+    fillOTDISelect();
 
-populateOTTechnicians();
-populateOTDI();
-renderOT(workOrders);
-
+    updateDashboard();
 }
 
 
 function visibleWorkOrders(){
 
-if(currentProfile?.role==='technician'){
+    if(currentProfile?.role === 'technician'){
 
-return workOrders.filter(
-ot=>ot.technician_id===currentUser.id
-);
+        return workOrders.filter(
+            o =>
+                o.technician_id === currentUser?.id
+                ||
+                (
+                    o.technician &&
+                    o.technician ===
+                    currentProfile?.full_name
+                )
+        );
 
-}
+    }
 
-return workOrders;
-
-}
-
-
-function renderOT(list){
-
-const tbody=
-document.getElementById('otTable');
-
-if(!tbody)return;
-
-tbody.innerHTML='';
-
-const visible=
-currentProfile?.role==='technician'
-?list.filter(ot=>ot.technician_id===currentUser.id)
-:list;
-
-document.getElementById('otCount').textContent=
-workOrders.length;
-
-document.getElementById('otOpenCount').textContent=
-workOrders.filter(x=>
-x.status==='open' || x.status==='planned' || x.status==='new'
-).length;
-
-document.getElementById('otProgressCount').textContent=
-workOrders.filter(x=>x.status==='in_progress').length;
-
-document.getElementById('otClosedCount').textContent=
-workOrders.filter(x=>x.status==='closed').length;
-
-if(!visible.length){
-
-tbody.innerHTML=
-`<tr>
-<td colspan="9"
-style="text-align:center;color:#7187a0;padding:30px">
-Aucun ordre de travail.
-</td>
-</tr>`;
-
-return;
-
-}
-
-visible.forEach(ot=>{
-
-const eq=
-equipment.find(x=>x.id===ot.equipment_id);
-
-const tech=
-personnel.find(x=>x.id===ot.technician_id);
-
-const di=
-interventionRequests.find(x=>x.id===ot.di_id);
-
-const statusClass=
-ot.status==='closed'
-?'status-closed'
-:ot.status==='in_progress'
-?'status-progress'
-:ot.status==='validated'
-?'status-validated'
-:'status-new';
-
-const statusText=
-ot.status==='in_progress'
-?'En cours'
-:ot.status==='closed'
-?'Clôturé'
-:ot.status==='validated'
-?'Validé'
-:ot.status==='planned'
-?'Planifié'
-:ot.status==='new'
-?'Nouveau'
-:'Ouvert';
-
-const priorityClass=
-ot.priority==='high'
-?'priority-high'
-:ot.priority==='medium'
-?'priority-medium'
-:'priority-low';
-
-const actions=[];
-
-if(canExecuteOT()){
-
-actions.push(`
-<button class="btn btn-info"
-onclick="openOTExecutionModal('${ot.id}')">
-🛠️
-</button>`);
-
-}
-
-if(canCloseOT() &&
-ot.status!=='closed'){
-
-actions.push(`
-<button class="btn btn-success"
-onclick="validateOT('${ot.id}')">
-✓
-</button>`);
-
-}
-
-if(canManage()){
-
-actions.push(`
-<button class="btn btn-warning"
-onclick="editOT('${ot.id}')">
-✏️
-</button>`);
-
-}
-
-if(isAdmin()){
-
-actions.push(`
-<button class="btn btn-danger"
-onclick="deleteOT('${ot.id}')">
-🗑️
-</button>`);
-
-}
-
-const tr=document.createElement('tr');
-
-tr.innerHTML=`
-
-<td><strong>${esc(ot.code||'-')}</strong></td>
-
-<td>${esc(ot.date || formatDate(ot.created_at))}</td>
-
-<td>${esc(di?.code || ot.di_id || '-')}</td>
-
-<td>${esc(eq?.designation || ot.equipment_id || '-')}</td>
-
-<td>${esc(tech?.full_name || ot.technician || 'Non affecté')}</td>
-
-<td>
-<span class="badge ${priorityClass}">
-${ot.priority==='high'
-?'Haute'
-:ot.priority==='medium'
-?'Moyenne'
-:'Basse'}
-</span>
-</td>
-
-<td>
-<span class="badge ${statusClass}">
-${statusText}
-</span>
-</td>
-
-<td class="di-description">
-${esc(ot.description || '-')}
-</td>
-
-<td>
-<div class="actions">
-${actions.join('')}
-</div>
-</td>
-
-`;
-
-tbody.appendChild(tr);
-
-});
-
+    return workOrders;
 }
 
 
-function populateOTTechnicians(){
+function updateOTKPI(){
 
-const select=
-document.getElementById('otTechnician');
+    const list =
+        visibleWorkOrders();
 
-const filter=
-document.getElementById('otTechnicianFilter');
+    document.getElementById('otTotal')
+        .textContent =
+        list.length;
 
-if(select){
+    document.getElementById('otOpen')
+        .textContent =
+        list.filter(
+            o=>['open','new','planned']
+                .includes(o.status)
+        ).length;
 
-select.innerHTML=
-'<option value="">Non affecté</option>';
+    document.getElementById('otProgress')
+        .textContent =
+        list.filter(
+            o=>o.status==='in_progress'
+        ).length;
 
-personnel
-.filter(p=>p.active &&
-(p.role==='technician' ||
-p.role==='manager' ||
-p.role==='admin'))
-.forEach(p=>{
-
-select.innerHTML+=`
-<option value="${p.id}">
-${esc(p.employee_code||'')} — ${esc(p.full_name||'')}
-</option>`;
-
-});
-
-}
-
-if(filter){
-
-filter.innerHTML=
-'<option value="">Tous les techniciens</option>';
-
-personnel
-.filter(p=>p.active)
-.forEach(p=>{
-
-filter.innerHTML+=`
-<option value="${p.id}">
-${esc(p.full_name||'-')}
-</option>`;
-
-});
-
-}
-
+    document.getElementById('otClosed')
+        .textContent =
+        list.filter(
+            o=>o.status==='closed'
+        ).length;
 }
 
 
-function populateOTDI(){
+function renderOT(){
 
-const select=
-document.getElementById('otDI');
+    const tbody =
+        document.getElementById('otTable');
 
-if(!select)return;
+    if(!tbody){
+        return;
+    }
 
-select.innerHTML=
-'<option value="">Aucune DI</option>';
+    const search =
+        (
+            document.getElementById('otSearch')?.value ||
+            ''
+        ).toLowerCase();
 
-interventionRequests
-.filter(di=>di.status!=='closed')
-.forEach(di=>{
+    const status =
+        document.getElementById('otStatusFilter')?.value ||
+        '';
 
-select.innerHTML+=`
-<option value="${di.id}">
-${esc(di.code||'-')} — ${esc(di.description||'').substring(0,60)}
-</option>`;
+    const technician =
+        document.getElementById('otTechnicianFilter')?.value ||
+        '';
 
-});
+    const priority =
+        document.getElementById('otPriorityFilter')?.value ||
+        '';
 
+
+    let list =
+        visibleWorkOrders();
+
+
+    list =
+        list.filter(o=>{
+
+            const di =
+                interventionRequests.find(
+                    d=>d.id===o.di_id
+                );
+
+            const eq =
+                equipment.find(
+                    e=>e.id===o.equipment_id
+                );
+
+            const text =
+                `${o.code || ''}
+                 ${di?.code || ''}
+                 ${o.description || ''}
+                 ${o.work_performed || ''}
+                 ${eq?.designation || ''}
+                 ${o.technician || ''}`
+                .toLowerCase();
+
+            return (
+                (!search || text.includes(search)) &&
+                (!status || o.status===status) &&
+                (!technician ||
+                    o.technician_id===technician) &&
+                (!priority ||
+                    o.priority===priority)
+            );
+
+        });
+
+
+    if(!list.length){
+
+        tbody.innerHTML =
+            `<tr>
+                <td colspan="9"
+                    class="empty">
+                    Aucun ordre de travail.
+                </td>
+            </tr>`;
+
+        return;
+    }
+
+
+    tbody.innerHTML =
+        list.map(o=>{
+
+            const di =
+                interventionRequests.find(
+                    d=>d.id===o.di_id
+                );
+
+            const eq =
+                equipment.find(
+                    e=>e.id===o.equipment_id
+                );
+
+
+            let actions = `
+                <button class="action-btn"
+                    onclick="editOT('${o.id}')">
+                    Modifier
+                </button>
+            `;
+
+
+            if(
+                canExecuteOT() &&
+                o.status !== 'closed'
+            ){
+
+                actions += `
+                    <button class="action-btn"
+                        onclick="startOT('${o.id}')">
+                        En cours
+                    </button>
+                `;
+
+            }
+
+
+            if(
+                canCloseOT() &&
+                o.status === 'in_progress'
+            ){
+
+                actions += `
+                    <button class="action-btn"
+                        onclick="validateOT('${o.id}')">
+                        Valider
+                    </button>
+                `;
+
+            }
+
+
+            if(
+                canCloseOT() &&
+                o.status === 'validated'
+            ){
+
+                actions += `
+                    <button class="action-btn"
+                        onclick="closeOT('${o.id}')">
+                        Clôturer
+                    </button>
+                `;
+
+            }
+
+
+            return `
+
+            <tr>
+
+                <td>
+                    <strong>
+                        ${escapeHTML(o.code || '—')}
+                    </strong>
+                </td>
+
+                <td>
+                    ${formatDate(
+                        o.date || o.created_at
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHTML(
+                        di?.code || '—'
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHTML(
+                        eq?.designation || '—'
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHTML(
+                        o.technician || 'Non affecté'
+                    )}
+                </td>
+
+                <td>
+                    ${priorityBadge(o.priority)}
+                </td>
+
+                <td>
+                    ${statusBadge(o.status)}
+                </td>
+
+                <td>
+                    ${escapeHTML(
+                        o.description || '—'
+                    )}
+                </td>
+
+                <td>
+                    <div class="action-group">
+                        ${actions}
+                    </div>
+                </td>
+
+            </tr>
+
+            `;
+
+        }).join('');
 }
 
 
-function openOTModal(prefill={}){
+/* ============================================================
+   OT SELECTS
+============================================================ */
 
-if(!canManage()){
+function fillOTTechnicianSelect(){
 
-alert('Création OT réservée à Admin / Responsable.');
-return;
+    const select =
+        document.getElementById('otTechnician');
 
-}
+    const filter =
+        document.getElementById('otTechnicianFilter');
 
-document.getElementById('otId').value=prefill.id||'';
+    if(!select || !filter){
+        return;
+    }
 
-document.getElementById('otDI').value=prefill.di_id||'';
 
-populateOTTechnicians();
+    const techs =
+        personnel.filter(
+            p =>
+                p.active !== false &&
+                ['technician','manager','admin']
+                    .includes(p.role)
+        );
 
-document.getElementById('otTechnician').value=
-prefill.technician_id||'';
 
-document.getElementById('otZone').innerHTML=
-'<option value="">Choisir zone</option>';
+    select.innerHTML =
+        `<option value="">
+            — Non affecté —
+         </option>`+
+        techs.map(p=>`
 
-zones.forEach(z=>{
+            <option value="${p.id}">
+                ${escapeHTML(
+                    p.employee_code || ''
+                )}
+                —
+                ${escapeHTML(
+                    p.full_name || ''
+                )}
+            </option>
 
-document.getElementById('otZone').innerHTML+=`
-<option value="${z.id}">
-${esc(z.code)} — ${esc(z.name)}
-</option>`;
+        `).join('');
 
-});
 
-document.getElementById('otZone').value=
-prefill.zone_id||'';
+    filter.innerHTML =
+        `<option value="">
+            Tous techniciens
+         </option>`+
+        techs.map(p=>`
 
-populateOTEquipment();
+            <option value="${p.id}">
+                ${escapeHTML(
+                    p.full_name || ''
+                )}
+            </option>
 
-document.getElementById('otEquipment').value=
-prefill.equipment_id||'';
-
-populateOTSubEquipment();
-
-document.getElementById('otSubEquipment').value=
-prefill.sub_equipment_id||'';
-
-document.getElementById('otPriority').value=
-prefill.priority||'medium';
-
-document.getElementById('otPlannedDate').value=
-prefill.planned_date||today();
-
-document.getElementById('otDuration').value=
-prefill.duration||'';
-
-document.getElementById('otDescription').value=
-prefill.description||'';
-
-document.getElementById('otModalTitle').textContent=
-prefill.id
-?'Modifier OT'
-:'Nouvel Ordre de Travail';
-
-document.getElementById('otModalMessage').innerHTML='';
-
-document.getElementById('otModal')
-.classList.remove('hidden');
-
+        `).join('');
 }
 
 
-function closeOTModal(){
+function fillOTDISelect(){
 
-document.getElementById('otModal')
-.classList.add('hidden');
+    const select =
+        document.getElementById('otDI');
 
+    if(!select){
+        return;
+    }
+
+
+    const available =
+        interventionRequests.filter(
+            d =>
+                d.status !== 'closed'
+        );
+
+
+    select.innerHTML =
+        `<option value="">
+            — Sans DI —
+         </option>`+
+        available.map(d=>`
+
+            <option value="${d.id}">
+                ${escapeHTML(d.code || '')}
+                —
+                ${escapeHTML(
+                    d.description || ''
+                ).substring(0,80)}
+            </option>
+
+        `).join('');
 }
 
 
-function populateOTEquipment(){
+/* ============================================================
+   OPEN OT
+============================================================ */
 
-const zoneId=
-document.getElementById('otZone').value;
+function openOTModal(diId=null){
 
-const select=
-document.getElementById('otEquipment');
+    document.getElementById('otId').value = '';
 
-select.innerHTML=
-'<option value="">Choisir équipement</option>';
+    document.getElementById('otDI').value =
+        diId || '';
 
-document.getElementById('otSubEquipment').innerHTML=
-'<option value="">Aucun</option>';
+    document.getElementById('otTechnician').value =
+        '';
 
-if(!zoneId)return;
+    document.getElementById('otEquipment').value =
+        '';
 
-equipment
-.filter(eq=>eq.zone_id===zoneId)
-.forEach(eq=>{
+    updateOTSubEquipmentSelect();
 
-select.innerHTML+=`
-<option value="${eq.id}">
-${esc(eq.code)} — ${esc(eq.designation)}
-</option>`;
+    document.getElementById('otPriority').value =
+        'medium';
 
-});
+    document.getElementById('otStatus').value =
+        'open';
 
-}
+    document.getElementById('otDescription').value =
+        '';
 
+    document.getElementById('otWorkPerformed').value =
+        '';
 
-function populateOTSubEquipment(){
+    document.getElementById('otInterventionReport').value =
+        '';
 
-const equipmentId=
-document.getElementById('otEquipment').value;
+    document.getElementById('otModalTitle')
+        .textContent =
+        'Nouvel Ordre de Travail';
 
-const select=
-document.getElementById('otSubEquipment');
-
-select.innerHTML=
-'<option value="">Aucun</option>';
-
-if(!equipmentId)return;
-
-subEquipment
-.filter(se=>se.equipment_id===equipmentId)
-.forEach(se=>{
-
-select.innerHTML+=`
-<option value="${se.id}">
-${esc(se.code)} — ${esc(se.designation)}
-</option>`;
-
-});
-
-}
+    document.getElementById('otModal')
+        .classList.add('show');
 
 
-async function saveOT(e){
+    if(diId){
 
-e.preventDefault();
+        const di =
+            interventionRequests.find(
+                d=>d.id===diId
+            );
 
-if(!canManage())return;
+        if(di){
 
-const id=
-document.getElementById('otId').value;
+            document.getElementById('otEquipment')
+                .value =
+                di.equipment_id || '';
 
-const diId=
-document.getElementById('otDI').value||null;
+            updateOTSubEquipmentSelect();
 
-const technicianId=
-document.getElementById('otTechnician').value||null;
+            document.getElementById('otSubEquipment')
+                .value =
+                di.sub_equipment_id || '';
 
-const equipmentId=
-document.getElementById('otEquipment').value||null;
+            document.getElementById('otPriority')
+                .value =
+                di.priority || 'medium';
 
-const subEquipmentId=
-document.getElementById('otSubEquipment').value||null;
+            document.getElementById('otDescription')
+                .value =
+                di.description || '';
 
-const priority=
-document.getElementById('otPriority').value;
+        }
 
-const description=
-document.getElementById('otDescription').value.trim();
-
-const plannedDate=
-document.getElementById('otPlannedDate').value||null;
-
-const duration=
-document.getElementById('otDuration').value;
-
-const tech=
-personnel.find(p=>p.id===technicianId);
-
-const payload={
-
-di_id:diId,
-
-technician_id:technicianId,
-
-technician:tech?.full_name||null,
-
-equipment_id:equipmentId,
-
-sub_equipment_id:subEquipmentId,
-
-priority,
-
-description,
-
-created_by:currentUser.id,
-
-status:id
-?(workOrders.find(x=>x.id===id)?.status||'open')
-:'open',
-
-date:plannedDate||today()
-
-};
-
-/*
-Le champ planned_date et duration_minutes peuvent
-ne pas encore exister dans work_orders.
-On tente d'abord le payload principal.
-*/
-
-let result;
-
-if(id){
-
-result=
-await sb
-.from('work_orders')
-.update(payload)
-.eq('id',id);
-
-}else{
-
-result=
-await sb
-.from('work_orders')
-.insert(payload);
-
-}
-
-if(result.error){
-
-document.getElementById('otModalMessage').innerHTML=
-`<div class="message error">
-<strong>Erreur OT</strong><br>
-${esc(result.error.message)}
-<br><br>
-Si l'erreur concerne une colonne absente, vérifiez la structure
-de <strong>work_orders</strong>.
-</div>`;
-
-return;
-
-}
-
-/* Mise à jour DI */
-
-if(diId){
-
-await sb
-.from('intervention_requests')
-.update({status:'in_progress'})
-.eq('id',diId);
-
-}
-
-closeOTModal();
-
-await loadDI();
-await loadOT();
-updateDashboard();
+    }
 
 }
 
 
 function createOTFromDI(diId){
 
-if(!canManage()){
+    if(!canManage()){
 
-alert('Création OT réservée à Admin / Responsable.');
-return;
+        showToast(
+            'Seul Admin ou Responsable peut créer un OT depuis une DI.',
+            'error'
+        );
 
+        return;
+    }
+
+    openOTModal(diId);
 }
 
-const di=
-interventionRequests.find(x=>x.id===diId);
 
-if(!di)return;
+/* ============================================================
+   SAVE OT
+============================================================ */
 
-openOTModal({
+async function saveOT(){
 
-di_id:di.id,
+    if(!canExecuteOT()){
 
-zone_id:di.zone_id,
+        showToast(
+            'Vous n’avez pas les droits nécessaires.',
+            'error'
+        );
 
-equipment_id:di.equipment_id,
+        return;
+    }
 
-sub_equipment_id:di.sub_equipment_id,
 
-priority:di.priority,
+    const id =
+        document.getElementById('otId').value;
 
-description:di.description
 
-});
+    const technicianId =
+        document.getElementById('otTechnician').value ||
+        null;
 
+
+    const technicianProfile =
+        personnel.find(
+            p=>p.id===technicianId
+        );
+
+
+    const payload = {
+
+        di_id:
+            document.getElementById('otDI').value ||
+            null,
+
+        technician_id:
+            technicianId,
+
+        technician:
+            technicianProfile?.full_name ||
+            null,
+
+        equipment_id:
+            document.getElementById('otEquipment').value ||
+            null,
+
+        sub_equipment_id:
+            document.getElementById('otSubEquipment').value ||
+            null,
+
+        priority:
+            document.getElementById('otPriority').value,
+
+        status:
+            document.getElementById('otStatus').value,
+
+        description:
+            document.getElementById('otDescription').value.trim(),
+
+        work_performed:
+            document.getElementById('otWorkPerformed').value.trim(),
+
+        intervention_report:
+            document.getElementById('otInterventionReport').value.trim(),
+
+        updated_at:
+            new Date().toISOString()
+
+    };
+
+
+    if(!payload.description){
+
+        showToast(
+            'La description du travail est obligatoire.',
+            'error'
+        );
+
+        return;
+    }
+
+
+    let result;
+
+
+    if(id){
+
+        result =
+            await sb
+                .from('work_orders')
+                .update(payload)
+                .eq('id',id);
+
+    }else{
+
+        payload.created_by =
+            currentUser.id;
+
+        result =
+            await sb
+                .from('work_orders')
+                .insert(payload);
+
+    }
+
+
+    if(result.error){
+
+        console.error(result.error);
+
+        showToast(
+            'Erreur OT : '+result.error.message,
+            'error'
+        );
+
+        return;
+    }
+
+
+    /* DI → EN COURS */
+
+    if(payload.di_id){
+
+        await sb
+            .from('intervention_requests')
+            .update({
+                status:'in_progress',
+                updated_at:
+                    new Date().toISOString()
+            })
+            .eq('id',payload.di_id);
+
+    }
+
+
+    closeModal('otModal');
+
+    showToast(
+        id
+        ? 'OT modifié avec succès.'
+        : 'OT créé avec succès.',
+        'success'
+    );
+
+
+    await loadDI();
+    await loadOT();
 }
 
+
+/* ============================================================
+   EDIT OT
+============================================================ */
 
 function editOT(id){
 
-if(!canManage())return;
+    const o =
+        workOrders.find(
+            x=>x.id===id
+        );
 
-const ot=
-workOrders.find(x=>x.id===id);
+    if(!o){
+        return;
+    }
 
-if(!ot)return;
 
-const eq=
-equipment.find(x=>x.id===ot.equipment_id);
+    if(
+        currentProfile?.role === 'technician' &&
+        o.technician_id !== currentUser.id
+    ){
 
-openOTModal({
+        showToast(
+            'Cet OT ne vous est pas affecté.',
+            'error'
+        );
 
-id:ot.id,
+        return;
+    }
 
-di_id:ot.di_id,
 
-zone_id:eq?.zone_id||'',
+    document.getElementById('otId').value =
+        o.id;
 
-equipment_id:ot.equipment_id,
 
-sub_equipment_id:ot.sub_equipment_id,
+    document.getElementById('otDI').value =
+        o.di_id || '';
 
-technician_id:ot.technician_id,
 
-priority:ot.priority,
+    document.getElementById('otTechnician').value =
+        o.technician_id || '';
 
-description:ot.description,
 
-planned_date:ot.date
+    document.getElementById('otEquipment').value =
+        o.equipment_id || '';
 
-});
+    updateOTSubEquipmentSelect();
 
+    document.getElementById('otSubEquipment').value =
+        o.sub_equipment_id || '';
+
+
+    document.getElementById('otPriority').value =
+        o.priority || 'medium';
+
+
+    document.getElementById('otStatus').value =
+        o.status || 'open';
+
+
+    document.getElementById('otDescription').value =
+        o.description || '';
+
+
+    document.getElementById('otWorkPerformed').value =
+        o.work_performed || '';
+
+
+    document.getElementById('otInterventionReport').value =
+        o.intervention_report || '';
+
+
+    document.getElementById('otModalTitle')
+        .textContent =
+        'Modifier '+(o.code || 'OT');
+
+
+    document.getElementById('otModal')
+        .classList.add('show');
 }
 
 
-function openOTExecutionModal(id){
+/* ============================================================
+   OT WORKFLOW
+============================================================ */
 
-const ot=
-workOrders.find(x=>x.id===id);
+async function startOT(id){
 
-if(!ot)return;
+    const o =
+        workOrders.find(
+            x=>x.id===id
+        );
 
-if(currentProfile?.role==='technician' &&
-ot.technician_id!==currentUser.id){
-
-alert('Cet OT ne vous est pas affecté.');
-return;
-
-}
-
-document.getElementById('executionOTId').value=id;
-
-document.getElementById('otWorkPerformed').value=
-ot.work_performed||'';
-
-document.getElementById('otInterventionReport').value=
-ot.intervention_report||'';
-
-document.getElementById('otExecutionTitle').textContent=
-`Exécution ${ot.code||'OT'}`;
-
-document.getElementById('otExecutionMessage').innerHTML='';
-
-document.getElementById('otExecutionModal')
-.classList.remove('hidden');
-
-}
+    if(!o){
+        return;
+    }
 
 
-function closeOTExecutionModal(){
+    if(
+        currentProfile?.role === 'technician' &&
+        o.technician_id !== currentUser.id
+    ){
 
-document.getElementById('otExecutionModal')
-.classList.add('hidden');
+        showToast(
+            'Cet OT ne vous est pas affecté.',
+            'error'
+        );
 
-}
+        return;
+    }
 
 
-async function saveOTExecution(e){
+    const {error} =
+        await sb
+            .from('work_orders')
+            .update({
+                status:'in_progress',
+                updated_at:
+                    new Date().toISOString()
+            })
+            .eq('id',id);
 
-e.preventDefault();
 
-const id=
-document.getElementById('executionOTId').value;
+    if(error){
 
-const ot=
-workOrders.find(x=>x.id===id);
+        showToast(
+            error.message,
+            'error'
+        );
 
-if(!ot)return;
+        return;
+    }
 
-if(currentProfile?.role==='technician' &&
-ot.technician_id!==currentUser.id){
 
-alert('Cet OT ne vous est pas affecté.');
-return;
+    if(o.di_id){
 
-}
+        await sb
+            .from('intervention_requests')
+            .update({
+                status:'in_progress',
+                updated_at:
+                    new Date().toISOString()
+            })
+            .eq('id',o.di_id);
 
-const workPerformed=
-document.getElementById('otWorkPerformed')
-.value.trim();
+    }
 
-const report=
-document.getElementById('otInterventionReport')
-.value.trim();
 
-const {error}=
-await sb
-.from('work_orders')
-.update({
+    showToast(
+        'OT passé en cours.',
+        'success'
+    );
 
-work_performed:workPerformed,
-
-intervention_report:report,
-
-status:'in_progress'
-
-})
-.eq('id',id);
-
-if(error){
-
-document.getElementById('otExecutionMessage').innerHTML=
-`<div class="message error">
-${esc(error.message)}
-</div>`;
-
-return;
-
-}
-
-closeOTExecutionModal();
-
-await loadOT();
-
+    await loadDI();
+    await loadOT();
 }
 
 
 async function validateOT(id){
 
-if(!canCloseOT())return;
+    if(!canCloseOT()){
 
-const ot=
-workOrders.find(x=>x.id===id);
+        showToast(
+            'Seul Admin ou Responsable peut valider.',
+            'error'
+        );
 
-if(!ot)return;
-
-if(!confirm(
-`Valider et clôturer ${ot.code||'cet OT'} ?`
-))return;
-
-const {error}=
-await sb
-.from('work_orders')
-.update({
-
-status:'closed',
-
-validated_by:currentUser.id,
-
-validated_at:new Date().toISOString(),
-
-closed_by:currentUser.id,
-
-closed_at:new Date().toISOString()
-
-})
-.eq('id',id);
-
-if(error){
-
-alert(error.message);
-return;
-
-}
-
-if(ot.di_id){
-
-await sb
-.from('intervention_requests')
-.update({status:'closed'})
-.eq('id',ot.di_id);
-
-}
-
-await loadOT();
-await loadDI();
-updateDashboard();
-
-}
+        return;
+    }
 
 
-async function deleteOT(id){
+    const {error} =
+        await sb
+            .from('work_orders')
+            .update({
 
-if(!isAdmin())return;
+                status:'validated',
 
-if(!confirm('Supprimer cet OT ?'))return;
+                validated_by:
+                    currentUser.id,
 
-const {error}=
-await sb
-.from('work_orders')
-.delete()
-.eq('id',id);
+                validated_at:
+                    new Date().toISOString(),
 
-if(error){
+                updated_at:
+                    new Date().toISOString()
 
-alert(error.message);
-return;
+            })
+            .eq('id',id);
 
-}
 
-await loadOT();
+    if(error){
 
+        showToast(
+            error.message,
+            'error'
+        );
+
+        return;
+    }
+
+
+    showToast(
+        'OT validé.',
+        'success'
+    );
+
+    await loadOT();
 }
 
 
-function filterOT(){
+async function closeOT(id){
 
-const search=
-(document.getElementById('otSearch').value||'')
-.toLowerCase()
-.trim();
+    if(!canCloseOT()){
 
-const status=
-document.getElementById('otStatusFilter').value;
+        showToast(
+            'Seul Admin ou Responsable peut clôturer.',
+            'error'
+        );
 
-const technician=
-document.getElementById('otTechnicianFilter').value;
+        return;
+    }
 
-const result=
-workOrders.filter(ot=>{
 
-const tech=
-personnel.find(p=>p.id===ot.technician_id);
+    const o =
+        workOrders.find(
+            x=>x.id===id
+        );
 
-const eq=
-equipment.find(x=>x.id===ot.equipment_id);
 
-const di=
-interventionRequests.find(x=>x.id===ot.di_id);
+    const {error} =
+        await sb
+            .from('work_orders')
+            .update({
 
-const text=`
+                status:'closed',
 
-${ot.code||''}
-${ot.description||''}
-${tech?.full_name||ot.technician||''}
-${eq?.designation||''}
-${di?.code||''}
+                closed_by:
+                    currentUser.id,
 
-`.toLowerCase();
+                closed_at:
+                    new Date().toISOString(),
 
-return
-(!search || text.includes(search)) &&
-(!status || ot.status===status) &&
-(!technician || ot.technician_id===technician);
+                updated_at:
+                    new Date().toISOString()
 
-});
+            })
+            .eq('id',id);
 
-renderOT(result);
 
+    if(error){
+
+        showToast(
+            error.message,
+            'error'
+        );
+
+        return;
+    }
+
+
+    /* DI → CLOSED */
+
+    if(o?.di_id){
+
+        await sb
+            .from('intervention_requests')
+            .update({
+
+                status:'closed',
+
+                updated_at:
+                    new Date().toISOString()
+
+            })
+            .eq('id',o.di_id);
+
+    }
+
+
+    showToast(
+        'OT clôturé et DI associée clôturée.',
+        'success'
+    );
+
+
+    await loadDI();
+    await loadOT();
 }
 
 
-/* ======================================================
-PREVENTIVE
-====================================================== */
-
-async function loadPreventive(){
-
-const tbody=
-document.getElementById('pmTable');
-
-if(!tbody)return;
-
-const {data,error}=
-await sb
-.from('preventive_plans')
-.select('*')
-.order('next_due',{ascending:true});
-
-if(error){
-
-pmTableAvailable=false;
-
-console.warn('preventive_plans non disponible:',error.message);
-
-document.getElementById('pmTableMessage').innerHTML=
-`<div class="warning-box">
-<strong>Table preventive_plans non disponible.</strong><br>
-Le module Préventif est prêt côté interface mais la table
-<strong>preventive_plans</strong> doit être créée dans Supabase.
-</div>`;
-
-preventivePlans=[];
-
-renderPreventive([]);
-
-return;
-
-}
-
-pmTableAvailable=true;
-
-document.getElementById('pmTableMessage').innerHTML='';
-
-preventivePlans=data||[];
-
-renderPreventive(preventivePlans);
-
-}
-
-
-function renderPreventive(list){
-
-const tbody=
-document.getElementById('pmTable');
-
-if(!tbody)return;
-
-tbody.innerHTML='';
-
-document.getElementById('pmCount').textContent=
-preventivePlans.length;
-
-document.getElementById('pmActiveCount').textContent=
-preventivePlans.filter(x=>x.status==='active').length;
-
-const todayDate=
-new Date().toISOString().slice(0,10);
-
-document.getElementById('pmDueCount').textContent=
-preventivePlans.filter(x=>
-x.status==='active' &&
-x.next_due===todayDate
-).length;
-
-document.getElementById('pmLateCount').textContent=
-preventivePlans.filter(x=>
-x.status==='active' &&
-x.next_due &&
-x.next_due<todayDate
-).length;
-
-if(!list.length){
-
-tbody.innerHTML=
-`<tr>
-<td colspan="9"
-style="text-align:center;color:#7187a0">
-Aucun plan préventif.
-</td>
-</tr>`;
-
-return;
-
-}
-
-list.forEach(pm=>{
-
-const eq=
-equipment.find(x=>x.id===pm.equipment_id);
-
-const tech=
-personnel.find(x=>x.id===pm.technician_id);
-
-const late=
-pm.next_due &&
-pm.next_due<todayDate &&
-pm.status==='active';
-
-let actions='';
-
-if(canManage()){
-
-actions+=`
-<button class="btn btn-warning"
-onclick="editPreventive('${pm.id}')">
-✏️
-</button>`;
-
-}
-
-if(pm.status==='active'){
-
-actions+=`
-<button class="btn btn-success"
-onclick="executePreventive('${pm.id}')">
-✓ PM
-</button>`;
-
-}
-
-const tr=document.createElement('tr');
-
-tr.innerHTML=`
-
-<td><strong>${esc(pm.code||'-')}</strong></td>
-
-<td>${esc(pm.designation||'-')}</td>
-
-<td>${esc(eq?.designation||'-')}</td>
-
-<td>${frequencyLabel(pm.frequency)}</td>
-
-<td>${esc(pm.last_done||'-')}</td>
-
-<td>
-<span class="badge ${late?'priority-high':'status-new'}">
-${esc(pm.next_due||'-')}
-</span>
-</td>
-
-<td>${esc(tech?.full_name||pm.technician||'Non affecté')}</td>
-
-<td>
-<span class="badge ${
-pm.status==='active'
-?'status-new'
-:pm.status==='paused'
-?'status-progress'
-:'status-closed'
-}">
-${pm.status==='active'
-?'Actif'
-:pm.status==='paused'
-?'En pause'
-:'Clôturé'}
-</span>
-</td>
-
-<td>
-<div class="actions">${actions}</div>
-</td>
-
-`;
-
-tbody.appendChild(tr);
-
-});
-
-}
-
-
-function populatePMEquipment(){
-
-const select=
-document.getElementById('pmEquipment');
-
-if(!select)return;
-
-select.innerHTML=
-'<option value="">Choisir équipement</option>';
-
-equipment.forEach(eq=>{
-
-select.innerHTML+=`
-<option value="${eq.id}">
-${esc(eq.code)} — ${esc(eq.designation)}
-</option>`;
-
-});
-
-}
-
-
-function populatePMSubEquipment(){
-
-const equipmentId=
-document.getElementById('pmEquipment').value;
-
-const select=
-document.getElementById('pmSubEquipment');
-
-select.innerHTML=
-'<option value="">Aucun</option>';
-
-if(!equipmentId)return;
-
-subEquipment
-.filter(se=>se.equipment_id===equipmentId)
-.forEach(se=>{
-
-select.innerHTML+=`
-<option value="${se.id}">
-${esc(se.code)} — ${esc(se.designation)}
-</option>`;
-
-});
-
-}
-
-
-function openPreventiveModal(prefill={}){
-
-if(!canManage()){
-
-alert('Accès réservé à Admin / Responsable.');
-return;
-
-}
-
-if(!pmTableAvailable){
-
-alert('La table preventive_plans n\'est pas encore créée dans Supabase.');
-return;
-
-}
-
-populatePMEquipment();
-
-populateOTTechnicians();
-
-document.getElementById('pmId').value=prefill.id||'';
-
-document.getElementById('pmDesignation').value=
-prefill.designation||'';
-
-document.getElementById('pmEquipment').value=
-prefill.equipment_id||'';
-
-populatePMSubEquipment();
-
-document.getElementById('pmSubEquipment').value=
-prefill.sub_equipment_id||'';
-
-document.getElementById('pmFrequency').value=
-prefill.frequency||'monthly';
-
-document.getElementById('pmLastDone').value=
-prefill.last_done||'';
-
-document.getElementById('pmNextDue').value=
-prefill.next_due||today();
-
-document.getElementById('pmTechnician').innerHTML=
-'<option value="">Non affecté</option>';
-
-personnel
-.filter(p=>p.active)
-.forEach(p=>{
-
-document.getElementById('pmTechnician').innerHTML+=`
-<option value="${p.id}">
-${esc(p.full_name||'-')}
-</option>`;
-
-});
-
-document.getElementById('pmTechnician').value=
-prefill.technician_id||'';
-
-document.getElementById('pmDuration').value=
-prefill.duration_minutes||'';
-
-document.getElementById('pmStatus').value=
-prefill.status||'active';
-
-document.getElementById('pmInstructions').value=
-prefill.instructions||'';
-
-document.getElementById('preventiveModalTitle').textContent=
-prefill.id
-?'Modifier plan préventif'
-:'Nouveau plan préventif';
-
-document.getElementById('preventiveModalMessage').innerHTML='';
-
-document.getElementById('preventiveModal')
-.classList.remove('hidden');
-
-}
-
-
-function closePreventiveModal(){
-
-document.getElementById('preventiveModal')
-.classList.add('hidden');
-
-}
-
-
-async function savePreventive(e){
-
-e.preventDefault();
-
-if(!canManage() || !pmTableAvailable)return;
-
-const id=
-document.getElementById('pmId').value;
-
-const payload={
-
-designation:
-document.getElementById('pmDesignation').value.trim(),
-
-equipment_id:
-document.getElementById('pmEquipment').value,
-
-sub_equipment_id:
-document.getElementById('pmSubEquipment').value||null,
-
-frequency:
-document.getElementById('pmFrequency').value,
-
-last_done:
-document.getElementById('pmLastDone').value||null,
-
-next_due:
-document.getElementById('pmNextDue').value,
-
-technician_id:
-document.getElementById('pmTechnician').value||null,
-
-duration_minutes:
-Number(document.getElementById('pmDuration').value)||0,
-
-status:
-document.getElementById('pmStatus').value,
-
-instructions:
-document.getElementById('pmInstructions').value.trim()
-
-};
-
-let result;
-
-if(id){
-
-result=
-await sb
-.from('preventive_plans')
-.update(payload)
-.eq('id',id);
-
-}else{
-
-payload.created_by=currentUser.id;
-
-result=
-await sb
-.from('preventive_plans')
-.insert(payload);
-
-}
-
-if(result.error){
-
-document.getElementById('preventiveModalMessage').innerHTML=
-`<div class="message error">
-${esc(result.error.message)}
-</div>`;
-
-return;
-
-}
-
-closePreventiveModal();
-
-await loadPreventive();
-
-}
-
-
-function editPreventive(id){
-
-const pm=
-preventivePlans.find(x=>x.id===id);
-
-if(!pm)return;
-
-openPreventiveModal(pm);
-
-}
-
-
-async function executePreventive(id){
-
-if(!canManage())return;
-
-const pm=
-preventivePlans.find(x=>x.id===id);
-
-if(!pm)return;
-
-const next=
-calculateNextDate(
-today(),
-pm.frequency
-);
-
-const {error}=
-await sb
-.from('preventive_plans')
-.update({
-
-last_done:today(),
-next_due:next
-
-})
-.eq('id',id);
-
-if(error){
-
-alert(error.message);
-return;
-
-}
-
-await loadPreventive();
-
-}
-
-
-function filterPreventive(){
-
-const search=
-(document.getElementById('pmSearch').value||'')
-.toLowerCase();
-
-const status=
-document.getElementById('pmStatusFilter').value;
-
-const frequency=
-document.getElementById('pmFrequencyFilter').value;
-
-const result=
-preventivePlans.filter(pm=>{
-
-const eq=
-equipment.find(x=>x.id===pm.equipment_id);
-
-const text=`
-${pm.code||''}
-${pm.designation||''}
-${eq?.designation||''}
-`.toLowerCase();
-
-return
-(!search || text.includes(search)) &&
-(!status || pm.status===status) &&
-(!frequency || pm.frequency===frequency);
-
-});
-
-renderPreventive(result);
-
-}
-
-
-/* ======================================================
-RCA / BDA
-====================================================== */
-
-async function loadRCA(){
-
-const tbody=
-document.getElementById('rcaTable');
-
-if(!tbody)return;
-
-const {data,error}=
-await sb
-.from('rca_bda')
-.select('*')
-.order('created_at',{ascending:false});
-
-if(error){
-
-rcaTableAvailable=false;
-
-console.warn('rca_bda non disponible:',error.message);
-
-document.getElementById('rcaTableMessage').innerHTML=
-`<div class="warning-box">
-<strong>Table rca_bda non disponible.</strong><br>
-Le module RCA/BDA est prêt côté interface mais la table
-<strong>rca_bda</strong> doit être créée dans Supabase.
-</div>`;
-
-rcaRecords=[];
-
-renderRCA([]);
-
-return;
-
-}
-
-rcaTableAvailable=true;
-
-document.getElementById('rcaTableMessage').innerHTML='';
-
-rcaRecords=data||[];
-
-renderRCA(rcaRecords);
-
-}
-
-
-function renderRCA(list){
-
-const tbody=
-document.getElementById('rcaTable');
-
-if(!tbody)return;
-
-tbody.innerHTML='';
-
-document.getElementById('rcaCount').textContent=
-rcaRecords.length;
-
-document.getElementById('rcaOpenCount').textContent=
-rcaRecords.filter(x=>x.status==='open').length;
-
-document.getElementById('rcaProgressCount').textContent=
-rcaRecords.filter(x=>x.status==='in_progress').length;
-
-document.getElementById('rcaClosedCount').textContent=
-rcaRecords.filter(x=>x.status==='closed').length;
-
-if(!list.length){
-
-tbody.innerHTML=
-`<tr>
-<td colspan="9"
-style="text-align:center;color:#7187a0">
-Aucune RCA / BDA.
-</td>
-</tr>`;
-
-return;
-
-}
-
-list.forEach(rca=>{
-
-const eq=
-equipment.find(x=>x.id===rca.equipment_id);
-
-const ot=
-workOrders.find(x=>x.id===rca.work_order_id);
-
-const actions=[];
-
-if(canManage()){
-
-actions.push(`
-<button class="btn btn-warning"
-onclick="editRCA('${rca.id}')">
-✏️
-</button>`);
-
-}
-
-if(isAdmin()){
-
-actions.push(`
-<button class="btn btn-danger"
-onclick="deleteRCA('${rca.id}')">
-🗑️
-</button>`);
-
-}
-
-const tr=document.createElement('tr');
-
-tr.innerHTML=`
-
-<td><strong>${esc(rca.code||'-')}</strong></td>
-
-<td>${esc(rca.date||formatDate(rca.created_at))}</td>
-
-<td>${esc(ot?.code||'-')}</td>
-
-<td>${esc(eq?.designation||'-')}</td>
-
-<td class="di-description">
-${esc(rca.problem||'-')}
-</td>
-
-<td>${methodLabel(rca.method)}</td>
-
-<td>${esc(rca.responsible||'-')}</td>
-
-<td>
-<span class="badge ${
-rca.status==='open'
-?'status-new'
-:rca.status==='in_progress'
-?'status-progress'
-:'status-closed'
-}">
-${rca.status==='open'
-?'Ouverte'
-:rca.status==='in_progress'
-?'En cours'
-:'Clôturée'}
-</span>
-</td>
-
-<td>
-<div class="actions">
-${actions.join('')}
-</div>
-</td>
-
-`;
-
-tbody.appendChild(tr);
-
-});
-
-}
-
-
-function populateRCAEquipment(){
-
-const select=
-document.getElementById('rcaEquipment');
-
-if(!select)return;
-
-select.innerHTML=
-'<option value="">Choisir équipement</option>';
-
-equipment.forEach(eq=>{
-
-select.innerHTML+=`
-<option value="${eq.id}">
-${esc(eq.code)} — ${esc(eq.designation)}
-</option>`;
-
-});
-
-}
-
-
-function populateRCAOT(){
-
-const select=
-document.getElementById('rcaOT');
-
-if(!select)return;
-
-select.innerHTML=
-'<option value="">Aucun</option>';
-
-workOrders.forEach(ot=>{
-
-select.innerHTML+=`
-<option value="${ot.id}">
-${esc(ot.code||'-')} — ${esc(ot.description||'').substring(0,50)}
-</option>`;
-
-});
-
-}
-
-
-function populateRCASubEquipment(){
-
-const equipmentId=
-document.getElementById('rcaEquipment').value;
-
-const select=
-document.getElementById('rcaSubEquipment');
-
-select.innerHTML=
-'<option value="">Aucun</option>';
-
-if(!equipmentId)return;
-
-subEquipment
-.filter(se=>se.equipment_id===equipmentId)
-.forEach(se=>{
-
-select.innerHTML+=`
-<option value="${se.id}">
-${esc(se.code)} — ${esc(se.designation)}
-</option>`;
-
-});
-
-}
-
-
-function openRCAModal(prefill={}){
-
-if(!canManage()){
-
-alert('Création RCA réservée à Admin / Responsable.');
-return;
-
-}
-
-if(!rcaTableAvailable){
-
-alert('La table rca_bda n\'est pas encore créée dans Supabase.');
-return;
-
-}
-
-populateRCAEquipment();
-populateRCAOT();
-
-document.getElementById('rcaId').value=prefill.id||'';
-
-document.getElementById('rcaOT').value=
-prefill.work_order_id||'';
-
-document.getElementById('rcaEquipment').value=
-prefill.equipment_id||'';
-
-populateRCASubEquipment();
-
-document.getElementById('rcaSubEquipment').value=
-prefill.sub_equipment_id||'';
-
-document.getElementById('rcaMethod').value=
-prefill.method||'5_why';
-
-document.getElementById('rcaProblem').value=
-prefill.problem||'';
-
-document.getElementById('rcaImmediateAction').value=
-prefill.immediate_action||'';
-
-document.getElementById('rcaRootCause').value=
-prefill.root_cause||'';
-
-document.getElementById('rcaCorrectiveAction').value=
-prefill.corrective_action||'';
-
-document.getElementById('rcaPreventiveAction').value=
-prefill.preventive_action||'';
-
-document.getElementById('rcaResponsible').value=
-prefill.responsible||currentProfile?.full_name||'';
-
-document.getElementById('rcaDueDate').value=
-prefill.due_date||'';
-
-document.getElementById('rcaStatus').value=
-prefill.status||'open';
-
-document.getElementById('rcaModalTitle').textContent=
-prefill.id
-?'Modifier RCA / BDA'
-:'Nouvelle RCA / BDA';
-
-document.getElementById('rcaModalMessage').innerHTML='';
-
-document.getElementById('rcaModal')
-.classList.remove('hidden');
-
-}
-
-
-function closeRCAModal(){
-
-document.getElementById('rcaModal')
-.classList.add('hidden');
-
-}
-
-
-async function saveRCA(e){
-
-e.preventDefault();
-
-if(!canManage() || !rcaTableAvailable)return;
-
-const id=
-document.getElementById('rcaId').value;
-
-const payload={
-
-work_order_id:
-document.getElementById('rcaOT').value||null,
-
-equipment_id:
-document.getElementById('rcaEquipment').value||null,
-
-sub_equipment_id:
-document.getElementById('rcaSubEquipment').value||null,
-
-problem:
-document.getElementById('rcaProblem').value.trim(),
-
-immediate_action:
-document.getElementById('rcaImmediateAction').value.trim(),
-
-root_cause:
-document.getElementById('rcaRootCause').value.trim(),
-
-method:
-document.getElementById('rcaMethod').value,
-
-corrective_action:
-document.getElementById('rcaCorrectiveAction').value.trim(),
-
-preventive_action:
-document.getElementById('rcaPreventiveAction').value.trim(),
-
-responsible:
-document.getElementById('rcaResponsible').value.trim(),
-
-due_date:
-document.getElementById('rcaDueDate').value||null,
-
-status:
-document.getElementById('rcaStatus').value
-
-};
-
-let result;
-
-if(id){
-
-result=
-await sb
-.from('rca_bda')
-.update(payload)
-.eq('id',id);
-
-}else{
-
-payload.created_by=currentUser.id;
-
-result=
-await sb
-.from('rca_bda')
-.insert(payload);
-
-}
-
-if(result.error){
-
-document.getElementById('rcaModalMessage').innerHTML=
-`<div class="message error">
-${esc(result.error.message)}
-</div>`;
-
-return;
-
-}
-
-closeRCAModal();
-
-await loadRCA();
-
-}
-
-
-function editRCA(id){
-
-const rca=
-rcaRecords.find(x=>x.id===id);
-
-if(!rca)return;
-
-openRCAModal(rca);
-
-}
-
-
-async function deleteRCA(id){
-
-if(!isAdmin())return;
-
-if(!confirm('Supprimer cette RCA / BDA ?'))return;
-
-const {error}=
-await sb
-.from('rca_bda')
-.delete()
-.eq('id',id);
-
-if(error){
-
-alert(error.message);
-return;
-
-}
-
-await loadRCA();
-
-}
-
-
-function filterRCA(){
-
-const search=
-(document.getElementById('rcaSearch').value||'')
-.toLowerCase();
-
-const status=
-document.getElementById('rcaStatusFilter').value;
-
-const method=
-document.getElementById('rcaMethodFilter').value;
-
-const result=
-rcaRecords.filter(rca=>{
-
-const eq=
-equipment.find(x=>x.id===rca.equipment_id);
-
-const text=`
-
-${rca.code||''}
-${rca.problem||''}
-${rca.root_cause||''}
-${eq?.designation||''}
-
-`.toLowerCase();
-
-return
-(!search || text.includes(search)) &&
-(!status || rca.status===status) &&
-(!method || rca.method===method);
-
-});
-
-renderRCA(result);
-
-}
-
-
-/* ======================================================
-REPORTS
-====================================================== */
-
-async function loadReports(){
-
-if(!currentUser)return;
-
-document.getElementById('reportPersonnel')
-.textContent=personnel.length;
-
-document.getElementById('reportZones')
-.textContent=zones.length;
-
-document.getElementById('reportEquipment')
-.textContent=equipment.length;
-
-document.getElementById('reportDI')
-.textContent=interventionRequests.length;
-
-document.getElementById('reportOT')
-.textContent=workOrders.length;
-
-document.getElementById('reportPM')
-.textContent=preventivePlans.length;
-
-document.getElementById('reportDINew')
-.textContent=
-interventionRequests.filter(x=>x.status==='new').length;
-
-document.getElementById('reportDIProgress')
-.textContent=
-interventionRequests.filter(x=>x.status==='in_progress').length;
-
-document.getElementById('reportDIClosed')
-.textContent=
-interventionRequests.filter(x=>x.status==='closed').length;
-
-document.getElementById('reportOTOpen')
-.textContent=
-workOrders.filter(x=>
-['open','planned','new'].includes(x.status)
-).length;
-
-document.getElementById('reportOTProgress')
-.textContent=
-workOrders.filter(x=>x.status==='in_progress').length;
-
-document.getElementById('reportOTClosed')
-.textContent=
-workOrders.filter(x=>x.status==='closed').length;
-
-const start=
-document.getElementById('reportStartDate');
-
-const end=
-document.getElementById('reportEndDate');
-
-if(!start.value)start.value=today();
-if(!end.value)end.value=today();
-
-generateReport();
-
-}
-
-
-function generateReport(){
-
-const start=
-document.getElementById('reportStartDate').value;
-
-const end=
-document.getElementById('reportEndDate').value;
-
-const tbody=
-document.getElementById('dailyReportTable');
-
-if(!tbody)return;
-
-tbody.innerHTML='';
-
-const rows=[];
-
-interventionRequests.forEach(di=>{
-
-const date=
-di.date ||
-formatDateISO(di.created_at);
-
-if(date>=start && date<=end){
-
-const eq=
-equipment.find(x=>x.id===di.equipment_id);
-
-rows.push({
-
-type:'DI',
-
-code:di.code||'-',
-
-date,
-
-equipment:eq?.designation||'-',
-
-person:di.requester||'-',
-
-status:statusLabel(di.status),
-
-description:di.description||'-'
-
-});
-
-}
-
-});
-
-workOrders.forEach(ot=>{
-
-const date=
-ot.date ||
-formatDateISO(ot.created_at);
-
-if(date>=start && date<=end){
-
-const eq=
-equipment.find(x=>x.id===ot.equipment_id);
-
-const tech=
-personnel.find(x=>x.id===ot.technician_id);
-
-rows.push({
-
-type:'OT',
-
-code:ot.code||'-',
-
-date,
-
-equipment:eq?.designation||'-',
-
-person:tech?.full_name||ot.technician||'-',
-
-status:statusLabelOT(ot.status),
-
-description:ot.description||ot.work_performed||'-'
-
-});
-
-}
-
-});
-
-rows.sort((a,b)=>
-String(b.date).localeCompare(String(a.date))
-);
-
-if(!rows.length){
-
-tbody.innerHTML=
-`<tr>
-<td colspan="7"
-style="text-align:center;color:#7187a0">
-Aucune activité pour la période sélectionnée.
-</td>
-</tr>`;
-
-return;
-
-}
-
-rows.forEach(r=>{
-
-const tr=document.createElement('tr');
-
-tr.innerHTML=`
-
-<td>
-<span class="badge ${
-r.type==='DI'
-?'status-new'
-:'status-progress'
-}">
-${r.type}
-</span>
-</td>
-
-<td><strong>${esc(r.code)}</strong></td>
-
-<td>${esc(r.date)}</td>
-
-<td>${esc(r.equipment)}</td>
-
-<td>${esc(r.person)}</td>
-
-<td>${esc(r.status)}</td>
-
-<td class="di-description">
-${esc(r.description)}
-</td>
-
-`;
-
-tbody.appendChild(tr);
-
-});
-
-}
-
-
-/* ======================================================
-FILTERS
-====================================================== */
-
-function filterZones(){
-
-const search=
-document.getElementById('zoneSearch')
-.value.toLowerCase();
-
-const status=
-document.getElementById('zoneStatusFilter').value;
-
-renderZones(
-zones.filter(z=>
-
-(!search ||
-(z.name||'').toLowerCase().includes(search) ||
-(z.code||'').toLowerCase().includes(search))
-
-&&
-
-(!status || z.status===status)
-
-)
-);
-
-}
-
-
-function filterEquipment(){
-
-const search=
-document.getElementById('equipmentSearch')
-.value.toLowerCase();
-
-const zone=
-document.getElementById('equipmentZoneFilter').value;
-
-const criticality=
-document.getElementById('equipmentCriticalityFilter').value;
-
-renderEquipment(
-equipment.filter(eq=>
-
-(!search ||
-`${eq.code} ${eq.designation} ${eq.brand} ${eq.model}`
-.toLowerCase()
-.includes(search))
-
-&&
-(!zone || eq.zone_id===zone)
-
-&&
-(!criticality ||
-eq.criticality===criticality)
-
-)
-);
-
-}
-
-
-function filterSubEquipment(){
-
-const search=
-document.getElementById('subSearch')
-.value.toLowerCase();
-
-const parent=
-document.getElementById('subEquipmentFilter').value;
-
-const criticality=
-document.getElementById('subCriticalityFilter').value;
-
-renderSubEquipment(
-subEquipment.filter(se=>
-
-(!search ||
-`${se.code} ${se.designation} ${se.type} ${se.brand} ${se.model}`
-.toLowerCase()
-.includes(search))
-
-&&
-
-(!parent ||
-se.equipment_id===parent)
-
-&&
-
-(!criticality ||
-se.criticality===criticality)
-
-)
-);
-
-}
-
-
-/* ======================================================
-DASHBOARD
-====================================================== */
+/* ============================================================
+   DASHBOARD
+============================================================ */
 
 function updateDashboard(){
 
-document.getElementById('kpiPersonnel')
-.textContent=personnel.length;
+    document.getElementById('dashEquipment')
+        .textContent =
+        equipment.length;
 
-document.getElementById('kpiZones')
-.textContent=zones.length;
 
-document.getElementById('kpiEquipment')
-.textContent=equipment.length;
+    const openDI =
+        interventionRequests.filter(
+            d=>d.status !== 'closed'
+        ).length;
 
-document.getElementById('kpiSubEquipment')
-.textContent=subEquipment.length;
 
-document.getElementById('kpiDI')
-.textContent=interventionRequests.length;
+    document.getElementById('dashDI')
+        .textContent =
+        openDI;
 
-document.getElementById('kpiOT')
-.textContent=workOrders.length;
 
-document.getElementById('kpiPM')
-.textContent=preventivePlans.length;
+    document.getElementById('dashOT')
+        .textContent =
+        workOrders.length;
 
-document.getElementById('kpiRCA')
-.textContent=rcaRecords.length;
 
-const tree=
-document.getElementById('equipmentTree');
+    document.getElementById('dashOTProgress')
+        .textContent =
+        workOrders.filter(
+            o=>o.status==='in_progress'
+        ).length;
 
-if(!tree)return;
 
-if(!zones.length){
+    document.getElementById('dashNewDI')
+        .textContent =
+        interventionRequests.filter(
+            d=>d.status==='new'
+        ).length;
 
-tree.innerHTML=
-'<p style="color:#7187a0">Aucune donnée technique.</p>';
 
-return;
+    document.getElementById('dashProgressDI')
+        .textContent =
+        interventionRequests.filter(
+            d=>d.status==='in_progress'
+        ).length;
 
+
+    document.getElementById('dashClosedDI')
+        .textContent =
+        interventionRequests.filter(
+            d=>d.status==='closed'
+        ).length;
+
+
+    document.getElementById('dashOpenOT')
+        .textContent =
+        workOrders.filter(
+            o=>['open','new','planned']
+                .includes(o.status)
+        ).length;
+
+
+    document.getElementById('dashValidatedOT')
+        .textContent =
+        workOrders.filter(
+            o=>o.status==='validated'
+        ).length;
+
+
+    document.getElementById('dashClosedOT')
+        .textContent =
+        workOrders.filter(
+            o=>o.status==='closed'
+        ).length;
+
+
+    document.getElementById('dashHighDI')
+        .textContent =
+        interventionRequests.filter(
+            d=>d.priority==='high'
+        ).length;
+
+
+    document.getElementById('dashMediumDI')
+        .textContent =
+        interventionRequests.filter(
+            d=>d.priority==='medium'
+        ).length;
+
+
+    document.getElementById('dashLowDI')
+        .textContent =
+        interventionRequests.filter(
+            d=>d.priority==='low'
+        ).length;
+
+
+    document.getElementById('reportDI')
+        .textContent =
+        interventionRequests.length;
+
+
+    document.getElementById('reportOT')
+        .textContent =
+        workOrders.length;
+
+
+    document.getElementById('reportEquipment')
+        .textContent =
+        equipment.length;
+
+
+    document.getElementById('reportPersonnel')
+        .textContent =
+        personnel.length;
 }
 
-tree.innerHTML='';
 
-zones.forEach(zone=>{
+/* ============================================================
+   NAVIGATION
+============================================================ */
 
-const zoneBox=document.createElement('div');
+const pageNames = {
 
-zoneBox.className='tree-zone';
+    dashboard:'Dashboard',
 
-let html=`
+    personnel:'Personnel',
 
-<div class="tree-zone-title">
-🏭 ${esc(zone.code)} — ${esc(zone.name)}
-</div>
+    zones:'Zones',
 
-`;
+    equipment:'Équipements',
 
-const eqs=
-equipment.filter(e=>e.zone_id===zone.id);
+    subequipment:'Sous-équipements',
 
-eqs.forEach(eq=>{
+    di:'Demandes d’intervention',
 
-html+=`
+    ot:'Ordres de travail',
 
-<div class="tree-equipment">
+    preventive:'Maintenance préventive',
 
-⚙️
-<strong>
-${esc(eq.code)} — ${esc(eq.designation)}
-</strong>
+    rca:'RCA / BDA',
 
-`;
+    reports:'Rapports',
 
-const subs=
-subEquipment.filter(
-s=>s.equipment_id===eq.id
-);
-
-subs.forEach(se=>{
-
-html+=`
-
-<div class="tree-sub">
-🔩 ${esc(se.code)} — ${esc(se.designation)}
-</div>
-
-`;
-
-});
-
-html+=`</div>`;
-
-});
-
-if(!eqs.length){
-
-html+=`
-
-<div class="tree-equipment"
-style="color:#7187a0">
-Aucun équipement dans cette zone.
-</div>
-
-`;
-
-}
-
-zoneBox.innerHTML=html;
-
-tree.appendChild(zoneBox);
-
-});
-
-}
-
-
-/* ======================================================
-NAVIGATION
-====================================================== */
-
-function showPage(page,button){
-
-document
-.querySelectorAll('[id^="page-"]')
-.forEach(x=>x.classList.add('hidden'));
-
-const target=
-document.getElementById('page-'+page);
-
-if(!target){
-
-console.error('Page introuvable :',page);
-return;
-
-}
-
-target.classList.remove('hidden');
-
-document
-.querySelectorAll('.nav-btn')
-.forEach(x=>x.classList.remove('active'));
-
-if(button)
-button.classList.add('active');
-
-const names={
-
-dashboard:'Dashboard',
-personnel:'Personnel',
-zones:'Zones',
-equipment:'Équipements',
-subequipment:'Sous-équipements',
-di:"Demandes d'Intervention",
-ot:'Ordres de Travail',
-preventive:'Maintenance Préventive',
-rca:'RCA / BDA',
-reports:'Rapports',
-settings:'Paramètres'
+    settings:'Paramètres'
 
 };
 
-document.getElementById('pageTitle')
-.textContent=names[page]||page;
+
+function showPage(page,element){
+
+    document.querySelectorAll('.page')
+        .forEach(p=>{
+            p.classList.remove('active');
+        });
+
+
+    const target =
+        document.getElementById(
+            'page-'+page
+        );
+
+
+    if(target){
+        target.classList.add('active');
+    }
+
+
+    document.querySelectorAll('.nav-item')
+        .forEach(item=>{
+            item.classList.remove('active');
+        });
+
+
+    if(element){
+        element.classList.add('active');
+    }
+
+
+    document.getElementById('pageTitle')
+        .textContent =
+        pageNames[page] || page;
+
+
+    if(page === 'di'){
+        loadDI();
+    }
+
+
+    if(page === 'ot'){
+        loadOT();
+    }
+
+
+    if(page === 'dashboard'){
+        updateDashboard();
+    }
+
+
+    if(page === 'reports'){
+        updateDashboard();
+    }
 
 }
 
 
-/* ======================================================
-PERMISSIONS
-====================================================== */
-
-function isAdmin(){
-
-return currentProfile?.role==='admin';
-
-}
-
-
-function canManage(){
-
-return currentProfile?.role==='admin' ||
-currentProfile?.role==='manager';
-
-}
-
-
-function canExecuteOT(){
-
-return ['admin','manager','technician']
-.includes(currentProfile?.role);
-
-}
-
-
-function canCloseOT(){
-
-return ['admin','manager']
-.includes(currentProfile?.role);
-
-}
-
-
-function roleLabel(role){
-
-if(role==='admin')
-return 'Administrateur';
-
-if(role==='manager')
-return 'Responsable Maintenance';
-
-if(role==='technician')
-return 'Technicien';
-
-return role||'-';
-
-}
-
-
-/* ======================================================
-LABELS
-====================================================== */
-
-function statusLabel(status){
-
-if(status==='new')return 'Nouveau';
-if(status==='in_progress')return 'En cours';
-if(status==='closed')return 'Clôturé';
-
-return status||'-';
-
-}
-
-
-function statusLabelOT(status){
-
-if(status==='open')return 'Ouvert';
-if(status==='planned')return 'Planifié';
-if(status==='new')return 'Nouveau';
-if(status==='in_progress')return 'En cours';
-if(status==='validated')return 'Validé';
-if(status==='closed')return 'Clôturé';
-
-return status||'-';
-
-}
-
-
-function frequencyLabel(value){
-
-if(value==='daily')return 'Quotidienne';
-if(value==='weekly')return 'Hebdomadaire';
-if(value==='monthly')return 'Mensuelle';
-if(value==='quarterly')return 'Trimestrielle';
-if(value==='yearly')return 'Annuelle';
-
-return value||'-';
-
-}
-
-
-function methodLabel(value){
-
-if(value==='5_why')return '5 Pourquoi';
-if(value==='5m')return '5M';
-if(value==='ishikawa')return 'Ishikawa';
-if(value==='8d')return '8D';
-
-return value||'-';
-
-}
-
-
-/* ======================================================
-DATE
-====================================================== */
-
-function today(){
-
-return new Date()
-.toISOString()
-.slice(0,10);
-
-}
-
-
-function formatDate(value){
-
-if(!value)return '-';
-
-try{
-
-return new Date(value)
-.toLocaleDateString('fr-FR');
-
-}catch{
-
-return value;
-
-}
-
-}
-
-
-function formatDateISO(value){
-
-if(!value)return '';
-
-return String(value).slice(0,10);
-
-}
-
-
-function calculateNextDate(base,frequency){
-
-const d=new Date(base+'T00:00:00');
-
-if(frequency==='daily')
-d.setDate(d.getDate()+1);
-
-else if(frequency==='weekly')
-d.setDate(d.getDate()+7);
-
-else if(frequency==='monthly')
-d.setMonth(d.getMonth()+1);
-
-else if(frequency==='quarterly')
-d.setMonth(d.getMonth()+3);
-
-else if(frequency==='yearly')
-d.setFullYear(d.getFullYear()+1);
-
-return d.toISOString().slice(0,10);
-
-}
-
-
-/* ======================================================
-RESET PASSWORD
-====================================================== */
-
-async function resetPassword(){
-
-const email=
-document.getElementById('loginEmail')
-.value.trim();
-
-if(!email){
-
-alert('Veuillez saisir votre email.');
-return;
-
-}
-
-const {error}=
-await sb.auth.resetPasswordForEmail(
-email,
-{
-redirectTo:window.location.href
-}
-);
-
-if(error){
-
-alert(error.message);
-return;
-
-}
-
-alert(
-'Un lien de réinitialisation a été envoyé par email.'
-);
-
-}
-
-
-/* ======================================================
-LOGOUT
-====================================================== */
-
-async function logout(){
-
-await sb.auth.signOut();
-
-location.reload();
-
-}
-
-
-/* ======================================================
-SESSION
-====================================================== */
+/* ============================================================
+   SESSION
+============================================================ */
 
 async function checkSession(){
 
-const {data}=
-await sb.auth.getSession();
-
-if(data.session){
-
-currentUser=data.session.user;
-
-await loadProfile();
-
-}
-
-}
+    const {
+        data:{
+            session
+        }
+    } =
+        await sb.auth.getSession();
 
 
-/* ======================================================
-ESCAPE
-====================================================== */
+    if(session){
 
-function esc(value){
+        currentUser =
+            session.user;
 
-return String(value??'')
+        await loadProfile();
 
-.replace(/&/g,'&amp;')
-.replace(/</g,'&lt;')
-.replace(/>/g,'&gt;')
-.replace(/"/g,'&quot;')
-.replace(/'/g,'&#039;');
+        document.getElementById('loginPage')
+            .style.display = 'none';
+
+        document.getElementById('app')
+            .style.display = 'block';
+
+        await loadAll();
+
+    }
 
 }
 
 
-/* ======================================================
-EVENTS DEPENDANTS
-====================================================== */
+/* ============================================================
+   SUPABASE AUTH STATE
+============================================================ */
 
-document
-.getElementById('pmEquipment')
-?.addEventListener(
-'change',
-populatePMSubEquipment
-);
+sb.auth.onAuthStateChange(
+    async(event,session)=>{
 
-document
-.getElementById('rcaEquipment')
-?.addEventListener(
-'change',
-populateRCASubEquipment
+        if(event === 'SIGNED_OUT'){
+
+            currentUser = null;
+            currentProfile = null;
+
+        }
+
+    }
 );
 
 
-/* ======================================================
-START
-====================================================== */
+/* ============================================================
+   INIT
+============================================================ */
 
-checkSession();
+document.addEventListener(
+    'DOMContentLoaded',
+    async()=>{
+
+        await checkSession();
+
+    }
+);
 
 </script>
 
