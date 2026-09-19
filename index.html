@@ -1,927 +1,233 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GMAO PRO V8 - Supabase</title>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
-
-    body {
-      background: #07111f;
-      color: #e8eef7;
-      min-height: 100vh;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    /* LOGIN */
-    #loginPage {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      background:
-        radial-gradient(circle at top right, #123b64 0, transparent 35%),
-        radial-gradient(circle at bottom left, #0d2945 0, transparent 35%),
-        #07111f;
-    }
-
-    .login-card {
-      width: 100%;
-      max-width: 440px;
-      background: #0d1b2d;
-      border: 1px solid #203a59;
-      border-radius: 18px;
-      padding: 35px;
-      box-shadow: 0 20px 60px rgba(0,0,0,.45);
-    }
-
-    .logo {
-      width: 70px;
-      height: 70px;
-      margin: auto;
-      border-radius: 18px;
-      background: #1677ff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 30px;
-      font-weight: bold;
-      box-shadow: 0 10px 30px rgba(22,119,255,.3);
-    }
-
-    .login-card h1 {
-      text-align: center;
-      margin-top: 18px;
-      font-size: 25px;
-    }
-
-    .subtitle {
-      text-align: center;
-      color: #91a4bb;
-      margin: 8px 0 25px;
-    }
-
-    label {
-      display: block;
-      margin: 15px 0 7px;
-      color: #b9c8da;
-      font-size: 14px;
-    }
-
-    input, select, textarea {
-      width: 100%;
-      padding: 12px 13px;
-      background: #081522;
-      border: 1px solid #29435f;
-      border-radius: 9px;
-      color: white;
-      outline: none;
-    }
-
-    input:focus, select:focus, textarea:focus {
-      border-color: #1677ff;
-      box-shadow: 0 0 0 2px rgba(22,119,255,.12);
-    }
-
-    button {
-      border: 0;
-      border-radius: 9px;
-      padding: 11px 16px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: .2s;
-    }
-
-    button:hover {
-      transform: translateY(-1px);
-    }
-
-    .btn-primary {
-      background: #1677ff;
-      color: white;
-    }
-
-    .btn-success {
-      background: #159957;
-      color: white;
-    }
-
-    .btn-danger {
-      background: #d94343;
-      color: white;
-    }
-
-    .btn-secondary {
-      background: #243a52;
-      color: white;
-    }
-
-    .login-btn {
-      width: 100%;
-      margin-top: 22px;
-      padding: 13px;
-      font-size: 15px;
-    }
-
-    .message {
-      margin-top: 15px;
-      padding: 11px;
-      border-radius: 8px;
-      font-size: 13px;
-      line-height: 1.5;
-      display: none;
-    }
-
-    .message.error {
-      display: block;
-      background: rgba(217,67,67,.12);
-      border: 1px solid #743535;
-      color: #ff9b9b;
-    }
-
-    .message.success {
-      display: block;
-      background: rgba(21,153,87,.12);
-      border: 1px solid #246e4a;
-      color: #83e0ad;
-    }
-
-    .diagnostic {
-      margin-top: 20px;
-      padding-top: 20px;
-      border-top: 1px solid #20364f;
-    }
-
-    .diagnostic button {
-      width: 100%;
-    }
-
-    #diagResult {
-      margin-top: 12px;
-      font-size: 12px;
-      color: #91a4bb;
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
-
-    /* APP */
-    #app {
-      min-height: 100vh;
-    }
-
-    .topbar {
-      height: 68px;
-      background: #0c1929;
-      border-bottom: 1px solid #203a59;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 22px;
-      position: sticky;
-      top: 0;
-      z-index: 50;
-    }
-
-    .brand {
-      font-size: 20px;
-      font-weight: bold;
-    }
-
-    .brand span {
-      color: #4a9aff;
-    }
-
-    .user-box {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .avatar {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      background: #1677ff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-    }
-
-    .user-info {
-      line-height: 1.3;
-    }
-
-    .user-name {
-      font-size: 13px;
-      font-weight: bold;
-    }
-
-    .user-role {
-      font-size: 11px;
-      color: #91a4bb;
-    }
-
-    .layout {
-      display: flex;
-      min-height: calc(100vh - 68px);
-    }
-
-    .sidebar {
-      width: 245px;
-      background: #0a1625;
-      border-right: 1px solid #203a59;
-      padding: 18px 12px;
-    }
-
-    .nav-title {
-      font-size: 11px;
-      color: #60758e;
-      text-transform: uppercase;
-      margin: 10px 10px;
-    }
-
-    .nav-btn {
-      width: 100%;
-      text-align: left;
-      background: transparent;
-      color: #b9c8da;
-      margin-bottom: 4px;
-    }
-
-    .nav-btn:hover,
-    .nav-btn.active {
-      background: #132a43;
-      color: white;
-    }
-
-    .main {
-      flex: 1;
-      padding: 25px;
-      overflow-x: auto;
-    }
-
-    .page-title {
-      margin-bottom: 20px;
-    }
-
-    .page-title h2 {
-      font-size: 25px;
-    }
-
-    .page-title p {
-      color: #8195ad;
-      margin-top: 5px;
-    }
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(180px,1fr));
-      gap: 15px;
-    }
-
-    .card {
-      background: #0d1b2d;
-      border: 1px solid #203a59;
-      border-radius: 14px;
-      padding: 20px;
-    }
-
-    .kpi-label {
-      color: #8297ae;
-      font-size: 13px;
-    }
-
-    .kpi-value {
-      font-size: 29px;
-      font-weight: bold;
-      margin-top: 9px;
-    }
-
-    .section {
-      margin-top: 20px;
-    }
-
-    .section-title {
-      margin-bottom: 12px;
-      font-size: 17px;
-    }
-
-    .info-grid {
-      display: grid;
-      grid-template-columns: repeat(2,1fr);
-      gap: 15px;
-    }
-
-    .info-item {
-      padding: 14px;
-      background: #081522;
-      border-radius: 9px;
-      border: 1px solid #1b344d;
-    }
-
-    .info-item small {
-      display: block;
-      color: #71869d;
-      margin-bottom: 5px;
-    }
-
-    .status {
-      display: inline-block;
-      padding: 5px 9px;
-      border-radius: 20px;
-      font-size: 11px;
-      background: #17395c;
-      color: #83baff;
-    }
-
-    .table-wrap {
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 700px;
-    }
-
-    th, td {
-      padding: 12px;
-      border-bottom: 1px solid #20364f;
-      text-align: left;
-      font-size: 13px;
-    }
-
-    th {
-      color: #8fa5bc;
-      background: #0b1928;
-    }
-
-    .empty {
-      text-align: center;
-      color: #70859d;
-      padding: 30px;
-    }
-
-    @media(max-width: 900px) {
-      .sidebar {
-        width: 190px;
-      }
-
-      .cards {
-        grid-template-columns: repeat(2,1fr);
-      }
-    }
-
-    @media(max-width: 650px) {
-      .layout {
-        display: block;
-      }
-
-      .sidebar {
-        width: 100%;
-        border-right: 0;
-        border-bottom: 1px solid #203a59;
-      }
-
-      .cards,
-      .info-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .user-info {
-        display: none;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>GMAO PRO V9 - Connexion</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{
+  box-sizing:border-box;
+  font-family:Arial,sans-serif;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#07111f;
+  color:white;
+}
+
+.card{
+  width:420px;
+  max-width:92%;
+  background:#0d1b2d;
+  border:1px solid #25415f;
+  border-radius:18px;
+  padding:30px;
+  box-shadow:0 20px 60px rgba(0,0,0,.5);
+}
+
+.logo{
+  width:70px;
+  height:70px;
+  margin:auto;
+  border-radius:18px;
+  background:#1677ff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:30px;
+  font-weight:bold;
+}
+
+h1{
+  text-align:center;
+  margin:18px 0 5px;
+}
+
+.subtitle{
+  text-align:center;
+  color:#8ea3ba;
+  margin-bottom:25px;
+}
+
+label{
+  display:block;
+  margin:15px 0 7px;
+  color:#b7c7d9;
+}
+
+input{
+  width:100%;
+  padding:13px;
+  border-radius:9px;
+  border:1px solid #29445f;
+  background:#081522;
+  color:white;
+  outline:none;
+}
+
+input:focus{
+  border-color:#1677ff;
+}
+
+button{
+  width:100%;
+  padding:13px;
+  margin-top:12px;
+  border:0;
+  border-radius:9px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.login{
+  background:#1677ff;
+  color:white;
+}
+
+.reset{
+  background:#243a52;
+  color:white;
+}
+
+.test{
+  background:#15304c;
+  color:#9cc8ff;
+}
+
+.message{
+  display:none;
+  margin-top:15px;
+  padding:12px;
+  border-radius:8px;
+  font-size:13px;
+  line-height:1.5;
+  white-space:pre-wrap;
+}
+
+.error{
+  display:block;
+  background:#32191d;
+  border:1px solid #71363d;
+  color:#ff9c9c;
+}
+
+.success{
+  display:block;
+  background:#123323;
+  border:1px solid #286b45;
+  color:#8ee0ae;
+}
+
+#app{
+  display:none;
+  text-align:center;
+}
+
+#diagnostic{
+  margin-top:15px;
+  color:#8ea3ba;
+  font-size:12px;
+  white-space:pre-wrap;
+  word-break:break-word;
+  text-align:left;
+}
+</style>
 </head>
 
 <body>
 
-<!-- ================= LOGIN ================= -->
+<div class="card" id="loginPage">
 
-<div id="loginPage">
+  <div class="logo">G</div>
 
-  <div class="login-card">
+  <h1>GMAO PRO V9</h1>
 
-    <div class="logo">G</div>
-
-    <h1>GMAO PRO</h1>
-
-    <div class="subtitle">
-      Maintenance Management System
-    </div>
-
-    <label>Email</label>
-    <input
-      id="email"
-      type="email"
-      placeholder="Votre email Supabase"
-      autocomplete="username"
-    >
-
-    <label>Mot de passe</label>
-    <input
-      id="password"
-      type="password"
-      placeholder="Votre mot de passe"
-      autocomplete="current-password"
-    >
-
-    <button
-      class="btn-primary login-btn"
-      onclick="login()"
-    >
-      🔐 Se connecter
-    </button>
-
-    <div id="loginMessage" class="message"></div>
-
-    <div class="diagnostic">
-
-      <button
-        class="btn-secondary"
-        onclick="diagnostic()"
-      >
-        🔎 Tester la connexion Supabase
-      </button>
-
-      <div id="diagResult"></div>
-
-    </div>
-
+  <div class="subtitle">
+    Connexion Administrateur
   </div>
+
+  <label>Email</label>
+
+  <input
+    id="email"
+    type="email"
+    value="abdelali.bouzid.98@gmail.com"
+    autocomplete="username"
+  >
+
+  <label>Mot de passe</label>
+
+  <input
+    id="password"
+    type="password"
+    placeholder="Votre mot de passe Supabase"
+    autocomplete="current-password"
+  >
+
+  <button
+    class="login"
+    onclick="login()"
+  >
+    🔐 Se connecter
+  </button>
+
+  <button
+    class="reset"
+    onclick="resetPassword()"
+  >
+    🔑 Réinitialiser le mot de passe
+  </button>
+
+  <button
+    class="test"
+    onclick="testConnection()"
+  >
+    🔎 Tester Supabase
+  </button>
+
+  <div id="message" class="message"></div>
+
+  <div id="diagnostic"></div>
 
 </div>
 
 
-<!-- ================= APPLICATION ================= -->
+<div class="card" id="app">
 
-<div id="app" class="hidden">
+  <div class="logo">✓</div>
 
-  <header class="topbar">
+  <h1>Connexion réussie</h1>
 
-    <div class="brand">
-      GMAO <span>PRO V8</span>
-    </div>
+  <p id="welcome"></p>
 
-    <div class="user-box">
+  <p style="color:#8ea3ba">
+    Votre compte Supabase est maintenant connecté à GMAO PRO.
+  </p>
 
-      <div class="avatar" id="avatar">
-        A
-      </div>
-
-      <div class="user-info">
-
-        <div
-          class="user-name"
-          id="topUserName"
-        >
-          —
-        </div>
-
-        <div
-          class="user-role"
-          id="topUserRole"
-        >
-          —
-        </div>
-
-      </div>
-
-      <button
-        class="btn-danger"
-        onclick="logout()"
-      >
-        Déconnexion
-      </button>
-
-    </div>
-
-  </header>
-
-
-  <div class="layout">
-
-    <aside class="sidebar">
-
-      <div class="nav-title">
-        Général
-      </div>
-
-      <button
-        class="nav-btn active"
-        onclick="showPage('dashboard',this)"
-      >
-        📊 Dashboard
-      </button>
-
-      <div class="nav-title">
-        Maintenance
-      </div>
-
-      <button
-        class="nav-btn"
-        onclick="showPage('zones',this)"
-      >
-        🏭 Zones
-      </button>
-
-      <button
-        class="nav-btn"
-        onclick="showPage('equipment',this)"
-      >
-        ⚙️ Équipements
-      </button>
-
-      <button
-        class="nav-btn"
-        onclick="showPage('personnel',this)"
-      >
-        👷 Personnel
-      </button>
-
-      <div class="nav-title">
-        Système
-      </div>
-
-      <button
-        class="nav-btn"
-        onclick="showPage('security',this)"
-      >
-        🔐 Sécurité
-      </button>
-
-    </aside>
-
-
-    <main class="main">
-
-      <!-- DASHBOARD -->
-
-      <section id="page-dashboard">
-
-        <div class="page-title">
-
-          <h2>Dashboard</h2>
-
-          <p>
-            Vue générale du système de maintenance
-          </p>
-
-        </div>
-
-        <div class="cards">
-
-          <div class="card">
-            <div class="kpi-label">
-              Zones
-            </div>
-            <div
-              class="kpi-value"
-              id="kpiZones"
-            >
-              —
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="kpi-label">
-              Équipements
-            </div>
-            <div
-              class="kpi-value"
-              id="kpiEquipment"
-            >
-              —
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="kpi-label">
-              Sous-équipements
-            </div>
-            <div
-              class="kpi-value"
-              id="kpiSubEquipment"
-            >
-              —
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="kpi-label">
-              Personnel
-            </div>
-            <div
-              class="kpi-value"
-              id="kpiPersonnel"
-            >
-              —
-            </div>
-          </div>
-
-        </div>
-
-
-        <div class="section">
-
-          <div class="section-title">
-            👤 Session actuelle
-          </div>
-
-          <div class="card">
-
-            <div class="info-grid">
-
-              <div class="info-item">
-                <small>Nom</small>
-                <strong id="infoName">—</strong>
-              </div>
-
-              <div class="info-item">
-                <small>Rôle</small>
-                <strong id="infoRole">—</strong>
-              </div>
-
-              <div class="info-item">
-                <small>Code personnel</small>
-                <strong id="infoCode">—</strong>
-              </div>
-
-              <div class="info-item">
-                <small>Statut</small>
-                <span class="status">
-                  Session active
-                </span>
-              </div>
-
-              <div class="info-item">
-                <small>User ID Supabase</small>
-                <strong
-                  id="infoUserId"
-                  style="font-size:11px;word-break:break-all"
-                >
-                  —
-                </strong>
-              </div>
-
-              <div class="info-item">
-                <small>Email</small>
-                <strong
-                  id="infoEmail"
-                  style="word-break:break-all"
-                >
-                  —
-                </strong>
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </section>
-
-
-      <!-- ZONES -->
-
-      <section id="page-zones" class="hidden">
-
-        <div class="page-title">
-
-          <h2>Zones de production</h2>
-
-          <p>
-            Module de test de lecture Supabase
-          </p>
-
-        </div>
-
-        <div class="card">
-
-          <div class="table-wrap">
-
-            <table>
-
-              <thead>
-                <tr>
-                  <th>Code</th>
-                  <th>Nom</th>
-                  <th>Description</th>
-                  <th>Statut</th>
-                </tr>
-              </thead>
-
-              <tbody id="zonesTable">
-
-                <tr>
-                  <td
-                    colspan="4"
-                    class="empty"
-                  >
-                    Chargement...
-                  </td>
-                </tr>
-
-              </tbody>
-
-            </table>
-
-          </div>
-
-        </div>
-
-      </section>
-
-
-      <!-- EQUIPMENT -->
-
-      <section id="page-equipment" class="hidden">
-
-        <div class="page-title">
-
-          <h2>Équipements</h2>
-
-          <p>
-            Liste des équipements enregistrés
-          </p>
-
-        </div>
-
-        <div class="card">
-
-          <div class="table-wrap">
-
-            <table>
-
-              <thead>
-
-                <tr>
-                  <th>Code</th>
-                  <th>Désignation</th>
-                  <th>Type</th>
-                  <th>Criticité</th>
-                  <th>Statut</th>
-                </tr>
-
-              </thead>
-
-              <tbody id="equipmentTable">
-
-                <tr>
-                  <td
-                    colspan="5"
-                    class="empty"
-                  >
-                    Chargement...
-                  </td>
-                </tr>
-
-              </tbody>
-
-            </table>
-
-          </div>
-
-        </div>
-
-      </section>
-
-
-      <!-- PERSONNEL -->
-
-      <section id="page-personnel" class="hidden">
-
-        <div class="page-title">
-
-          <h2>Personnel</h2>
-
-          <p>
-            Utilisateurs et rôles GMAO
-          </p>
-
-        </div>
-
-        <div class="card">
-
-          <div class="table-wrap">
-
-            <table>
-
-              <thead>
-
-                <tr>
-                  <th>Nom</th>
-                  <th>Code</th>
-                  <th>Rôle</th>
-                  <th>Téléphone</th>
-                  <th>Statut</th>
-                </tr>
-
-              </thead>
-
-              <tbody id="personnelTable">
-
-                <tr>
-                  <td
-                    colspan="5"
-                    class="empty"
-                  >
-                    Chargement...
-                  </td>
-                </tr>
-
-              </tbody>
-
-            </table>
-
-          </div>
-
-        </div>
-
-      </section>
-
-
-      <!-- SECURITY -->
-
-      <section id="page-security" class="hidden">
-
-        <div class="page-title">
-
-          <h2>Sécurité</h2>
-
-          <p>
-            Gestion de votre mot de passe Supabase
-          </p>
-
-        </div>
-
-        <div class="card">
-
-          <label>
-            Nouveau mot de passe
-          </label>
-
-          <input
-            id="newPassword"
-            type="password"
-            placeholder="Nouveau mot de passe"
-          >
-
-          <label>
-            Confirmation
-          </label>
-
-          <input
-            id="confirmPassword"
-            type="password"
-            placeholder="Confirmer le mot de passe"
-          >
-
-          <button
-            class="btn-primary"
-            style="margin-top:18px"
-            onclick="changePassword()"
-          >
-            🔑 Modifier le mot de passe
-          </button>
-
-          <div
-            id="passwordMessage"
-            class="message"
-          ></div>
-
-        </div>
-
-      </section>
-
-    </main>
-
-  </div>
+  <button
+    class="login"
+    onclick="logout()"
+  >
+    Déconnexion
+  </button>
 
 </div>
 
 
 <script>
 
-/* =========================================================
-   CONFIGURATION SUPABASE
-   ========================================================= */
+/* =====================================================
+   SUPABASE CONFIGURATION
+===================================================== */
 
 const SUPABASE_URL =
   'https://qnrfkfrornozwvgewcwk.supabase.co';
@@ -930,118 +236,83 @@ const SUPABASE_ANON_KEY =
   'sb_publishable_DBe5PuyHPvdHnRnqr2lpqw_t4m3C8SY';
 
 
-const { createClient } = window.supabase;
-
-const sb = createClient(
-  SUPABASE_URL,
-  SUPABASE_ANON_KEY
-);
-
-
-/* =========================================================
-   VARIABLES
-   ========================================================= */
-
-let currentUser = null;
-let currentProfile = null;
+const sb =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+  );
 
 
-/* =========================================================
-   UTILITAIRES
-   ========================================================= */
+/* =====================================================
+   MESSAGE
+===================================================== */
 
-function showLoginMessage(message, type='error') {
+function showMessage(text,type){
 
-  const box = document.getElementById('loginMessage');
-
-  box.textContent = message;
+  const box =
+    document.getElementById('message');
 
   box.className =
     'message ' + type;
+
+  box.textContent = text;
+
 }
 
 
-function clearLoginMessage() {
+/* =====================================================
+   TEST CONNEXION
+===================================================== */
 
-  const box =
-    document.getElementById('loginMessage');
+async function testConnection(){
 
-  box.textContent = '';
+  const diag =
+    document.getElementById('diagnostic');
 
-  box.className = 'message';
-}
+  diag.textContent =
+    '⏳ Test en cours...';
 
+  try{
 
-function roleLabel(role) {
-
-  const roles = {
-
-    admin: 'Administrateur',
-
-    manager: 'Responsable Maintenance',
-
-    technician: 'Technicien',
-
-    viewer: 'Consultation'
-
-  };
-
-  return roles[role] || role || 'Non défini';
-}
-
-
-/* =========================================================
-   DIAGNOSTIC SUPABASE
-   ========================================================= */
-
-async function diagnostic() {
-
-  const result =
-    document.getElementById('diagResult');
-
-  result.textContent =
-    '⏳ Test de connexion...';
-
-  try {
-
-    if (!window.supabase) {
+    if(!window.supabase){
 
       throw new Error(
-        'La bibliothèque Supabase JS n’est pas chargée.'
+        'Supabase JS n’est pas chargé.'
       );
 
     }
 
-    result.textContent =
-      '1/3 Bibliothèque Supabase : OK\n' +
-      '2/3 Test serveur...';
-
     const {
       data,
       error
-    } = await sb.auth.getSession();
+    } =
+    await sb.auth.getSession();
 
-    if (error) {
+    if(error){
 
       throw error;
 
     }
 
-    result.textContent =
-      '1/3 Bibliothèque Supabase : OK\n' +
-      '2/3 Serveur Supabase : OK\n' +
-      '3/3 Session : ' +
-      (data.session ? 'ACTIVE' : 'Aucune session') +
-      '\n\nURL utilisée :\n' +
-      SUPABASE_URL;
+    diag.textContent =
+      '✅ SUPABASE OK\n\n' +
 
-  } catch(error) {
+      'Project URL:\n' +
+      SUPABASE_URL +
 
-    result.textContent =
+      '\n\nSession:\n' +
+      (
+        data.session
+        ? 'ACTIVE'
+        : 'Aucune session'
+      );
+
+  }
+  catch(error){
+
+    diag.textContent =
       '❌ ERREUR\n\n' +
-      error.message +
-      '\n\nURL :\n' +
-      SUPABASE_URL;
+      error.message;
 
     console.error(error);
 
@@ -1050,94 +321,226 @@ async function diagnostic() {
 }
 
 
-/* =========================================================
+/* =====================================================
    LOGIN
-   ========================================================= */
+===================================================== */
 
-async function login() {
-
-  clearLoginMessage();
+async function login(){
 
   const email =
     document.getElementById('email')
-      .value
-      .trim();
+      .value.trim();
 
   const password =
     document.getElementById('password')
       .value;
 
-  if (!email || !password) {
+  if(!email){
 
-    showLoginMessage(
-      'Veuillez saisir votre email et votre mot de passe.'
+    showMessage(
+      'Veuillez saisir votre email.',
+      'error'
     );
 
     return;
 
   }
 
-  showLoginMessage(
-    'Connexion à Supabase...',
+  if(!password){
+
+    showMessage(
+      'Veuillez saisir votre mot de passe.',
+      'error'
+    );
+
+    return;
+
+  }
+
+  showMessage(
+    '⏳ Connexion...',
     'success'
   );
 
-  try {
+  try{
 
     const {
       data,
       error
     } =
-      await sb.auth.signInWithPassword({
+    await sb.auth.signInWithPassword({
 
-        email: email,
+      email:email,
 
-        password: password
+      password:password
 
-      });
+    });
 
 
-    if (error) {
+    if(error){
 
       throw error;
 
     }
 
 
-    if (!data.session || !data.user) {
+    if(!data.user){
 
       throw new Error(
-        'Connexion réussie mais aucune session Supabase n’a été retournée.'
+        'Utilisateur non retourné par Supabase.'
       );
 
     }
 
 
-    currentUser = data.user;
+    /*
+      Vérification du profil GMAO
+    */
+
+    const {
+      data:profile,
+      error:profileError
+    } =
+    await sb
+
+      .from('profiles')
+
+      .select(
+        'id,full_name,role,employee_code,active'
+      )
+
+      .eq(
+        'id',
+        data.user.id
+      )
+
+      .maybeSingle();
 
 
-    await loadProfile();
+    if(profileError){
 
+      throw new Error(
+        'Connexion réussie mais erreur profiles : ' +
+        profileError.message
+      );
+
+    }
+
+
+    if(!profile){
+
+      throw new Error(
+        'Connexion Supabase réussie.\n\n' +
+
+        'Mais aucun profil GMAO n’est associé à ce compte.\n\n' +
+
+        'UUID:\n' +
+        data.user.id
+      );
+
+    }
+
+
+    if(profile.active === false){
+
+      await sb.auth.signOut();
+
+      throw new Error(
+        'Ce compte GMAO est désactivé.'
+      );
+
+    }
+
+
+    /*
+      SUCCÈS
+    */
 
     document.getElementById('loginPage')
-      .classList.add('hidden');
+      .style.display='none';
 
     document.getElementById('app')
-      .classList.remove('hidden');
+      .style.display='block';
 
 
-    await loadDashboard();
+    document.getElementById('welcome')
+      .innerHTML =
+
+      '<strong>' +
+      (profile.full_name || data.user.email) +
+      '</strong><br><br>' +
+
+      'Rôle : ' +
+      (profile.role || 'Non défini') +
+
+      '<br>' +
+
+      'Code : ' +
+      (profile.employee_code || 'Non défini') +
+
+      '<br><br>' +
+
+      'Email : ' +
+      data.user.email;
 
 
-  } catch(error) {
+  }
+  catch(error){
 
     console.error(
       'LOGIN ERROR:',
       error
     );
 
-    showLoginMessage(
-      'Erreur : ' + error.message
+
+    let msg =
+      error.message || 'Erreur inconnue';
+
+
+    if(
+      msg.toLowerCase()
+        .includes('invalid login credentials')
+    ){
+
+      msg =
+        '❌ Email ou mot de passe incorrect.\n\n' +
+
+        'Le compte existe peut-être dans Supabase,\n' +
+
+        'mais le mot de passe utilisé n’est pas celui enregistré dans Authentication.';
+
+    }
+
+
+    if(
+      msg.toLowerCase()
+        .includes('invalid api key')
+    ){
+
+      msg =
+        '❌ Clé API incorrecte.\n\n' +
+
+        'Vérifiez SUPABASE_ANON_KEY.';
+
+    }
+
+
+    if(
+      msg.toLowerCase()
+        .includes('failed to fetch')
+    ){
+
+      msg =
+        '❌ Impossible de contacter Supabase.\n\n' +
+
+        'Vérifiez le Project URL et votre connexion Internet.';
+
+    }
+
+
+    showMessage(
+      msg,
+      'error'
     );
 
   }
@@ -1145,836 +548,115 @@ async function login() {
 }
 
 
-/* =========================================================
-   CHARGER PROFIL
-   ========================================================= */
+/* =====================================================
+   RESET PASSWORD
+===================================================== */
 
-async function loadProfile() {
+async function resetPassword(){
 
-  const {
-    data,
-    error
-  } = await sb
-
-    .from('profiles')
-
-    .select(`
-      id,
-      full_name,
-      role,
-      employee_code,
-      active,
-      phone,
-      department,
-      position
-    `)
-
-    .eq(
-      'id',
-      currentUser.id
-    )
-
-    .maybeSingle();
+  const email =
+    document.getElementById('email')
+      .value.trim();
 
 
-  if (error) {
+  if(!email){
 
-    console.error(
-      'PROFILE ERROR:',
-      error
+    showMessage(
+      'Saisissez votre adresse email.',
+      'error'
     );
-
-    throw new Error(
-      'Connexion réussie, mais impossible de lire profiles : ' +
-      error.message
-    );
-
-  }
-
-
-  if (!data) {
-
-    throw new Error(
-      'Votre compte Supabase existe, mais aucun profil n’est associé à cet utilisateur.\n' +
-      'Vérifiez que votre UUID est bien présent dans public.profiles.'
-    );
-
-  }
-
-
-  if (data.active === false) {
-
-    await sb.auth.signOut();
-
-    throw new Error(
-      'Votre compte GMAO est désactivé.'
-    );
-
-  }
-
-
-  currentProfile = data;
-
-
-  updateUserInterface();
-
-}
-
-
-/* =========================================================
-   INTERFACE UTILISATEUR
-   ========================================================= */
-
-function updateUserInterface() {
-
-  const name =
-    currentProfile.full_name ||
-    currentUser.email;
-
-  const role =
-    roleLabel(currentProfile.role);
-
-  document.getElementById('topUserName')
-    .textContent = name;
-
-  document.getElementById('topUserRole')
-    .textContent =
-      role +
-      ' • ' +
-      (currentProfile.employee_code || '—');
-
-
-  document.getElementById('infoName')
-    .textContent = name;
-
-  document.getElementById('infoRole')
-    .textContent = role;
-
-  document.getElementById('infoCode')
-    .textContent =
-      currentProfile.employee_code ||
-      'Non défini';
-
-  document.getElementById('infoUserId')
-    .textContent =
-      currentUser.id;
-
-  document.getElementById('infoEmail')
-    .textContent =
-      currentUser.email;
-
-
-  document.getElementById('avatar')
-    .textContent =
-      name
-        .substring(0,1)
-        .toUpperCase();
-
-}
-
-
-/* =========================================================
-   DASHBOARD
-   ========================================================= */
-
-async function loadDashboard() {
-
-  await Promise.all([
-
-    countTable(
-      'zones',
-      'kpiZones'
-    ),
-
-    countTable(
-      'equipment',
-      'kpiEquipment'
-    ),
-
-    countTable(
-      'sub_equipment',
-      'kpiSubEquipment'
-    ),
-
-    countTable(
-      'profiles',
-      'kpiPersonnel'
-    )
-
-  ]);
-
-}
-
-
-/* =========================================================
-   COUNT TABLE
-   ========================================================= */
-
-async function countTable(
-  table,
-  elementId
-) {
-
-  const {
-    count,
-    error
-  } = await sb
-
-    .from(table)
-
-    .select(
-      '*',
-      {
-        count: 'exact',
-        head: true
-      }
-    );
-
-
-  if (error) {
-
-    console.error(
-      table,
-      error
-    );
-
-    document.getElementById(elementId)
-      .textContent = '—';
 
     return;
 
   }
 
 
-  document.getElementById(elementId)
-    .textContent =
-      count ?? 0;
+  showMessage(
+    '⏳ Préparation de la réinitialisation...',
+    'success'
+  );
 
-}
 
-
-/* =========================================================
-   NAVIGATION
-   ========================================================= */
-
-function showPage(
-  page,
-  button
-) {
-
-  document.querySelectorAll(
-    'main section'
-  ).forEach(section => {
-
-    section.classList.add('hidden');
-
-  });
-
-
-  const target =
-    document.getElementById(
-      'page-' + page
-    );
-
-
-  if (target) {
-
-    target.classList.remove('hidden');
-
-  }
-
-
-  document.querySelectorAll(
-    '.nav-btn'
-  ).forEach(btn => {
-
-    btn.classList.remove('active');
-
-  });
-
-
-  if (button) {
-
-    button.classList.add('active');
-
-  }
-
-
-  if (page === 'zones') {
-
-    loadZones();
-
-  }
-
-  if (page === 'equipment') {
-
-    loadEquipment();
-
-  }
-
-  if (page === 'personnel') {
-
-    loadPersonnel();
-
-  }
-
-}
-
-
-/* =========================================================
-   ZONES
-   ========================================================= */
-
-async function loadZones() {
-
-  const tbody =
-    document.getElementById(
-      'zonesTable'
-    );
-
-  tbody.innerHTML =
-    `<tr>
-      <td colspan="4" class="empty">
-        Chargement...
-      </td>
-    </tr>`;
-
-
-  const {
-    data,
-    error
-  } = await sb
-
-    .from('zones')
-
-    .select(
-      'code,name,description,status'
-    )
-
-    .order(
-      'code',
-      {
-        ascending: true
-      }
-    );
-
-
-  if (error) {
-
-    tbody.innerHTML =
-      `<tr>
-        <td colspan="4" class="empty">
-          Erreur : ${escapeHtml(error.message)}
-        </td>
-      </tr>`;
-
-    return;
-
-  }
-
-
-  if (!data || data.length === 0) {
-
-    tbody.innerHTML =
-      `<tr>
-        <td colspan="4" class="empty">
-          Aucune zone enregistrée.
-        </td>
-      </tr>`;
-
-    return;
-
-  }
-
-
-  tbody.innerHTML =
-    data.map(zone => `
-
-      <tr>
-
-        <td>
-          <strong>
-            ${escapeHtml(zone.code || '—')}
-          </strong>
-        </td>
-
-        <td>
-          ${escapeHtml(zone.name || '—')}
-        </td>
-
-        <td>
-          ${escapeHtml(zone.description || '—')}
-        </td>
-
-        <td>
-          <span class="status">
-            ${escapeHtml(zone.status || 'active')}
-          </span>
-        </td>
-
-      </tr>
-
-    `).join('');
-
-}
-
-
-/* =========================================================
-   EQUIPEMENTS
-   ========================================================= */
-
-async function loadEquipment() {
-
-  const tbody =
-    document.getElementById(
-      'equipmentTable'
-    );
-
-  tbody.innerHTML =
-    `<tr>
-      <td colspan="5" class="empty">
-        Chargement...
-      </td>
-    </tr>`;
-
-
-  const {
-    data,
-    error
-  } = await sb
-
-    .from('equipment')
-
-    .select(
-      'code,designation,type,criticality,status'
-    )
-
-    .order(
-      'code',
-      {
-        ascending: true
-      }
-    );
-
-
-  if (error) {
-
-    tbody.innerHTML =
-      `<tr>
-        <td colspan="5" class="empty">
-          Erreur : ${escapeHtml(error.message)}
-        </td>
-      </tr>`;
-
-    return;
-
-  }
-
-
-  if (!data || data.length === 0) {
-
-    tbody.innerHTML =
-      `<tr>
-        <td colspan="5" class="empty">
-          Aucun équipement enregistré.
-        </td>
-      </tr>`;
-
-    return;
-
-  }
-
-
-  tbody.innerHTML =
-    data.map(eq => `
-
-      <tr>
-
-        <td>
-          <strong>
-            ${escapeHtml(eq.code || '—')}
-          </strong>
-        </td>
-
-        <td>
-          ${escapeHtml(eq.designation || '—')}
-        </td>
-
-        <td>
-          ${escapeHtml(eq.type || '—')}
-        </td>
-
-        <td>
-          ${escapeHtml(eq.criticality || '—')}
-        </td>
-
-        <td>
-          <span class="status">
-            ${escapeHtml(eq.status || 'active')}
-          </span>
-        </td>
-
-      </tr>
-
-    `).join('');
-
-}
-
-
-/* =========================================================
-   PERSONNEL
-   ========================================================= */
-
-async function loadPersonnel() {
-
-  const tbody =
-    document.getElementById(
-      'personnelTable'
-    );
-
-  tbody.innerHTML =
-    `<tr>
-      <td colspan="5" class="empty">
-        Chargement...
-      </td>
-    </tr>`;
-
-
-  const {
-    data,
-    error
-  } = await sb
-
-    .from('profiles')
-
-    .select(
-      'full_name,employee_code,role,phone,active'
-    )
-
-    .order(
-      'employee_code',
-      {
-        ascending: true
-      }
-    );
-
-
-  if (error) {
-
-    tbody.innerHTML =
-      `<tr>
-        <td colspan="5" class="empty">
-          Erreur : ${escapeHtml(error.message)}
-        </td>
-      </tr>`;
-
-    return;
-
-  }
-
-
-  if (!data || data.length === 0) {
-
-    tbody.innerHTML =
-      `<tr>
-        <td colspan="5" class="empty">
-          Aucun personnel.
-        </td>
-      </tr>`;
-
-    return;
-
-  }
-
-
-  tbody.innerHTML =
-    data.map(person => `
-
-      <tr>
-
-        <td>
-          ${escapeHtml(
-            person.full_name || '—'
-          )}
-        </td>
-
-        <td>
-          <strong>
-            ${escapeHtml(
-              person.employee_code || '—'
-            )}
-          </strong>
-        </td>
-
-        <td>
-          ${escapeHtml(
-            roleLabel(person.role)
-          )}
-        </td>
-
-        <td>
-          ${escapeHtml(
-            person.phone || '—'
-          )}
-        </td>
-
-        <td>
-          <span class="status">
-            ${person.active ? 'Actif' : 'Inactif'}
-          </span>
-        </td>
-
-      </tr>
-
-    `).join('');
-
-}
-
-
-/* =========================================================
-   CHANGER MOT DE PASSE
-   ========================================================= */
-
-async function changePassword() {
-
-  const password =
-    document.getElementById(
-      'newPassword'
-    ).value;
-
-  const confirmation =
-    document.getElementById(
-      'confirmPassword'
-    ).value;
-
-  const message =
-    document.getElementById(
-      'passwordMessage'
-    );
-
-
-  message.className =
-    'message';
-
-  message.textContent = '';
-
-
-  if (!password || !confirmation) {
-
-    message.className =
-      'message error';
-
-    message.textContent =
-      'Veuillez remplir les deux champs.';
-
-    return;
-
-  }
-
-
-  if (password.length < 6) {
-
-    message.className =
-      'message error';
-
-    message.textContent =
-      'Le mot de passe doit contenir au moins 6 caractères.';
-
-    return;
-
-  }
-
-
-  if (password !== confirmation) {
-
-    message.className =
-      'message error';
-
-    message.textContent =
-      'Les deux mots de passe sont différents.';
-
-    return;
-
-  }
-
-
-  try {
+  try{
 
     const {
       error
     } =
-      await sb.auth.updateUser({
+    await sb.auth.resetPasswordForEmail(
 
-        password: password
+      email,
 
-      });
+      {
+        redirectTo:
+          window.location.origin +
+          window.location.pathname
+      }
+
+    );
 
 
-    if (error) {
+    if(error){
 
       throw error;
 
     }
 
 
-    message.className =
-      'message success';
+    showMessage(
 
-    message.textContent =
-      'Mot de passe modifié avec succès.';
+      '✅ Demande envoyée.\n\n' +
 
+      'Vérifiez votre boîte Gmail :\n' +
+      email +
 
-    document.getElementById(
-      'newPassword'
-    ).value = '';
+      '\n\n' +
 
-    document.getElementById(
-      'confirmPassword'
-    ).value = '';
+      'Vérifiez également le dossier Spam / Courrier indésirable.',
 
+      'success'
 
-  } catch(error) {
+    );
 
-    message.className =
-      'message error';
+  }
+  catch(error){
 
-    message.textContent =
-      'Erreur : ' + error.message;
+    console.error(error);
+
+    showMessage(
+      'Erreur : ' + error.message,
+      'error'
+    );
 
   }
 
 }
 
 
-/* =========================================================
+/* =====================================================
    LOGOUT
-   ========================================================= */
+===================================================== */
 
-async function logout() {
+async function logout(){
 
   await sb.auth.signOut();
 
-  currentUser = null;
-
-  currentProfile = null;
-
   document.getElementById('app')
-    .classList.add('hidden');
+    .style.display='none';
 
   document.getElementById('loginPage')
-    .classList.remove('hidden');
+    .style.display='block';
 
   document.getElementById('password')
-    .value = '';
+    .value='';
 
 }
 
 
-/* =========================================================
-   ESCAPE HTML
-   ========================================================= */
-
-function escapeHtml(value) {
-
-  return String(value ?? '')
-    .replaceAll('&','&amp;')
-    .replaceAll('<','&lt;')
-    .replaceAll('>','&gt;')
-    .replaceAll('"','&quot;')
-    .replaceAll("'","&#039;");
-
-}
-
-
-/* =========================================================
-   RESTAURER SESSION
-   ========================================================= */
-
-async function restoreSession() {
-
-  try {
-
-    const {
-      data,
-      error
-    } = await sb.auth.getSession();
-
-
-    if (error) {
-
-      console.error(error);
-
-      return;
-
-    }
-
-
-    if (
-      data &&
-      data.session &&
-      data.session.user
-    ) {
-
-      currentUser =
-        data.session.user;
-
-      try {
-
-        await loadProfile();
-
-        document.getElementById(
-          'loginPage'
-        ).classList.add('hidden');
-
-        document.getElementById(
-          'app'
-        ).classList.remove('hidden');
-
-        await loadDashboard();
-
-      } catch(error) {
-
-        console.error(error);
-
-        await sb.auth.signOut();
-
-      }
-
-    }
-
-  } catch(error) {
-
-    console.error(
-      'SESSION ERROR:',
-      error
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   AUTH STATE
-   ========================================================= */
-
-sb.auth.onAuthStateChange(
-  async (event, session) => {
-
-    console.log(
-      'Auth event:',
-      event
-    );
-
-  }
-);
-
-
-/* =========================================================
+/* =====================================================
    START
-   ========================================================= */
+===================================================== */
 
-restoreSession();
+testConnection();
 
 </script>
 
