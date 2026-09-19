@@ -1,1426 +1,927 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>GMAO PRO — Maintenance Management</title>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<style>
-:root{
-  --bg:#07111f;
-  --panel:#0d1b2e;
-  --panel2:#10243b;
-  --border:#203751;
-  --text:#eaf2ff;
-  --muted:#8fa7c0;
-  --primary:#2196f3;
-  --success:#22c55e;
-  --warning:#f59e0b;
-  --danger:#ef4444;
-  --info:#06b6d4;
-  --radius:12px;
-}
-
-*{box-sizing:border-box}
-
-body{
-  margin:0;
-  font-family:Arial,Helvetica,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-}
-
-button,input,select,textarea{
-  font:inherit;
-}
-
-button{
-  cursor:pointer;
-}
-
-.hidden{
-  display:none!important;
-}
-
-/* LOGIN */
-
-#loginScreen{
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:
-    radial-gradient(circle at top right,#12365d 0,#07111f 45%),
-    var(--bg);
-  padding:20px;
-}
-
-.login-card{
-  width:100%;
-  max-width:440px;
-  background:rgba(13,27,46,.96);
-  border:1px solid var(--border);
-  border-radius:20px;
-  padding:35px;
-  box-shadow:0 25px 80px rgba(0,0,0,.45);
-}
-
-.logo{
-  width:65px;
-  height:65px;
-  border-radius:16px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:linear-gradient(135deg,#2196f3,#0d47a1);
-  font-size:28px;
-  font-weight:bold;
-  margin-bottom:18px;
-}
-
-.login-card h1{
-  margin:0 0 7px;
-}
-
-.login-card p{
-  color:var(--muted);
-}
-
-.form-group{
-  margin-bottom:15px;
-}
-
-label{
-  display:block;
-  margin-bottom:7px;
-  color:#b8cbe0;
-  font-size:13px;
-  font-weight:bold;
-}
-
-input,select,textarea{
-  width:100%;
-  background:#081625;
-  color:var(--text);
-  border:1px solid var(--border);
-  border-radius:8px;
-  padding:11px 12px;
-  outline:none;
-}
-
-input:focus,select:focus,textarea:focus{
-  border-color:var(--primary);
-}
-
-textarea{
-  min-height:100px;
-  resize:vertical;
-}
-
-.btn{
-  border:0;
-  border-radius:8px;
-  padding:10px 15px;
-  color:white;
-  background:#263b54;
-}
-
-.btn:hover{
-  filter:brightness(1.15);
-}
-
-.btn-primary{background:var(--primary)}
-.btn-success{background:var(--success)}
-.btn-warning{background:var(--warning);color:#111}
-.btn-danger{background:var(--danger)}
-.btn-info{background:var(--info);color:#06121c}
-
-.btn-block{
-  width:100%;
-}
-
-.small{
-  font-size:12px;
-}
-
-.muted{
-  color:var(--muted);
-}
-
-/* APP */
-
-#app{
-  display:none;
-  min-height:100vh;
-}
-
-.sidebar{
-  position:fixed;
-  left:0;
-  top:0;
-  bottom:0;
-  width:245px;
-  background:#091727;
-  border-right:1px solid var(--border);
-  overflow-y:auto;
-  z-index:20;
-}
-
-.brand{
-  padding:20px;
-  border-bottom:1px solid var(--border);
-}
-
-.brand-title{
-  font-size:20px;
-  font-weight:bold;
-}
-
-.brand-sub{
-  color:var(--muted);
-  font-size:12px;
-  margin-top:5px;
-}
-
-.user-box{
-  padding:15px;
-  margin:12px;
-  border:1px solid var(--border);
-  border-radius:10px;
-  background:#0c1d31;
-}
-
-.user-name{
-  font-weight:bold;
-}
-
-.user-role{
-  color:#5fb7ff;
-  font-size:12px;
-  margin-top:4px;
-}
-
-.nav{
-  padding:10px;
-}
-
-.nav-section{
-  color:#5e7895;
-  font-size:10px;
-  text-transform:uppercase;
-  font-weight:bold;
-  padding:15px 10px 7px;
-}
-
-.nav button{
-  width:100%;
-  text-align:left;
-  border:0;
-  background:transparent;
-  color:#a9bfd6;
-  padding:11px 12px;
-  border-radius:8px;
-  margin-bottom:3px;
-}
-
-.nav button:hover,
-.nav button.active{
-  background:#123252;
-  color:white;
-}
-
-.main{
-  margin-left:245px;
-  min-height:100vh;
-}
-
-.topbar{
-  height:65px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 22px;
-  border-bottom:1px solid var(--border);
-  background:#091827;
-  position:sticky;
-  top:0;
-  z-index:10;
-}
-
-.page{
-  padding:22px;
-}
-
-.page-header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
-  margin-bottom:20px;
-  flex-wrap:wrap;
-}
-
-.page-title{
-  margin:0;
-  font-size:25px;
-}
-
-.page-subtitle{
-  color:var(--muted);
-  font-size:13px;
-  margin-top:5px;
-}
-
-/* CARDS */
-
-.grid{
-  display:grid;
-  gap:15px;
-}
-
-.grid-2{grid-template-columns:repeat(2,1fr)}
-.grid-3{grid-template-columns:repeat(3,1fr)}
-.grid-4{grid-template-columns:repeat(4,1fr)}
-
-.card{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  padding:18px;
-}
-
-.kpi{
-  position:relative;
-  overflow:hidden;
-}
-
-.kpi-title{
-  color:var(--muted);
-  font-size:12px;
-}
-
-.kpi-value{
-  font-size:28px;
-  font-weight:bold;
-  margin-top:8px;
-}
-
-.kpi-note{
-  color:#6f8ba7;
-  font-size:11px;
-  margin-top:7px;
-}
-
-/* TABLE */
-
-.table-wrap{
-  overflow:auto;
-}
-
-table{
-  width:100%;
-  border-collapse:collapse;
-  min-width:700px;
-}
-
-th,td{
-  border-bottom:1px solid var(--border);
-  padding:11px 9px;
-  text-align:left;
-  font-size:12px;
-}
-
-th{
-  color:#8db1d2;
-  background:#0a1929;
-}
-
-tr:hover td{
-  background:#0d2035;
-}
-
-.actions{
-  display:flex;
-  gap:5px;
-  flex-wrap:wrap;
-}
-
-/* BADGES */
-
-.badge{
-  display:inline-flex;
-  align-items:center;
-  padding:4px 8px;
-  border-radius:20px;
-  font-size:10px;
-  font-weight:bold;
-}
-
-.badge-green{background:#123e29;color:#4ade80}
-.badge-blue{background:#123354;color:#60a5fa}
-.badge-orange{background:#4a3310;color:#fbbf24}
-.badge-red{background:#4a1515;color:#f87171}
-.badge-gray{background:#263344;color:#aebed0}
-
-/* MODAL */
-
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.7);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-  z-index:100;
-}
-
-.modal.show{
-  display:flex;
-}
-
-.modal-box{
-  width:100%;
-  max-width:760px;
-  max-height:90vh;
-  overflow:auto;
-  background:#0d1b2e;
-  border:1px solid var(--border);
-  border-radius:15px;
-  padding:20px;
-}
-
-.modal-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:20px;
-}
-
-.close{
-  border:0;
-  background:#1d3046;
-  color:white;
-  border-radius:7px;
-  padding:7px 10px;
-}
-
-/* FORM */
-
-.form-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:14px;
-}
-
-.form-grid .full{
-  grid-column:1/-1;
-}
-
-.form-actions{
-  display:flex;
-  gap:10px;
-  justify-content:flex-end;
-  margin-top:18px;
-}
-
-/* TOAST */
-
-#toastBox{
-  position:fixed;
-  right:20px;
-  bottom:20px;
-  z-index:200;
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-}
-
-.toast{
-  min-width:280px;
-  padding:12px 15px;
-  border-radius:9px;
-  background:#12243a;
-  border:1px solid var(--border);
-  box-shadow:0 10px 30px rgba(0,0,0,.3);
-  font-size:13px;
-}
-
-.toast.success{border-left:4px solid var(--success)}
-.toast.error{border-left:4px solid var(--danger)}
-.toast.info{border-left:4px solid var(--info)}
-.toast.warning{border-left:4px solid var(--warning)}
-
-/* MOBILE */
-
-@media(max-width:900px){
-  .sidebar{
-    width:210px;
-  }
-  .main{
-    margin-left:210px;
-  }
-  .grid-4{
-    grid-template-columns:repeat(2,1fr);
-  }
-}
-
-@media(max-width:700px){
-  .sidebar{
-    position:relative;
-    width:100%;
-    height:auto;
-  }
-
-  .main{
-    margin-left:0;
-  }
-
-  .grid-2,
-  .grid-3,
-  .grid-4{
-    grid-template-columns:1fr;
-  }
-
-  .form-grid{
-    grid-template-columns:1fr;
-  }
-
-  .topbar{
-    position:relative;
-  }
-
-  .page{
-    padding:12px;
-  }
-}
-
-/* PRINT */
-
-@media print{
-  .sidebar,
-  .topbar,
-  .no-print{
-    display:none!important;
-  }
-
-  .main{
-    margin:0;
-  }
-
-  body{
-    background:white;
-    color:black;
-  }
-
-  .card{
-    border:1px solid #ccc;
-    color:black;
-  }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GMAO PRO V8 - Supabase</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #07111f;
+      color: #e8eef7;
+      min-height: 100vh;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* LOGIN */
+    #loginPage {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background:
+        radial-gradient(circle at top right, #123b64 0, transparent 35%),
+        radial-gradient(circle at bottom left, #0d2945 0, transparent 35%),
+        #07111f;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 440px;
+      background: #0d1b2d;
+      border: 1px solid #203a59;
+      border-radius: 18px;
+      padding: 35px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.45);
+    }
+
+    .logo {
+      width: 70px;
+      height: 70px;
+      margin: auto;
+      border-radius: 18px;
+      background: #1677ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      font-weight: bold;
+      box-shadow: 0 10px 30px rgba(22,119,255,.3);
+    }
+
+    .login-card h1 {
+      text-align: center;
+      margin-top: 18px;
+      font-size: 25px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #91a4bb;
+      margin: 8px 0 25px;
+    }
+
+    label {
+      display: block;
+      margin: 15px 0 7px;
+      color: #b9c8da;
+      font-size: 14px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px 13px;
+      background: #081522;
+      border: 1px solid #29435f;
+      border-radius: 9px;
+      color: white;
+      outline: none;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: #1677ff;
+      box-shadow: 0 0 0 2px rgba(22,119,255,.12);
+    }
+
+    button {
+      border: 0;
+      border-radius: 9px;
+      padding: 11px 16px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: .2s;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: #1677ff;
+      color: white;
+    }
+
+    .btn-success {
+      background: #159957;
+      color: white;
+    }
+
+    .btn-danger {
+      background: #d94343;
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #243a52;
+      color: white;
+    }
+
+    .login-btn {
+      width: 100%;
+      margin-top: 22px;
+      padding: 13px;
+      font-size: 15px;
+    }
+
+    .message {
+      margin-top: 15px;
+      padding: 11px;
+      border-radius: 8px;
+      font-size: 13px;
+      line-height: 1.5;
+      display: none;
+    }
+
+    .message.error {
+      display: block;
+      background: rgba(217,67,67,.12);
+      border: 1px solid #743535;
+      color: #ff9b9b;
+    }
+
+    .message.success {
+      display: block;
+      background: rgba(21,153,87,.12);
+      border: 1px solid #246e4a;
+      color: #83e0ad;
+    }
+
+    .diagnostic {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #20364f;
+    }
+
+    .diagnostic button {
+      width: 100%;
+    }
+
+    #diagResult {
+      margin-top: 12px;
+      font-size: 12px;
+      color: #91a4bb;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    /* APP */
+    #app {
+      min-height: 100vh;
+    }
+
+    .topbar {
+      height: 68px;
+      background: #0c1929;
+      border-bottom: 1px solid #203a59;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 22px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .brand {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .brand span {
+      color: #4a9aff;
+    }
+
+    .user-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #1677ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    .user-info {
+      line-height: 1.3;
+    }
+
+    .user-name {
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .user-role {
+      font-size: 11px;
+      color: #91a4bb;
+    }
+
+    .layout {
+      display: flex;
+      min-height: calc(100vh - 68px);
+    }
+
+    .sidebar {
+      width: 245px;
+      background: #0a1625;
+      border-right: 1px solid #203a59;
+      padding: 18px 12px;
+    }
+
+    .nav-title {
+      font-size: 11px;
+      color: #60758e;
+      text-transform: uppercase;
+      margin: 10px 10px;
+    }
+
+    .nav-btn {
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      color: #b9c8da;
+      margin-bottom: 4px;
+    }
+
+    .nav-btn:hover,
+    .nav-btn.active {
+      background: #132a43;
+      color: white;
+    }
+
+    .main {
+      flex: 1;
+      padding: 25px;
+      overflow-x: auto;
+    }
+
+    .page-title {
+      margin-bottom: 20px;
+    }
+
+    .page-title h2 {
+      font-size: 25px;
+    }
+
+    .page-title p {
+      color: #8195ad;
+      margin-top: 5px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(180px,1fr));
+      gap: 15px;
+    }
+
+    .card {
+      background: #0d1b2d;
+      border: 1px solid #203a59;
+      border-radius: 14px;
+      padding: 20px;
+    }
+
+    .kpi-label {
+      color: #8297ae;
+      font-size: 13px;
+    }
+
+    .kpi-value {
+      font-size: 29px;
+      font-weight: bold;
+      margin-top: 9px;
+    }
+
+    .section {
+      margin-top: 20px;
+    }
+
+    .section-title {
+      margin-bottom: 12px;
+      font-size: 17px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2,1fr);
+      gap: 15px;
+    }
+
+    .info-item {
+      padding: 14px;
+      background: #081522;
+      border-radius: 9px;
+      border: 1px solid #1b344d;
+    }
+
+    .info-item small {
+      display: block;
+      color: #71869d;
+      margin-bottom: 5px;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 20px;
+      font-size: 11px;
+      background: #17395c;
+      color: #83baff;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 700px;
+    }
+
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #20364f;
+      text-align: left;
+      font-size: 13px;
+    }
+
+    th {
+      color: #8fa5bc;
+      background: #0b1928;
+    }
+
+    .empty {
+      text-align: center;
+      color: #70859d;
+      padding: 30px;
+    }
+
+    @media(max-width: 900px) {
+      .sidebar {
+        width: 190px;
+      }
+
+      .cards {
+        grid-template-columns: repeat(2,1fr);
+      }
+    }
+
+    @media(max-width: 650px) {
+      .layout {
+        display: block;
+      }
+
+      .sidebar {
+        width: 100%;
+        border-right: 0;
+        border-bottom: 1px solid #203a59;
+      }
+
+      .cards,
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .user-info {
+        display: none;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
 <!-- ================= LOGIN ================= -->
 
-<section id="loginScreen">
+<div id="loginPage">
 
   <div class="login-card">
 
-    <div class="logo">GM</div>
+    <div class="logo">G</div>
 
     <h1>GMAO PRO</h1>
-    <p>Plateforme de gestion de maintenance industrielle</p>
 
-    <div class="form-group">
-      <label>Email Supabase</label>
-      <input id="loginEmail"
-             type="email"
-             placeholder="Votre email">
+    <div class="subtitle">
+      Maintenance Management System
     </div>
 
-    <div class="form-group">
-      <label>Mot de passe</label>
-      <input id="loginPassword"
-             type="password"
-             placeholder="Votre mot de passe">
+    <label>Email</label>
+    <input
+      id="email"
+      type="email"
+      placeholder="Votre email Supabase"
+      autocomplete="username"
+    >
+
+    <label>Mot de passe</label>
+    <input
+      id="password"
+      type="password"
+      placeholder="Votre mot de passe"
+      autocomplete="current-password"
+    >
+
+    <button
+      class="btn-primary login-btn"
+      onclick="login()"
+    >
+      🔐 Se connecter
+    </button>
+
+    <div id="loginMessage" class="message"></div>
+
+    <div class="diagnostic">
+
+      <button
+        class="btn-secondary"
+        onclick="diagnostic()"
+      >
+        🔎 Tester la connexion Supabase
+      </button>
+
+      <div id="diagResult"></div>
+
     </div>
-
-    <button class="btn btn-primary btn-block"
-            onclick="login()">
-      Se connecter
-    </button>
-
-    <button class="btn btn-block"
-            style="margin-top:8px"
-            onclick="resetPassword()">
-      Mot de passe oublié
-    </button>
-
-    <button class="btn btn-info btn-block"
-            style="margin-top:8px"
-            onclick="diagnosticLogin()">
-      Diagnostic Supabase
-    </button>
-
-    <div id="loginMessage"
-         class="small muted"
-         style="margin-top:15px"></div>
 
   </div>
 
-</section>
+</div>
 
 
 <!-- ================= APPLICATION ================= -->
 
-<div id="app">
+<div id="app" class="hidden">
 
-  <aside class="sidebar">
+  <header class="topbar">
 
     <div class="brand">
-      <div class="brand-title">GMAO PRO</div>
-      <div class="brand-sub">
-        Maintenance Management System
-      </div>
+      GMAO <span>PRO V8</span>
     </div>
 
     <div class="user-box">
-      <div id="sideUserName" class="user-name">
-        Utilisateur
+
+      <div class="avatar" id="avatar">
+        A
       </div>
-      <div id="sideUserRole" class="user-role">
-        -
+
+      <div class="user-info">
+
+        <div
+          class="user-name"
+          id="topUserName"
+        >
+          —
+        </div>
+
+        <div
+          class="user-role"
+          id="topUserRole"
+        >
+          —
+        </div>
+
       </div>
-      <div id="sideUserCode"
-           class="small muted"
-           style="margin-top:5px">
-        -
-      </div>
+
+      <button
+        class="btn-danger"
+        onclick="logout()"
+      >
+        Déconnexion
+      </button>
+
     </div>
 
-    <div class="nav">
+  </header>
 
-      <div class="nav-section">Pilotage</div>
 
-      <button data-page="dashboard"
-              onclick="showPage('dashboard')">
+  <div class="layout">
+
+    <aside class="sidebar">
+
+      <div class="nav-title">
+        Général
+      </div>
+
+      <button
+        class="nav-btn active"
+        onclick="showPage('dashboard',this)"
+      >
         📊 Dashboard
       </button>
 
-      <button data-page="reports"
-              onclick="showPage('reports')">
-        📈 Rapports
-      </button>
+      <div class="nav-title">
+        Maintenance
+      </div>
 
-      <div class="nav-section">Référentiel</div>
-
-      <button data-page="zones"
-              onclick="showPage('zones')">
+      <button
+        class="nav-btn"
+        onclick="showPage('zones',this)"
+      >
         🏭 Zones
       </button>
 
-      <button data-page="equipment"
-              onclick="showPage('equipment')">
+      <button
+        class="nav-btn"
+        onclick="showPage('equipment',this)"
+      >
         ⚙️ Équipements
       </button>
 
-      <button data-page="subequipment"
-              onclick="showPage('subequipment')">
-        🔩 Sous-équipements
+      <button
+        class="nav-btn"
+        onclick="showPage('personnel',this)"
+      >
+        👷 Personnel
       </button>
 
-      <button data-page="parts"
-              onclick="showPage('parts')">
-        📦 Pièces / PDR
-      </button>
+      <div class="nav-title">
+        Système
+      </div>
 
-      <div class="nav-section">Maintenance</div>
-
-      <button data-page="di"
-              onclick="showPage('di')">
-        📝 Demandes DI
-      </button>
-
-      <button data-page="ot"
-              onclick="showPage('ot')">
-        🔧 Ordres de Travail
-      </button>
-
-      <button data-page="preventive"
-              onclick="showPage('preventive')">
-        🛠️ Préventif
-      </button>
-
-      <button data-page="rca"
-              onclick="showPage('rca')">
-        🔎 RCA / BDA
-      </button>
-
-      <div class="nav-section">Administration</div>
-
-      <button id="navPersonnel"
-              data-page="personnel"
-              onclick="showPage('personnel')">
-        👥 Personnel
-      </button>
-
-      <button data-page="security"
-              onclick="showPage('security')">
+      <button
+        class="nav-btn"
+        onclick="showPage('security',this)"
+      >
         🔐 Sécurité
       </button>
 
-      <button onclick="diagnostic()">
-        🧪 Diagnostic
-      </button>
-
-      <button onclick="logout()">
-        🚪 Déconnexion
-      </button>
-
-    </div>
-
-  </aside>
+    </aside>
 
 
-  <main class="main">
+    <main class="main">
 
-    <header class="topbar">
+      <!-- DASHBOARD -->
 
-      <div>
-        <strong id="topTitle">
-          Dashboard
-        </strong>
-      </div>
+      <section id="page-dashboard">
 
-      <div class="small muted">
-        GMAO PRO
-      </div>
+        <div class="page-title">
 
-    </header>
+          <h2>Dashboard</h2>
 
+          <p>
+            Vue générale du système de maintenance
+          </p>
 
-    <!-- ================= DASHBOARD ================= -->
+        </div>
 
-    <section id="page-dashboard"
-             class="page">
+        <div class="cards">
 
-      <div class="page-header">
-        <div>
-          <h1 class="page-title">
-            Dashboard Maintenance
-          </h1>
-
-          <div class="page-subtitle">
-            Vue globale de la performance maintenance
+          <div class="card">
+            <div class="kpi-label">
+              Zones
+            </div>
+            <div
+              class="kpi-value"
+              id="kpiZones"
+            >
+              —
+            </div>
           </div>
-        </div>
 
-        <button class="btn btn-primary"
-                onclick="loadAllData()">
-          ↻ Actualiser
-        </button>
-      </div>
-
-
-      <div class="grid grid-4">
-
-        <div class="card kpi">
-          <div class="kpi-title">Zones</div>
-          <div id="kpiZones" class="kpi-value">0</div>
-          <div class="kpi-note">Zones de production</div>
-        </div>
-
-        <div class="card kpi">
-          <div class="kpi-title">Équipements</div>
-          <div id="kpiEquipment" class="kpi-value">0</div>
-          <div class="kpi-note">Machines enregistrées</div>
-        </div>
-
-        <div class="card kpi">
-          <div class="kpi-title">Sous-équipements</div>
-          <div id="kpiSubEquipment" class="kpi-value">0</div>
-          <div class="kpi-note">Composants fonctionnels</div>
-        </div>
-
-        <div class="card kpi">
-          <div class="kpi-title">Demandes DI</div>
-          <div id="kpiDI" class="kpi-value">0</div>
-          <div class="kpi-note">Demandes enregistrées</div>
-        </div>
-
-        <div class="card kpi">
-          <div class="kpi-title">OT</div>
-          <div id="kpiOT" class="kpi-value">0</div>
-          <div class="kpi-note">Ordres de travail</div>
-        </div>
-
-        <div class="card kpi">
-          <div class="kpi-title">OT ouverts</div>
-          <div id="kpiOpenOT" class="kpi-value">0</div>
-          <div class="kpi-note">À traiter</div>
-        </div>
-
-        <div class="card kpi">
-          <div class="kpi-title">Personnel</div>
-          <div id="kpiPersonnel" class="kpi-value">0</div>
-          <div class="kpi-note">Utilisateurs actifs</div>
-        </div>
-
-        <div class="card kpi">
-          <div class="kpi-title">Disponibilité</div>
-          <div id="kpiAvailability" class="kpi-value">-</div>
-          <div class="kpi-note">Calcul simplifié</div>
-        </div>
-
-      </div>
-
-
-      <div class="grid grid-2"
-           style="margin-top:20px">
-
-        <div class="card">
-          <h3>Statut des OT</h3>
-          <canvas id="otChart"></canvas>
-        </div>
-
-        <div class="card">
-          <h3>Répartition des DI</h3>
-          <canvas id="diChart"></canvas>
-        </div>
-
-      </div>
-
-
-      <div class="card"
-           style="margin-top:20px">
-
-        <h3>Pareto des équipements</h3>
-
-        <canvas id="paretoChart"></canvas>
-
-      </div>
-
-    </section>
-
-
-    <!-- ================= ZONES ================= -->
-
-    <section id="page-zones"
-             class="page hidden">
-
-      <div class="page-header">
-
-        <div>
-          <h1 class="page-title">Zones</h1>
-          <div class="page-subtitle">
-            Les codes ZP sont générés automatiquement par Supabase
+          <div class="card">
+            <div class="kpi-label">
+              Équipements
+            </div>
+            <div
+              class="kpi-value"
+              id="kpiEquipment"
+            >
+              —
+            </div>
           </div>
-        </div>
 
-        <button class="btn btn-primary"
-                onclick="openZoneModal()">
-          + Nouvelle zone
-        </button>
-
-      </div>
-
-      <div class="card table-wrap">
-
-        <table>
-
-          <thead>
-          <tr>
-            <th>Code</th>
-            <th>Zone</th>
-            <th>Description</th>
-            <th>Statut</th>
-            <th>Actions</th>
-          </tr>
-          </thead>
-
-          <tbody id="zonesTable"></tbody>
-
-        </table>
-
-      </div>
-
-    </section>
-
-
-    <!-- ================= EQUIPMENT ================= -->
-
-    <section id="page-equipment"
-             class="page hidden">
-
-      <div class="page-header">
-
-        <div>
-          <h1 class="page-title">
-            Équipements
-          </h1>
-
-          <div class="page-subtitle">
-            EQ-0001, EQ-0002...
+          <div class="card">
+            <div class="kpi-label">
+              Sous-équipements
+            </div>
+            <div
+              class="kpi-value"
+              id="kpiSubEquipment"
+            >
+              —
+            </div>
           </div>
-        </div>
 
-        <button class="btn btn-primary"
-                onclick="openEquipmentModal()">
-          + Équipement
-        </button>
-
-      </div>
-
-      <div class="card table-wrap">
-
-        <table>
-
-          <thead>
-          <tr>
-            <th>Code</th>
-            <th>Désignation</th>
-            <th>Zone</th>
-            <th>Type</th>
-            <th>Criticité</th>
-            <th>Statut</th>
-            <th>Actions</th>
-          </tr>
-          </thead>
-
-          <tbody id="equipmentTable"></tbody>
-
-        </table>
-
-      </div>
-
-    </section>
-
-
-    <!-- ================= SUB EQUIPMENT ================= -->
-
-    <section id="page-subequipment"
-             class="page hidden">
-
-      <div class="page-header">
-
-        <div>
-          <h1 class="page-title">
-            Sous-équipements
-          </h1>
-
-          <div class="page-subtitle">
-            SE-0001, SE-0002...
+          <div class="card">
+            <div class="kpi-label">
+              Personnel
+            </div>
+            <div
+              class="kpi-value"
+              id="kpiPersonnel"
+            >
+              —
+            </div>
           </div>
 
         </div>
 
-        <button class="btn btn-primary"
-                onclick="openSubEquipmentModal()">
-          + Sous-équipement
-        </button>
 
-      </div>
+        <div class="section">
 
-      <div class="card table-wrap">
+          <div class="section-title">
+            👤 Session actuelle
+          </div>
 
-        <table>
+          <div class="card">
 
-          <thead>
-          <tr>
-            <th>Code</th>
-            <th>Désignation</th>
-            <th>Équipement</th>
-            <th>Type</th>
-            <th>Criticité</th>
-            <th>Statut</th>
-            <th>Actions</th>
-          </tr>
-          </thead>
+            <div class="info-grid">
 
-          <tbody id="subEquipmentTable"></tbody>
+              <div class="info-item">
+                <small>Nom</small>
+                <strong id="infoName">—</strong>
+              </div>
 
-        </table>
+              <div class="info-item">
+                <small>Rôle</small>
+                <strong id="infoRole">—</strong>
+              </div>
 
-      </div>
+              <div class="info-item">
+                <small>Code personnel</small>
+                <strong id="infoCode">—</strong>
+              </div>
 
-    </section>
+              <div class="info-item">
+                <small>Statut</small>
+                <span class="status">
+                  Session active
+                </span>
+              </div>
 
+              <div class="info-item">
+                <small>User ID Supabase</small>
+                <strong
+                  id="infoUserId"
+                  style="font-size:11px;word-break:break-all"
+                >
+                  —
+                </strong>
+              </div>
 
-    <!-- ================= DI ================= -->
+              <div class="info-item">
+                <small>Email</small>
+                <strong
+                  id="infoEmail"
+                  style="word-break:break-all"
+                >
+                  —
+                </strong>
+              </div>
 
-    <section id="page-di"
-             class="page hidden">
+            </div>
 
-      <div class="page-header">
-
-        <div>
-          <h1 class="page-title">
-            Demandes d'intervention
-          </h1>
-
-          <div class="page-subtitle">
-            DI-000001...
           </div>
 
         </div>
 
-        <button class="btn btn-primary"
-                onclick="openDIModal()">
-          + Nouvelle DI
-        </button>
+      </section>
 
-      </div>
 
-      <div class="card table-wrap">
+      <!-- ZONES -->
 
-        <table>
+      <section id="page-zones" class="hidden">
 
-          <thead>
-          <tr>
-            <th>Code</th>
-            <th>Date</th>
-            <th>Zone</th>
-            <th>Équipement</th>
-            <th>Priorité</th>
-            <th>Type</th>
-            <th>Statut</th>
-            <th>Description</th>
-            <th>Actions</th>
-          </tr>
-          </thead>
+        <div class="page-title">
 
-          <tbody id="diTable"></tbody>
+          <h2>Zones de production</h2>
 
-        </table>
+          <p>
+            Module de test de lecture Supabase
+          </p>
 
-      </div>
-
-    </section>
-
-
-    <!-- ================= OT ================= -->
-
-    <section id="page-ot"
-             class="page hidden">
-
-      <div class="page-header">
-
-        <div>
-          <h1 class="page-title">
-            Ordres de Travail
-          </h1>
-
-          <div class="page-subtitle">
-            Affectation des techniciens et suivi des interventions
-          </div>
-
-        </div>
-
-        <button class="btn btn-primary"
-                onclick="openOTModal()">
-          + Nouvel OT
-        </button>
-
-      </div>
-
-      <div class="card table-wrap">
-
-        <table>
-
-          <thead>
-          <tr>
-            <th>Code</th>
-            <th>DI</th>
-            <th>Équipement</th>
-            <th>Technicien</th>
-            <th>Type</th>
-            <th>Statut</th>
-            <th>Durée</th>
-            <th>Actions</th>
-          </tr>
-          </thead>
-
-          <tbody id="otTable"></tbody>
-
-        </table>
-
-      </div>
-
-    </section>
-
-
-    <!-- ================= PREVENTIVE ================= -->
-
-    <section id="page-preventive"
-             class="page hidden">
-
-      <div class="page-header">
-
-        <div>
-          <h1 class="page-title">
-            Maintenance Préventive
-          </h1>
-
-          <div class="page-subtitle">
-            PM-000001...
-          </div>
-        </div>
-
-        <button class="btn btn-primary"
-                onclick="openPreventiveModal()">
-          + Plan préventif
-        </button>
-
-      </div>
-
-      <div class="card table-wrap">
-
-        <table>
-
-          <thead>
-          <tr>
-            <th>Code</th>
-            <th>Équipement</th>
-            <th>Opération</th>
-            <th>Fréquence</th>
-            <th>Dernière date</th>
-            <th>Prochaine date</th>
-            <th>Statut</th>
-            <th>Actions</th>
-          </tr>
-          </thead>
-
-          <tbody id="preventiveTable"></tbody>
-
-        </table>
-
-      </div>
-
-    </section>
-
-
-    <!-- ================= RCA ================= -->
-
-    <section id="page-rca"
-             class="page hidden">
-
-      <div class="page-header">
-
-        <div>
-          <h1 class="page-title">
-            RCA / BDA
-          </h1>
-
-          <div class="page-subtitle">
-            Analyse causes racines — 5M / 5 Why
-          </div>
-
-        </div>
-
-        <button class="btn btn-primary"
-                onclick="openRCAModal()">
-          + Nouvelle RCA
-        </button>
-
-      </div>
-
-      <div class="card table-wrap">
-
-        <table>
-
-          <thead>
-          <tr>
-            <th>Code</th>
-            <th>OT</th>
-            <th>Équipement</th>
-            <th>Cause racine</th>
-            <th>Action corrective</th>
-            <th>Responsable</th>
-            <th>Statut</th>
-            <th>Actions</th>
-          </tr>
-          </thead>
-
-          <tbody id="rcaTable"></tbody>
-
-        </table>
-
-      </div>
-
-    </section>
-
-
-    <!-- ================= PARTS ================= -->
-
-    <section id="page-parts"
-             class="page hidden">
-
-      <div class="page-header">
-
-        <div>
-          <h1 class="page-title">
-            Pièces de rechange
-          </h1>
-
-          <div class="page-subtitle">
-            PDR-0001...
-          </div>
-
-        </div>
-
-        <button class="btn btn-primary"
-                onclick="openPartModal()">
-          + Nouvelle PDR
-        </button>
-
-      </div>
-
-      <div class="card table-wrap">
-
-        <table>
-
-          <thead>
-          <tr>
-            <th>Code</th>
-            <th>Désignation</th>
-            <th>Stock</th>
-            <th>Stock mini</th>
-            <th>Unité</th>
-            <th>Fournisseur</th>
-            <th>Statut</th>
-            <th>Actions</th>
-          </tr>
-          </thead>
-
-          <tbody id="partsTable"></tbody>
-
-        </table>
-
-      </div>
-
-    </section>
-
-
-    <!-- ================= PERSONNEL ================= -->
-
-    <section id="page-personnel"
-             class="page hidden">
-
-      <div class="page-header">
-
-        <div>
-          <h1 class="page-title">
-            Personnel
-          </h1>
-
-          <div class="page-subtitle">
-            Gestion des rôles et codes personnels
-          </div>
-
-        </div>
-
-        <button class="btn btn-primary"
-                onclick="openPersonnelModal()">
-          + Profil personnel
-        </button>
-
-      </div>
-
-      <div class="card">
-
-        <div class="small muted"
-             style="margin-bottom:15px">
-
-          Les comptes Auth sont gérés par Supabase.
-          Cette interface gère les profils et leurs rôles.
-          Les codes sont générés automatiquement :
-          ADM-0001 / RESP-0001 / TECH-0001.
-
-        </div>
-
-        <div class="table-wrap">
-
-          <table>
-
-            <thead>
-            <tr>
-              <th>Nom</th>
-              <th>Code</th>
-              <th>Rôle</th>
-              <th>Département</th>
-              <th>Poste</th>
-              <th>Actif</th>
-              <th>Actions</th>
-            </tr>
-            </thead>
-
-            <tbody id="personnelTable"></tbody>
-
-          </table>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- ================= REPORTS ================= -->
-
-    <section id="page-reports"
-             class="page hidden">
-
-      <div class="page-header">
-
-        <div>
-          <h1 class="page-title">
-            Rapports
-          </h1>
-
-          <div class="page-subtitle">
-            Synthèse maintenance
-          </div>
-        </div>
-
-        <button class="btn btn-primary"
-                onclick="window.print()">
-          🖨 Imprimer
-        </button>
-
-      </div>
-
-      <div class="grid grid-3">
-
-        <div class="card">
-          <h3>MTTR</h3>
-          <div id="reportMTTR"
-               class="kpi-value">
-            0 h
-          </div>
         </div>
 
         <div class="card">
-          <h3>OT clôturés</h3>
-          <div id="reportClosed"
-               class="kpi-value">
-            0
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+                <tr>
+                  <th>Code</th>
+                  <th>Nom</th>
+                  <th>Description</th>
+                  <th>Statut</th>
+                </tr>
+              </thead>
+
+              <tbody id="zonesTable">
+
+                <tr>
+                  <td
+                    colspan="4"
+                    class="empty"
+                  >
+                    Chargement...
+                  </td>
+                </tr>
+
+              </tbody>
+
+            </table>
+
           </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- EQUIPMENT -->
+
+      <section id="page-equipment" class="hidden">
+
+        <div class="page-title">
+
+          <h2>Équipements</h2>
+
+          <p>
+            Liste des équipements enregistrés
+          </p>
+
         </div>
 
         <div class="card">
-          <h3>Downtime</h3>
-          <div id="reportDowntime"
-               class="kpi-value">
-            0 h
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+
+                <tr>
+                  <th>Code</th>
+                  <th>Désignation</th>
+                  <th>Type</th>
+                  <th>Criticité</th>
+                  <th>Statut</th>
+                </tr>
+
+              </thead>
+
+              <tbody id="equipmentTable">
+
+                <tr>
+                  <td
+                    colspan="5"
+                    class="empty"
+                  >
+                    Chargement...
+                  </td>
+                </tr>
+
+              </tbody>
+
+            </table>
+
           </div>
+
         </div>
 
-      </div>
+      </section>
 
-      <div class="card"
-           style="margin-top:20px">
 
-        <h3>Résumé</h3>
+      <!-- PERSONNEL -->
 
-        <div id="reportSummary"
-             class="muted">
-          Chargement...
+      <section id="page-personnel" class="hidden">
+
+        <div class="page-title">
+
+          <h2>Personnel</h2>
+
+          <p>
+            Utilisateurs et rôles GMAO
+          </p>
+
         </div>
 
-      </div>
+        <div class="card">
 
-    </section>
+          <div class="table-wrap">
 
+            <table>
 
-    <!-- ================= SECURITY ================= -->
+              <thead>
 
-    <section id="page-security"
-             class="page hidden">
+                <tr>
+                  <th>Nom</th>
+                  <th>Code</th>
+                  <th>Rôle</th>
+                  <th>Téléphone</th>
+                  <th>Statut</th>
+                </tr>
 
-      <div class="page-header">
+              </thead>
 
-        <div>
-          <h1 class="page-title">
-            Sécurité
-          </h1>
+              <tbody id="personnelTable">
 
-          <div class="page-subtitle">
-            Gestion du mot de passe du compte connecté
+                <tr>
+                  <td
+                    colspan="5"
+                    class="empty"
+                  >
+                    Chargement...
+                  </td>
+                </tr>
+
+              </tbody>
+
+            </table>
+
           </div>
+
         </div>
 
-      </div>
+      </section>
 
-      <div class="card"
-           style="max-width:550px">
 
-        <div class="form-group">
-          <label>Nouveau mot de passe</label>
-          <input id="newPassword"
-                 type="password">
+      <!-- SECURITY -->
+
+      <section id="page-security" class="hidden">
+
+        <div class="page-title">
+
+          <h2>Sécurité</h2>
+
+          <p>
+            Gestion de votre mot de passe Supabase
+          </p>
+
         </div>
 
-        <div class="form-group">
-          <label>Confirmation</label>
-          <input id="newPassword2"
-                 type="password">
+        <div class="card">
+
+          <label>
+            Nouveau mot de passe
+          </label>
+
+          <input
+            id="newPassword"
+            type="password"
+            placeholder="Nouveau mot de passe"
+          >
+
+          <label>
+            Confirmation
+          </label>
+
+          <input
+            id="confirmPassword"
+            type="password"
+            placeholder="Confirmer le mot de passe"
+          >
+
+          <button
+            class="btn-primary"
+            style="margin-top:18px"
+            onclick="changePassword()"
+          >
+            🔑 Modifier le mot de passe
+          </button>
+
+          <div
+            id="passwordMessage"
+            class="message"
+          ></div>
+
         </div>
 
-        <button class="btn btn-primary"
-                onclick="changePassword()">
-          Modifier le mot de passe
-        </button>
+      </section>
 
-      </div>
-
-    </section>
-
-  </main>
-
-</div>
-
-
-<!-- ================= MODAL ================= -->
-
-<div id="modal"
-     class="modal">
-
-  <div class="modal-box">
-
-    <div class="modal-header">
-
-      <h2 id="modalTitle">
-        Formulaire
-      </h2>
-
-      <button class="close"
-              onclick="closeModal()">
-        ✕
-      </button>
-
-    </div>
-
-    <div id="modalContent"></div>
+    </main>
 
   </div>
 
 </div>
-
-
-<div id="toastBox"></div>
 
 
 <script>
 
 /* =========================================================
-   SUPABASE CONFIGURATION
-========================================================= */
+   CONFIGURATION SUPABASE
+   ========================================================= */
 
 const SUPABASE_URL =
   'https://qnrfkfrornozwvgewcwk.supabase.co';
@@ -1428,4811 +929,1052 @@ const SUPABASE_URL =
 const SUPABASE_ANON_KEY =
   'sb_publishable_DBe5PuyHPvdHnRnqr2lpqw_t4m3C8SY';
 
-const sb =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-  );
+
+const { createClient } = window.supabase;
+
+const sb = createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
+);
 
 
 /* =========================================================
-   GLOBAL DATA
-========================================================= */
+   VARIABLES
+   ========================================================= */
 
 let currentUser = null;
 let currentProfile = null;
 
-let zones = [];
-let equipment = [];
-let subEquipment = [];
-let dis = [];
-let workOrders = [];
-let preventive = [];
-let rcas = [];
-let parts = [];
-let personnel = [];
 
-let otChart = null;
-let diChart = null;
-let paretoChart = null;
+/* =========================================================
+   UTILITAIRES
+   ========================================================= */
+
+function showLoginMessage(message, type='error') {
+
+  const box = document.getElementById('loginMessage');
+
+  box.textContent = message;
+
+  box.className =
+    'message ' + type;
+}
+
+
+function clearLoginMessage() {
+
+  const box =
+    document.getElementById('loginMessage');
+
+  box.textContent = '';
+
+  box.className = 'message';
+}
+
+
+function roleLabel(role) {
+
+  const roles = {
+
+    admin: 'Administrateur',
+
+    manager: 'Responsable Maintenance',
+
+    technician: 'Technicien',
+
+    viewer: 'Consultation'
+
+  };
+
+  return roles[role] || role || 'Non défini';
+}
 
 
 /* =========================================================
-   UTILITY
-========================================================= */
+   DIAGNOSTIC SUPABASE
+   ========================================================= */
 
-function toast(message,type='info'){
+async function diagnostic() {
 
-  const box =
-    document.getElementById('toastBox');
+  const result =
+    document.getElementById('diagResult');
 
-  const el =
-    document.createElement('div');
+  result.textContent =
+    '⏳ Test de connexion...';
 
-  el.className =
-    `toast ${type}`;
+  try {
 
-  el.textContent = message;
+    if (!window.supabase) {
 
-  box.appendChild(el);
+      throw new Error(
+        'La bibliothèque Supabase JS n’est pas chargée.'
+      );
 
-  setTimeout(()=>{
-    el.remove();
-  },4500);
-}
+    }
 
+    result.textContent =
+      '1/3 Bibliothèque Supabase : OK\n' +
+      '2/3 Test serveur...';
 
-function esc(value){
+    const {
+      data,
+      error
+    } = await sb.auth.getSession();
 
-  if(value === null ||
-     value === undefined){
-    return '';
+    if (error) {
+
+      throw error;
+
+    }
+
+    result.textContent =
+      '1/3 Bibliothèque Supabase : OK\n' +
+      '2/3 Serveur Supabase : OK\n' +
+      '3/3 Session : ' +
+      (data.session ? 'ACTIVE' : 'Aucune session') +
+      '\n\nURL utilisée :\n' +
+      SUPABASE_URL;
+
+  } catch(error) {
+
+    result.textContent =
+      '❌ ERREUR\n\n' +
+      error.message +
+      '\n\nURL :\n' +
+      SUPABASE_URL;
+
+    console.error(error);
+
   }
 
-  return String(value)
-    .replaceAll('&','&amp;')
-    .replaceAll('<','&lt;')
-    .replaceAll('>','&gt;')
-    .replaceAll('"','&quot;')
-    .replaceAll("'","&#039;");
-}
-
-
-function badge(status){
-
-  const s =
-    String(status || '').toLowerCase();
-
-  let c='badge-gray';
-
-  if(
-    s.includes('clôt') ||
-    s.includes('term') ||
-    s.includes('actif')
-  ){
-    c='badge-green';
-  }
-  else if(
-    s.includes('cours') ||
-    s.includes('ouvert')
-  ){
-    c='badge-blue';
-  }
-  else if(
-    s.includes('urgent') ||
-    s.includes('haute')
-  ){
-    c='badge-red';
-  }
-  else if(
-    s.includes('attente') ||
-    s.includes('moyenne')
-  ){
-    c='badge-orange';
-  }
-
-  return `<span class="badge ${c}">
-    ${esc(status || '-')}
-  </span>`;
-}
-
-
-function closeModal(){
-  document.getElementById('modal')
-    .classList.remove('show');
-}
-
-
-function openModal(title,html){
-
-  document.getElementById('modalTitle')
-    .textContent=title;
-
-  document.getElementById('modalContent')
-    .innerHTML=html;
-
-  document.getElementById('modal')
-    .classList.add('show');
 }
 
 
 /* =========================================================
    LOGIN
-========================================================= */
+   ========================================================= */
 
-async function login(){
+async function login() {
+
+  clearLoginMessage();
 
   const email =
-    document.getElementById('loginEmail')
-      .value.trim();
+    document.getElementById('email')
+      .value
+      .trim();
 
   const password =
-    document.getElementById('loginPassword')
+    document.getElementById('password')
       .value;
 
-  const msg =
-    document.getElementById('loginMessage');
+  if (!email || !password) {
 
-  if(!email || !password){
-
-    msg.textContent =
-      'Veuillez saisir email et mot de passe.';
+    showLoginMessage(
+      'Veuillez saisir votre email et votre mot de passe.'
+    );
 
     return;
+
   }
 
-  msg.textContent =
-    'Connexion...';
+  showLoginMessage(
+    'Connexion à Supabase...',
+    'success'
+  );
 
-  try{
+  try {
 
-    const {data,error} =
+    const {
+      data,
+      error
+    } =
       await sb.auth.signInWithPassword({
-        email,
-        password
+
+        email: email,
+
+        password: password
+
       });
 
-    if(error){
+
+    if (error) {
+
       throw error;
+
     }
 
-    currentUser=data.user;
 
-    await initializeApp();
+    if (!data.session || !data.user) {
 
-  }catch(error){
-
-    console.error(error);
-
-    msg.textContent =
-      error.message || 'Erreur de connexion';
-
-    toast(
-      error.message || 'Erreur connexion',
-      'error'
-    );
-  }
-}
-
-
-async function resetPassword(){
-
-  const email =
-    document.getElementById('loginEmail')
-      .value.trim();
-
-  if(!email){
-
-    toast(
-      'Saisissez votre email.',
-      'warning'
-    );
-
-    return;
-  }
-
-  try{
-
-    const {error} =
-      await sb.auth.resetPasswordForEmail(
-        email,
-        {
-          redirectTo:
-            window.location.href
-        }
+      throw new Error(
+        'Connexion réussie mais aucune session Supabase n’a été retournée.'
       );
 
-    if(error) throw error;
+    }
 
-    toast(
-      'Email de réinitialisation envoyé.',
-      'success'
+
+    currentUser = data.user;
+
+
+    await loadProfile();
+
+
+    document.getElementById('loginPage')
+      .classList.add('hidden');
+
+    document.getElementById('app')
+      .classList.remove('hidden');
+
+
+    await loadDashboard();
+
+
+  } catch(error) {
+
+    console.error(
+      'LOGIN ERROR:',
+      error
     );
 
-  }catch(error){
-
-    toast(
-      error.message,
-      'error'
+    showLoginMessage(
+      'Erreur : ' + error.message
     );
+
   }
-}
 
-
-async function logout(){
-
-  await sb.auth.signOut();
-
-  currentUser=null;
-  currentProfile=null;
-
-  document.getElementById('app')
-    .style.display='none';
-
-  document.getElementById('loginScreen')
-    .style.display='flex';
 }
 
 
 /* =========================================================
-   INITIALIZATION
-========================================================= */
+   CHARGER PROFIL
+   ========================================================= */
 
-async function initializeApp(){
+async function loadProfile() {
 
-  try{
+  const {
+    data,
+    error
+  } = await sb
 
-    const {
-      data:{user}
-    } = await sb.auth.getUser();
+    .from('profiles')
 
-    if(!user){
+    .select(`
+      id,
+      full_name,
+      role,
+      employee_code,
+      active,
+      phone,
+      department,
+      position
+    `)
 
-      throw new Error(
-        'Utilisateur non authentifié.'
-      );
-    }
+    .eq(
+      'id',
+      currentUser.id
+    )
 
-    currentUser=user;
+    .maybeSingle();
 
-    const {
-      data:profile,
+
+  if (error) {
+
+    console.error(
+      'PROFILE ERROR:',
       error
-    } =
-      await sb
-        .from('profiles')
-        .select('*')
-        .eq('id',user.id)
-        .maybeSingle();
-
-    if(error){
-      throw error;
-    }
-
-    if(!profile){
-
-      toast(
-        'Votre compte Auth existe mais aucun profil GMAO ne lui est associé.',
-        'warning'
-      );
-
-      document.getElementById('loginScreen')
-        .style.display='flex';
-
-      return;
-    }
-
-    if(profile.active === false){
-
-      throw new Error(
-        'Votre profil est désactivé.'
-      );
-    }
-
-    currentProfile=profile;
-
-    document.getElementById('loginScreen')
-      .style.display='none';
-
-    document.getElementById('app')
-      .style.display='block';
-
-    updateUserInterface();
-
-    applyPermissions();
-
-    await loadAllData();
-
-    showPage('dashboard');
-
-    toast(
-      'Connexion réussie.',
-      'success'
     );
 
-  }catch(error){
-
-    console.error(error);
-
-    toast(
-      error.message,
-      'error'
+    throw new Error(
+      'Connexion réussie, mais impossible de lire profiles : ' +
+      error.message
     );
+
   }
+
+
+  if (!data) {
+
+    throw new Error(
+      'Votre compte Supabase existe, mais aucun profil n’est associé à cet utilisateur.\n' +
+      'Vérifiez que votre UUID est bien présent dans public.profiles.'
+    );
+
+  }
+
+
+  if (data.active === false) {
+
+    await sb.auth.signOut();
+
+    throw new Error(
+      'Votre compte GMAO est désactivé.'
+    );
+
+  }
+
+
+  currentProfile = data;
+
+
+  updateUserInterface();
+
 }
 
 
-function updateUserInterface(){
+/* =========================================================
+   INTERFACE UTILISATEUR
+   ========================================================= */
+
+function updateUserInterface() {
 
   const name =
     currentProfile.full_name ||
     currentUser.email;
 
-  document.getElementById('sideUserName')
-    .textContent=name;
+  const role =
+    roleLabel(currentProfile.role);
 
-  document.getElementById('sideUserRole')
-    .textContent=
-      roleLabel(currentProfile.role);
+  document.getElementById('topUserName')
+    .textContent = name;
 
-  document.getElementById('sideUserCode')
-    .textContent=
-      currentProfile.employee_code || '-';
-}
-
-
-function roleLabel(role){
-
-  switch(role){
-
-    case 'admin':
-      return 'Administrateur';
-
-    case 'manager':
-      return 'Responsable Maintenance';
-
-    case 'technician':
-      return 'Technicien';
-
-    default:
-      return role || '-';
-  }
-}
+  document.getElementById('topUserRole')
+    .textContent =
+      role +
+      ' • ' +
+      (currentProfile.employee_code || '—');
 
 
-function isAdmin(){
-  return currentProfile?.role === 'admin';
-}
+  document.getElementById('infoName')
+    .textContent = name;
+
+  document.getElementById('infoRole')
+    .textContent = role;
+
+  document.getElementById('infoCode')
+    .textContent =
+      currentProfile.employee_code ||
+      'Non défini';
+
+  document.getElementById('infoUserId')
+    .textContent =
+      currentUser.id;
+
+  document.getElementById('infoEmail')
+    .textContent =
+      currentUser.email;
 
 
-function isManager(){
-  return currentProfile?.role === 'manager';
-}
+  document.getElementById('avatar')
+    .textContent =
+      name
+        .substring(0,1)
+        .toUpperCase();
 
-
-function isTechnician(){
-  return currentProfile?.role === 'technician';
-}
-
-
-function canManage(){
-  return isAdmin() || isManager();
-}
-
-
-function applyPermissions(){
-
-  const personnelButton =
-    document.getElementById('navPersonnel');
-
-  if(personnelButton){
-
-    personnelButton.style.display =
-      isAdmin() ? 'block' : 'none';
-  }
 }
 
 
 /* =========================================================
-   PAGE NAVIGATION
-========================================================= */
+   DASHBOARD
+   ========================================================= */
 
-const pageTitles={
-  dashboard:'Dashboard',
-  zones:'Zones',
-  equipment:'Équipements',
-  subequipment:'Sous-équipements',
-  di:'Demandes d’intervention',
-  ot:'Ordres de Travail',
-  preventive:'Maintenance Préventive',
-  rca:'RCA / BDA',
-  parts:'Pièces de rechange',
-  personnel:'Personnel',
-  reports:'Rapports',
-  security:'Sécurité'
-};
+async function loadDashboard() {
+
+  await Promise.all([
+
+    countTable(
+      'zones',
+      'kpiZones'
+    ),
+
+    countTable(
+      'equipment',
+      'kpiEquipment'
+    ),
+
+    countTable(
+      'sub_equipment',
+      'kpiSubEquipment'
+    ),
+
+    countTable(
+      'profiles',
+      'kpiPersonnel'
+    )
+
+  ]);
+
+}
 
 
-function showPage(page){
+/* =========================================================
+   COUNT TABLE
+   ========================================================= */
 
-  if(
-    page==='personnel' &&
-    !isAdmin()
-  ){
+async function countTable(
+  table,
+  elementId
+) {
 
-    toast(
-      'Accès réservé à l’administrateur.',
-      'warning'
+  const {
+    count,
+    error
+  } = await sb
+
+    .from(table)
+
+    .select(
+      '*',
+      {
+        count: 'exact',
+        head: true
+      }
     );
+
+
+  if (error) {
+
+    console.error(
+      table,
+      error
+    );
+
+    document.getElementById(elementId)
+      .textContent = '—';
 
     return;
+
   }
 
-  document
-    .querySelectorAll('.page')
-    .forEach(p=>{
-      p.classList.add('hidden');
-    });
 
-  const el =
-    document.getElementById(
-      `page-${page}`
-    );
+  document.getElementById(elementId)
+    .textContent =
+      count ?? 0;
 
-  if(el){
-    el.classList.remove('hidden');
-  }
-
-  document
-    .querySelectorAll('.nav button[data-page]')
-    .forEach(btn=>{
-      btn.classList.toggle(
-        'active',
-        btn.dataset.page===page
-      );
-    });
-
-  document.getElementById('topTitle')
-    .textContent=
-      pageTitles[page] || page;
-
-  if(page==='reports'){
-    updateReports();
-  }
 }
 
 
 /* =========================================================
-   LOAD DATA
-========================================================= */
+   NAVIGATION
+   ========================================================= */
 
-async function loadAllData(){
+function showPage(
+  page,
+  button
+) {
 
-  try{
+  document.querySelectorAll(
+    'main section'
+  ).forEach(section => {
 
-    const results =
-      await Promise.all([
+    section.classList.add('hidden');
 
-        loadZones(),
-        loadEquipment(),
-        loadSubEquipment(),
-        loadDI(),
-        loadOT(),
-        loadPreventive(),
-        loadRCA(),
-        loadParts(),
-        loadPersonnel()
+  });
 
-      ]);
 
-    updateDashboard();
-
-  }catch(error){
-
-    console.error(error);
-
-    toast(
-      'Erreur lors du chargement des données : ' +
-      error.message,
-      'error'
+  const target =
+    document.getElementById(
+      'page-' + page
     );
+
+
+  if (target) {
+
+    target.classList.remove('hidden');
+
   }
+
+
+  document.querySelectorAll(
+    '.nav-btn'
+  ).forEach(btn => {
+
+    btn.classList.remove('active');
+
+  });
+
+
+  if (button) {
+
+    button.classList.add('active');
+
+  }
+
+
+  if (page === 'zones') {
+
+    loadZones();
+
+  }
+
+  if (page === 'equipment') {
+
+    loadEquipment();
+
+  }
+
+  if (page === 'personnel') {
+
+    loadPersonnel();
+
+  }
+
 }
 
 
 /* =========================================================
    ZONES
-========================================================= */
+   ========================================================= */
 
-async function loadZones(){
-
-  const {data,error} =
-    await sb
-      .from('zones')
-      .select('*')
-      .order('created_at',{ascending:false});
-
-  if(error) throw error;
-
-  zones=data || [];
-
-  renderZones();
-}
-
-
-function renderZones(){
-
-  const tbody =
-    document.getElementById('zonesTable');
-
-  tbody.innerHTML='';
-
-  zones.forEach(z=>{
-
-    tbody.innerHTML += `
-      <tr>
-        <td><strong>${esc(z.code)}</strong></td>
-        <td>${esc(z.name)}</td>
-        <td>${esc(z.description)}</td>
-        <td>${badge(z.status)}</td>
-
-        <td>
-          <div class="actions">
-
-            <button class="btn"
-              onclick="editZone('${z.id}')">
-              Modifier
-            </button>
-
-            ${
-              isAdmin()
-              ?
-              `<button class="btn btn-danger"
-                onclick="deleteZone('${z.id}')">
-                Supprimer
-              </button>`
-              :''
-            }
-
-          </div>
-        </td>
-
-      </tr>
-    `;
-  });
-}
-
-
-function openZoneModal(){
-
-  if(!canManage()){
-
-    toast(
-      'Seuls administrateur et responsable peuvent créer une zone.',
-      'warning'
-    );
-
-    return;
-  }
-
-  openModal(
-    'Nouvelle zone',
-    `
-      <form onsubmit="saveZone(event)">
-
-        <div class="form-grid">
-
-          <div>
-            <label>Nom de la zone *</label>
-            <input id="zoneName" required>
-          </div>
-
-          <div>
-            <label>Statut</label>
-            <select id="zoneStatus">
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-            </select>
-          </div>
-
-          <div class="full">
-            <label>Description</label>
-            <textarea id="zoneDescription"></textarea>
-          </div>
-
-        </div>
-
-        <div class="form-actions">
-
-          <button type="button"
-            class="btn"
-            onclick="closeModal()">
-            Annuler
-          </button>
-
-          <button class="btn btn-primary">
-            Enregistrer
-          </button>
-
-        </div>
-
-      </form>
-    `
-  );
-}
-
-
-async function saveZone(event){
-
-  event.preventDefault();
-
-  try{
-
-    const payload={
-      name:
-        document.getElementById('zoneName')
-          .value.trim(),
-
-      description:
-        document.getElementById('zoneDescription')
-          .value.trim(),
-
-      status:
-        document.getElementById('zoneStatus')
-          .value,
-
-      created_by:
-        currentUser.id
-    };
-
-    const {error} =
-      await sb
-        .from('zones')
-        .insert(payload);
-
-    if(error) throw error;
-
-    closeModal();
-
-    await loadZones();
-
-    updateDashboard();
-
-    toast(
-      'Zone créée. Le code ZP est généré automatiquement.',
-      'success'
-    );
-
-  }catch(error){
-
-    toast(error.message,'error');
-  }
-}
-
-
-function editZone(id){
-
-  const z =
-    zones.find(x=>x.id===id);
-
-  if(!z) return;
-
-  if(!canManage()) return;
-
-  openModal(
-    'Modifier zone',
-    `
-      <form onsubmit="updateZone(event,'${id}')">
-
-        <div class="form-grid">
-
-          <div>
-            <label>Code</label>
-            <input value="${esc(z.code)}" disabled>
-          </div>
-
-          <div>
-            <label>Nom *</label>
-            <input id="zoneName" required
-              value="${esc(z.name)}">
-          </div>
-
-          <div>
-            <label>Statut</label>
-            <select id="zoneStatus">
-              <option ${z.status==='active'?'selected':''}
-                value="active">Active</option>
-              <option ${z.status==='inactive'?'selected':''}
-                value="inactive">Inactive</option>
-            </select>
-          </div>
-
-          <div class="full">
-            <label>Description</label>
-            <textarea id="zoneDescription">${esc(z.description)}</textarea>
-          </div>
-
-        </div>
-
-        <div class="form-actions">
-
-          <button type="button"
-            class="btn"
-            onclick="closeModal()">
-            Annuler
-          </button>
-
-          <button class="btn btn-primary">
-            Enregistrer
-          </button>
-
-        </div>
-
-      </form>
-    `
-  );
-}
-
-
-async function updateZone(event,id){
-
-  event.preventDefault();
-
-  const {error} =
-    await sb
-      .from('zones')
-      .update({
-        name:
-          document.getElementById('zoneName').value.trim(),
-
-        description:
-          document.getElementById('zoneDescription').value.trim(),
-
-        status:
-          document.getElementById('zoneStatus').value
-      })
-      .eq('id',id);
-
-  if(error){
-
-    toast(error.message,'error');
-    return;
-  }
-
-  closeModal();
-
-  await loadZones();
-
-  toast(
-    'Zone modifiée.',
-    'success'
-  );
-}
-
-
-async function deleteZone(id){
-
-  if(!isAdmin()) return;
-
-  if(!confirm(
-    'Supprimer cette zone ?'
-  )) return;
-
-  const {error} =
-    await sb
-      .from('zones')
-      .delete()
-      .eq('id',id);
-
-  if(error){
-
-    toast(error.message,'error');
-    return;
-  }
-
-  await loadZones();
-
-  toast(
-    'Zone supprimée.',
-    'success'
-  );
-}
-
-
-/* =========================================================
-   EQUIPMENT
-========================================================= */
-
-async function loadEquipment(){
-
-  const {data,error} =
-    await sb
-      .from('equipment')
-      .select(`
-        *,
-        zone:zone_id(id,code,name)
-      `)
-      .order('created_at',{ascending:false});
-
-  if(error) throw error;
-
-  equipment=data || [];
-
-  renderEquipment();
-}
-
-
-function renderEquipment(){
-
-  const tbody =
-    document.getElementById('equipmentTable');
-
-  tbody.innerHTML='';
-
-  equipment.forEach(e=>{
-
-    tbody.innerHTML += `
-      <tr>
-
-        <td><strong>${esc(e.code)}</strong></td>
-
-        <td>${esc(e.designation)}</td>
-
-        <td>
-          ${esc(e.zone?.code || '')}
-          ${esc(e.zone?.name || '')}
-        </td>
-
-        <td>${esc(e.type)}</td>
-
-        <td>${badge(e.criticality)}</td>
-
-        <td>${badge(e.status)}</td>
-
-        <td>
-
-          <div class="actions">
-
-            <button class="btn"
-              onclick="editEquipment('${e.id}')">
-              Modifier
-            </button>
-
-            ${
-              isAdmin()
-              ?
-              `<button class="btn btn-danger"
-                onclick="deleteEquipment('${e.id}')">
-                Supprimer
-              </button>`
-              :''
-            }
-
-          </div>
-
-        </td>
-
-      </tr>
-    `;
-  });
-}
-
-
-function zoneOptions(selected=''){
-
-  return `
-    <option value="">
-      Sélectionner
-    </option>
-
-    ${
-      zones.map(z=>`
-        <option
-          value="${z.id}"
-          ${selected===z.id?'selected':''}>
-          ${esc(z.code)} — ${esc(z.name)}
-        </option>
-      `).join('')
-    }
-  `;
-}
-
-
-function equipmentOptions(selected=''){
-
-  return `
-    <option value="">
-      Sélectionner
-    </option>
-
-    ${
-      equipment.map(e=>`
-        <option
-          value="${e.id}"
-          ${selected===e.id?'selected':''}>
-          ${esc(e.code)} — ${esc(e.designation)}
-        </option>
-      `).join('')
-    }
-  `;
-}
-
-
-function personnelOptions(selected=''){
-
-  const techs =
-    personnel.filter(
-      p=>p.role==='technician' &&
-         p.active!==false
-    );
-
-  return `
-    <option value="">
-      Non affecté
-    </option>
-
-    ${
-      techs.map(p=>`
-        <option
-          value="${p.id}"
-          ${selected===p.id?'selected':''}>
-          ${esc(p.employee_code)} — ${esc(p.full_name)}
-        </option>
-      `).join('')
-    }
-  `;
-}
-
-
-function openEquipmentModal(){
-
-  if(!canManage()){
-
-    toast(
-      'Accès réservé au responsable ou administrateur.',
-      'warning'
-    );
-
-    return;
-  }
-
-  openModal(
-    'Nouvel équipement',
-    `
-      <form onsubmit="saveEquipment(event)">
-
-        <div class="form-grid">
-
-          <div>
-            <label>Désignation *</label>
-            <input id="eqDesignation" required>
-          </div>
-
-          <div>
-            <label>Zone *</label>
-            <select id="eqZone" required>
-              ${zoneOptions()}
-            </select>
-          </div>
-
-          <div>
-            <label>Type</label>
-            <input id="eqType"
-              placeholder="Moteur, convoyeur...">
-          </div>
-
-          <div>
-            <label>Marque</label>
-            <input id="eqBrand">
-          </div>
-
-          <div>
-            <label>Modèle</label>
-            <input id="eqModel">
-          </div>
-
-          <div>
-            <label>N° série</label>
-            <input id="eqSerial">
-          </div>
-
-          <div>
-            <label>Criticité</label>
-            <select id="eqCriticality">
-              <option>Faible</option>
-              <option selected>Moyenne</option>
-              <option>Haute</option>
-              <option>Critique</option>
-            </select>
-          </div>
-
-          <div>
-            <label>Statut</label>
-            <select id="eqStatus">
-              <option selected>Actif</option>
-              <option>Arrêt</option>
-              <option>Hors service</option>
-            </select>
-          </div>
-
-          <div>
-            <label>Date installation</label>
-            <input id="eqDate" type="date">
-          </div>
-
-          <div class="full">
-            <label>Description</label>
-            <textarea id="eqDescription"></textarea>
-          </div>
-
-        </div>
-
-        <div class="form-actions">
-
-          <button type="button"
-            class="btn"
-            onclick="closeModal()">
-            Annuler
-          </button>
-
-          <button class="btn btn-primary">
-            Enregistrer
-          </button>
-
-        </div>
-
-      </form>
-    `
-  );
-}
-
-
-async function saveEquipment(event){
-
-  event.preventDefault();
-
-  const payload={
-    designation:
-      document.getElementById('eqDesignation').value.trim(),
-
-    zone_id:
-      document.getElementById('eqZone').value,
-
-    type:
-      document.getElementById('eqType').value.trim(),
-
-    brand:
-      document.getElementById('eqBrand').value.trim(),
-
-    model:
-      document.getElementById('eqModel').value.trim(),
-
-    serial_number:
-      document.getElementById('eqSerial').value.trim(),
-
-    criticality:
-      document.getElementById('eqCriticality').value,
-
-    status:
-      document.getElementById('eqStatus').value,
-
-    installation_date:
-      document.getElementById('eqDate').value || null,
-
-    description:
-      document.getElementById('eqDescription').value.trim(),
-
-    created_by:
-      currentUser.id
-  };
-
-  const {error} =
-    await sb
-      .from('equipment')
-      .insert(payload);
-
-  if(error){
-
-    toast(error.message,'error');
-    return;
-  }
-
-  closeModal();
-
-  await loadEquipment();
-
-  updateDashboard();
-
-  toast(
-    'Équipement créé avec code automatique EQ.',
-    'success'
-  );
-}
-
-
-function editEquipment(id){
-
-  if(!canManage()) return;
-
-  const e =
-    equipment.find(x=>x.id===id);
-
-  if(!e) return;
-
-  openModal(
-    'Modifier équipement',
-    `
-      <form onsubmit="updateEquipment(event,'${id}')">
-
-        <div class="form-grid">
-
-          <div>
-            <label>Code</label>
-            <input disabled value="${esc(e.code)}">
-          </div>
-
-          <div>
-            <label>Désignation *</label>
-            <input id="eqDesignation"
-              required
-              value="${esc(e.designation)}">
-          </div>
-
-          <div>
-            <label>Zone</label>
-            <select id="eqZone">
-              ${zoneOptions(e.zone_id)}
-            </select>
-          </div>
-
-          <div>
-            <label>Type</label>
-            <input id="eqType"
-              value="${esc(e.type)}">
-          </div>
-
-          <div>
-            <label>Marque</label>
-            <input id="eqBrand"
-              value="${esc(e.brand)}">
-          </div>
-
-          <div>
-            <label>Modèle</label>
-            <input id="eqModel"
-              value="${esc(e.model)}">
-          </div>
-
-          <div>
-            <label>N° série</label>
-            <input id="eqSerial"
-              value="${esc(e.serial_number)}">
-          </div>
-
-          <div>
-            <label>Criticité</label>
-            <select id="eqCriticality">
-              ${['Faible','Moyenne','Haute','Critique']
-                .map(x=>`
-                  <option
-                    ${x===e.criticality?'selected':''}>
-                    ${x}
-                  </option>
-                `).join('')}
-            </select>
-          </div>
-
-          <div>
-            <label>Statut</label>
-            <input id="eqStatus"
-              value="${esc(e.status)}">
-          </div>
-
-          <div class="full">
-            <label>Description</label>
-            <textarea id="eqDescription">${esc(e.description)}</textarea>
-          </div>
-
-        </div>
-
-        <div class="form-actions">
-
-          <button type="button"
-            class="btn"
-            onclick="closeModal()">
-            Annuler
-          </button>
-
-          <button class="btn btn-primary">
-            Enregistrer
-          </button>
-
-        </div>
-
-      </form>
-    `
-  );
-}
-
-
-async function updateEquipment(event,id){
-
-  event.preventDefault();
-
-  const {error} =
-    await sb
-      .from('equipment')
-      .update({
-        designation:
-          document.getElementById('eqDesignation').value.trim(),
-
-        zone_id:
-          document.getElementById('eqZone').value || null,
-
-        type:
-          document.getElementById('eqType').value.trim(),
-
-        brand:
-          document.getElementById('eqBrand').value.trim(),
-
-        model:
-          document.getElementById('eqModel').value.trim(),
-
-        serial_number:
-          document.getElementById('eqSerial').value.trim(),
-
-        criticality:
-          document.getElementById('eqCriticality').value,
-
-        status:
-          document.getElementById('eqStatus').value,
-
-        description:
-          document.getElementById('eqDescription').value.trim()
-      })
-      .eq('id',id);
-
-  if(error){
-
-    toast(error.message,'error');
-    return;
-  }
-
-  closeModal();
-
-  await loadEquipment();
-
-  toast(
-    'Équipement modifié.',
-    'success'
-  );
-}
-
-
-async function deleteEquipment(id){
-
-  if(!isAdmin()) return;
-
-  if(!confirm(
-    'Supprimer cet équipement ?'
-  )) return;
-
-  const {error} =
-    await sb
-      .from('equipment')
-      .delete()
-      .eq('id',id);
-
-  if(error){
-
-    toast(error.message,'error');
-    return;
-  }
-
-  await loadEquipment();
-
-  toast(
-    'Équipement supprimé.',
-    'success'
-  );
-}
-
-
-/* =========================================================
-   SUB EQUIPMENT
-========================================================= */
-
-async function loadSubEquipment(){
-
-  const {data,error} =
-    await sb
-      .from('sub_equipment')
-      .select(`
-        *,
-        equipment:equipment_id(
-          id,code,designation
-        )
-      `)
-      .order('created_at',{
-        ascending:false
-      });
-
-  if(error) throw error;
-
-  subEquipment=data || [];
-
-  renderSubEquipment();
-}
-
-
-function renderSubEquipment(){
+async function loadZones() {
 
   const tbody =
     document.getElementById(
-      'subEquipmentTable'
+      'zonesTable'
     );
 
-  tbody.innerHTML='';
+  tbody.innerHTML =
+    `<tr>
+      <td colspan="4" class="empty">
+        Chargement...
+      </td>
+    </tr>`;
 
-  subEquipment.forEach(s=>{
 
-    tbody.innerHTML += `
+  const {
+    data,
+    error
+  } = await sb
+
+    .from('zones')
+
+    .select(
+      'code,name,description,status'
+    )
+
+    .order(
+      'code',
+      {
+        ascending: true
+      }
+    );
+
+
+  if (error) {
+
+    tbody.innerHTML =
+      `<tr>
+        <td colspan="4" class="empty">
+          Erreur : ${escapeHtml(error.message)}
+        </td>
+      </tr>`;
+
+    return;
+
+  }
+
+
+  if (!data || data.length === 0) {
+
+    tbody.innerHTML =
+      `<tr>
+        <td colspan="4" class="empty">
+          Aucune zone enregistrée.
+        </td>
+      </tr>`;
+
+    return;
+
+  }
+
+
+  tbody.innerHTML =
+    data.map(zone => `
+
       <tr>
 
         <td>
-          <strong>${esc(s.code)}</strong>
+          <strong>
+            ${escapeHtml(zone.code || '—')}
+          </strong>
         </td>
 
-        <td>${esc(s.designation)}</td>
-
         <td>
-          ${esc(s.equipment?.code || '')}
-          —
-          ${esc(s.equipment?.designation || '')}
+          ${escapeHtml(zone.name || '—')}
         </td>
 
-        <td>${esc(s.type)}</td>
-
-        <td>${badge(s.criticality)}</td>
-
-        <td>${badge(s.status)}</td>
+        <td>
+          ${escapeHtml(zone.description || '—')}
+        </td>
 
         <td>
-
-          <div class="actions">
-
-            <button class="btn"
-              onclick="editSubEquipment('${s.id}')">
-              Modifier
-            </button>
-
-            ${
-              isAdmin()
-              ?
-              `<button class="btn btn-danger"
-                onclick="deleteSubEquipment('${s.id}')">
-                Supprimer
-              </button>`
-              :''
-            }
-
-          </div>
-
+          <span class="status">
+            ${escapeHtml(zone.status || 'active')}
+          </span>
         </td>
 
       </tr>
-    `;
-  });
-}
 
-
-function openSubEquipmentModal(){
-
-  if(!canManage()){
-
-    toast(
-      'Accès réservé au responsable ou administrateur.',
-      'warning'
-    );
-
-    return;
-  }
-
-  openModal(
-    'Nouveau sous-équipement',
-    `
-      <form onsubmit="saveSubEquipment(event)">
-
-        <div class="form-grid">
-
-          <div>
-            <label>Équipement *</label>
-            <select id="seEquipment" required>
-              ${equipmentOptions()}
-            </select>
-          </div>
-
-          <div>
-            <label>Désignation *</label>
-            <input id="seDesignation" required>
-          </div>
-
-          <div>
-            <label>Type</label>
-            <input id="seType">
-          </div>
-
-          <div>
-            <label>Marque</label>
-            <input id="seBrand">
-          </div>
-
-          <div>
-            <label>Modèle</label>
-            <input id="seModel">
-          </div>
-
-          <div>
-            <label>N° série</label>
-            <input id="seSerial">
-          </div>
-
-          <div>
-            <label>Criticité</label>
-            <select id="seCriticality">
-              <option>Faible</option>
-              <option selected>Moyenne</option>
-              <option>Haute</option>
-              <option>Critique</option>
-            </select>
-          </div>
-
-          <div>
-            <label>Statut</label>
-            <select id="seStatus">
-              <option selected>Actif</option>
-              <option>Arrêt</option>
-              <option>Hors service</option>
-            </select>
-          </div>
-
-          <div class="full">
-            <label>Spécification</label>
-            <textarea id="seSpecification"></textarea>
-          </div>
-
-          <div class="full">
-            <label>Observation</label>
-            <textarea id="seObservation"></textarea>
-          </div>
-
-        </div>
-
-        <div class="form-actions">
-
-          <button type="button"
-            class="btn"
-            onclick="closeModal()">
-            Annuler
-          </button>
-
-          <button class="btn btn-primary">
-            Enregistrer
-          </button>
-
-        </div>
-
-      </form>
-    `
-  );
-}
-
-
-async function saveSubEquipment(event){
-
-  event.preventDefault();
-
-  const payload={
-    equipment_id:
-      document.getElementById('seEquipment').value,
-
-    designation:
-      document.getElementById('seDesignation').value.trim(),
-
-    type:
-      document.getElementById('seType').value.trim(),
-
-    brand:
-      document.getElementById('seBrand').value.trim(),
-
-    model:
-      document.getElementById('seModel').value.trim(),
-
-    serial_number:
-      document.getElementById('seSerial').value.trim(),
-
-    criticality:
-      document.getElementById('seCriticality').value,
-
-    status:
-      document.getElementById('seStatus').value,
-
-    specification:
-      document.getElementById('seSpecification').value.trim(),
-
-    observation:
-      document.getElementById('seObservation').value.trim(),
-
-    created_by:
-      currentUser.id
-  };
-
-  const {error} =
-    await sb
-      .from('sub_equipment')
-      .insert(payload);
-
-  if(error){
-
-    toast(error.message,'error');
-    return;
-  }
-
-  closeModal();
-
-  await loadSubEquipment();
-
-  updateDashboard();
-
-  toast(
-    'Sous-équipement créé.',
-    'success'
-  );
-}
-
-
-function editSubEquipment(id){
-
-  if(!canManage()) return;
-
-  const s =
-    subEquipment.find(x=>x.id===id);
-
-  if(!s) return;
-
-  openModal(
-    'Modifier sous-équipement',
-    `
-      <form onsubmit="updateSubEquipment(event,'${id}')">
-
-        <div class="form-grid">
-
-          <div>
-            <label>Code</label>
-            <input disabled value="${esc(s.code)}">
-          </div>
-
-          <div>
-            <label>Équipement</label>
-            <select id="seEquipment">
-              ${equipmentOptions(s.equipment_id)}
-            </select>
-          </div>
-
-          <div>
-            <label>Désignation</label>
-            <input id="seDesignation"
-              value="${esc(s.designation)}">
-          </div>
-
-          <div>
-            <label>Type</label>
-            <input id="seType"
-              value="${esc(s.type)}">
-          </div>
-
-          <div>
-            <label>Marque</label>
-            <input id="seBrand"
-              value="${esc(s.brand)}">
-          </div>
-
-          <div>
-            <label>Modèle</label>
-            <input id="seModel"
-              value="${esc(s.model)}">
-          </div>
-
-          <div>
-            <label>N° série</label>
-            <input id="seSerial"
-              value="${esc(s.serial_number)}">
-          </div>
-
-          <div>
-            <label>Criticité</label>
-            <input id="seCriticality"
-              value="${esc(s.criticality)}">
-          </div>
-
-          <div>
-            <label>Statut</label>
-            <input id="seStatus"
-              value="${esc(s.status)}">
-          </div>
-
-          <div class="full">
-            <label>Spécification</label>
-            <textarea id="seSpecification">${esc(s.specification)}</textarea>
-          </div>
-
-          <div class="full">
-            <label>Observation</label>
-            <textarea id="seObservation">${esc(s.observation)}</textarea>
-          </div>
-
-        </div>
-
-        <div class="form-actions">
-
-          <button type="button"
-            class="btn"
-            onclick="closeModal()">
-            Annuler
-          </button>
-
-          <button class="btn btn-primary">
-            Enregistrer
-          </button>
-
-        </div>
-
-      </form>
-    `
-  );
-}
-
-
-async function updateSubEquipment(event,id){
-
-  event.preventDefault();
-
-  const {error} =
-    await sb
-      .from('sub_equipment')
-      .update({
-        equipment_id:
-          document.getElementById('seEquipment').value,
-
-        designation:
-          document.getElementById('seDesignation').value.trim(),
-
-        type:
-          document.getElementById('seType').value.trim(),
-
-        brand:
-          document.getElementById('seBrand').value.trim(),
-
-        model:
-          document.getElementById('seModel').value.trim(),
-
-        serial_number:
-          document.getElementById('seSerial').value.trim(),
-
-        criticality:
-          document.getElementById('seCriticality').value,
-
-        status:
-          document.getElementById('seStatus').value,
-
-        specification:
-          document.getElementById('seSpecification').value.trim(),
-
-        observation:
-          document.getElementById('seObservation').value.trim()
-      })
-      .eq('id',id);
-
-  if(error){
-
-    toast(error.message,'error');
-    return;
-  }
-
-  closeModal();
-
-  await loadSubEquipment();
-
-  toast(
-    'Sous-équipement modifié.',
-    'success'
-  );
-}
-
-
-async function deleteSubEquipment(id){
-
-  if(!isAdmin()) return;
-
-  if(!confirm(
-    'Supprimer ce sous-équipement ?'
-  )) return;
-
-  const {error} =
-    await sb
-      .from('sub_equipment')
-      .delete()
-      .eq('id',id);
-
-  if(error){
-
-    toast(error.message,'error');
-    return;
-  }
-
-  await loadSubEquipment();
-
-  toast(
-    'Sous-équipement supprimé.',
-    'success'
-  );
-}
-
-
-/* =========================================================
-   DI
-========================================================= */
-
-async function loadDI(){
-
-  const {data,error} =
-    await sb
-      .from('intervention_requests')
-      .select(`
-        *,
-        zone:zone_id(code,name),
-        equipment:equipment_id(code,designation)
-      `)
-      .order('created_at',{
-        ascending:false
-      });
-
-  if(error) throw error;
-
-  dis=data || [];
-
-  renderDI();
-}
-
-
-function renderDI(){
-
-  const tbody =
-    document.getElementById('diTable');
-
-  tbody.innerHTML='';
-
-  dis.forEach(d=>{
-
-    tbody.innerHTML += `
-      <tr>
-
-        <td><strong>${esc(d.code)}</strong></td>
-
-        <td>${esc(d.date)}</td>
-
-        <td>
-          ${esc(d.zone?.code || '')}
-          ${esc(d.zone?.name || '')}
-        </td>
-
-        <td>
-          ${esc(d.equipment?.code || '')}
-          ${esc(d.equipment?.designation || '')}
-        </td>
-
-        <td>${badge(d.priority)}</td>
-
-        <td>${esc(d.type)}</td>
-
-        <td>${badge(d.status)}</td>
-
-        <td>${esc(d.description)}</td>
-
-        <td>
-
-          <div class="actions">
-
-            ${
-              canManage()
-              ?
-              `<button class="btn btn-info"
-                onclick="convertDIToOT('${d.id}')">
-                Créer OT
-              </button>`
-              :''
-            }
-
-            ${
-              isAdmin()
-              ?
-              `<button class="btn btn-danger"
-                onclick="deleteDI('${d.id}')">
-                Supprimer
-              </button>`
-              :''
-            }
-
-          </div>
-
-        </td>
-
-      </tr>
-    `;
-  });
-}
-
-
-function openDIModal(){
-
-  openModal(
-    'Nouvelle demande d’intervention',
-    `
-      <form onsubmit="saveDI(event)">
-
-        <div class="form-grid">
-
-          <div>
-            <label>Date *</label>
-            <input id="diDate"
-              type="date"
-              value="${new Date().toISOString().slice(0,10)}"
-              required>
-          </div>
-
-          <div>
-            <label>Zone</label>
-            <select id="diZone">
-              ${zoneOptions()}
-            </select>
-          </div>
-
-          <div>
-            <label>Équipement</label>
-            <select id="diEquipment">
-              ${equipmentOptions()}
-            </select>
-          </div>
-
-          <div>
-            <label>Sous-équipement</label>
-            <select id="diSubEquipment">
-              <option value="">Sélectionner</option>
-            </select>
-          </div>
-
-          <div>
-            <label>Priorité</label>
-            <select id="diPriority">
-              <option>Faible</option>
-              <option selected>Moyenne</option>
-              <option>Haute</option>
-              <option>Urgente</option>
-            </select>
-          </div>
-
-          <div>
-            <label>Type</label>
-            <select id="diType">
-              <option>Corrective</option>
-              <option>Préventive</option>
-              <option>Amélioration</option>
-              <option>Sécurité</option>
-            </select>
-          </div>
-
-          <div>
-            <label>Demandeur</label>
-            <input id="diRequester"
-              value="${esc(currentProfile?.full_name || '')}">
-          </div>
-
-          <div class="full">
-            <label>Description *</label>
-            <textarea id="diDescription"
-              required
-              placeholder="Décrire le problème..."></textarea>
-          </div>
-
-        </div>
-
-        <div class="form-actions">
-
-          <button type="button"
-            class="btn"
-            onclick="closeModal()">
-            Annuler
-          </button>
-
-          <button class="btn btn-primary">
-            Créer DI
-          </button>
-
-        </div>
-
-      </form>
-    `
-  );
-
-  document.getElementById('diEquipment')
-    .addEventListener(
-      'change',
-      updateDISubEquipment
-    );
-}
-
-
-function updateDISubEquipment(){
-
-  const eqId =
-    document.getElementById('diEquipment')
-      .value;
-
-  const select =
-    document.getElementById('diSubEquipment');
-
-  const rows =
-    subEquipment.filter(
-      x=>x.equipment_id===eqId
-    );
-
-  select.innerHTML =
-    `<option value="">Sélectionner</option>`+
-    rows.map(x=>`
-      <option value="${x.id}">
-        ${esc(x.code)} — ${esc(x.designation)}
-      </option>
     `).join('');
-}
 
-
-async function saveDI(event){
-
-  event.preventDefault();
-
-  const payload={
-
-    date:
-      document.getElementById('diDate').value,
-
-    time:
-      new Date().toTimeString().slice(0,5),
-
-    requester:
-      document.getElementById('diRequester').value.trim(),
-
-    zone_id:
-      document.getElementById('diZone').value || null,
-
-    equipment_id:
-      document.getElementById('diEquipment').value || null,
-
-    sub_equipment_id:
-      document.getElementById('diSubEquipment').value || null,
-
-    priority:
-      document.getElementById('diPriority').value,
-
-    type:
-      document.getElementById('diType').value,
-
-    status:
-      'Ouverte',
-
-    description:
-      document.getElementById('diDescription').value.trim(),
-
-    created_by:
-      currentUser.id
-
-  };
-
-  const {error} =
-    await sb
-      .from('intervention_requests')
-      .insert(payload);
-
-  if(error){
-
-    toast(error.message,'error');
-    return;
-  }
-
-  closeModal();
-
-  await loadDI();
-
-  updateDashboard();
-
-  toast(
-    'DI créée avec code automatique.',
-    'success'
-  );
-}
-
-
-async function deleteDI(id){
-
-  if(!isAdmin()) return;
-
-  if(!confirm(
-    'Supprimer cette DI ?'
-  )) return;
-
-  const {error} =
-    await sb
-      .from('intervention_requests')
-      .delete()
-      .eq('id',id);
-
-  if(error){
-
-    toast(error.message,'error');
-    return;
-  }
-
-  await loadDI();
-
-  toast(
-    'DI supprimée.',
-    'success'
-  );
-}
-
-
-function convertDIToOT(id){
-
-  const di =
-    dis.find(x=>x.id===id);
-
-  if(!di) return;
-
-  openOTModal(di);
 }
 
 
 /* =========================================================
-   OT
-========================================================= */
+   EQUIPEMENTS
+   ========================================================= */
 
-async function loadOT(){
-
-  const {data,error} =
-    await sb
-      .from('work_orders')
-      .select(`
-        *,
-        equipment:equipment_id(
-          code,designation
-        ),
-        sub_equipment:sub_equipment_id(
-          code,designation
-        ),
-        di:di_id(
-          code
-        )
-      `)
-      .order('created_at',{
-        ascending:false
-      });
-
-  if(error) throw error;
-
-  workOrders=data || [];
-
-  renderOT();
-}
-
-
-function renderOT(){
-
-  const tbody =
-    document.getElementById('otTable');
-
-  tbody.innerHTML='';
-
-  workOrders.forEach(o=>{
-
-    const technician =
-      personnel.find(
-        p=>p.id===o.technician_id
-      );
-
-    tbody.innerHTML += `
-      <tr>
-
-        <td>
-          <strong>${esc(o.code)}</strong>
-        </td>
-
-        <td>
-          ${esc(o.di?.code || '-')}
-        </td>
-
-        <td>
-          ${esc(o.equipment?.code || '')}
-          —
-          ${esc(o.equipment?.designation || '')}
-        </td>
-
-        <td>
-          ${
-            technician
-            ?
-            `${esc(technician.employee_code)}
-             — ${esc(technician.full_name)}`
-            :
-            '-'
-          }
-        </td>
-
-        <td>${esc(o.type)}</td>
-
-        <td>${badge(o.status)}</td>
-
-        <td>${esc(o.duration || 0)} h</td>
-
-        <td>
-
-          <div class="actions">
-
-            <button class="btn"
-              onclick="editOT('${o.id}')">
-              Ouvrir
-            </button>
-
-            ${
-              (isAdmin() || isManager()) &&
-              !['Clôturé','Terminé'].includes(o.status)
-              ?
-              `<button class="btn btn-success"
-                onclick="closeOT('${o.id}')">
-                Clôturer
-              </button>`
-              :''
-            }
-
-          </div>
-
-        </td>
-
-      </tr>
-    `;
-  });
-}
-
-
-function openOTModal(di=null){
-
-  if(!canManage()){
-
-    toast(
-      'Création OT réservée au responsable et administrateur.',
-      'warning'
-    );
-
-    return;
-  }
-
-  const diOptions=`
-    <option value="">Sans DI</option>
-    ${
-      dis.map(d=>`
-        <option
-          value="${d.id}"
-          ${di?.id===d.id?'selected':''}>
-          ${esc(d.code)} — ${esc(d.description)}
-        </option>
-      `).join('')
-    }
-  `;
-
-  openModal(
-    'Nouvel Ordre de Travail',
-    `
-      <form onsubmit="saveOT(event)">
-
-        <div class="form-grid">
-
-          <div>
-            <label>DI</label>
-            <select id="otDI">
-              ${diOptions}
-            </select>
-          </div>
-
-          <div>
-            <label>Équipement</label>
-            <select id="otEquipment">
-              ${equipmentOptions(di?.equipment_id || '')}
-            </select>
-          </div>
-
-          <div>
-            <label>Sous-équipement</label>
-            <select id="otSubEquipment">
-              <option value="">Sélectionner</option>
-            </select>
-          </div>
-
-          <div>
-            <label>Technicien</label>
-            <select id="otTechnician">
-              ${personnelOptions()}
-            </select>
-          </div>
-
-          <div>
-            <label>Type</label>
-            <select id="otType">
-              <option>Corrective</option>
-              <option>Préventive</option>
-              <option>Amélioration</option>
-              <option>Sécurité</option>
-            </select>
-          </div>
-
-          <div>
-            <label>Statut</label>
-            <select id="otStatus">
-              <option selected>Ouvert</option>
-              <option>En cours</option>
-              <option>En attente</option>
-            </select>
-          </div>
-
-          <div>
-            <label>Downtime (h)</label>
-            <input id="otDowntime"
-              type="number"
-              min="0"
-              step="0.1"
-              value="0">
-          </div>
-
-          <div>
-            <label>Durée intervention (h)</label>
-            <input id="otDuration"
-              type="number"
-              min="0"
-              step="0.1"
-              value="0">
-          </div>
-
-          <div class="full">
-            <label>Travail demandé</label>
-            <textarea id="otWorkRequested">${esc(di?.description || '')}</textarea>
-          </div>
-
-        </div>
-
-        <div class="form-actions">
-
-          <button type="button"
-            class="btn"
-            onclick="closeModal()">
-            Annuler
-          </button>
-
-          <button class="btn btn-primary">
-            Créer OT
-          </button>
-
-        </div>
-
-      </form>
-    `
-  );
-
-  document.getElementById('otEquipment')
-    .addEventListener(
-      'change',
-      updateOTSubEquipment
-    );
-
-  updateOTSubEquipment();
-}
-
-
-function updateOTSubEquipment(){
-
-  const eq =
-    document.getElementById('otEquipment')
-      ?.value;
-
-  const select =
-    document.getElementById('otSubEquipment');
-
-  if(!select) return;
-
-  const rows =
-    subEquipment.filter(
-      x=>x.equipment_id===eq
-    );
-
-  select.innerHTML=
-    `<option value="">Sélectionner</option>`+
-    rows.map(x=>`
-      <option value="${x.id}">
-        ${esc(x.code)} — ${esc(x.designation)}
-      </option>
-    `).join('');
-}
-
-
-async function saveOT(event){
-
-  event.preventDefault();
-
-  const payload={
-
-    di_id:
-      document.getElementById('otDI').value || null,
-
-    equipment_id:
-      document.getElementById('otEquipment').value || null,
-
-    sub_equipment_id:
-      document.getElementById('otSubEquipment').value || null,
-
-    technician_id:
-      document.getElementById('otTechnician').value || null,
-
-    type:
-      document.getElementById('otType').value,
-
-    status:
-      document.getElementById('otStatus').value,
-
-    downtime:
-      Number(
-        document.getElementById('otDowntime').value
-      ) || 0,
-
-    duration:
-      Number(
-        document.getElementById('otDuration').value
-      ) || 0,
-
-    work_performed:
-      document.getElementById('otWorkRequested')
-        .value.trim(),
-
-    created_by:
-      currentUser.id
-
-  };
-
-  const {error} =
-    await sb
-      .from('work_orders')
-      .insert(payload);
-
-  if(error){
-
-    toast(error.message,'error');
-    return;
-  }
-
-  closeModal();
-
-  await loadOT();
-
-  await loadDI();
-
-  updateDashboard();
-
-  toast(
-    'OT créé.',
-    'success'
-  );
-}
-
-
-function editOT(id){
-
-  const o =
-    workOrders.find(x=>x.id===id);
-
-  if(!o) return;
-
-  const assigned =
-    o.technician_id===currentUser.id;
-
-  if(
-    isTechnician() &&
-    !assigned
-  ){
-
-    toast(
-      'Vous ne pouvez modifier que les OT qui vous sont affectés.',
-      'warning'
-    );
-
-    return;
-  }
-
-  openModal(
-    `OT ${o.code}`,
-    `
-      <form onsubmit="updateOT(event,'${id}')">
-
-        <div class="form-grid">
-
-          <div>
-            <label>Code</label>
-            <input disabled value="${esc(o.code)}">
-          </div>
-
-          <div>
-            <label>Statut</label>
-
-            <select id="editOTStatus">
-
-              <option
-                ${o.status==='Ouvert'?'selected':''}>
-                Ouvert
-              </option>
-
-              <option
-                ${o.status==='En cours'?'selected':''}>
-                En cours
-              </option>
-
-              <option
-                ${o.status==='En attente'?'selected':''}>
-                En attente
-              </option>
-
-              <option
-                ${o.status==='Clôturé'?'selected':''}>
-                Clôturé
-              </option>
-
-            </select>
-
-          </div>
-
-          <div>
-            <label>Durée (h)</label>
-            <input id="editOTDuration"
-              type="number"
-              min="0"
-              step="0.1"
-              value="${esc(o.duration || 0)}">
-          </div>
-
-          <div>
-            <label>Downtime (h)</label>
-            <input id="editOTDowntime"
-              type="number"
-              min="0"
-              step="0.1"
-              value="${esc(o.downtime || 0)}">
-          </div>
-
-          <div class="full">
-            <label>Travail effectué</label>
-            <textarea id="editOTWork">${esc(o.work_performed || '')}</textarea>
-          </div>
-
-          <div class="full">
-            <label>Rapport d'intervention</label>
-            <textarea id="editOTReport">${esc(o.intervention_report || '')}</textarea>
-          </div>
-
-          <div class="full">
-            <label>Cause constatée</label>
-            <textarea id="editOTCause">${esc(o.cause || '')}</textarea>
-          </div>
-
-        </div>
-
-        <div class="form-actions">
-
-          <button type="button"
-            class="btn"
-            onclick="closeModal()">
-            Annuler
-          </button>
-
-          <button class="btn btn-primary">
-            Enregistrer
-          </button>
-
-        </div>
-
-      </form>
-    `
-  );
-}
-
-
-async function updateOT(event,id){
-
-  event.preventDefault();
-
-  let status =
-    document.getElementById('editOTStatus')
-      .value;
-
-  if(
-    isTechnician() &&
-    status==='Clôturé'
-  ){
-
-    toast(
-      'Un technicien ne peut pas clôturer un OT.',
-      'warning'
-    );
-
-    return;
-  }
-
-  const payload={
-
-    status,
-
-    duration:
-      Number(
-        document.getElementById('editOTDuration').value
-      ) || 0,
-
-    downtime:
-      Number(
-        document.getElementById('editOTDowntime').value
-      ) || 0,
-
-    work_performed:
-      document.getElementById('editOTWork')
-        .value.trim(),
-
-    intervention_report:
-      document.getElementById('editOTReport')
-        .value.trim(),
-
-    cause:
-      document.getElementById('editOTCause')
-        .value.trim()
-
-  };
-
-  const {error} =
-    await sb
-      .from('work_orders')
-      .update(payload)
-      .eq('id',id);
-
-  if(error){
-
-    toast(error.message,'error');
-    return;
-  }
-
-  closeModal();
-
-  await loadOT();
-
-  updateDashboard();
-
-  toast(
-    'OT mis à jour.',
-    'success'
-  );
-}
-
-
-async function closeOT(id){
-
-  if(
-    !isAdmin() &&
-    !isManager()
-  ){
-
-    toast(
-      'Seuls administrateur et responsable peuvent clôturer.',
-      'warning'
-    );
-
-    return;
-  }
-
-  if(!confirm(
-    'Confirmer la clôture de cet OT ?'
-  )) return;
-
-  const {error} =
-    await sb
-      .from('work_orders')
-      .update({
-        status:'Clôturé',
-        closed_by:currentUser.id,
-        closed_at:new Date().toISOString()
-      })
-      .eq('id',id);
-
-  if(error){
-
-    toast(error.message,'error');
-    return;
-  }
-
-  await loadOT();
-
-  updateDashboard();
-
-  toast(
-    'OT clôturé.',
-    'success'
-  );
-}
-
-
-/* =========================================================
-   PREVENTIVE
-========================================================= */
-
-async function loadPreventive(){
-
-  const {data,error} =
-    await sb
-      .from('preventive_plans')
-      .select(`
-        *,
-        equipment:equipment_id(
-          code,designation
-        )
-      `)
-      .order('created_at',{
-        ascending:false
-      });
-
-  if(error) throw error;
-
-  preventive=data || [];
-
-  renderPreventive();
-}
-
-
-function renderPreventive(){
+async function loadEquipment() {
 
   const tbody =
     document.getElementById(
-      'preventiveTable'
+      'equipmentTable'
     );
 
-  tbody.innerHTML='';
+  tbody.innerHTML =
+    `<tr>
+      <td colspan="5" class="empty">
+        Chargement...
+      </td>
+    </tr>`;
 
-  preventive.forEach(p=>{
 
-    tbody.innerHTML += `
+  const {
+    data,
+    error
+  } = await sb
+
+    .from('equipment')
+
+    .select(
+      'code,designation,type,criticality,status'
+    )
+
+    .order(
+      'code',
+      {
+        ascending: true
+      }
+    );
+
+
+  if (error) {
+
+    tbody.innerHTML =
+      `<tr>
+        <td colspan="5" class="empty">
+          Erreur : ${escapeHtml(error.message)}
+        </td>
+      </tr>`;
+
+    return;
+
+  }
+
+
+  if (!data || data.length === 0) {
+
+    tbody.innerHTML =
+      `<tr>
+        <td colspan="5" class="empty">
+          Aucun équipement enregistré.
+        </td>
+      </tr>`;
+
+    return;
+
+  }
+
+
+  tbody.innerHTML =
+    data.map(eq => `
+
       <tr>
 
-        <td><strong>${esc(p.code)}</strong></td>
-
         <td>
-          ${esc(p.equipment?.code || '')}
-          —
-          ${esc(p.equipment?.designation || '')}
+          <strong>
+            ${escapeHtml(eq.code || '—')}
+          </strong>
         </td>
 
-        <td>${esc(p.operation)}</td>
-
-        <td>${esc(p.frequency)}</td>
-
-        <td>${esc(p.last_date || '-')}</td>
-
-        <td>${esc(p.next_date || '-')}</td>
-
-        <td>${badge(p.status)}</td>
+        <td>
+          ${escapeHtml(eq.designation || '—')}
+        </td>
 
         <td>
+          ${escapeHtml(eq.type || '—')}
+        </td>
 
-          <div class="actions">
+        <td>
+          ${escapeHtml(eq.criticality || '—')}
+        </td>
 
-            <button class="btn"
-              onclick="editPreventive('${p.id}')">
-              Modifier
-            </button>
-
-            ${
-              isAdmin()
-              ?
-              `<button class="btn btn-danger"
-                onclick="deletePreventive('${p.id}')">
-                Supprimer
-              </button>`
-              :''
-            }
-
-          </div>
-
+        <td>
+          <span class="status">
+            ${escapeHtml(eq.status || 'active')}
+          </span>
         </td>
 
       </tr>
-    `;
-  });
-}
 
+    `).join('');
 
-function openPreventiveModal(){
-
-  if(!canManage()) return;
-
-  openModal(
-    'Nouveau plan préventif',
-    `
-      <form onsubmit="savePreventive(event)">
-
-        <div class="form-grid">
-
-          <div>
-            <label>Équipement *</label>
-            <select id="pmEquipment" required>
-              ${equipmentOptions()}
-            </select>
-          </div>
-
-          <div>
-            <label>Fréquence</label>
-            <input id="pmFrequency"
-              placeholder="Hebdomadaire / mensuel...">
-          </div>
-
-          <div class="full">
-            <label>Opération *</label>
-            <input id="pmOperation" required
-              placeholder="Graissage, inspection, contrôle...">
-          </div>
-
-          <div>
-            <label>Dernière date</label>
-            <input id="pmLastDate" type="date">
-          </div>
-
-          <div>
-            <label>Prochaine date</label>
-            <input id="pmNextDate" type="date">
-          </div>
-
-          <div>
-            <label>Responsable</label>
-            <input id="pmResponsible">
-          </div>
-
-          <div>
-            <label>Statut</label>
-            <select id="pmStatus">
-              <option selected>Actif</option>
-              <option>En attente</option>
-              <option>Terminé</option>
-            </select>
-          </div>
-
-          <div class="full">
-            <label>Instructions</label>
-            <textarea id="pmInstructions"></textarea>
-          </div>
-
-        </div>
-
-        <div class="form-actions">
-
-          <button type="button"
-            class="btn"
-            onclick="closeModal()">
-            Annuler
-          </button>
-
-          <button class="btn btn-primary">
-            Enregistrer
-          </button>
-
-        </div>
-
-      </form>
-    `
-  );
-}
-
-
-async function savePreventive(event){
-
-  event.preventDefault();
-
-  const {error} =
-    await sb
-      .from('preventive_plans')
-      .insert({
-
-        equipment_id:
-          document.getElementById('pmEquipment').value,
-
-        operation:
-          document.getElementById('pmOperation').value.trim(),
-
-        frequency:
-          document.getElementById('pmFrequency').value.trim(),
-
-        last_date:
-          document.getElementById('pmLastDate').value || null,
-
-        next_date:
-          document.getElementById('pmNextDate').value || null,
-
-        responsible:
-          document.getElementById('pmResponsible').value.trim(),
-
-        status:
-          document.getElementById('pmStatus').value,
-
-        instructions:
-          document.getElementById('pmInstructions').value.trim(),
-
-        created_by:
-          currentUser.id
-      });
-
-  if(error){
-
-    toast(error.message,'error');
-    return;
-  }
-
-  closeModal();
-
-  await loadPreventive();
-
-  toast(
-    'Plan préventif créé.',
-    'success'
-  );
-}
-
-
-function editPreventive(id){
-
-  const p =
-    preventive.find(x=>x.id===id);
-
-  if(!p) return;
-
-  openModal(
-    'Modifier plan préventif',
-    `
-      <form onsubmit="updatePreventive(event,'${id}')">
-
-        <div class="form-grid">
-
-          <div>
-            <label>Équipement</label>
-            <select id="pmEquipment">
-              ${equipmentOptions(p.equipment_id)}
-            </select>
-          </div>
-
-          <div>
-            <label>Fréquence</label>
-            <input id="pmFrequency"
-              value="${esc(p.frequency)}">
-          </div>
-
-          <div class="full">
-            <label>Opération</label>
-            <input id="pmOperation"
-              value="${esc(p.operation)}">
-          </div>
-
-          <div>
-            <label>Dernière date</label>
-            <input id="pmLastDate"
-              type="date"
-              value="${esc(p.last_date || '')}">
-          </div>
-
-          <div>
-            <label>Prochaine date</label>
-            <input id="pmNextDate"
-              type="date"
-              value="${esc(p.next_date || '')}">
-          </div>
-
-          <div>
-            <label>Responsable</label>
-            <input id="pmResponsible"
-              value="${esc(p.responsible)}">
-          </div>
-
-          <div>
-            <label>Statut</label>
-            <input id="pmStatus"
-              value="${esc(p.status)}">
-          </div>
-
-          <div class="full">
-            <label>Instructions</label>
-            <textarea id="pmInstructions">${esc(p.instructions)}</textarea>
-          </div>
-
-        </div>
-
-        <div class="form-actions">
-
-          <button type="button"
-            class="btn"
-            onclick="closeModal()">
-            Annuler
-          </button>
-
-          <button class="btn btn-primary">
-            Enregistrer
-          </button>
-
-        </div>
-
-      </form>
-    `
-  );
-}
-
-
-async function updatePreventive(event,id){
-
-  event.preventDefault();
-
-  const {error} =
-    await sb
-      .from('preventive_plans')
-      .update({
-
-        equipment_id:
-          document.getElementById('pmEquipment').value,
-
-        operation:
-          document.getElementById('pmOperation').value.trim(),
-
-        frequency:
-          document.getElementById('pmFrequency').value.trim(),
-
-        last_date:
-          document.getElementById('pmLastDate').value || null,
-
-        next_date:
-          document.getElementById('pmNextDate').value || null,
-
-        responsible:
-          document.getElementById('pmResponsible').value.trim(),
-
-        status:
-          document.getElementById('pmStatus').value,
-
-        instructions:
-          document.getElementById('pmInstructions').value.trim()
-      })
-      .eq('id',id);
-
-  if(error){
-
-    toast(error.message,'error');
-    return;
-  }
-
-  closeModal();
-
-  await loadPreventive();
-
-  toast(
-    'Plan préventif modifié.',
-    'success'
-  );
-}
-
-
-async function deletePreventive(id){
-
-  if(!isAdmin()) return;
-
-  if(!confirm(
-    'Supprimer ce plan ?'
-  )) return;
-
-  const {error} =
-    await sb
-      .from('preventive_plans')
-      .delete()
-      .eq('id',id);
-
-  if(error){
-
-    toast(error.message,'error');
-    return;
-  }
-
-  await loadPreventive();
-
-  toast(
-    'Plan supprimé.',
-    'success'
-  );
-}
-
-
-/* =========================================================
-   RCA / BDA
-========================================================= */
-
-async function loadRCA(){
-
-  const {data,error} =
-    await sb
-      .from('rca_bda')
-      .select(`
-        *,
-        equipment:equipment_id(
-          code,designation
-        )
-      `)
-      .order('created_at',{
-        ascending:false
-      });
-
-  if(error) throw error;
-
-  rcas=data || [];
-
-  renderRCA();
-}
-
-
-function renderRCA(){
-
-  const tbody =
-    document.getElementById('rcaTable');
-
-  tbody.innerHTML='';
-
-  rcas.forEach(r=>{
-
-    tbody.innerHTML += `
-      <tr>
-
-        <td><strong>${esc(r.code)}</strong></td>
-
-        <td>${esc(r.ot_id || '-')}</td>
-
-        <td>
-          ${esc(r.equipment?.code || '')}
-          —
-          ${esc(r.equipment?.designation || '')}
-        </td>
-
-        <td>${esc(r.root_cause)}</td>
-
-        <td>${esc(r.corrective_action)}</td>
-
-        <td>${esc(r.responsible)}</td>
-
-        <td>${badge(r.status)}</td>
-
-        <td>
-
-          <div class="actions">
-
-            <button class="btn"
-              onclick="editRCA('${r.id}')">
-              Modifier
-            </button>
-
-            ${
-              isAdmin()
-              ?
-              `<button class="btn btn-danger"
-                onclick="deleteRCA('${r.id}')">
-                Supprimer
-              </button>`
-              :''
-            }
-
-          </div>
-
-        </td>
-
-      </tr>
-    `;
-  });
-}
-
-
-function openRCAModal(){
-
-  if(!canManage()) return;
-
-  openModal(
-    'Nouvelle RCA / BDA',
-    `
-      <form onsubmit="saveRCA(event)">
-
-        <div class="form-grid">
-
-          <div>
-            <label>OT</label>
-            <select id="rcaOT">
-              <option value="">Sélectionner</option>
-              ${
-                workOrders.map(o=>`
-                  <option value="${o.id}">
-                    ${esc(o.code)}
-                  </option>
-                `).join('')
-              }
-            </select>
-          </div>
-
-          <div>
-            <label>Équipement</label>
-            <select id="rcaEquipment">
-              ${equipmentOptions()}
-            </select>
-          </div>
-
-          <div class="full">
-            <label>Méthode 5M</label>
-            <textarea id="rca5m"
-              placeholder="Main d'œuvre / Machine / Méthode / Matière / Milieu"></textarea>
-          </div>
-
-          <div>
-            <label>Why 1</label>
-            <input id="why1">
-          </div>
-
-          <div>
-            <label>Why 2</label>
-            <input id="why2">
-          </div>
-
-          <div>
-            <label>Why 3</label>
-            <input id="why3">
-          </div>
-
-          <div>
-            <label>Why 4</label>
-            <input id="why4">
-          </div>
-
-          <div>
-            <label>Why 5</label>
-            <input id="why5">
-          </div>
-
-          <div class="full">
-            <label>Cause racine</label>
-            <textarea id="rootCause"></textarea>
-          </div>
-
-          <div class="full">
-            <label>Action corrective</label>
-            <textarea id="correctiveAction"></textarea>
-          </div>
-
-          <div>
-            <label>Responsable</label>
-            <input id="rcaResponsible">
-          </div>
-
-          <div>
-            <label>Date échéance</label>
-            <input id="rcaDueDate" type="date">
-          </div>
-
-          <div>
-            <label>Statut</label>
-            <select id="rcaStatus">
-              <option>Ouvert</option>
-              <option>En cours</option>
-              <option>Clôturé</option>
-            </select>
-          </div>
-
-        </div>
-
-        <div class="form-actions">
-
-          <button type="button"
-            class="btn"
-            onclick="closeModal()">
-            Annuler
-          </button>
-
-          <button class="btn btn-primary">
-            Enregistrer
-          </button>
-
-        </div>
-
-      </form>
-    `
-  );
-}
-
-
-async function saveRCA(event){
-
-  event.preventDefault();
-
-  const {error} =
-    await sb
-      .from('rca_bda')
-      .insert({
-
-        ot_id:
-          document.getElementById('rcaOT').value || null,
-
-        equipment_id:
-          document.getElementById('rcaEquipment').value || null,
-
-        method_5m:
-          document.getElementById('rca5m').value.trim(),
-
-        why1:
-          document.getElementById('why1').value.trim(),
-
-        why2:
-          document.getElementById('why2').value.trim(),
-
-        why3:
-          document.getElementById('why3').value.trim(),
-
-        why4:
-          document.getElementById('why4').value.trim(),
-
-        why5:
-          document.getElementById('why5').value.trim(),
-
-        root_cause:
-          document.getElementById('rootCause').value.trim(),
-
-        corrective_action:
-          document.getElementById('correctiveAction').value.trim(),
-
-        responsible:
-          document.getElementById('rcaResponsible').value.trim(),
-
-        due_date:
-          document.getElementById('rcaDueDate').value || null,
-
-        status:
-          document.getElementById('rcaStatus').value,
-
-        created_by:
-          currentUser.id
-
-      });
-
-  if(error){
-
-    toast(error.message,'error');
-    return;
-  }
-
-  closeModal();
-
-  await loadRCA();
-
-  toast(
-    'RCA créée.',
-    'success'
-  );
-}
-
-
-function editRCA(id){
-
-  const r =
-    rcas.find(x=>x.id===id);
-
-  if(!r) return;
-
-  openModal(
-    `RCA ${r.code}`,
-    `
-      <form onsubmit="updateRCA(event,'${id}')">
-
-        <div class="form-grid">
-
-          <div>
-            <label>Équipement</label>
-            <select id="rcaEquipment">
-              ${equipmentOptions(r.equipment_id)}
-            </select>
-          </div>
-
-          <div>
-            <label>Statut</label>
-            <input id="rcaStatus"
-              value="${esc(r.status)}">
-          </div>
-
-          <div class="full">
-            <label>5M</label>
-            <textarea id="rca5m">${esc(r.method_5m)}</textarea>
-          </div>
-
-          <div>
-            <label>Why 1</label>
-            <input id="why1" value="${esc(r.why1)}">
-          </div>
-
-          <div>
-            <label>Why 2</label>
-            <input id="why2" value="${esc(r.why2)}">
-          </div>
-
-          <div>
-            <label>Why 3</label>
-            <input id="why3" value="${esc(r.why3)}">
-          </div>
-
-          <div>
-            <label>Why 4</label>
-            <input id="why4" value="${esc(r.why4)}">
-          </div>
-
-          <div>
-            <label>Why 5</label>
-            <input id="why5" value="${esc(r.why5)}">
-          </div>
-
-          <div class="full">
-            <label>Cause racine</label>
-            <textarea id="rootCause">${esc(r.root_cause)}</textarea>
-          </div>
-
-          <div class="full">
-            <label>Action corrective</label>
-            <textarea id="correctiveAction">${esc(r.corrective_action)}</textarea>
-          </div>
-
-          <div>
-            <label>Responsable</label>
-            <input id="rcaResponsible"
-              value="${esc(r.responsible)}">
-          </div>
-
-          <div>
-            <label>Échéance</label>
-            <input id="rcaDueDate"
-              type="date"
-              value="${esc(r.due_date || '')}">
-          </div>
-
-        </div>
-
-        <div class="form-actions">
-
-          <button type="button"
-            class="btn"
-            onclick="closeModal()">
-            Annuler
-          </button>
-
-          <button class="btn btn-primary">
-            Enregistrer
-          </button>
-
-        </div>
-
-      </form>
-    `
-  );
-}
-
-
-async function updateRCA(event,id){
-
-  event.preventDefault();
-
-  const {error} =
-    await sb
-      .from('rca_bda')
-      .update({
-
-        equipment_id:
-          document.getElementById('rcaEquipment').value || null,
-
-        method_5m:
-          document.getElementById('rca5m').value.trim(),
-
-        why1:
-          document.getElementById('why1').value.trim(),
-
-        why2:
-          document.getElementById('why2').value.trim(),
-
-        why3:
-          document.getElementById('why3').value.trim(),
-
-        why4:
-          document.getElementById('why4').value.trim(),
-
-        why5:
-          document.getElementById('why5').value.trim(),
-
-        root_cause:
-          document.getElementById('rootCause').value.trim(),
-
-        corrective_action:
-          document.getElementById('correctiveAction').value.trim(),
-
-        responsible:
-          document.getElementById('rcaResponsible').value.trim(),
-
-        due_date:
-          document.getElementById('rcaDueDate').value || null,
-
-        status:
-          document.getElementById('rcaStatus').value
-
-      })
-      .eq('id',id);
-
-  if(error){
-
-    toast(error.message,'error');
-    return;
-  }
-
-  closeModal();
-
-  await loadRCA();
-
-  toast(
-    'RCA modifiée.',
-    'success'
-  );
-}
-
-
-async function deleteRCA(id){
-
-  if(!isAdmin()) return;
-
-  if(!confirm(
-    'Supprimer cette RCA ?'
-  )) return;
-
-  const {error} =
-    await sb
-      .from('rca_bda')
-      .delete()
-      .eq('id',id);
-
-  if(error){
-
-    toast(error.message,'error');
-    return;
-  }
-
-  await loadRCA();
-
-  toast(
-    'RCA supprimée.',
-    'success'
-  );
-}
-
-
-/* =========================================================
-   PARTS
-========================================================= */
-
-async function loadParts(){
-
-  const {data,error} =
-    await sb
-      .from('parts')
-      .select('*')
-      .order('created_at',{
-        ascending:false
-      });
-
-  if(error) throw error;
-
-  parts=data || [];
-
-  renderParts();
-}
-
-
-function renderParts(){
-
-  const tbody =
-    document.getElementById('partsTable');
-
-  tbody.innerHTML='';
-
-  parts.forEach(p=>{
-
-    const low =
-      Number(p.stock || 0) <=
-      Number(p.min_stock || 0);
-
-    tbody.innerHTML += `
-      <tr>
-
-        <td><strong>${esc(p.code)}</strong></td>
-
-        <td>${esc(p.designation)}</td>
-
-        <td>${esc(p.stock)}</td>
-
-        <td>${esc(p.min_stock)}</td>
-
-        <td>${esc(p.unit)}</td>
-
-        <td>${esc(p.supplier)}</td>
-
-        <td>
-          ${
-            low
-            ?
-            '<span class="badge badge-red">Stock faible</span>'
-            :
-            '<span class="badge badge-green">Normal</span>'
-          }
-        </td>
-
-        <td>
-
-          <div class="actions">
-
-            <button class="btn"
-              onclick="editPart('${p.id}')">
-              Modifier
-            </button>
-
-            ${
-              isAdmin()
-              ?
-              `<button class="btn btn-danger"
-                onclick="deletePart('${p.id}')">
-                Supprimer
-              </button>`
-              :''
-            }
-
-          </div>
-
-        </td>
-
-      </tr>
-    `;
-  });
-}
-
-
-function openPartModal(){
-
-  if(!canManage()) return;
-
-  openModal(
-    'Nouvelle pièce de rechange',
-    `
-      <form onsubmit="savePart(event)">
-
-        <div class="form-grid">
-
-          <div class="full">
-            <label>Désignation *</label>
-            <input id="partDesignation" required>
-          </div>
-
-          <div>
-            <label>Stock</label>
-            <input id="partStock"
-              type="number"
-              step="0.01"
-              value="0">
-          </div>
-
-          <div>
-            <label>Stock minimum</label>
-            <input id="partMin"
-              type="number"
-              step="0.01"
-              value="0">
-          </div>
-
-          <div>
-            <label>Unité</label>
-            <input id="partUnit"
-              placeholder="pcs, kg...">
-          </div>
-
-          <div>
-            <label>Fournisseur</label>
-            <input id="partSupplier">
-          </div>
-
-          <div>
-            <label>Équipement</label>
-            <select id="partEquipment">
-              ${equipmentOptions()}
-            </select>
-          </div>
-
-        </div>
-
-        <div class="form-actions">
-
-          <button type="button"
-            class="btn"
-            onclick="closeModal()">
-            Annuler
-          </button>
-
-          <button class="btn btn-primary">
-            Enregistrer
-          </button>
-
-        </div>
-
-      </form>
-    `
-  );
-}
-
-
-async function savePart(event){
-
-  event.preventDefault();
-
-  const {error} =
-    await sb
-      .from('parts')
-      .insert({
-
-        designation:
-          document.getElementById('partDesignation').value.trim(),
-
-        stock:
-          Number(
-            document.getElementById('partStock').value
-          ) || 0,
-
-        min_stock:
-          Number(
-            document.getElementById('partMin').value
-          ) || 0,
-
-        unit:
-          document.getElementById('partUnit').value.trim(),
-
-        supplier:
-          document.getElementById('partSupplier').value.trim(),
-
-        equipment_id:
-          document.getElementById('partEquipment').value || null,
-
-        created_by:
-          currentUser.id
-      });
-
-  if(error){
-
-    toast(error.message,'error');
-    return;
-  }
-
-  closeModal();
-
-  await loadParts();
-
-  toast(
-    'PDR créée.',
-    'success'
-  );
-}
-
-
-function editPart(id){
-
-  const p =
-    parts.find(x=>x.id===id);
-
-  if(!p) return;
-
-  openModal(
-    'Modifier PDR',
-    `
-      <form onsubmit="updatePart(event,'${id}')">
-
-        <div class="form-grid">
-
-          <div>
-            <label>Code</label>
-            <input disabled value="${esc(p.code)}">
-          </div>
-
-          <div>
-            <label>Désignation</label>
-            <input id="partDesignation"
-              value="${esc(p.designation)}">
-          </div>
-
-          <div>
-            <label>Stock</label>
-            <input id="partStock"
-              type="number"
-              value="${esc(p.stock)}">
-          </div>
-
-          <div>
-            <label>Stock minimum</label>
-            <input id="partMin"
-              type="number"
-              value="${esc(p.min_stock)}">
-          </div>
-
-          <div>
-            <label>Unité</label>
-            <input id="partUnit"
-              value="${esc(p.unit)}">
-          </div>
-
-          <div>
-            <label>Fournisseur</label>
-            <input id="partSupplier"
-              value="${esc(p.supplier)}">
-          </div>
-
-          <div class="full">
-            <label>Équipement</label>
-            <select id="partEquipment">
-              ${equipmentOptions(p.equipment_id)}
-            </select>
-          </div>
-
-        </div>
-
-        <div class="form-actions">
-
-          <button type="button"
-            class="btn"
-            onclick="closeModal()">
-            Annuler
-          </button>
-
-          <button class="btn btn-primary">
-            Enregistrer
-          </button>
-
-        </div>
-
-      </form>
-    `
-  );
-}
-
-
-async function updatePart(event,id){
-
-  event.preventDefault();
-
-  const {error} =
-    await sb
-      .from('parts')
-      .update({
-
-        designation:
-          document.getElementById('partDesignation').value.trim(),
-
-        stock:
-          Number(
-            document.getElementById('partStock').value
-          ) || 0,
-
-        min_stock:
-          Number(
-            document.getElementById('partMin').value
-          ) || 0,
-
-        unit:
-          document.getElementById('partUnit').value.trim(),
-
-        supplier:
-          document.getElementById('partSupplier').value.trim(),
-
-        equipment_id:
-          document.getElementById('partEquipment').value || null
-
-      })
-      .eq('id',id);
-
-  if(error){
-
-    toast(error.message,'error');
-    return;
-  }
-
-  closeModal();
-
-  await loadParts();
-
-  toast(
-    'PDR modifiée.',
-    'success'
-  );
-}
-
-
-async function deletePart(id){
-
-  if(!isAdmin()) return;
-
-  if(!confirm(
-    'Supprimer cette PDR ?'
-  )) return;
-
-  const {error} =
-    await sb
-      .from('parts')
-      .delete()
-      .eq('id',id);
-
-  if(error){
-
-    toast(error.message,'error');
-    return;
-  }
-
-  await loadParts();
-
-  toast(
-    'PDR supprimée.',
-    'success'
-  );
 }
 
 
 /* =========================================================
    PERSONNEL
-========================================================= */
+   ========================================================= */
 
-async function loadPersonnel(){
-
-  const {data,error} =
-    await sb
-      .from('profiles')
-      .select('*')
-      .order('created_at',{
-        ascending:false
-      });
-
-  if(error) throw error;
-
-  personnel=data || [];
-
-  renderPersonnel();
-}
-
-
-function renderPersonnel(){
+async function loadPersonnel() {
 
   const tbody =
     document.getElementById(
       'personnelTable'
     );
 
-  tbody.innerHTML='';
+  tbody.innerHTML =
+    `<tr>
+      <td colspan="5" class="empty">
+        Chargement...
+      </td>
+    </tr>`;
 
-  personnel.forEach(p=>{
 
-    tbody.innerHTML += `
+  const {
+    data,
+    error
+  } = await sb
+
+    .from('profiles')
+
+    .select(
+      'full_name,employee_code,role,phone,active'
+    )
+
+    .order(
+      'employee_code',
+      {
+        ascending: true
+      }
+    );
+
+
+  if (error) {
+
+    tbody.innerHTML =
+      `<tr>
+        <td colspan="5" class="empty">
+          Erreur : ${escapeHtml(error.message)}
+        </td>
+      </tr>`;
+
+    return;
+
+  }
+
+
+  if (!data || data.length === 0) {
+
+    tbody.innerHTML =
+      `<tr>
+        <td colspan="5" class="empty">
+          Aucun personnel.
+        </td>
+      </tr>`;
+
+    return;
+
+  }
+
+
+  tbody.innerHTML =
+    data.map(person => `
+
       <tr>
 
         <td>
-          <strong>${esc(p.full_name)}</strong>
+          ${escapeHtml(
+            person.full_name || '—'
+          )}
         </td>
 
         <td>
-          ${esc(p.employee_code || '-')}
+          <strong>
+            ${escapeHtml(
+              person.employee_code || '—'
+            )}
+          </strong>
         </td>
 
         <td>
-          ${roleLabel(p.role)}
+          ${escapeHtml(
+            roleLabel(person.role)
+          )}
         </td>
 
         <td>
-          ${esc(p.department || '-')}
+          ${escapeHtml(
+            person.phone || '—'
+          )}
         </td>
 
         <td>
-          ${esc(p.position || '-')}
-        </td>
-
-        <td>
-          ${p.active
-            ?
-            '<span class="badge badge-green">Actif</span>'
-            :
-            '<span class="badge badge-red">Inactif</span>'
-          }
-        </td>
-
-        <td>
-
-          ${
-            isAdmin()
-            ?
-            `
-              <div class="actions">
-
-                <button class="btn"
-                  onclick="editPersonnel('${p.id}')">
-                  Modifier
-                </button>
-
-              </div>
-            `
-            :
-            ''
-          }
-
+          <span class="status">
+            ${person.active ? 'Actif' : 'Inactif'}
+          </span>
         </td>
 
       </tr>
-    `;
-  });
-}
 
+    `).join('');
 
-function openPersonnelModal(){
-
-  if(!isAdmin()){
-
-    toast(
-      'Accès administrateur uniquement.',
-      'warning'
-    );
-
-    return;
-  }
-
-  openModal(
-    'Créer un profil personnel',
-    `
-      <form onsubmit="savePersonnel(event)">
-
-        <div class="card"
-             style="margin-bottom:15px">
-
-          <strong>Important</strong>
-
-          <div class="small muted"
-               style="margin-top:7px">
-
-            Le compte Auth Supabase doit exister
-            pour que le collaborateur puisse se connecter.
-            Ce formulaire crée/modifie le profil GMAO,
-            mais ne crée pas de mot de passe Auth.
-
-          </div>
-
-        </div>
-
-        <div class="form-grid">
-
-          <div class="full">
-            <label>ID Auth Supabase *</label>
-            <input id="personId"
-              placeholder="UUID du compte Auth"
-              required>
-          </div>
-
-          <div>
-            <label>Nom complet *</label>
-            <input id="personName" required>
-          </div>
-
-          <div>
-            <label>Rôle *</label>
-            <select id="personRole">
-              <option value="admin">
-                Administrateur
-              </option>
-              <option value="manager">
-                Responsable Maintenance
-              </option>
-              <option value="technician"
-                      selected>
-                Technicien
-              </option>
-            </select>
-          </div>
-
-          <div>
-            <label>Téléphone</label>
-            <input id="personPhone">
-          </div>
-
-          <div>
-            <label>Département</label>
-            <input id="personDepartment"
-              value="Maintenance">
-          </div>
-
-          <div>
-            <label>Poste</label>
-            <input id="personPosition">
-          </div>
-
-          <div>
-            <label>Actif</label>
-            <select id="personActive">
-              <option value="true"
-                      selected>
-                Oui
-              </option>
-              <option value="false">
-                Non
-              </option>
-            </select>
-          </div>
-
-        </div>
-
-        <div class="form-actions">
-
-          <button type="button"
-            class="btn"
-            onclick="closeModal()">
-            Annuler
-          </button>
-
-          <button class="btn btn-primary">
-            Enregistrer
-          </button>
-
-        </div>
-
-      </form>
-    `
-  );
-}
-
-
-async function savePersonnel(event){
-
-  event.preventDefault();
-
-  const payload={
-
-    id:
-      document.getElementById('personId')
-        .value.trim(),
-
-    full_name:
-      document.getElementById('personName')
-        .value.trim(),
-
-    role:
-      document.getElementById('personRole')
-        .value,
-
-    phone:
-      document.getElementById('personPhone')
-        .value.trim(),
-
-    department:
-      document.getElementById('personDepartment')
-        .value.trim(),
-
-    position:
-      document.getElementById('personPosition')
-        .value.trim(),
-
-    active:
-      document.getElementById('personActive')
-        .value === 'true'
-
-  };
-
-  const {error} =
-    await sb
-      .from('profiles')
-      .insert(payload);
-
-  if(error){
-
-    toast(error.message,'error');
-    return;
-  }
-
-  closeModal();
-
-  await loadPersonnel();
-
-  updateDashboard();
-
-  toast(
-    'Profil créé. Le code personnel sera généré automatiquement.',
-    'success'
-  );
-}
-
-
-function editPersonnel(id){
-
-  if(!isAdmin()) return;
-
-  const p =
-    personnel.find(x=>x.id===id);
-
-  if(!p) return;
-
-  openModal(
-    'Modifier personnel',
-    `
-      <form onsubmit="updatePersonnel(event,'${id}')">
-
-        <div class="form-grid">
-
-          <div>
-            <label>Code personnel</label>
-            <input disabled
-              value="${esc(p.employee_code || '')}">
-          </div>
-
-          <div>
-            <label>Nom complet</label>
-            <input id="personName"
-              value="${esc(p.full_name)}">
-          </div>
-
-          <div>
-            <label>Rôle</label>
-            <select id="personRole">
-
-              <option value="admin"
-                ${p.role==='admin'?'selected':''}>
-                Administrateur
-              </option>
-
-              <option value="manager"
-                ${p.role==='manager'?'selected':''}>
-                Responsable Maintenance
-              </option>
-
-              <option value="technician"
-                ${p.role==='technician'?'selected':''}>
-                Technicien
-              </option>
-
-            </select>
-          </div>
-
-          <div>
-            <label>Téléphone</label>
-            <input id="personPhone"
-              value="${esc(p.phone)}">
-          </div>
-
-          <div>
-            <label>Département</label>
-            <input id="personDepartment"
-              value="${esc(p.department)}">
-          </div>
-
-          <div>
-            <label>Poste</label>
-            <input id="personPosition"
-              value="${esc(p.position)}">
-          </div>
-
-          <div>
-            <label>Actif</label>
-            <select id="personActive">
-
-              <option value="true"
-                ${p.active!==false?'selected':''}>
-                Oui
-              </option>
-
-              <option value="false"
-                ${p.active===false?'selected':''}>
-                Non
-              </option>
-
-            </select>
-          </div>
-
-        </div>
-
-        <div class="form-actions">
-
-          <button type="button"
-            class="btn"
-            onclick="closeModal()">
-            Annuler
-          </button>
-
-          <button class="btn btn-primary">
-            Enregistrer
-          </button>
-
-        </div>
-
-      </form>
-    `
-  );
-}
-
-
-async function updatePersonnel(event,id){
-
-  event.preventDefault();
-
-  const {error} =
-    await sb
-      .from('profiles')
-      .update({
-
-        full_name:
-          document.getElementById('personName')
-            .value.trim(),
-
-        role:
-          document.getElementById('personRole')
-            .value,
-
-        phone:
-          document.getElementById('personPhone')
-            .value.trim(),
-
-        department:
-          document.getElementById('personDepartment')
-            .value.trim(),
-
-        position:
-          document.getElementById('personPosition')
-            .value.trim(),
-
-        active:
-          document.getElementById('personActive')
-            .value==='true'
-
-      })
-      .eq('id',id);
-
-  if(error){
-
-    toast(error.message,'error');
-    return;
-  }
-
-  closeModal();
-
-  await loadPersonnel();
-
-  toast(
-    'Profil modifié.',
-    'success'
-  );
 }
 
 
 /* =========================================================
-   DASHBOARD
-========================================================= */
+   CHANGER MOT DE PASSE
+   ========================================================= */
 
-function updateDashboard(){
+async function changePassword() {
 
-  document.getElementById('kpiZones')
-    .textContent=zones.length;
+  const password =
+    document.getElementById(
+      'newPassword'
+    ).value;
 
-  document.getElementById('kpiEquipment')
-    .textContent=equipment.length;
+  const confirmation =
+    document.getElementById(
+      'confirmPassword'
+    ).value;
 
-  document.getElementById('kpiSubEquipment')
-    .textContent=subEquipment.length;
-
-  document.getElementById('kpiDI')
-    .textContent=dis.length;
-
-  document.getElementById('kpiOT')
-    .textContent=workOrders.length;
-
-  const open =
-    workOrders.filter(
-      x=>!['Clôturé','Terminé']
-        .includes(x.status)
-    ).length;
-
-  document.getElementById('kpiOpenOT')
-    .textContent=open;
-
-  document.getElementById('kpiPersonnel')
-    .textContent=personnel.length;
-
-  const totalDowntime =
-    workOrders.reduce(
-      (sum,x)=>
-        sum+Number(x.downtime || 0),
-      0
-    );
-
-  const totalDuration =
-    workOrders.reduce(
-      (sum,x)=>
-        sum+Number(x.duration || 0),
-      0
-    );
-
-  const availability =
-    totalDuration + totalDowntime > 0
-    ?
-    (
-      totalDuration /
-      (totalDuration + totalDowntime)
-      *100
-    ).toFixed(1)+'%'
-    :
-    '-';
-
-  document.getElementById('kpiAvailability')
-    .textContent=availability;
-
-  renderCharts();
-}
-
-
-function renderCharts(){
-
-  if(typeof Chart==='undefined'){
-    return;
-  }
-
-  const otStatus={};
-
-  workOrders.forEach(o=>{
-    const s=o.status || 'Sans statut';
-    otStatus[s]=(otStatus[s]||0)+1;
-  });
-
-  if(otChart){
-    otChart.destroy();
-  }
-
-  otChart=
-    new Chart(
-      document.getElementById('otChart'),
-      {
-        type:'doughnut',
-        data:{
-          labels:Object.keys(otStatus),
-          datasets:[
-            {
-              data:Object.values(otStatus)
-            }
-          ]
-        },
-        options:{
-          responsive:true
-        }
-      }
+  const message =
+    document.getElementById(
+      'passwordMessage'
     );
 
 
-  const diStatus={};
+  message.className =
+    'message';
 
-  dis.forEach(d=>{
-    const s=d.status || 'Sans statut';
-    diStatus[s]=(diStatus[s]||0)+1;
-  });
-
-  if(diChart){
-    diChart.destroy();
-  }
-
-  diChart=
-    new Chart(
-      document.getElementById('diChart'),
-      {
-        type:'doughnut',
-        data:{
-          labels:Object.keys(diStatus),
-          datasets:[
-            {
-              data:Object.values(diStatus)
-            }
-          ]
-        },
-        options:{
-          responsive:true
-        }
-      }
-    );
+  message.textContent = '';
 
 
-  const equipmentCount={};
+  if (!password || !confirmation) {
 
-  workOrders.forEach(o=>{
+    message.className =
+      'message error';
 
-    const name =
-      o.equipment?.code ||
-      'Sans équipement';
-
-    equipmentCount[name] =
-      (equipmentCount[name] || 0)+1;
-
-  });
-
-  const sorted =
-    Object.entries(equipmentCount)
-      .sort((a,b)=>b[1]-a[1])
-      .slice(0,10);
-
-  if(paretoChart){
-    paretoChart.destroy();
-  }
-
-  paretoChart=
-    new Chart(
-      document.getElementById('paretoChart'),
-      {
-        type:'bar',
-        data:{
-          labels:sorted.map(x=>x[0]),
-          datasets:[
-            {
-              label:'Nombre OT',
-              data:sorted.map(x=>x[1])
-            }
-          ]
-        },
-        options:{
-          responsive:true
-        }
-      }
-    );
-}
-
-
-/* =========================================================
-   REPORTS
-========================================================= */
-
-function updateReports(){
-
-  const closed =
-    workOrders.filter(
-      x=>['Clôturé','Terminé']
-        .includes(x.status)
-    );
-
-  const totalDuration =
-    closed.reduce(
-      (sum,x)=>
-        sum+Number(x.duration || 0),
-      0
-    );
-
-  const totalDowntime =
-    closed.reduce(
-      (sum,x)=>
-        sum+Number(x.downtime || 0),
-      0
-    );
-
-  const mttr =
-    closed.length
-    ?
-    totalDuration/closed.length
-    :
-    0;
-
-  document.getElementById('reportMTTR')
-    .textContent=
-      mttr.toFixed(2)+' h';
-
-  document.getElementById('reportClosed')
-    .textContent=
-      closed.length;
-
-  document.getElementById('reportDowntime')
-    .textContent=
-      totalDowntime.toFixed(2)+' h';
-
-  document.getElementById('reportSummary')
-    .innerHTML=`
-
-      <p>
-        <strong>Équipements :</strong>
-        ${equipment.length}
-      </p>
-
-      <p>
-        <strong>Demandes :</strong>
-        ${dis.length}
-      </p>
-
-      <p>
-        <strong>Ordres de travail :</strong>
-        ${workOrders.length}
-      </p>
-
-      <p>
-        <strong>OT clôturés :</strong>
-        ${closed.length}
-      </p>
-
-      <p>
-        <strong>Downtime :</strong>
-        ${totalDowntime.toFixed(2)} h
-      </p>
-
-      <p>
-        <strong>MTTR :</strong>
-        ${mttr.toFixed(2)} h
-      </p>
-    `;
-}
-
-
-/* =========================================================
-   PASSWORD
-========================================================= */
-
-async function changePassword(){
-
-  const p1 =
-    document.getElementById('newPassword')
-      .value;
-
-  const p2 =
-    document.getElementById('newPassword2')
-      .value;
-
-  if(!p1 || p1.length<8){
-
-    toast(
-      'Le mot de passe doit contenir au moins 8 caractères.',
-      'warning'
-    );
+    message.textContent =
+      'Veuillez remplir les deux champs.';
 
     return;
+
   }
 
-  if(p1!==p2){
 
-    toast(
-      'Les deux mots de passe sont différents.',
-      'warning'
-    );
+  if (password.length < 6) {
+
+    message.className =
+      'message error';
+
+    message.textContent =
+      'Le mot de passe doit contenir au moins 6 caractères.';
 
     return;
+
   }
 
-  const {error} =
-    await sb.auth.updateUser({
-      password:p1
-    });
 
-  if(error){
+  if (password !== confirmation) {
 
-    toast(error.message,'error');
+    message.className =
+      'message error';
+
+    message.textContent =
+      'Les deux mots de passe sont différents.';
+
     return;
+
   }
 
-  document.getElementById('newPassword')
-    .value='';
 
-  document.getElementById('newPassword2')
-    .value='';
+  try {
 
-  toast(
-    'Mot de passe modifié.',
-    'success'
-  );
-}
+    const {
+      error
+    } =
+      await sb.auth.updateUser({
+
+        password: password
+
+      });
 
 
-/* =========================================================
-   DIAGNOSTIC
-========================================================= */
+    if (error) {
 
-async function diagnosticLogin(){
+      throw error;
 
-  const msg =
-    document.getElementById('loginMessage');
-
-  msg.textContent=
-    'Test de connexion Supabase...';
-
-  try{
-
-    const response =
-      await fetch(
-        SUPABASE_URL+
-        '/rest/v1/',
-        {
-          headers:{
-            apikey:
-              SUPABASE_ANON_KEY
-          }
-        }
-      );
-
-    if(!response.ok){
-
-      const text =
-        await response.text();
-
-      throw new Error(
-        `HTTP ${response.status} — ${text}`
-      );
     }
 
-    msg.textContent=
-      'Connexion réseau Supabase OK.';
 
-    toast(
-      'Supabase accessible.',
-      'success'
-    );
+    message.className =
+      'message success';
 
-  }catch(error){
+    message.textContent =
+      'Mot de passe modifié avec succès.';
 
-    console.error(error);
 
-    msg.textContent=
-      'Échec : '+error.message;
+    document.getElementById(
+      'newPassword'
+    ).value = '';
 
-    toast(
-      error.message,
-      'error'
-    );
+    document.getElementById(
+      'confirmPassword'
+    ).value = '';
+
+
+  } catch(error) {
+
+    message.className =
+      'message error';
+
+    message.textContent =
+      'Erreur : ' + error.message;
+
   }
+
 }
 
 
-async function diagnostic(){
+/* =========================================================
+   LOGOUT
+   ========================================================= */
 
-  try{
+async function logout() {
 
-    const session =
-      await sb.auth.getSession();
+  await sb.auth.signOut();
 
-    console.log(
-      'SESSION:',
-      session
-    );
+  currentUser = null;
 
-    const user =
-      session.data.session?.user;
+  currentProfile = null;
 
-    if(!user){
+  document.getElementById('app')
+    .classList.add('hidden');
 
-      toast(
-        'Aucune session utilisateur.',
-        'warning'
-      );
+  document.getElementById('loginPage')
+    .classList.remove('hidden');
+
+  document.getElementById('password')
+    .value = '';
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+   ========================================================= */
+
+function escapeHtml(value) {
+
+  return String(value ?? '')
+    .replaceAll('&','&amp;')
+    .replaceAll('<','&lt;')
+    .replaceAll('>','&gt;')
+    .replaceAll('"','&quot;')
+    .replaceAll("'","&#039;");
+
+}
+
+
+/* =========================================================
+   RESTAURER SESSION
+   ========================================================= */
+
+async function restoreSession() {
+
+  try {
+
+    const {
+      data,
+      error
+    } = await sb.auth.getSession();
+
+
+    if (error) {
+
+      console.error(error);
 
       return;
+
     }
 
-    const profile =
-      await sb
-        .from('profiles')
-        .select('*')
-        .eq('id',user.id)
-        .maybeSingle();
 
-    console.log(
-      'PROFILE:',
-      profile
+    if (
+      data &&
+      data.session &&
+      data.session.user
+    ) {
+
+      currentUser =
+        data.session.user;
+
+      try {
+
+        await loadProfile();
+
+        document.getElementById(
+          'loginPage'
+        ).classList.add('hidden');
+
+        document.getElementById(
+          'app'
+        ).classList.remove('hidden');
+
+        await loadDashboard();
+
+      } catch(error) {
+
+        console.error(error);
+
+        await sb.auth.signOut();
+
+      }
+
+    }
+
+  } catch(error) {
+
+    console.error(
+      'SESSION ERROR:',
+      error
     );
 
-    const zonesTest =
-      await sb
-        .from('zones')
-        .select('id,code,name')
-        .limit(5);
-
-    console.log(
-      'ZONES:',
-      zonesTest
-    );
-
-    alert(
-      'Diagnostic terminé.\n\n'+
-      'User ID : '+user.id+'\n'+
-      'Email : '+(user.email || '')+'\n'+
-      'Profil : '+(profile.data?.full_name || 'Aucun')+'\n'+
-      'Role : '+(profile.data?.role || 'Aucun')+'\n'+
-      'Zones : '+(zonesTest.data?.length || 0)
-    );
-
-  }catch(error){
-
-    console.error(error);
-
-    toast(
-      error.message,
-      'error'
-    );
   }
+
 }
 
 
 /* =========================================================
    AUTH STATE
-========================================================= */
+   ========================================================= */
 
 sb.auth.onAuthStateChange(
-  async (event,session)=>{
+  async (event, session) => {
 
-    if(event==='SIGNED_IN' && session){
+    console.log(
+      'Auth event:',
+      event
+    );
 
-      if(!currentProfile){
-
-        setTimeout(
-          initializeApp,
-          100
-        );
-      }
-    }
-
-    if(event==='SIGNED_OUT'){
-
-      currentUser=null;
-      currentProfile=null;
-    }
   }
 );
 
 
 /* =========================================================
-   INITIAL SESSION CHECK
-========================================================= */
+   START
+   ========================================================= */
 
-(async function(){
-
-  try{
-
-    const {
-      data:{session}
-    } =
-      await sb.auth.getSession();
-
-    if(session){
-
-      currentUser=session.user;
-
-      await initializeApp();
-
-    }
-
-  }catch(error){
-
-    console.error(error);
-
-  }
-
-})();
+restoreSession();
 
 </script>
 
