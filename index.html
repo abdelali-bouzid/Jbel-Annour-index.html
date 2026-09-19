@@ -3,222 +3,1036 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>GMAO PRO V9 - Connexion</title>
+<title>GMAO PRO V10.1</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 *{
-  box-sizing:border-box;
-  font-family:Arial,sans-serif;
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
 body{
-  margin:0;
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:#07111f;
-  color:white;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#07111f;
+    color:#eaf2ff;
 }
 
-.card{
-  width:420px;
-  max-width:92%;
-  background:#0d1b2d;
-  border:1px solid #25415f;
-  border-radius:18px;
-  padding:30px;
-  box-shadow:0 20px 60px rgba(0,0,0,.5);
+button,input,select{
+    font:inherit;
+}
+
+.hidden{
+    display:none!important;
+}
+
+/* LOGIN */
+#loginPage{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:
+        radial-gradient(circle at top,#12345a,#07111f 55%);
+}
+
+.login-card{
+    width:420px;
+    max-width:94%;
+    background:#0d1b2e;
+    border:1px solid #24476d;
+    border-radius:18px;
+    padding:35px;
+    box-shadow:0 20px 60px rgba(0,0,0,.45);
 }
 
 .logo{
-  width:70px;
-  height:70px;
-  margin:auto;
-  border-radius:18px;
-  background:#1677ff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:30px;
-  font-weight:bold;
+    text-align:center;
+    margin-bottom:25px;
 }
 
-h1{
-  text-align:center;
-  margin:18px 0 5px;
+.logo h1{
+    color:#38bdf8;
+    font-size:30px;
 }
 
-.subtitle{
-  text-align:center;
-  color:#8ea3ba;
-  margin-bottom:25px;
+.logo p{
+    color:#91a8c2;
+    margin-top:8px;
 }
 
-label{
-  display:block;
-  margin:15px 0 7px;
-  color:#b7c7d9;
+.form-group{
+    margin-bottom:16px;
 }
 
-input{
-  width:100%;
-  padding:13px;
-  border-radius:9px;
-  border:1px solid #29445f;
-  background:#081522;
-  color:white;
-  outline:none;
+.form-group label{
+    display:block;
+    margin-bottom:7px;
+    color:#b9cce0;
 }
 
-input:focus{
-  border-color:#1677ff;
+input,select{
+    width:100%;
+    padding:12px;
+    border-radius:9px;
+    border:1px solid #294966;
+    background:#081524;
+    color:white;
+    outline:none;
 }
 
-button{
-  width:100%;
-  padding:13px;
-  margin-top:12px;
-  border:0;
-  border-radius:9px;
-  cursor:pointer;
-  font-weight:bold;
+input:focus,select:focus{
+    border-color:#38bdf8;
 }
 
-.login{
-  background:#1677ff;
-  color:white;
+.btn{
+    border:0;
+    border-radius:9px;
+    padding:11px 17px;
+    cursor:pointer;
+    transition:.2s;
 }
 
-.reset{
-  background:#243a52;
-  color:white;
+.btn:hover{
+    transform:translateY(-1px);
 }
 
-.test{
-  background:#15304c;
-  color:#9cc8ff;
+.btn-primary{
+    background:#0284c7;
+    color:white;
+}
+
+.btn-success{
+    background:#16a34a;
+    color:white;
+}
+
+.btn-warning{
+    background:#d97706;
+    color:white;
+}
+
+.btn-danger{
+    background:#dc2626;
+    color:white;
+}
+
+.btn-secondary{
+    background:#334155;
+    color:white;
+}
+
+.full{
+    width:100%;
+}
+
+#loginMessage{
+    margin-top:15px;
+    text-align:center;
+    min-height:20px;
+}
+
+/* APP */
+#app{
+    min-height:100vh;
+    display:flex;
+}
+
+.sidebar{
+    width:245px;
+    background:#091827;
+    border-right:1px solid #203a55;
+    padding:20px 14px;
+    position:fixed;
+    top:0;
+    bottom:0;
+    left:0;
+    overflow-y:auto;
+}
+
+.sidebar-logo{
+    padding:10px;
+    margin-bottom:20px;
+}
+
+.sidebar-logo h2{
+    color:#38bdf8;
+}
+
+.sidebar-logo small{
+    color:#64748b;
+}
+
+.nav-btn{
+    width:100%;
+    background:transparent;
+    color:#a9bdd2;
+    border:0;
+    text-align:left;
+    padding:13px;
+    border-radius:9px;
+    margin-bottom:5px;
+    cursor:pointer;
+}
+
+.nav-btn:hover,
+.nav-btn.active{
+    background:#123452;
+    color:#fff;
+}
+
+.main{
+    margin-left:245px;
+    width:calc(100% - 245px);
+}
+
+.topbar{
+    height:70px;
+    background:#0b1929;
+    border-bottom:1px solid #203a55;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 25px;
+}
+
+.user-info{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.avatar{
+    width:40px;
+    height:40px;
+    background:#0284c7;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+}
+
+.content{
+    padding:25px;
+}
+
+/* KPI */
+.kpi-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
+    margin-bottom:25px;
+}
+
+.kpi{
+    background:#0d1b2e;
+    border:1px solid #203a55;
+    border-radius:14px;
+    padding:20px;
+}
+
+.kpi-title{
+    color:#8197ad;
+    font-size:13px;
+}
+
+.kpi-value{
+    font-size:30px;
+    font-weight:bold;
+    margin-top:8px;
+    color:#38bdf8;
+}
+
+/* PAGE */
+.page-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.page-title h1{
+    font-size:25px;
+}
+
+.card{
+    background:#0d1b2e;
+    border:1px solid #203a55;
+    border-radius:14px;
+    padding:20px;
+    margin-bottom:20px;
+}
+
+.card-title{
+    font-size:18px;
+    margin-bottom:18px;
+}
+
+/* TABLE */
+.table-container{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,td{
+    padding:12px 10px;
+    border-bottom:1px solid #203a55;
+    text-align:left;
+    white-space:nowrap;
+}
+
+th{
+    color:#8fa8c0;
+    font-size:13px;
+    background:#0a1726;
+}
+
+td{
+    color:#dbeafe;
+}
+
+tr:hover td{
+    background:#10243a;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:12px;
+}
+
+.badge-admin{
+    background:#7c2d12;
+    color:#fed7aa;
+}
+
+.badge-manager{
+    background:#164e63;
+    color:#a5f3fc;
+}
+
+.badge-tech{
+    background:#14532d;
+    color:#bbf7d0;
+}
+
+.badge-active{
+    background:#14532d;
+    color:#bbf7d0;
+}
+
+.badge-inactive{
+    background:#450a0a;
+    color:#fecaca;
+}
+
+.actions{
+    display:flex;
+    gap:5px;
+}
+
+/* FORM GRID */
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.form-grid .full-col{
+    grid-column:1/-1;
+}
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.7);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:100;
+    padding:20px;
+}
+
+.modal-box{
+    width:650px;
+    max-width:100%;
+    max-height:90vh;
+    overflow:auto;
+    background:#0d1b2e;
+    border:1px solid #315879;
+    border-radius:15px;
+    padding:25px;
+}
+
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.close{
+    background:none;
+    border:0;
+    color:#94a3b8;
+    font-size:25px;
+    cursor:pointer;
+}
+
+.footer-actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+    margin-top:20px;
 }
 
 .message{
-  display:none;
-  margin-top:15px;
-  padding:12px;
-  border-radius:8px;
-  font-size:13px;
-  line-height:1.5;
-  white-space:pre-wrap;
+    padding:12px;
+    border-radius:8px;
+    margin-bottom:15px;
 }
 
-.error{
-  display:block;
-  background:#32191d;
-  border:1px solid #71363d;
-  color:#ff9c9c;
+.message-success{
+    background:#052e16;
+    color:#bbf7d0;
+    border:1px solid #166534;
 }
 
-.success{
-  display:block;
-  background:#123323;
-  border:1px solid #286b45;
-  color:#8ee0ae;
+.message-error{
+    background:#450a0a;
+    color:#fecaca;
+    border:1px solid #991b1b;
 }
 
-#app{
-  display:none;
-  text-align:center;
+@media(max-width:1000px){
+    .kpi-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
 }
 
-#diagnostic{
-  margin-top:15px;
-  color:#8ea3ba;
-  font-size:12px;
-  white-space:pre-wrap;
-  word-break:break-word;
-  text-align:left;
+@media(max-width:700px){
+    .sidebar{
+        width:70px;
+    }
+
+    .sidebar-logo h2,
+    .sidebar-logo small,
+    .nav-btn span{
+        display:none;
+    }
+
+    .main{
+        margin-left:70px;
+        width:calc(100% - 70px);
+    }
+
+    .kpi-grid{
+        grid-template-columns:1fr;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<div class="card" id="loginPage">
+<!-- =====================================================
+     LOGIN
+===================================================== -->
 
-  <div class="logo">G</div>
+<section id="loginPage">
 
-  <h1>GMAO PRO V9</h1>
+<div class="login-card">
 
-  <div class="subtitle">
-    Connexion Administrateur
-  </div>
+    <div class="logo">
+        <h1>GMAO PRO</h1>
+        <p>Maintenance Management System</p>
+    </div>
 
-  <label>Email</label>
+    <div class="form-group">
+        <label>Email</label>
+        <input
+            id="loginEmail"
+            type="email"
+            value="abdelali.bouzid.98@gmail.com"
+        >
+    </div>
 
-  <input
-    id="email"
-    type="email"
-    value="abdelali.bouzid.98@gmail.com"
-    autocomplete="username"
-  >
+    <div class="form-group">
+        <label>Mot de passe</label>
+        <input
+            id="loginPassword"
+            type="password"
+            placeholder="Votre mot de passe"
+        >
+    </div>
 
-  <label>Mot de passe</label>
+    <button
+        class="btn btn-primary full"
+        onclick="login()"
+    >
+        Se connecter
+    </button>
 
-  <input
-    id="password"
-    type="password"
-    placeholder="Votre mot de passe Supabase"
-    autocomplete="current-password"
-  >
+    <button
+        class="btn btn-secondary full"
+        style="margin-top:10px"
+        onclick="resetPassword()"
+    >
+        Réinitialiser le mot de passe
+    </button>
 
-  <button
-    class="login"
-    onclick="login()"
-  >
-    🔐 Se connecter
-  </button>
+    <div id="loginMessage"></div>
 
-  <button
-    class="reset"
-    onclick="resetPassword()"
-  >
-    🔑 Réinitialiser le mot de passe
-  </button>
+</div>
 
-  <button
-    class="test"
-    onclick="testConnection()"
-  >
-    🔎 Tester Supabase
-  </button>
+</section>
 
-  <div id="message" class="message"></div>
 
-  <div id="diagnostic"></div>
+<!-- =====================================================
+     APPLICATION
+===================================================== -->
+
+<section id="app" class="hidden">
+
+<aside class="sidebar">
+
+    <div class="sidebar-logo">
+        <h2>GMAO PRO</h2>
+        <small>V10.1</small>
+    </div>
+
+    <button class="nav-btn active" onclick="showPage('dashboard',this)">
+        📊 <span>Dashboard</span>
+    </button>
+
+    <button class="nav-btn" onclick="showPage('personnel',this)">
+        👥 <span>Personnel</span>
+    </button>
+
+    <button class="nav-btn" onclick="showPage('equipment',this)">
+        ⚙️ <span>Équipements</span>
+    </button>
+
+    <button class="nav-btn" onclick="showPage('di',this)">
+        📥 <span>Demandes DI</span>
+    </button>
+
+    <button class="nav-btn" onclick="showPage('ot',this)">
+        🔧 <span>Ordres de Travail</span>
+    </button>
+
+    <button class="nav-btn" onclick="showPage('preventif',this)">
+        📅 <span>Préventif</span>
+    </button>
+
+    <button class="nav-btn" onclick="showPage('rca',this)">
+        🔎 <span>RCA / BDA</span>
+    </button>
+
+    <button class="nav-btn" onclick="showPage('reports',this)">
+        📑 <span>Rapports</span>
+    </button>
+
+    <button class="nav-btn" onclick="showPage('settings',this)">
+        ⚙️ <span>Paramètres</span>
+    </button>
+
+    <hr style="border-color:#203a55;margin:15px 0">
+
+    <button class="nav-btn" onclick="logout()">
+        🚪 <span>Déconnexion</span>
+    </button>
+
+</aside>
+
+
+<main class="main">
+
+<header class="topbar">
+
+    <div>
+        <strong id="pageTitle">Dashboard</strong>
+    </div>
+
+    <div class="user-info">
+
+        <div class="avatar" id="userAvatar">A</div>
+
+        <div>
+            <div id="userName">Abdelali Bouzid</div>
+            <small id="userRole">Administrateur</small>
+        </div>
+
+    </div>
+
+</header>
+
+
+<div class="content">
+
+<!-- DASHBOARD -->
+
+<div id="page-dashboard">
+
+    <div class="page-title">
+        <h1>Dashboard Maintenance</h1>
+    </div>
+
+    <div class="kpi-grid">
+
+        <div class="kpi">
+            <div class="kpi-title">Personnel</div>
+            <div class="kpi-value" id="kpiPersonnel">0</div>
+        </div>
+
+        <div class="kpi">
+            <div class="kpi-title">Techniciens</div>
+            <div class="kpi-value" id="kpiTechnicians">0</div>
+        </div>
+
+        <div class="kpi">
+            <div class="kpi-title">Responsables</div>
+            <div class="kpi-value" id="kpiManagers">0</div>
+        </div>
+
+        <div class="kpi">
+            <div class="kpi-title">Administrateurs</div>
+            <div class="kpi-value" id="kpiAdmins">0</div>
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="card-title">
+            État de la plateforme
+        </div>
+
+        <p style="color:#94a3b8">
+            Connexion Supabase :
+            <strong style="color:#22c55e">
+                CONNECTÉE
+            </strong>
+        </p>
+
+        <p style="color:#94a3b8;margin-top:10px">
+            Utilisateur :
+            <strong id="dashboardUser">
+                -
+            </strong>
+        </p>
+
+        <p style="color:#94a3b8;margin-top:10px">
+            Fonction :
+            <strong id="dashboardRole">
+                -
+            </strong>
+        </p>
+
+    </div>
 
 </div>
 
 
-<div class="card" id="app">
+<!-- PERSONNEL -->
 
-  <div class="logo">✓</div>
+<div id="page-personnel" class="hidden">
 
-  <h1>Connexion réussie</h1>
+    <div class="page-title">
 
-  <p id="welcome"></p>
+        <div>
+            <h1>Gestion du Personnel</h1>
+            <p style="color:#8197ad;margin-top:5px">
+                Gestion des utilisateurs et des profils maintenance
+            </p>
+        </div>
 
-  <p style="color:#8ea3ba">
-    Votre compte Supabase est maintenant connecté à GMAO PRO.
-  </p>
+        <button
+            id="btnAddPersonnel"
+            class="btn btn-primary"
+            onclick="openPersonnelModal()"
+        >
+            + Ajouter personnel
+        </button>
 
-  <button
-    class="login"
-    onclick="logout()"
-  >
-    Déconnexion
-  </button>
+    </div>
+
+
+    <div id="personnelMessage"></div>
+
+
+    <div class="card">
+
+        <div style="
+            display:grid;
+            grid-template-columns:2fr 1fr 1fr;
+            gap:10px;
+            margin-bottom:18px;
+        ">
+
+            <input
+                id="searchPersonnel"
+                placeholder="🔎 Rechercher nom, code, téléphone..."
+                oninput="filterPersonnel()"
+            >
+
+            <select
+                id="filterRole"
+                onchange="filterPersonnel()"
+            >
+                <option value="">Tous les rôles</option>
+                <option value="admin">Administrateur</option>
+                <option value="manager">Responsable Maintenance</option>
+                <option value="technician">Technicien</option>
+            </select>
+
+            <select
+                id="filterActive"
+                onchange="filterPersonnel()"
+            >
+                <option value="">Tous</option>
+                <option value="true">Actifs</option>
+                <option value="false">Inactifs</option>
+            </select>
+
+        </div>
+
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Code</th>
+                        <th>Nom complet</th>
+                        <th>Rôle</th>
+                        <th>Département</th>
+                        <th>Poste</th>
+                        <th>Téléphone</th>
+                        <th>État</th>
+                        <th>Actions</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="personnelTable">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- PLACEHOLDER PAGES -->
+
+<div id="page-equipment" class="hidden">
+    <div class="page-title">
+        <h1>Équipements</h1>
+    </div>
+
+    <div class="card">
+        <p style="color:#94a3b8">
+            Module Équipements — prochaine étape V10.2
+        </p>
+    </div>
+</div>
+
+
+<div id="page-di" class="hidden">
+    <div class="page-title">
+        <h1>Demandes d'Intervention</h1>
+    </div>
+
+    <div class="card">
+        <p style="color:#94a3b8">
+            Module DI — prochaine étape V10.2
+        </p>
+    </div>
+</div>
+
+
+<div id="page-ot" class="hidden">
+    <div class="page-title">
+        <h1>Ordres de Travail</h1>
+    </div>
+
+    <div class="card">
+        <p style="color:#94a3b8">
+            Module OT — prochaine étape V10.2
+        </p>
+    </div>
+</div>
+
+
+<div id="page-preventif" class="hidden">
+    <div class="page-title">
+        <h1>Maintenance Préventive</h1>
+    </div>
+
+    <div class="card">
+        <p style="color:#94a3b8">
+            Module Préventif — prochaine étape V10.2
+        </p>
+    </div>
+</div>
+
+
+<div id="page-rca" class="hidden">
+    <div class="page-title">
+        <h1>RCA / BDA</h1>
+    </div>
+
+    <div class="card">
+        <p style="color:#94a3b8">
+            Module RCA/BDA — prochaine étape V10.2
+        </p>
+    </div>
+</div>
+
+
+<div id="page-reports" class="hidden">
+    <div class="page-title">
+        <h1>Rapports</h1>
+    </div>
+
+    <div class="card">
+        <p style="color:#94a3b8">
+            Rapports maintenance — prochaine étape V10.2
+        </p>
+    </div>
+</div>
+
+
+<div id="page-settings" class="hidden">
+    <div class="page-title">
+        <h1>Paramètres</h1>
+    </div>
+
+    <div class="card">
+        <p>
+            <strong>Compte connecté</strong>
+        </p>
+
+        <p id="settingsEmail"
+           style="color:#94a3b8;margin-top:8px">
+        </p>
+
+        <button
+            class="btn btn-warning"
+            style="margin-top:15px"
+            onclick="resetPassword()"
+        >
+            Modifier / réinitialiser mon mot de passe
+        </button>
+
+    </div>
+</div>
+
+</div>
+
+</main>
+
+</section>
+
+
+<!-- =====================================================
+     PERSONNEL MODAL
+===================================================== -->
+
+<div
+    id="personnelModal"
+    class="modal hidden"
+>
+
+<div class="modal-box">
+
+    <div class="modal-header">
+
+        <h2 id="modalTitle">
+            Ajouter un personnel
+        </h2>
+
+        <button
+            class="close"
+            onclick="closePersonnelModal()"
+        >
+            ×
+        </button>
+
+    </div>
+
+
+    <div id="modalMessage"></div>
+
+
+    <form onsubmit="savePersonnel(event)">
+
+        <input
+            type="hidden"
+            id="personnelId"
+        >
+
+
+        <div class="form-grid">
+
+            <div class="form-group full-col">
+
+                <label>
+                    UUID utilisateur Supabase Auth *
+                </label>
+
+                <input
+                    id="authId"
+                    placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                    required
+                >
+
+                <small style="color:#7187a0">
+                    L'utilisateur doit déjà exister dans
+                    Supabase Authentication.
+                </small>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Nom complet *</label>
+
+                <input
+                    id="fullName"
+                    required
+                    placeholder="Ex : Ahmed El Amrani"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Rôle *</label>
+
+                <select
+                    id="role"
+                    required
+                >
+
+                    <option value="technician">
+                        Technicien
+                    </option>
+
+                    <option value="manager">
+                        Responsable Maintenance
+                    </option>
+
+                    <option value="admin">
+                        Administrateur
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Téléphone</label>
+
+                <input
+                    id="phone"
+                    placeholder="06XXXXXXXX"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Département</label>
+
+                <input
+                    id="department"
+                    value="Maintenance"
+                    placeholder="Maintenance"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Poste</label>
+
+                <input
+                    id="position"
+                    placeholder="Technicien Maintenance"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>État</label>
+
+                <select id="active">
+
+                    <option value="true">
+                        Actif
+                    </option>
+
+                    <option value="false">
+                        Inactif
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-actions">
+
+            <button
+                type="button"
+                class="btn btn-secondary"
+                onclick="closePersonnelModal()"
+            >
+                Annuler
+            </button>
+
+            <button
+                type="submit"
+                class="btn btn-success"
+            >
+                Enregistrer
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
 
 </div>
 
@@ -226,99 +1040,29 @@ button{
 <script>
 
 /* =====================================================
-   SUPABASE CONFIGURATION
+   SUPABASE
 ===================================================== */
 
 const SUPABASE_URL =
-  'https://qnrfkfrornozwvgewcwk.supabase.co';
+'https://qnrfkfrornozwvgewcwk.supabase.co';
 
 const SUPABASE_ANON_KEY =
-  'sb_publishable_DBe5PuyHPvdHnRnqr2lpqw_t4m3C8SY';
-
+'sb_publishable_DBe5PuyHPvdHnRnqr2lpqw_t4m3C8SY';
 
 const sb =
-  window.supabase.createClient(
+window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_ANON_KEY
-  );
+);
 
 
 /* =====================================================
-   MESSAGE
+   VARIABLES
 ===================================================== */
 
-function showMessage(text,type){
-
-  const box =
-    document.getElementById('message');
-
-  box.className =
-    'message ' + type;
-
-  box.textContent = text;
-
-}
-
-
-/* =====================================================
-   TEST CONNEXION
-===================================================== */
-
-async function testConnection(){
-
-  const diag =
-    document.getElementById('diagnostic');
-
-  diag.textContent =
-    '⏳ Test en cours...';
-
-  try{
-
-    if(!window.supabase){
-
-      throw new Error(
-        'Supabase JS n’est pas chargé.'
-      );
-
-    }
-
-    const {
-      data,
-      error
-    } =
-    await sb.auth.getSession();
-
-    if(error){
-
-      throw error;
-
-    }
-
-    diag.textContent =
-      '✅ SUPABASE OK\n\n' +
-
-      'Project URL:\n' +
-      SUPABASE_URL +
-
-      '\n\nSession:\n' +
-      (
-        data.session
-        ? 'ACTIVE'
-        : 'Aucune session'
-      );
-
-  }
-  catch(error){
-
-    diag.textContent =
-      '❌ ERREUR\n\n' +
-      error.message;
-
-    console.error(error);
-
-  }
-
-}
+let currentUser = null;
+let currentProfile = null;
+let personnelData = [];
 
 
 /* =====================================================
@@ -327,223 +1071,782 @@ async function testConnection(){
 
 async function login(){
 
-  const email =
-    document.getElementById('email')
-      .value.trim();
+    const email =
+        document.getElementById('loginEmail').value.trim();
 
-  const password =
-    document.getElementById('password')
-      .value;
+    const password =
+        document.getElementById('loginPassword').value;
 
-  if(!email){
+    const message =
+        document.getElementById('loginMessage');
 
-    showMessage(
-      'Veuillez saisir votre email.',
-      'error'
-    );
+    message.innerHTML = '';
 
-    return;
+    if(!email || !password){
 
-  }
+        message.innerHTML =
+            '<span style="color:#f87171">Veuillez saisir email et mot de passe.</span>';
 
-  if(!password){
+        return;
+    }
 
-    showMessage(
-      'Veuillez saisir votre mot de passe.',
-      'error'
-    );
+    const {data,error} =
+        await sb.auth.signInWithPassword({
+            email,
+            password
+        });
 
-    return;
+    if(error){
 
-  }
+        message.innerHTML =
+            `<span style="color:#f87171">${escapeHtml(error.message)}</span>`;
 
-  showMessage(
-    '⏳ Connexion...',
-    'success'
-  );
+        return;
+    }
 
-  try{
+    currentUser = data.user;
 
-    const {
-      data,
-      error
-    } =
-    await sb.auth.signInWithPassword({
+    await loadProfile();
 
-      email:email,
+}
 
-      password:password
+
+/* =====================================================
+   LOAD PROFILE
+===================================================== */
+
+async function loadProfile(){
+
+    const {data,error} =
+        await sb
+        .from('profiles')
+        .select('*')
+        .eq('id',currentUser.id)
+        .single();
+
+    if(error){
+
+        console.error(error);
+
+        alert(
+            "Connexion réussie mais profil introuvable."
+        );
+
+        return;
+    }
+
+    currentProfile = data;
+
+    if(!data.active){
+
+        await sb.auth.signOut();
+
+        alert(
+            "Votre compte est désactivé."
+        );
+
+        return;
+    }
+
+    document
+        .getElementById('loginPage')
+        .classList.add('hidden');
+
+    document
+        .getElementById('app')
+        .classList.remove('hidden');
+
+
+    document.getElementById('userName').textContent =
+        data.full_name || currentUser.email;
+
+    document.getElementById('userRole').textContent =
+        roleLabel(data.role);
+
+    document.getElementById('dashboardUser').textContent =
+        currentUser.email;
+
+    document.getElementById('dashboardRole').textContent =
+        roleLabel(data.role);
+
+    document.getElementById('settingsEmail').textContent =
+        currentUser.email;
+
+    document.getElementById('userAvatar').textContent =
+        (data.full_name || 'A')
+        .charAt(0)
+        .toUpperCase();
+
+
+    if(data.role !== 'admin'){
+
+        document
+            .getElementById('btnAddPersonnel')
+            .classList.add('hidden');
+
+    }
+
+
+    await loadPersonnel();
+
+}
+
+
+/* =====================================================
+   PERSONNEL
+===================================================== */
+
+async function loadPersonnel(){
+
+    const {data,error} =
+        await sb
+        .from('profiles')
+        .select('*')
+        .order('created_at',{ascending:false});
+
+    if(error){
+
+        console.error(error);
+
+        showPersonnelMessage(
+            error.message,
+            false
+        );
+
+        return;
+    }
+
+    personnelData = data || [];
+
+    renderPersonnel(personnelData);
+
+    updateKPIs(personnelData);
+
+}
+
+
+/* =====================================================
+   RENDER PERSONNEL
+===================================================== */
+
+function renderPersonnel(data){
+
+    const tbody =
+        document.getElementById('personnelTable');
+
+    tbody.innerHTML = '';
+
+    if(!data.length){
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="8"
+                    style="text-align:center;color:#7187a0">
+                    Aucun personnel trouvé.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+
+    data.forEach(person => {
+
+        const tr =
+            document.createElement('tr');
+
+        tr.innerHTML = `
+
+            <td>
+                <strong>${escapeHtml(person.employee_code || '-')}</strong>
+            </td>
+
+            <td>
+                ${escapeHtml(person.full_name || '-')}
+            </td>
+
+            <td>
+                ${roleBadge(person.role)}
+            </td>
+
+            <td>
+                ${escapeHtml(person.department || '-')}
+            </td>
+
+            <td>
+                ${escapeHtml(person.position || '-')}
+            </td>
+
+            <td>
+                ${escapeHtml(person.phone || '-')}
+            </td>
+
+            <td>
+                ${
+                    person.active
+                    ? '<span class="badge badge-active">Actif</span>'
+                    : '<span class="badge badge-inactive">Inactif</span>'
+                }
+            </td>
+
+            <td>
+
+                <div class="actions">
+
+                    ${
+                        currentProfile?.role === 'admin'
+                        ?
+                        `
+                        <button
+                            class="btn btn-warning"
+                            onclick="editPersonnel('${person.id}')"
+                        >
+                            ✏️
+                        </button>
+
+                        <button
+                            class="btn ${person.active ? 'btn-danger' : 'btn-success'}"
+                            onclick="togglePersonnel('${person.id}',${person.active})"
+                        >
+                            ${person.active ? '⛔' : '✓'}
+                        </button>
+
+                        ${
+                            person.id !== currentUser.id
+                            ?
+                            `
+                            <button
+                                class="btn btn-danger"
+                                onclick="deletePersonnel('${person.id}')"
+                            >
+                                🗑️
+                            </button>
+                            `
+                            : ''
+                        }
+                        `
+                        :
+                        ''
+                    }
+
+                </div>
+
+            </td>
+        `;
+
+        tbody.appendChild(tr);
 
     });
+
+}
+
+
+/* =====================================================
+   ROLE LABEL
+===================================================== */
+
+function roleLabel(role){
+
+    if(role === 'admin')
+        return 'Administrateur';
+
+    if(role === 'manager')
+        return 'Responsable Maintenance';
+
+    if(role === 'technician')
+        return 'Technicien';
+
+    return role || '-';
+}
+
+
+function roleBadge(role){
+
+    if(role === 'admin')
+        return '<span class="badge badge-admin">Administrateur</span>';
+
+    if(role === 'manager')
+        return '<span class="badge badge-manager">Responsable</span>';
+
+    return '<span class="badge badge-tech">Technicien</span>';
+}
+
+
+/* =====================================================
+   ADD PERSONNEL
+===================================================== */
+
+function openPersonnelModal(){
+
+    if(currentProfile?.role !== 'admin'){
+
+        alert(
+            "Accès réservé à l'Administrateur."
+        );
+
+        return;
+    }
+
+    document.getElementById('modalTitle').textContent =
+        'Ajouter un personnel';
+
+    document.getElementById('personnelId').value = '';
+
+    document.getElementById('authId').value = '';
+
+    document.getElementById('authId').disabled = false;
+
+    document.getElementById('fullName').value = '';
+
+    document.getElementById('role').value =
+        'technician';
+
+    document.getElementById('phone').value = '';
+
+    document.getElementById('department').value =
+        'Maintenance';
+
+    document.getElementById('position').value =
+        'Technicien Maintenance';
+
+    document.getElementById('active').value =
+        'true';
+
+    document.getElementById('modalMessage').innerHTML = '';
+
+    document
+        .getElementById('personnelModal')
+        .classList.remove('hidden');
+
+}
+
+
+/* =====================================================
+   CLOSE MODAL
+===================================================== */
+
+function closePersonnelModal(){
+
+    document
+        .getElementById('personnelModal')
+        .classList.add('hidden');
+
+}
+
+
+/* =====================================================
+   SAVE PERSONNEL
+===================================================== */
+
+async function savePersonnel(event){
+
+    event.preventDefault();
+
+    if(currentProfile?.role !== 'admin'){
+
+        showModalMessage(
+            'Accès réservé à l Administrateur.',
+            false
+        );
+
+        return;
+    }
+
+
+    const id =
+        document.getElementById('personnelId').value;
+
+    const authId =
+        document.getElementById('authId').value.trim();
+
+    const payload = {
+
+        id: authId,
+
+        full_name:
+            document.getElementById('fullName').value.trim(),
+
+        role:
+            document.getElementById('role').value,
+
+        phone:
+            document.getElementById('phone').value.trim(),
+
+        department:
+            document.getElementById('department').value.trim(),
+
+        position:
+            document.getElementById('position').value.trim(),
+
+        active:
+            document.getElementById('active').value === 'true'
+
+    };
+
+
+    let result;
+
+
+    if(id){
+
+        delete payload.id;
+
+        result =
+            await sb
+            .from('profiles')
+            .update(payload)
+            .eq('id',id);
+
+    }else{
+
+        result =
+            await sb
+            .from('profiles')
+            .insert(payload);
+
+    }
+
+
+    if(result.error){
+
+        showModalMessage(
+            result.error.message,
+            false
+        );
+
+        return;
+    }
+
+
+    showModalMessage(
+        'Personnel enregistré avec succès.',
+        true
+    );
+
+
+    await loadPersonnel();
+
+
+    setTimeout(() => {
+
+        closePersonnelModal();
+
+    },700);
+
+}
+
+
+/* =====================================================
+   EDIT
+===================================================== */
+
+function editPersonnel(id){
+
+    const person =
+        personnelData.find(
+            p => p.id === id
+        );
+
+    if(!person)
+        return;
+
+
+    document.getElementById('modalTitle').textContent =
+        'Modifier le personnel';
+
+    document.getElementById('personnelId').value =
+        person.id;
+
+    document.getElementById('authId').value =
+        person.id;
+
+    document.getElementById('authId').disabled =
+        true;
+
+    document.getElementById('fullName').value =
+        person.full_name || '';
+
+    document.getElementById('role').value =
+        person.role || 'technician';
+
+    document.getElementById('phone').value =
+        person.phone || '';
+
+    document.getElementById('department').value =
+        person.department || '';
+
+    document.getElementById('position').value =
+        person.position || '';
+
+    document.getElementById('active').value =
+        String(person.active);
+
+    document.getElementById('modalMessage').innerHTML =
+        '';
+
+
+    document
+        .getElementById('personnelModal')
+        .classList.remove('hidden');
+
+}
+
+
+/* =====================================================
+   TOGGLE
+===================================================== */
+
+async function togglePersonnel(id,currentStatus){
+
+    if(currentProfile?.role !== 'admin')
+        return;
+
+
+    if(id === currentUser.id){
+
+        alert(
+            "Vous ne pouvez pas désactiver votre propre compte."
+        );
+
+        return;
+    }
+
+
+    const action =
+        currentStatus
+        ? 'désactiver'
+        : 'activer';
+
+
+    if(!confirm(
+        `Voulez-vous ${action} ce personnel ?`
+    ))
+        return;
+
+
+    const {error} =
+        await sb
+        .from('profiles')
+        .update({
+            active:!currentStatus
+        })
+        .eq('id',id);
 
 
     if(error){
 
-      throw error;
+        alert(error.message);
 
+        return;
     }
 
 
-    if(!data.user){
+    await loadPersonnel();
 
-      throw new Error(
-        'Utilisateur non retourné par Supabase.'
-      );
+}
 
+
+/* =====================================================
+   DELETE
+===================================================== */
+
+async function deletePersonnel(id){
+
+    if(currentProfile?.role !== 'admin')
+        return;
+
+
+    if(id === currentUser.id){
+
+        alert(
+            "Vous ne pouvez pas supprimer votre propre profil."
+        );
+
+        return;
     }
 
 
-    /*
-      Vérification du profil GMAO
-    */
-
-    const {
-      data:profile,
-      error:profileError
-    } =
-    await sb
-
-      .from('profiles')
-
-      .select(
-        'id,full_name,role,employee_code,active'
-      )
-
-      .eq(
-        'id',
-        data.user.id
-      )
-
-      .maybeSingle();
+    const person =
+        personnelData.find(
+            p => p.id === id
+        );
 
 
-    if(profileError){
+    if(!confirm(
+        `Supprimer définitivement le profil de ${person?.full_name || 'cet utilisateur'} ?`
+    ))
+        return;
 
-      throw new Error(
-        'Connexion réussie mais erreur profiles : ' +
-        profileError.message
-      );
 
+    const {error} =
+        await sb
+        .from('profiles')
+        .delete()
+        .eq('id',id);
+
+
+    if(error){
+
+        alert(error.message);
+
+        return;
     }
 
 
-    if(!profile){
+    await loadPersonnel();
 
-      throw new Error(
-        'Connexion Supabase réussie.\n\n' +
-
-        'Mais aucun profil GMAO n’est associé à ce compte.\n\n' +
-
-        'UUID:\n' +
-        data.user.id
-      );
-
-    }
+}
 
 
-    if(profile.active === false){
+/* =====================================================
+   FILTER
+===================================================== */
 
-      await sb.auth.signOut();
+function filterPersonnel(){
 
-      throw new Error(
-        'Ce compte GMAO est désactivé.'
-      );
+    const search =
+        document
+        .getElementById('searchPersonnel')
+        .value
+        .toLowerCase()
+        .trim();
 
-    }
+    const role =
+        document
+        .getElementById('filterRole')
+        .value;
 
-
-    /*
-      SUCCÈS
-    */
-
-    document.getElementById('loginPage')
-      .style.display='none';
-
-    document.getElementById('app')
-      .style.display='block';
-
-
-    document.getElementById('welcome')
-      .innerHTML =
-
-      '<strong>' +
-      (profile.full_name || data.user.email) +
-      '</strong><br><br>' +
-
-      'Rôle : ' +
-      (profile.role || 'Non défini') +
-
-      '<br>' +
-
-      'Code : ' +
-      (profile.employee_code || 'Non défini') +
-
-      '<br><br>' +
-
-      'Email : ' +
-      data.user.email;
+    const active =
+        document
+        .getElementById('filterActive')
+        .value;
 
 
-  }
-  catch(error){
+    const filtered =
+        personnelData.filter(person => {
 
-    console.error(
-      'LOGIN ERROR:',
-      error
-    );
-
-
-    let msg =
-      error.message || 'Erreur inconnue';
-
-
-    if(
-      msg.toLowerCase()
-        .includes('invalid login credentials')
-    ){
-
-      msg =
-        '❌ Email ou mot de passe incorrect.\n\n' +
-
-        'Le compte existe peut-être dans Supabase,\n' +
-
-        'mais le mot de passe utilisé n’est pas celui enregistré dans Authentication.';
-
-    }
+            const text = `
+                ${person.full_name || ''}
+                ${person.employee_code || ''}
+                ${person.phone || ''}
+                ${person.department || ''}
+                ${person.position || ''}
+            `.toLowerCase();
 
 
-    if(
-      msg.toLowerCase()
-        .includes('invalid api key')
-    ){
-
-      msg =
-        '❌ Clé API incorrecte.\n\n' +
-
-        'Vérifiez SUPABASE_ANON_KEY.';
-
-    }
+            const searchOK =
+                !search ||
+                text.includes(search);
 
 
-    if(
-      msg.toLowerCase()
-        .includes('failed to fetch')
-    ){
-
-      msg =
-        '❌ Impossible de contacter Supabase.\n\n' +
-
-        'Vérifiez le Project URL et votre connexion Internet.';
-
-    }
+            const roleOK =
+                !role ||
+                person.role === role;
 
 
-    showMessage(
-      msg,
-      'error'
-    );
+            const activeOK =
+                !active ||
+                String(person.active) === active;
 
-  }
+
+            return searchOK &&
+                   roleOK &&
+                   activeOK;
+
+        });
+
+
+    renderPersonnel(filtered);
+
+}
+
+
+/* =====================================================
+   KPI
+===================================================== */
+
+function updateKPIs(data){
+
+    document.getElementById('kpiPersonnel')
+        .textContent = data.length;
+
+    document.getElementById('kpiTechnicians')
+        .textContent =
+        data.filter(
+            p => p.role === 'technician'
+        ).length;
+
+    document.getElementById('kpiManagers')
+        .textContent =
+        data.filter(
+            p => p.role === 'manager'
+        ).length;
+
+    document.getElementById('kpiAdmins')
+        .textContent =
+        data.filter(
+            p => p.role === 'admin'
+        ).length;
+
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+function showPage(page,button){
+
+    document
+        .querySelectorAll('[id^="page-"]')
+        .forEach(el =>
+            el.classList.add('hidden')
+        );
+
+
+    document
+        .getElementById('page-' + page)
+        .classList.remove('hidden');
+
+
+    document
+        .querySelectorAll('.nav-btn')
+        .forEach(btn =>
+            btn.classList.remove('active')
+        );
+
+
+    if(button)
+        button.classList.add('active');
+
+
+    const titles = {
+
+        dashboard:'Dashboard',
+
+        personnel:'Personnel',
+
+        equipment:'Équipements',
+
+        di:'Demandes d Intervention',
+
+        ot:'Ordres de Travail',
+
+        preventif:'Maintenance Préventive',
+
+        rca:'RCA / BDA',
+
+        reports:'Rapports',
+
+        settings:'Paramètres'
+
+    };
+
+
+    document.getElementById('pageTitle')
+        .textContent =
+        titles[page] || page;
 
 }
 
@@ -554,80 +1857,44 @@ async function login(){
 
 async function resetPassword(){
 
-  const email =
-    document.getElementById('email')
-      .value.trim();
+    const email =
+        document
+        .getElementById('loginEmail')
+        .value
+        .trim();
 
 
-  if(!email){
+    if(!email){
 
-    showMessage(
-      'Saisissez votre adresse email.',
-      'error'
-    );
+        alert(
+            "Veuillez saisir votre email."
+        );
 
-    return;
-
-  }
+        return;
+    }
 
 
-  showMessage(
-    '⏳ Préparation de la réinitialisation...',
-    'success'
-  );
-
-
-  try{
-
-    const {
-      error
-    } =
-    await sb.auth.resetPasswordForEmail(
-
-      email,
-
-      {
-        redirectTo:
-          window.location.origin +
-          window.location.pathname
-      }
-
-    );
+    const {error} =
+        await sb.auth.resetPasswordForEmail(
+            email,
+            {
+                redirectTo:
+                window.location.href
+            }
+        );
 
 
     if(error){
 
-      throw error;
+        alert(error.message);
 
+        return;
     }
 
 
-    showMessage(
-
-      '✅ Demande envoyée.\n\n' +
-
-      'Vérifiez votre boîte Gmail :\n' +
-      email +
-
-      '\n\n' +
-
-      'Vérifiez également le dossier Spam / Courrier indésirable.',
-
-      'success'
-
+    alert(
+        "Un lien de réinitialisation a été envoyé à votre adresse email."
     );
-
-  }
-  catch(error){
-
-    console.error(error);
-
-    showMessage(
-      'Erreur : ' + error.message,
-      'error'
-    );
-
-  }
 
 }
 
@@ -638,16 +1905,97 @@ async function resetPassword(){
 
 async function logout(){
 
-  await sb.auth.signOut();
+    await sb.auth.signOut();
 
-  document.getElementById('app')
-    .style.display='none';
+    currentUser = null;
+    currentProfile = null;
 
-  document.getElementById('loginPage')
-    .style.display='block';
+    location.reload();
 
-  document.getElementById('password')
-    .value='';
+}
+
+
+/* =====================================================
+   MESSAGES
+===================================================== */
+
+function showPersonnelMessage(message,success){
+
+    const box =
+        document.getElementById(
+            'personnelMessage'
+        );
+
+    box.innerHTML = `
+        <div class="message ${
+            success
+            ? 'message-success'
+            : 'message-error'
+        }">
+            ${escapeHtml(message)}
+        </div>
+    `;
+
+    setTimeout(() => {
+
+        box.innerHTML = '';
+
+    },4000);
+
+}
+
+
+function showModalMessage(message,success){
+
+    document.getElementById(
+        'modalMessage'
+    ).innerHTML = `
+        <div class="message ${
+            success
+            ? 'message-success'
+            : 'message-error'
+        }">
+            ${escapeHtml(message)}
+        </div>
+    `;
+
+}
+
+
+/* =====================================================
+   SECURITY HTML ESCAPE
+===================================================== */
+
+function escapeHtml(value){
+
+    return String(value ?? '')
+        .replace(/&/g,'&amp;')
+        .replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;')
+        .replace(/'/g,'&#039;');
+
+}
+
+
+/* =====================================================
+   AUTO SESSION
+===================================================== */
+
+async function checkSession(){
+
+    const {data} =
+        await sb.auth.getSession();
+
+
+    if(data.session){
+
+        currentUser =
+            data.session.user;
+
+        await loadProfile();
+
+    }
 
 }
 
@@ -656,7 +2004,7 @@ async function logout(){
    START
 ===================================================== */
 
-testConnection();
+checkSession();
 
 </script>
 
