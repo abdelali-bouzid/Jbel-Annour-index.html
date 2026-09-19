@@ -3,2478 +3,2135 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>GMAO PRO V1 - Maintenance</title>
+<title>GMAO PRO V7 - Sage X3 Maintenance</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 
 <style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
+:root{
+  --bg:#08111f;
+  --panel:#0e1b2d;
+  --panel2:#12243a;
+  --line:#203751;
+  --text:#e7eef7;
+  --muted:#91a4b9;
+  --blue:#2387ff;
+  --green:#22c55e;
+  --orange:#f59e0b;
+  --red:#ef4444;
+  --purple:#8b5cf6;
 }
 
-:root{
-    --bg:#07111f;
-    --panel:#0d1b2a;
-    --panel2:#102338;
-    --border:#1f3b55;
-    --text:#e8f1f8;
-    --muted:#8fa8bc;
-    --primary:#2196f3;
-    --primary2:#1565c0;
-    --success:#22c55e;
-    --warning:#f59e0b;
-    --danger:#ef4444;
-    --info:#06b6d4;
-}
+*{box-sizing:border-box}
 
 body{
-    font-family:Arial,Helvetica,sans-serif;
-    background:var(--bg);
-    color:var(--text);
-    min-height:100vh;
+  margin:0;
+  font-family:Inter,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
 }
 
-/* ================= LOGIN ================= */
+button,input,select,textarea{
+  font:inherit;
+}
 
-#loginScreen{
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:20px;
-    background:
-        radial-gradient(circle at top right,#123b62 0%,transparent 35%),
-        radial-gradient(circle at bottom left,#102e48 0%,transparent 30%),
-        var(--bg);
+button{
+  cursor:pointer;
+}
+
+.hidden{display:none!important}
+
+#loginPage{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:
+    radial-gradient(circle at top right,#123867 0,#08111f 45%),
+    #08111f;
 }
 
 .login-card{
-    width:420px;
-    max-width:100%;
-    background:rgba(13,27,42,.96);
-    border:1px solid var(--border);
-    border-radius:18px;
-    padding:35px;
-    box-shadow:0 20px 60px rgba(0,0,0,.45);
+  width:420px;
+  max-width:92%;
+  background:rgba(14,27,45,.97);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:35px;
+  box-shadow:0 25px 80px rgba(0,0,0,.4);
 }
 
 .logo{
-    width:70px;
-    height:70px;
-    margin:auto;
-    border-radius:18px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:linear-gradient(135deg,var(--primary),var(--primary2));
-    font-size:28px;
-    font-weight:bold;
+  font-size:27px;
+  font-weight:800;
+  margin-bottom:5px;
 }
 
-.login-card h1{
-    text-align:center;
-    margin-top:18px;
+.logo span{
+  color:#3b9cff;
 }
 
-.login-card .subtitle{
-    text-align:center;
-    color:var(--muted);
-    margin:8px 0 25px;
+.subtitle{
+  color:var(--muted);
+  margin-bottom:25px;
 }
 
-input,select,textarea{
-    width:100%;
-    padding:12px 13px;
-    border-radius:9px;
-    border:1px solid var(--border);
-    background:#081625;
-    color:var(--text);
-    outline:none;
+.field{
+  margin-bottom:15px;
 }
 
-input:focus,select:focus,textarea:focus{
-    border-color:var(--primary);
+.field label{
+  display:block;
+  font-size:13px;
+  color:var(--muted);
+  margin-bottom:7px;
 }
 
-textarea{
-    min-height:100px;
-    resize:vertical;
+.field input,
+.field select,
+.field textarea{
+  width:100%;
+  background:#091625;
+  color:var(--text);
+  border:1px solid var(--line);
+  border-radius:9px;
+  padding:11px 12px;
+  outline:none;
 }
 
-.form-group{
-    margin-bottom:15px;
+.field textarea{
+  min-height:90px;
+  resize:vertical;
 }
 
-.form-group label{
-    display:block;
-    margin-bottom:7px;
-    color:#b9cad8;
-    font-size:13px;
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+  border-color:var(--blue);
 }
 
 .btn{
-    border:none;
-    border-radius:9px;
-    padding:11px 16px;
-    cursor:pointer;
-    color:white;
-    background:var(--primary2);
-    font-weight:600;
-    transition:.2s;
+  border:0;
+  border-radius:8px;
+  padding:10px 15px;
+  color:white;
+  background:var(--blue);
+  font-weight:600;
 }
 
-.btn:hover{
-    transform:translateY(-1px);
-    filter:brightness(1.12);
+.btn:hover{filter:brightness(1.1)}
+
+.btn.secondary{
+  background:#20344d;
 }
 
-.btn-primary{background:var(--primary);}
-.btn-success{background:#15803d;}
-.btn-warning{background:#b45309;}
-.btn-danger{background:#b91c1c;}
-.btn-secondary{background:#334155;}
-
-.btn-full{
-    width:100%;
+.btn.success{
+  background:#15803d;
 }
 
-.login-error{
-    display:none;
-    background:rgba(239,68,68,.12);
-    border:1px solid rgba(239,68,68,.35);
-    color:#ffb4b4;
-    padding:11px;
-    border-radius:8px;
-    margin-bottom:15px;
-    font-size:13px;
+.btn.warning{
+  background:#b45309;
 }
 
-/* ================= APP ================= */
+.btn.danger{
+  background:#b91c1c;
+}
+
+.btn.purple{
+  background:#6d28d9;
+}
+
+.btn.small{
+  padding:7px 10px;
+  font-size:12px;
+}
 
 #app{
-    display:none;
-    min-height:100vh;
-}
-
-.layout{
-    display:flex;
-    min-height:100vh;
+  display:flex;
+  min-height:100vh;
 }
 
 .sidebar{
-    width:250px;
-    background:#081522;
-    border-right:1px solid var(--border);
-    position:fixed;
-    left:0;
-    top:0;
-    bottom:0;
-    overflow-y:auto;
-    z-index:20;
+  width:255px;
+  background:#07101c;
+  border-right:1px solid var(--line);
+  position:fixed;
+  left:0;
+  top:0;
+  bottom:0;
+  overflow-y:auto;
+  z-index:20;
 }
 
 .sidebar-header{
-    padding:20px;
-    border-bottom:1px solid var(--border);
+  padding:22px 18px;
+  border-bottom:1px solid var(--line);
 }
 
-.sidebar-logo{
-    display:flex;
-    align-items:center;
-    gap:10px;
+.sidebar-header .logo{
+  font-size:21px;
 }
 
-.sidebar-logo-icon{
-    width:42px;
-    height:42px;
-    border-radius:10px;
-    background:linear-gradient(135deg,var(--primary),var(--primary2));
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-weight:bold;
+.role-badge{
+  display:inline-block;
+  margin-top:10px;
+  padding:5px 9px;
+  border-radius:20px;
+  background:#123254;
+  color:#70b7ff;
+  font-size:11px;
+  font-weight:700;
 }
 
-.sidebar-title{
-    font-weight:bold;
-}
-
-.sidebar-subtitle{
-    color:var(--muted);
-    font-size:11px;
-    margin-top:3px;
-}
-
-.nav{
-    padding:12px;
-}
-
-.nav-section{
-    color:#55728a;
-    font-size:11px;
-    text-transform:uppercase;
-    padding:13px 10px 7px;
+.nav-title{
+  color:#60768e;
+  font-size:10px;
+  font-weight:800;
+  padding:20px 18px 7px;
+  text-transform:uppercase;
+  letter-spacing:1px;
 }
 
 .nav-item{
-    padding:11px 12px;
-    margin:3px 0;
-    border-radius:8px;
-    cursor:pointer;
-    color:#b9cad8;
-    display:flex;
-    gap:10px;
-    align-items:center;
-    font-size:14px;
+  margin:3px 9px;
+  padding:11px 12px;
+  border-radius:8px;
+  color:#a9b9ca;
+  cursor:pointer;
+  font-size:13px;
 }
 
-.nav-item:hover{
-    background:#10263b;
-    color:white;
-}
-
+.nav-item:hover,
 .nav-item.active{
-    background:rgba(33,150,243,.16);
-    color:#5cb4ff;
-    border-left:3px solid var(--primary);
+  background:#102945;
+  color:white;
+}
+
+.nav-item .icon{
+  width:22px;
+  display:inline-block;
 }
 
 .main{
-    margin-left:250px;
-    width:calc(100% - 250px);
+  margin-left:255px;
+  width:calc(100% - 255px);
+  min-height:100vh;
 }
 
 .topbar{
-    height:70px;
-    background:#091827;
-    border-bottom:1px solid var(--border);
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 25px;
-    position:sticky;
-    top:0;
-    z-index:10;
+  height:68px;
+  border-bottom:1px solid var(--line);
+  background:rgba(8,17,31,.92);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 25px;
+  position:sticky;
+  top:0;
+  z-index:10;
+  backdrop-filter:blur(10px);
 }
 
-.topbar-title{
-    font-size:19px;
-    font-weight:bold;
+.user-info{
+  text-align:right;
 }
 
-.user-box{
-    display:flex;
-    align-items:center;
-    gap:12px;
+.user-info strong{
+  display:block;
+  font-size:13px;
 }
 
-.avatar{
-    width:38px;
-    height:38px;
-    border-radius:50%;
-    background:#164e78;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-weight:bold;
+.user-info small{
+  color:var(--muted);
 }
 
 .content{
-    padding:25px;
+  padding:25px;
 }
 
-.page{
-    display:none;
+.page-title{
+  font-size:24px;
+  font-weight:800;
+  margin-bottom:5px;
 }
 
-.page.active{
-    display:block;
+.page-description{
+  color:var(--muted);
+  margin-bottom:22px;
 }
 
-.page-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:22px;
-    gap:15px;
-    flex-wrap:wrap;
+.cards{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  margin-bottom:20px;
 }
 
-.page-header h2{
-    font-size:24px;
-}
-
-.page-header p{
-    color:var(--muted);
-    margin-top:5px;
-}
-
-/* ================= KPI ================= */
-
-.kpi-grid{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:15px;
-    margin-bottom:22px;
-}
-
-.kpi{
-    background:var(--panel);
-    border:1px solid var(--border);
-    border-radius:13px;
-    padding:18px;
+.card{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:18px;
 }
 
 .kpi-label{
-    color:var(--muted);
-    font-size:12px;
+  color:var(--muted);
+  font-size:12px;
 }
 
 .kpi-value{
-    font-size:29px;
-    font-weight:bold;
-    margin-top:9px;
+  font-size:28px;
+  font-weight:800;
+  margin-top:8px;
 }
 
-.kpi-blue{border-left:4px solid var(--primary);}
-.kpi-green{border-left:4px solid var(--success);}
-.kpi-orange{border-left:4px solid var(--warning);}
-.kpi-red{border-left:4px solid var(--danger);}
-
-/* ================= CARDS ================= */
-
-.card{
-    background:var(--panel);
-    border:1px solid var(--border);
-    border-radius:13px;
-    padding:18px;
-    margin-bottom:20px;
+.grid2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
 }
 
-.card-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:16px;
-    gap:10px;
+.panel{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:18px;
+  margin-bottom:18px;
 }
 
-.card-title{
-    font-size:16px;
-    font-weight:bold;
+.panel-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:16px;
 }
 
-.grid-2{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:20px;
+.panel-title{
+  font-size:16px;
+  font-weight:700;
 }
-
-.grid-3{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:20px;
-}
-
-.form-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:15px;
-}
-
-.form-grid-3{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:15px;
-}
-
-.full{
-    grid-column:1/-1;
-}
-
-/* ================= TABLE ================= */
 
 .table-wrap{
-    overflow-x:auto;
+  overflow-x:auto;
 }
 
 table{
-    width:100%;
-    border-collapse:collapse;
-    min-width:700px;
-}
-
-th,td{
-    padding:11px 10px;
-    border-bottom:1px solid var(--border);
-    text-align:left;
-    font-size:13px;
+  width:100%;
+  border-collapse:collapse;
 }
 
 th{
-    color:#7fa2ba;
-    font-size:11px;
-    text-transform:uppercase;
-    background:#0a1725;
+  color:#7890a8;
+  font-size:11px;
+  text-align:left;
+  padding:11px;
+  border-bottom:1px solid var(--line);
+  white-space:nowrap;
+}
+
+td{
+  padding:11px;
+  border-bottom:1px solid #172a40;
+  font-size:12px;
+  vertical-align:middle;
 }
 
 tr:hover td{
-    background:rgba(255,255,255,.018);
-}
-
-.code{
-    color:#56b5ff;
-    font-family:monospace;
-    font-weight:bold;
+  background:#0d1e31;
 }
 
 .badge{
-    display:inline-block;
-    padding:4px 8px;
-    border-radius:20px;
-    font-size:11px;
+  display:inline-block;
+  padding:4px 8px;
+  border-radius:20px;
+  font-size:10px;
+  font-weight:700;
 }
 
-.badge-success{
-    background:rgba(34,197,94,.13);
-    color:#63e58a;
-}
+.badge.green{background:#123b29;color:#4ade80}
+.badge.orange{background:#4a3010;color:#fbbf24}
+.badge.red{background:#4a1717;color:#f87171}
+.badge.blue{background:#102f4f;color:#60a5fa}
+.badge.purple{background:#32165c;color:#c4b5fd}
+.badge.gray{background:#263241;color:#b5c0cc}
 
-.badge-warning{
-    background:rgba(245,158,11,.13);
-    color:#ffc75b;
+.toolbar{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:15px;
 }
-
-.badge-danger{
-    background:rgba(239,68,68,.13);
-    color:#ff7777;
-}
-
-.badge-info{
-    background:rgba(6,182,212,.13);
-    color:#51d9ed;
-}
-
-.badge-gray{
-    background:rgba(148,163,184,.13);
-    color:#aebdcb;
-}
-
-/* ================= MODAL ================= */
 
 .modal{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.72);
-    z-index:100;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.65);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:100;
+  padding:20px;
 }
 
-.modal.show{
-    display:flex;
-}
-
-.modal-content{
-    width:700px;
-    max-width:100%;
-    max-height:90vh;
-    overflow-y:auto;
-    background:#0c1b2a;
-    border:1px solid var(--border);
-    border-radius:15px;
-    padding:22px;
+.modal-card{
+  width:720px;
+  max-width:100%;
+  max-height:90vh;
+  overflow:auto;
+  background:#0c1a2b;
+  border:1px solid var(--line);
+  border-radius:15px;
+  padding:22px;
 }
 
 .modal-header{
-    display:flex;
-    justify-content:space-between;
-    margin-bottom:20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.modal-header h2{
+  margin:0;
+  font-size:18px;
 }
 
 .close{
-    cursor:pointer;
-    font-size:25px;
-    color:#8096a9;
+  background:none;
+  border:0;
+  color:#8da1b6;
+  font-size:22px;
 }
 
-.close:hover{
-    color:white;
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px;
 }
 
-/* ================= SEARCH ================= */
-
-.toolbar{
-    display:flex;
-    gap:10px;
-    margin-bottom:15px;
-    flex-wrap:wrap;
+.full{
+  grid-column:1/-1;
 }
 
-.toolbar input{
-    max-width:320px;
+.actions{
+  display:flex;
+  gap:8px;
+  justify-content:flex-end;
+  margin-top:18px;
 }
 
-/* ================= TOAST ================= */
+.toast{
+  position:fixed;
+  right:22px;
+  bottom:22px;
+  background:#102337;
+  border:1px solid #274461;
+  border-radius:10px;
+  padding:13px 17px;
+  z-index:300;
+  box-shadow:0 15px 40px rgba(0,0,0,.4);
+  max-width:400px;
+}
 
-#toast{
-    position:fixed;
-    right:25px;
-    bottom:25px;
-    z-index:200;
-    min-width:280px;
-    max-width:450px;
-    background:#10263a;
-    border:1px solid var(--border);
-    border-radius:10px;
-    padding:14px 17px;
+.toast.success{border-left:4px solid var(--green)}
+.toast.error{border-left:4px solid var(--red)}
+
+.empty{
+  padding:30px;
+  text-align:center;
+  color:var(--muted);
+}
+
+.status-dot{
+  display:inline-block;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#22c55e;
+  margin-right:5px;
+}
+
+.code-auto{
+  background:#0a1726!important;
+  color:#60a5fa!important;
+  font-weight:700;
+}
+
+.permission-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+}
+
+.permission-card{
+  background:#0a1726;
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:17px;
+}
+
+.permission-card h3{
+  margin-top:0;
+}
+
+.permission-card ul{
+  padding-left:18px;
+  color:#a9b9ca;
+  font-size:12px;
+  line-height:1.8;
+}
+
+.chart-container{
+  height:300px;
+}
+
+@media(max-width:1000px){
+  .sidebar{
+    width:210px;
+  }
+  .main{
+    margin-left:210px;
+    width:calc(100% - 210px);
+  }
+  .cards{
+    grid-template-columns:repeat(2,1fr);
+  }
+  .permission-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:700px){
+  .sidebar{
     display:none;
-    box-shadow:0 10px 35px rgba(0,0,0,.4);
-}
-
-#toast.show{
-    display:block;
-}
-
-#toast.success{
-    border-left:4px solid var(--success);
-}
-
-#toast.error{
-    border-left:4px solid var(--danger);
-}
-
-#toast.warning{
-    border-left:4px solid var(--warning);
-}
-
-/* ================= RESPONSIVE ================= */
-
-@media(max-width:1100px){
-    .kpi-grid{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .grid-3{
-        grid-template-columns:1fr;
-    }
-}
-
-@media(max-width:800px){
-    .sidebar{
-        width:70px;
-    }
-
-    .sidebar-title,
-    .sidebar-subtitle,
-    .nav-section,
-    .nav-item span{
-        display:none;
-    }
-
-    .nav-item{
-        justify-content:center;
-    }
-
-    .main{
-        margin-left:70px;
-        width:calc(100% - 70px);
-    }
-
-    .form-grid,
-    .form-grid-3,
-    .grid-2{
-        grid-template-columns:1fr;
-    }
-
-    .content{
-        padding:15px;
-    }
-}
-
-@media(max-width:600px){
-    .kpi-grid{
-        grid-template-columns:1fr;
-    }
-
-    .topbar{
-        padding:0 12px;
-    }
-
-    .topbar-title{
-        font-size:15px;
-    }
+  }
+  .main{
+    margin-left:0;
+    width:100%;
+  }
+  .cards,
+  .grid2,
+  .form-grid{
+    grid-template-columns:1fr;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<!-- =====================================================
-LOGIN
-===================================================== -->
+<!-- =========================================================
+     LOGIN
+========================================================= -->
 
-<div id="loginScreen">
+<div id="loginPage">
 
-    <div class="login-card">
+  <div class="login-card">
 
-        <div class="logo">GM</div>
-
-        <h1>GMAO PRO</h1>
-
-        <div class="subtitle">
-            Maintenance Management System
-        </div>
-
-        <div id="loginError" class="login-error"></div>
-
-        <div class="form-group">
-            <label>Email</label>
-            <input
-                type="email"
-                id="loginEmail"
-                value="abdelali.bouzid.98@gmail.com"
-                placeholder="votre@email.com">
-        </div>
-
-        <div class="form-group">
-            <label>Mot de passe</label>
-            <input
-                type="password"
-                id="loginPassword"
-                placeholder="Mot de passe">
-        </div>
-
-        <button
-            class="btn btn-primary btn-full"
-            onclick="login()">
-            Se connecter
-        </button>
-
-        <button
-            class="btn btn-secondary btn-full"
-            style="margin-top:10px"
-            onclick="resetPassword()">
-            Mot de passe oublié
-        </button>
-
+    <div class="logo">GMAO <span>PRO</span></div>
+    <div class="subtitle">
+      Sage X3 Maintenance — Supabase
     </div>
+
+    <div class="field">
+      <label>Email</label>
+      <input id="loginEmail"
+             type="email"
+             value="abdelali.bouzid.98@gmail.com">
+    </div>
+
+    <div class="field">
+      <label>Mot de passe</label>
+      <input id="loginPassword" type="password">
+    </div>
+
+    <button class="btn" style="width:100%" onclick="login()">
+      Se connecter
+    </button>
+
+    <button class="btn secondary"
+            style="width:100%;margin-top:8px"
+            onclick="forgotPassword()">
+      Mot de passe oublié
+    </button>
+
+    <div id="loginMessage"
+         style="margin-top:15px;color:#f87171;font-size:12px">
+    </div>
+
+  </div>
 
 </div>
 
 
-<!-- =====================================================
-APP
-===================================================== -->
+<!-- =========================================================
+     APPLICATION
+========================================================= -->
 
-<div id="app">
+<div id="app" class="hidden">
 
-<div class="layout">
-
-<!-- SIDEBAR -->
-
-<aside class="sidebar">
+  <aside class="sidebar">
 
     <div class="sidebar-header">
 
-        <div class="sidebar-logo">
+      <div class="logo">
+        GMAO <span>PRO</span>
+      </div>
 
-            <div class="sidebar-logo-icon">
-                GM
-            </div>
+      <div style="font-size:11px;color:#71869c;margin-top:3px">
+        Sage X3 Maintenance
+      </div>
 
-            <div>
-                <div class="sidebar-title">
-                    GMAO PRO
-                </div>
-
-                <div class="sidebar-subtitle">
-                    Maintenance & Fiabilité
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-
-    <nav class="nav">
-
-        <div class="nav-section">
-            Pilotage
-        </div>
-
-        <div class="nav-item active"
-             onclick="showPage('dashboard',this)">
-            📊 <span>Dashboard</span>
-        </div>
-
-
-        <div class="nav-section">
-            Référentiel
-        </div>
-
-        <div class="nav-item"
-             onclick="showPage('zones',this)">
-            🏭 <span>Zones de production</span>
-        </div>
-
-        <div class="nav-item"
-             onclick="showPage('equipment',this)">
-            ⚙️ <span>Équipements</span>
-        </div>
-
-        <div class="nav-item"
-             onclick="showPage('subequipment',this)">
-            🔧 <span>Sous-équipements</span>
-        </div>
-
-
-        <div class="nav-section">
-            Maintenance
-        </div>
-
-        <div class="nav-item"
-             onclick="showPage('di',this)">
-            📥 <span>Demandes d'intervention</span>
-        </div>
-
-        <div class="nav-item"
-             onclick="showPage('ot',this)">
-            🛠️ <span>Ordres de travail</span>
-        </div>
-
-        <div class="nav-item"
-             onclick="showPage('preventive',this)">
-            🔄 <span>Préventif</span>
-        </div>
-
-        <div class="nav-item"
-             onclick="showPage('rca',this)">
-            🔎 <span>RCA / BDA</span>
-        </div>
-
-
-        <div class="nav-section">
-            Magasin
-        </div>
-
-        <div class="nav-item"
-             onclick="showPage('parts',this)">
-            📦 <span>Pièces de rechange</span>
-        </div>
-
-
-        <div class="nav-section">
-            Système
-        </div>
-
-        <div class="nav-item"
-             onclick="showPage('security',this)">
-            🔐 <span>Sécurité</span>
-        </div>
-
-        <div class="nav-item"
-             onclick="logout()">
-            🚪 <span>Déconnexion</span>
-        </div>
-
-    </nav>
-
-</aside>
-
-
-<!-- MAIN -->
-
-<main class="main">
-
-<header class="topbar">
-
-    <div class="topbar-title" id="topbarTitle">
-        Dashboard
-    </div>
-
-    <div class="user-box">
-
-        <div>
-            <div id="userName">
-                Utilisateur
-            </div>
-
-            <small id="userRole"
-                   style="color:#7f99ad">
-                -
-            </small>
-        </div>
-
-        <div class="avatar" id="avatar">
-            A
-        </div>
-
-    </div>
-
-</header>
-
-
-<div class="content">
-
-
-<!-- =====================================================
-DASHBOARD
-===================================================== -->
-
-<section id="page-dashboard" class="page active">
-
-    <div class="page-header">
-
-        <div>
-            <h2>Dashboard Maintenance</h2>
-            <p>Vue globale de votre activité maintenance.</p>
-        </div>
-
-        <button
-            class="btn btn-secondary"
-            onclick="loadDashboard()">
-            ↻ Actualiser
-        </button>
+      <div id="sidebarRole" class="role-badge">
+        —
+      </div>
 
     </div>
 
 
-    <div class="kpi-grid">
+    <div class="nav-title">Principal</div>
 
-        <div class="kpi kpi-blue">
-            <div class="kpi-label">
-                Zones
-            </div>
-            <div class="kpi-value"
-                 id="kpiZones">
-                0
-            </div>
-        </div>
+    <div class="nav-item active"
+         data-page="dashboard"
+         onclick="showPage('dashboard')">
+      <span class="icon">⌂</span> Dashboard
+    </div>
 
-        <div class="kpi kpi-blue">
-            <div class="kpi-label">
-                Équipements
-            </div>
-            <div class="kpi-value"
-                 id="kpiEquipment">
-                0
-            </div>
-        </div>
 
-        <div class="kpi kpi-orange">
-            <div class="kpi-label">
-                DI ouvertes
-            </div>
-            <div class="kpi-value"
-                 id="kpiDI">
-                0
-            </div>
-        </div>
+    <div class="nav-title">Production</div>
 
-        <div class="kpi kpi-green">
-            <div class="kpi-label">
-                OT
-            </div>
-            <div class="kpi-value"
-                 id="kpiOT">
-                0
-            </div>
-        </div>
+    <div class="nav-item"
+         data-page="zones"
+         onclick="showPage('zones')">
+      <span class="icon">▦</span> Zones
+    </div>
+
+    <div class="nav-item"
+         data-page="equipment"
+         onclick="showPage('equipment')">
+      <span class="icon">⚙</span> Équipements
+    </div>
+
+    <div class="nav-item"
+         data-page="subequipment"
+         onclick="showPage('subequipment')">
+      <span class="icon">◈</span> Sous-équipements
+    </div>
+
+
+    <div class="nav-title">Maintenance</div>
+
+    <div class="nav-item"
+         data-page="di"
+         onclick="showPage('di')">
+      <span class="icon">⚠</span> Demandes d'intervention
+    </div>
+
+    <div class="nav-item"
+         data-page="ot"
+         onclick="showPage('ot')">
+      <span class="icon">🔧</span> Ordres de travail
+    </div>
+
+    <div class="nav-item"
+         data-page="preventive"
+         onclick="showPage('preventive')">
+      <span class="icon">◷</span> Préventif
+    </div>
+
+
+    <div class="nav-title">Analyse</div>
+
+    <div class="nav-item"
+         data-page="rca"
+         onclick="showPage('rca')">
+      <span class="icon">⌕</span> RCA / BDA
+    </div>
+
+    <div class="nav-item"
+         data-page="analysis"
+         onclick="showPage('analysis')">
+      <span class="icon">▥</span> KPI / Pareto
+    </div>
+
+
+    <div class="nav-title">Magasin</div>
+
+    <div class="nav-item"
+         data-page="parts"
+         onclick="showPage('parts')">
+      <span class="icon">▤</span> PDR / Stock
+    </div>
+
+
+    <!-- ADMIN ONLY -->
+
+    <div id="adminMenu" class="hidden">
+
+      <div class="nav-title">Administration</div>
+
+      <div class="nav-item"
+           data-page="users"
+           onclick="showPage('users')">
+        <span class="icon">♙</span> Utilisateurs
+      </div>
+
+      <div class="nav-item"
+           data-page="permissions"
+           onclick="showPage('permissions')">
+        <span class="icon">🔐</span> Rôles & permissions
+      </div>
+
+      <div class="nav-item"
+           data-page="audit"
+           onclick="showPage('audit')">
+        <span class="icon">▤</span> Journal activité
+      </div>
+
+      <div class="nav-item"
+           data-page="security"
+           onclick="showPage('security')">
+        <span class="icon">⚙</span> Sécurité
+      </div>
 
     </div>
 
 
-    <div class="grid-2">
+    <div style="padding:20px 12px">
 
-        <div class="card">
-
-            <div class="card-header">
-                <div class="card-title">
-                    État des OT
-                </div>
-            </div>
-
-            <canvas id="otChart"></canvas>
-
-        </div>
-
-
-        <div class="card">
-
-            <div class="card-header">
-                <div class="card-title">
-                    Équipements par zone
-                </div>
-            </div>
-
-            <canvas id="zoneChart"></canvas>
-
-        </div>
+      <button class="btn danger"
+              style="width:100%"
+              onclick="logout()">
+        Déconnexion
+      </button>
 
     </div>
 
-</section>
+  </aside>
 
 
-<!-- =====================================================
-ZONES
-===================================================== -->
+  <main class="main">
 
-<section id="page-zones" class="page">
+    <header class="topbar">
 
-    <div class="page-header">
+      <div>
+        <strong id="pageHeaderTitle">
+          Dashboard
+        </strong>
+      </div>
 
-        <div>
-            <h2>Zones de production</h2>
-            <p>Gestion des zones et lignes de production.</p>
+      <div class="user-info">
+        <strong id="topUserName">Utilisateur</strong>
+        <small id="topUserEmail">—</small>
+      </div>
+
+    </header>
+
+
+    <section class="content">
+
+
+      <!-- =====================================================
+           DASHBOARD
+      ====================================================== -->
+
+      <div id="page-dashboard" class="page">
+
+        <div class="page-title">
+          Dashboard
         </div>
 
-        <button
-            class="btn btn-primary"
-            onclick="openModal('zoneModal')">
-            + Ajouter une zone
-        </button>
+        <div class="page-description">
+          Vue globale de la maintenance.
+        </div>
 
-    </div>
+        <div class="cards">
+
+          <div class="card">
+            <div class="kpi-label">Équipements</div>
+            <div id="kpiEquipment" class="kpi-value">0</div>
+          </div>
+
+          <div class="card">
+            <div class="kpi-label">Zones</div>
+            <div id="kpiZones" class="kpi-value">0</div>
+          </div>
+
+          <div class="card">
+            <div class="kpi-label">DI ouvertes</div>
+            <div id="kpiDI" class="kpi-value">0</div>
+          </div>
+
+          <div class="card">
+            <div class="kpi-label">OT ouverts</div>
+            <div id="kpiOT" class="kpi-value">0</div>
+          </div>
+
+        </div>
 
 
-    <div class="card">
+        <div class="grid2">
+
+          <div class="panel">
+
+            <div class="panel-header">
+              <div class="panel-title">
+                Circuit maintenance
+              </div>
+            </div>
+
+            <div style="line-height:2;color:#9fb0c2;font-size:13px">
+
+              <div>1️⃣ Technicien → Demande DI</div>
+              <div>2️⃣ Responsable → Validation</div>
+              <div>3️⃣ Responsable → Création / affectation OT</div>
+              <div>4️⃣ Technicien → Intervention</div>
+              <div>5️⃣ Technicien → Rapport</div>
+              <div>6️⃣ Responsable → Confirmation</div>
+              <div>7️⃣ Responsable → Clôture</div>
+
+            </div>
+
+          </div>
+
+
+          <div class="panel">
+
+            <div class="panel-header">
+              <div class="panel-title">
+                Rôle actuel
+              </div>
+            </div>
+
+            <div id="currentRoleDescription"
+                 style="color:#9fb0c2;font-size:13px;line-height:1.8">
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =====================================================
+           ZONES
+      ====================================================== -->
+
+      <div id="page-zones" class="page hidden">
+
+        <div class="page-title">Zones de production</div>
+
+        <div class="page-description">
+          Les codes ZP sont générés automatiquement par Supabase.
+        </div>
 
         <div class="toolbar">
 
-            <input
-                id="zoneSearch"
-                placeholder="Rechercher une zone..."
-                oninput="filterTable('zonesTable',this.value)">
+          <button class="btn"
+                  onclick="openZoneModal()"
+                  data-permission="manage_equipment">
+            + Nouvelle zone
+          </button>
 
-            <button
-                class="btn btn-secondary"
-                onclick="loadZones()">
-                Actualiser
-            </button>
+          <button class="btn secondary"
+                  onclick="loadZones()">
+            Actualiser
+          </button>
 
         </div>
 
+        <div class="panel">
 
-        <div class="table-wrap">
+          <div class="table-wrap">
 
-            <table id="zonesTable">
+            <table>
 
-                <thead>
+              <thead>
                 <tr>
-                    <th>Code</th>
-                    <th>Zone</th>
-                    <th>Description</th>
-                    <th>Statut</th>
-                    <th>Date</th>
+                  <th>Code</th>
+                  <th>Zone</th>
+                  <th>Description</th>
+                  <th>Statut</th>
+                  <th>Actions</th>
                 </tr>
-                </thead>
+              </thead>
 
-                <tbody id="zonesBody">
-                </tbody>
+              <tbody id="zonesTable"></tbody>
 
             </table>
 
+          </div>
+
         </div>
 
-    </div>
-
-</section>
+      </div>
 
 
-<!-- =====================================================
-EQUIPMENT
-===================================================== -->
+      <!-- =====================================================
+           EQUIPMENT
+      ====================================================== -->
 
-<section id="page-equipment" class="page">
+      <div id="page-equipment" class="page hidden">
 
-    <div class="page-header">
+        <div class="page-title">Équipements</div>
 
-        <div>
-            <h2>Équipements</h2>
-            <p>Référentiel des machines et installations.</p>
+        <div class="page-description">
+          Identification stable des équipements.
         </div>
 
-        <button
-            class="btn btn-primary"
-            onclick="openEquipmentModal()">
+        <div class="toolbar">
+
+          <button class="btn"
+                  onclick="openEquipmentModal()"
+                  data-permission="manage_equipment">
             + Ajouter équipement
-        </button>
+          </button>
 
-    </div>
+          <button class="btn secondary"
+                  onclick="loadEquipment()">
+            Actualiser
+          </button>
+
+        </div>
+
+        <div class="panel">
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+                <tr>
+                  <th>Code</th>
+                  <th>Désignation</th>
+                  <th>Zone</th>
+                  <th>Type</th>
+                  <th>Criticité</th>
+                  <th>Statut</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+
+              <tbody id="equipmentTable"></tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </div>
 
 
-    <div class="card">
+      <!-- =====================================================
+           SUB EQUIPMENT
+      ====================================================== -->
+
+      <div id="page-subequipment" class="page hidden">
+
+        <div class="page-title">Sous-équipements</div>
+
+        <div class="page-description">
+          Hiérarchie : Zone → Équipement → Sous-équipement.
+        </div>
 
         <div class="toolbar">
 
-            <input
-                placeholder="Rechercher..."
-                oninput="filterTable('equipmentTable',this.value)">
+          <button class="btn"
+                  onclick="openSubEquipmentModal()"
+                  data-permission="manage_equipment">
+            + Ajouter sous-équipement
+          </button>
 
-            <button
-                class="btn btn-secondary"
-                onclick="loadEquipment()">
-                Actualiser
+          <button class="btn secondary"
+                  onclick="loadSubEquipment()">
+            Actualiser
+          </button>
+
+        </div>
+
+        <div class="panel">
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+                <tr>
+                  <th>Code</th>
+                  <th>Désignation</th>
+                  <th>Équipement</th>
+                  <th>Type</th>
+                  <th>Criticité</th>
+                  <th>Statut</th>
+                </tr>
+              </thead>
+
+              <tbody id="subEquipmentTable"></tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =====================================================
+           DI
+      ====================================================== -->
+
+      <div id="page-di" class="page hidden">
+
+        <div class="page-title">
+          Demandes d'intervention
+        </div>
+
+        <div class="page-description">
+          Flux : Technicien → Responsable → OT.
+        </div>
+
+        <div class="toolbar">
+
+          <button class="btn"
+                  onclick="openDIModal()">
+            + Nouvelle DI
+          </button>
+
+          <button class="btn secondary"
+                  onclick="loadDI()">
+            Actualiser
+          </button>
+
+        </div>
+
+        <div class="panel">
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+                <tr>
+                  <th>DI</th>
+                  <th>Date</th>
+                  <th>Zone</th>
+                  <th>Équipement</th>
+                  <th>Priorité</th>
+                  <th>Statut</th>
+                  <th>Demandeur</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+
+              <tbody id="diTable"></tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =====================================================
+           OT
+      ====================================================== -->
+
+      <div id="page-ot" class="page hidden">
+
+        <div class="page-title">
+          Ordres de travail
+        </div>
+
+        <div class="page-description">
+          Exécution terrain et validation par le responsable.
+        </div>
+
+        <div class="toolbar">
+
+          <button class="btn secondary"
+                  onclick="loadOT()">
+            Actualiser
+          </button>
+
+        </div>
+
+        <div class="panel">
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+                <tr>
+                  <th>OT</th>
+                  <th>Équipement</th>
+                  <th>Type</th>
+                  <th>Statut</th>
+                  <th>Technicien</th>
+                  <th>Durée</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+
+              <tbody id="otTable"></tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =====================================================
+           PREVENTIVE
+      ====================================================== -->
+
+      <div id="page-preventive" class="page hidden">
+
+        <div class="page-title">Maintenance préventive</div>
+
+        <div class="page-description">
+          Plans et opérations préventives.
+        </div>
+
+        <div class="toolbar">
+
+          <button class="btn"
+                  onclick="openPreventiveModal()"
+                  data-permission="manage_preventive">
+            + Nouveau plan
+          </button>
+
+          <button class="btn secondary"
+                  onclick="loadPreventive()">
+            Actualiser
+          </button>
+
+        </div>
+
+        <div class="panel">
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+                <tr>
+                  <th>PM</th>
+                  <th>Équipement</th>
+                  <th>Opération</th>
+                  <th>Fréquence</th>
+                  <th>Prochaine date</th>
+                  <th>Statut</th>
+                </tr>
+              </thead>
+
+              <tbody id="preventiveTable"></tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =====================================================
+           RCA
+      ====================================================== -->
+
+      <div id="page-rca" class="page hidden">
+
+        <div class="page-title">RCA / BDA</div>
+
+        <div class="page-description">
+          Analyse des causes racines et actions correctives.
+        </div>
+
+        <div class="panel">
+
+          <div class="empty">
+            Module RCA/BDA prêt pour intégration complète.
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =====================================================
+           ANALYSIS
+      ====================================================== -->
+
+      <div id="page-analysis" class="page hidden">
+
+        <div class="page-title">
+          KPI & Analyse
+        </div>
+
+        <div class="page-description">
+          MTBF, MTTR, disponibilité et Pareto.
+        </div>
+
+        <div class="grid2">
+
+          <div class="panel">
+
+            <div class="panel-header">
+              <div class="panel-title">
+                DI par statut
+              </div>
+            </div>
+
+            <div class="chart-container">
+              <canvas id="diChart"></canvas>
+            </div>
+
+          </div>
+
+
+          <div class="panel">
+
+            <div class="panel-header">
+              <div class="panel-title">
+                OT par statut
+              </div>
+            </div>
+
+            <div class="chart-container">
+              <canvas id="otChart"></canvas>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =====================================================
+           PARTS
+      ====================================================== -->
+
+      <div id="page-parts" class="page hidden">
+
+        <div class="page-title">
+          PDR / Stock
+        </div>
+
+        <div class="page-description">
+          Pièces de rechange et niveaux de stock.
+        </div>
+
+        <div class="toolbar">
+
+          <button class="btn"
+                  onclick="openPartModal()"
+                  data-permission="manage_parts">
+            + Nouvelle PDR
+          </button>
+
+          <button class="btn secondary"
+                  onclick="loadParts()">
+            Actualiser
+          </button>
+
+        </div>
+
+        <div class="panel">
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+                <tr>
+                  <th>Code</th>
+                  <th>Désignation</th>
+                  <th>Stock</th>
+                  <th>Minimum</th>
+                  <th>Unité</th>
+                  <th>Fournisseur</th>
+                </tr>
+              </thead>
+
+              <tbody id="partsTable"></tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =====================================================
+           USERS
+      ====================================================== -->
+
+      <div id="page-users" class="page hidden">
+
+        <div class="page-title">
+          Administration des utilisateurs
+        </div>
+
+        <div class="page-description">
+          Gestion des comptes et des rôles.
+        </div>
+
+        <div class="toolbar">
+
+          <button class="btn"
+                  onclick="openUserModal()">
+            + Ajouter utilisateur
+          </button>
+
+          <button class="btn secondary"
+                  onclick="loadUsers()">
+            Actualiser
+          </button>
+
+        </div>
+
+        <div class="panel">
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+                <tr>
+                  <th>Nom</th>
+                  <th>Email</th>
+                  <th>Rôle</th>
+                  <th>Statut</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+
+              <tbody id="usersTable"></tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =====================================================
+           PERMISSIONS
+      ====================================================== -->
+
+      <div id="page-permissions" class="page hidden">
+
+        <div class="page-title">
+          Rôles & permissions
+        </div>
+
+        <div class="page-description">
+          Modèle de sécurité de GMAO PRO.
+        </div>
+
+        <div class="permission-grid">
+
+          <div class="permission-card">
+
+            <h3>🔐 Administrateur</h3>
+
+            <ul>
+              <li>Utilisateurs</li>
+              <li>Rôles</li>
+              <li>Zones</li>
+              <li>Équipements</li>
+              <li>Sous-équipements</li>
+              <li>DI / OT</li>
+              <li>Préventif</li>
+              <li>RCA / BDA</li>
+              <li>PDR / Stock</li>
+              <li>Rapports</li>
+              <li>Audit</li>
+              <li>Sécurité</li>
+            </ul>
+
+          </div>
+
+
+          <div class="permission-card">
+
+            <h3>👷 Responsable</h3>
+
+            <ul>
+              <li>Modifier équipements</li>
+              <li>Accepter / refuser DI</li>
+              <li>Créer OT</li>
+              <li>Affecter technicien</li>
+              <li>Confirmer interventions</li>
+              <li>Clôturer OT</li>
+              <li>Préventif</li>
+              <li>RCA / BDA</li>
+              <li>KPI / Pareto</li>
+              <li>Stock</li>
+            </ul>
+
+          </div>
+
+
+          <div class="permission-card">
+
+            <h3>🔧 Technicien</h3>
+
+            <ul>
+              <li>Créer DI</li>
+              <li>Voir ses DI</li>
+              <li>Voir OT affectés</li>
+              <li>Exécuter intervention</li>
+              <li>Rapport intervention</li>
+              <li>Cause de panne</li>
+              <li>Action corrective</li>
+              <li>Consulter équipements</li>
+              <li>Pas de gestion utilisateurs</li>
+              <li>Pas de clôture finale</li>
+            </ul>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =====================================================
+           AUDIT
+      ====================================================== -->
+
+      <div id="page-audit" class="page hidden">
+
+        <div class="page-title">
+          Journal d'activité
+        </div>
+
+        <div class="page-description">
+          Traçabilité des opérations.
+        </div>
+
+        <div class="panel">
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Utilisateur</th>
+                  <th>Action</th>
+                  <th>Objet</th>
+                  <th>Détails</th>
+                </tr>
+              </thead>
+
+              <tbody id="auditTable"></tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =====================================================
+           SECURITY
+      ====================================================== -->
+
+      <div id="page-security" class="page hidden">
+
+        <div class="page-title">
+          Sécurité
+        </div>
+
+        <div class="panel">
+
+          <div class="panel-header">
+            <div class="panel-title">
+              Modifier mon mot de passe
+            </div>
+          </div>
+
+          <div style="max-width:450px">
+
+            <div class="field">
+              <label>Nouveau mot de passe</label>
+              <input id="newPassword" type="password">
+            </div>
+
+            <div class="field">
+              <label>Confirmation</label>
+              <input id="newPassword2" type="password">
+            </div>
+
+            <button class="btn"
+                    onclick="changePassword()">
+              Modifier le mot de passe
             </button>
 
-        </div>
-
-
-        <div class="table-wrap">
-
-            <table id="equipmentTable">
-
-                <thead>
-                <tr>
-                    <th>Code</th>
-                    <th>Désignation</th>
-                    <th>Zone</th>
-                    <th>Type</th>
-                    <th>Marque</th>
-                    <th>Criticité</th>
-                    <th>Statut</th>
-                </tr>
-                </thead>
-
-                <tbody id="equipmentBody">
-                </tbody>
-
-            </table>
+          </div>
 
         </div>
 
-    </div>
+      </div>
 
-</section>
 
+    </section>
 
-<!-- =====================================================
-SOUS EQUIPMENT
-===================================================== -->
+  </main>
 
-<section id="page-subequipment" class="page">
-
-    <div class="page-header">
-
-        <div>
-            <h2>Sous-équipements</h2>
-            <p>Hiérarchie technique des équipements.</p>
-        </div>
-
-        <button
-            class="btn btn-primary"
-            onclick="openSubEquipmentModal()">
-            + Ajouter sous-équipement
-        </button>
-
-    </div>
-
-
-    <div class="card">
-
-        <div class="table-wrap">
-
-            <table id="subEquipmentTable">
-
-                <thead>
-                <tr>
-                    <th>Code</th>
-                    <th>Sous-équipement</th>
-                    <th>Équipement parent</th>
-                    <th>Type</th>
-                    <th>Criticité</th>
-                    <th>Statut</th>
-                </tr>
-                </thead>
-
-                <tbody id="subEquipmentBody">
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =====================================================
-DI
-===================================================== -->
-
-<section id="page-di" class="page">
-
-    <div class="page-header">
-
-        <div>
-            <h2>Demandes d'intervention</h2>
-            <p>Gestion des demandes et signalements.</p>
-        </div>
-
-        <button
-            class="btn btn-primary"
-            onclick="openDIModal()">
-            + Nouvelle DI
-        </button>
-
-    </div>
-
-
-    <div class="card">
-
-        <div class="table-wrap">
-
-            <table>
-
-                <thead>
-                <tr>
-                    <th>Code</th>
-                    <th>Date</th>
-                    <th>Demandeur</th>
-                    <th>Zone</th>
-                    <th>Équipement</th>
-                    <th>Priorité</th>
-                    <th>Type</th>
-                    <th>Statut</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-
-                <tbody id="diBody">
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =====================================================
-OT
-===================================================== -->
-
-<section id="page-ot" class="page">
-
-    <div class="page-header">
-
-        <div>
-            <h2>Ordres de travail</h2>
-            <p>Suivi des interventions maintenance.</p>
-        </div>
-
-        <button
-            class="btn btn-primary"
-            onclick="openOTModal()">
-            + Nouvel OT
-        </button>
-
-    </div>
-
-
-    <div class="card">
-
-        <div class="table-wrap">
-
-            <table>
-
-                <thead>
-                <tr>
-                    <th>Code</th>
-                    <th>Date</th>
-                    <th>Équipement</th>
-                    <th>Type</th>
-                    <th>Statut</th>
-                    <th>Arrêt</th>
-                    <th>Durée</th>
-                    <th>Technicien</th>
-                </tr>
-                </thead>
-
-                <tbody id="otBody">
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =====================================================
-PREVENTIVE
-===================================================== -->
-
-<section id="page-preventive" class="page">
-
-    <div class="page-header">
-
-        <div>
-            <h2>Maintenance préventive</h2>
-            <p>Plans et gammes de maintenance préventive.</p>
-        </div>
-
-        <button
-            class="btn btn-primary"
-            onclick="openPMModal()">
-            + Ajouter PM
-        </button>
-
-    </div>
-
-
-    <div class="card">
-
-        <div class="table-wrap">
-
-            <table>
-
-                <thead>
-                <tr>
-                    <th>Code</th>
-                    <th>Équipement</th>
-                    <th>Opération</th>
-                    <th>Fréquence</th>
-                    <th>Dernière date</th>
-                    <th>Prochaine date</th>
-                    <th>Responsable</th>
-                    <th>Statut</th>
-                </tr>
-                </thead>
-
-                <tbody id="pmBody">
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =====================================================
-RCA
-===================================================== -->
-
-<section id="page-rca" class="page">
-
-    <div class="page-header">
-
-        <div>
-            <h2>RCA / BDA</h2>
-            <p>Analyse des causes racines et actions correctives.</p>
-        </div>
-
-        <button
-            class="btn btn-primary"
-            onclick="openRCAModal()">
-            + Nouvelle RCA
-        </button>
-
-    </div>
-
-
-    <div class="card">
-
-        <div class="table-wrap">
-
-            <table>
-
-                <thead>
-                <tr>
-                    <th>Code</th>
-                    <th>OT</th>
-                    <th>Équipement</th>
-                    <th>Cause racine</th>
-                    <th>Action corrective</th>
-                    <th>Responsable</th>
-                    <th>Échéance</th>
-                    <th>Statut</th>
-                </tr>
-                </thead>
-
-                <tbody id="rcaBody">
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =====================================================
-PARTS
-===================================================== -->
-
-<section id="page-parts" class="page">
-
-    <div class="page-header">
-
-        <div>
-            <h2>Pièces de rechange</h2>
-            <p>Gestion du stock PDR.</p>
-        </div>
-
-        <button
-            class="btn btn-primary"
-            onclick="openPartModal()">
-            + Ajouter PDR
-        </button>
-
-    </div>
-
-
-    <div class="card">
-
-        <div class="table-wrap">
-
-            <table>
-
-                <thead>
-                <tr>
-                    <th>Code</th>
-                    <th>Désignation</th>
-                    <th>Stock</th>
-                    <th>Stock min.</th>
-                    <th>Unité</th>
-                    <th>Fournisseur</th>
-                    <th>Équipement</th>
-                </tr>
-                </thead>
-
-                <tbody id="partsBody">
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =====================================================
-SECURITY
-===================================================== -->
-
-<section id="page-security" class="page">
-
-    <div class="page-header">
-
-        <div>
-            <h2>Sécurité</h2>
-            <p>Gestion du compte utilisateur.</p>
-        </div>
-
-    </div>
-
-
-    <div class="card" style="max-width:600px">
-
-        <h3 style="margin-bottom:20px">
-            Changer le mot de passe
-        </h3>
-
-        <div class="form-group">
-
-            <label>
-                Nouveau mot de passe
-            </label>
-
-            <input
-                type="password"
-                id="newPassword"
-                placeholder="Minimum 6 caractères">
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>
-                Confirmation
-            </label>
-
-            <input
-                type="password"
-                id="confirmPassword"
-                placeholder="Confirmer">
-
-        </div>
-
-
-        <button
-            class="btn btn-primary"
-            onclick="changePassword()">
-            Modifier le mot de passe
-        </button>
-
-    </div>
-
-</section>
-
-
-</div>
-</main>
-
-</div>
 </div>
 
 
-<!-- =====================================================
-ZONE MODAL
-===================================================== -->
+<!-- =========================================================
+     MODAL ZONE
+========================================================= -->
 
-<div class="modal" id="zoneModal">
+<div id="zoneModal" class="modal hidden">
 
-<div class="modal-content">
+  <div class="modal-card">
 
     <div class="modal-header">
-
-        <h3>Nouvelle zone de production</h3>
-
-        <div class="close"
-             onclick="closeModal('zoneModal')">
-            ×
-        </div>
-
+      <h2>Nouvelle zone</h2>
+      <button class="close" onclick="closeModal('zoneModal')">×</button>
     </div>
 
+    <div class="form-grid">
 
-    <div class="form-group">
+      <div class="field">
+        <label>Code</label>
+        <input class="code-auto"
+               value="Généré automatiquement"
+               disabled>
+      </div>
 
+      <div class="field">
         <label>Nom de la zone *</label>
+        <input id="zoneName">
+      </div>
 
-        <input
-            id="zoneName"
-            placeholder="Ex: Préparation">
-
-    </div>
-
-
-    <div class="form-group">
-
+      <div class="field full">
         <label>Description</label>
-
-        <textarea
-            id="zoneDescription"
-            placeholder="Description de la zone"></textarea>
+        <textarea id="zoneDescription"></textarea>
+      </div>
 
     </div>
 
+    <div class="actions">
 
-    <div style="display:flex;gap:10px;justify-content:flex-end">
+      <button class="btn secondary"
+              onclick="closeModal('zoneModal')">
+        Annuler
+      </button>
 
-        <button
-            class="btn btn-secondary"
-            onclick="closeModal('zoneModal')">
-            Annuler
-        </button>
-
-        <button
-            class="btn btn-primary"
-            onclick="addZone()">
-            Enregistrer
-        </button>
+      <button class="btn"
+              onclick="saveZone()">
+        Créer
+      </button>
 
     </div>
 
+  </div>
+
 </div>
-</div>
 
 
-<!-- =====================================================
-EQUIPMENT MODAL
-===================================================== -->
+<!-- =========================================================
+     MODAL EQUIPMENT
+========================================================= -->
 
-<div class="modal" id="equipmentModal">
+<div id="equipmentModal" class="modal hidden">
 
-<div class="modal-content">
+  <div class="modal-card">
 
     <div class="modal-header">
-
-        <h3>Nouvel équipement</h3>
-
-        <div class="close"
-             onclick="closeModal('equipmentModal')">
-            ×
-        </div>
-
+      <h2>Nouvel équipement</h2>
+      <button class="close"
+              onclick="closeModal('equipmentModal')">
+        ×
+      </button>
     </div>
-
 
     <div class="form-grid">
 
-        <div class="form-group">
+      <div class="field">
+        <label>Code</label>
+        <input class="code-auto"
+               value="Généré automatiquement"
+               disabled>
+      </div>
 
-            <label>Désignation *</label>
+      <div class="field">
+        <label>Désignation *</label>
+        <input id="eqDesignation">
+      </div>
 
-            <input
-                id="eqDesignation"
-                placeholder="Ex: Extrudeuse 01">
+      <div class="field">
+        <label>Zone *</label>
+        <select id="eqZone"></select>
+      </div>
 
-        </div>
+      <div class="field">
+        <label>Type</label>
+        <input id="eqType">
+      </div>
 
+      <div class="field">
+        <label>Marque</label>
+        <input id="eqBrand">
+      </div>
 
-        <div class="form-group">
+      <div class="field">
+        <label>Modèle</label>
+        <input id="eqModel">
+      </div>
 
-            <label>Zone *</label>
+      <div class="field">
+        <label>N° série</label>
+        <input id="eqSerial">
+      </div>
 
-            <select id="eqZone">
-            </select>
+      <div class="field">
+        <label>Criticité</label>
+        <select id="eqCriticality">
+          <option value="A">A - Critique</option>
+          <option value="B" selected>B - Moyenne</option>
+          <option value="C">C - Faible</option>
+        </select>
+      </div>
 
-        </div>
+      <div class="field">
+        <label>Statut</label>
+        <select id="eqStatus">
+          <option value="active">Actif</option>
+          <option value="inactive">Inactif</option>
+          <option value="maintenance">En maintenance</option>
+        </select>
+      </div>
 
+      <div class="field">
+        <label>Date installation</label>
+        <input id="eqInstallation" type="date">
+      </div>
 
-        <div class="form-group">
-
-            <label>Type</label>
-
-            <input
-                id="eqType"
-                placeholder="Ex: Extrudeuse">
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Marque</label>
-
-            <input id="eqBrand">
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Modèle</label>
-
-            <input id="eqModel">
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>N° série</label>
-
-            <input id="eqSerial">
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Criticité</label>
-
-            <select id="eqCriticality">
-
-                <option value="low">Faible</option>
-                <option value="medium" selected>Moyenne</option>
-                <option value="high">Élevée</option>
-                <option value="critical">Critique</option>
-
-            </select>
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Statut</label>
-
-            <select id="eqStatus">
-
-                <option value="active">Actif</option>
-                <option value="inactive">Inactif</option>
-                <option value="maintenance">Maintenance</option>
-
-            </select>
-
-        </div>
-
-
-        <div class="form-group full">
-
-            <label>Description</label>
-
-            <textarea id="eqDescription"></textarea>
-
-        </div>
+      <div class="field full">
+        <label>Description</label>
+        <textarea id="eqDescription"></textarea>
+      </div>
 
     </div>
 
+    <div class="actions">
 
-    <div style="display:flex;gap:10px;justify-content:flex-end">
+      <button class="btn secondary"
+              onclick="closeModal('equipmentModal')">
+        Annuler
+      </button>
 
-        <button
-            class="btn btn-secondary"
-            onclick="closeModal('equipmentModal')">
-            Annuler
-        </button>
-
-        <button
-            class="btn btn-primary"
-            onclick="addEquipment()">
-            Enregistrer
-        </button>
+      <button class="btn"
+              onclick="saveEquipment()">
+        Créer
+      </button>
 
     </div>
 
+  </div>
+
 </div>
-</div>
 
 
-<!-- =====================================================
-SUB EQUIPMENT MODAL
-===================================================== -->
+<!-- =========================================================
+     MODAL SUB EQUIPMENT
+========================================================= -->
 
-<div class="modal" id="subEquipmentModal">
+<div id="subEquipmentModal" class="modal hidden">
 
-<div class="modal-content">
+  <div class="modal-card">
 
     <div class="modal-header">
+      <h2>Nouveau sous-équipement</h2>
 
-        <h3>Nouveau sous-équipement</h3>
-
-        <div class="close"
-             onclick="closeModal('subEquipmentModal')">
-            ×
-        </div>
+      <button class="close"
+              onclick="closeModal('subEquipmentModal')">
+        ×
+      </button>
 
     </div>
-
 
     <div class="form-grid">
 
-        <div class="form-group">
+      <div class="field">
+        <label>Code</label>
+        <input class="code-auto"
+               value="Généré automatiquement"
+               disabled>
+      </div>
 
-            <label>Équipement parent *</label>
+      <div class="field">
+        <label>Désignation *</label>
+        <input id="subDesignation">
+      </div>
 
-            <select id="seEquipment"></select>
+      <div class="field full">
+        <label>Équipement parent *</label>
+        <select id="subEquipmentParent"></select>
+      </div>
 
-        </div>
+      <div class="field">
+        <label>Type</label>
+        <input id="subType">
+      </div>
 
+      <div class="field">
+        <label>Marque</label>
+        <input id="subBrand">
+      </div>
 
-        <div class="form-group">
+      <div class="field">
+        <label>Modèle</label>
+        <input id="subModel">
+      </div>
 
-            <label>Désignation *</label>
+      <div class="field">
+        <label>N° série</label>
+        <input id="subSerial">
+      </div>
 
-            <input
-                id="seDesignation"
-                placeholder="Ex: Moteur principal">
+      <div class="field">
+        <label>Criticité</label>
+        <select id="subCriticality">
+          <option value="A">A - Critique</option>
+          <option value="B" selected>B - Moyenne</option>
+          <option value="C">C - Faible</option>
+        </select>
+      </div>
 
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Type</label>
-
-            <input id="seType">
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Marque</label>
-
-            <input id="seBrand">
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Modèle</label>
-
-            <input id="seModel">
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>N° série</label>
-
-            <input id="seSerial">
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Criticité</label>
-
-            <select id="seCriticality">
-
-                <option value="low">Faible</option>
-                <option value="medium" selected>Moyenne</option>
-                <option value="high">Élevée</option>
-                <option value="critical">Critique</option>
-
-            </select>
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Statut</label>
-
-            <select id="seStatus">
-
-                <option value="active">Actif</option>
-                <option value="inactive">Inactif</option>
-                <option value="maintenance">Maintenance</option>
-
-            </select>
-
-        </div>
-
-
-        <div class="form-group full">
-
-            <label>Observation</label>
-
-            <textarea id="seObservation"></textarea>
-
-        </div>
+      <div class="field full">
+        <label>Observation</label>
+        <textarea id="subObservation"></textarea>
+      </div>
 
     </div>
 
+    <div class="actions">
 
-    <div style="display:flex;justify-content:flex-end;gap:10px">
+      <button class="btn secondary"
+              onclick="closeModal('subEquipmentModal')">
+        Annuler
+      </button>
 
-        <button
-            class="btn btn-secondary"
-            onclick="closeModal('subEquipmentModal')">
-            Annuler
-        </button>
-
-        <button
-            class="btn btn-primary"
-            onclick="addSubEquipment()">
-            Enregistrer
-        </button>
+      <button class="btn"
+              onclick="saveSubEquipment()">
+        Créer
+      </button>
 
     </div>
 
+  </div>
+
 </div>
-</div>
 
 
-<!-- =====================================================
-DI MODAL
-===================================================== -->
+<!-- =========================================================
+     MODAL DI
+========================================================= -->
 
-<div class="modal" id="diModal">
+<div id="diModal" class="modal hidden">
 
-<div class="modal-content">
+  <div class="modal-card">
 
     <div class="modal-header">
 
-        <h3>Nouvelle demande d'intervention</h3>
+      <h2>Nouvelle demande d'intervention</h2>
 
-        <div class="close"
-             onclick="closeModal('diModal')">
-            ×
-        </div>
+      <button class="close"
+              onclick="closeModal('diModal')">
+        ×
+      </button>
 
     </div>
-
 
     <div class="form-grid">
 
-        <div class="form-group">
+      <div class="field">
+        <label>Code DI</label>
+        <input class="code-auto"
+               value="Généré automatiquement"
+               disabled>
+      </div>
 
-            <label>Demandeur</label>
+      <div class="field">
+        <label>Date</label>
+        <input id="diDate" type="date">
+      </div>
 
-            <input
-                id="diRequester"
-                placeholder="Nom du demandeur">
+      <div class="field">
+        <label>Zone</label>
+        <select id="diZone"></select>
+      </div>
 
-        </div>
+      <div class="field">
+        <label>Équipement</label>
+        <select id="diEquipment"></select>
+      </div>
 
+      <div class="field">
+        <label>Priorité</label>
+        <select id="diPriority">
+          <option value="basse">Basse</option>
+          <option value="normale" selected>Normale</option>
+          <option value="haute">Haute</option>
+          <option value="critique">Critique</option>
+        </select>
+      </div>
 
-        <div class="form-group">
+      <div class="field">
+        <label>Type</label>
+        <select id="diType">
+          <option value="curative">Curative</option>
+          <option value="preventive">Préventive</option>
+          <option value="ameliorative">Améliorative</option>
+          <option value="securite">Sécurité</option>
+        </select>
+      </div>
 
-            <label>Zone</label>
-
-            <select
-                id="diZone"
-                onchange="loadEquipmentForDI()">
-            </select>
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Équipement</label>
-
-            <select id="diEquipment">
-            </select>
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Sous-équipement</label>
-
-            <select id="diSubEquipment">
-            </select>
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Priorité</label>
-
-            <select id="diPriority">
-
-                <option value="low">Faible</option>
-                <option value="normal" selected>Normale</option>
-                <option value="high">Haute</option>
-                <option value="critical">Critique</option>
-
-            </select>
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Type</label>
-
-            <select id="diType">
-
-                <option value="corrective">Corrective</option>
-                <option value="preventive">Préventive</option>
-                <option value="improvement">Amélioration</option>
-                <option value="inspection">Inspection</option>
-
-            </select>
-
-        </div>
-
-
-        <div class="form-group full">
-
-            <label>Description *</label>
-
-            <textarea
-                id="diDescription"
-                placeholder="Décrire le problème ou la demande"></textarea>
-
-        </div>
+      <div class="field full">
+        <label>Description de la panne / demande *</label>
+        <textarea id="diDescription"
+                  placeholder="Décrire clairement le problème..."></textarea>
+      </div>
 
     </div>
 
+    <div class="actions">
 
-    <div style="display:flex;justify-content:flex-end;gap:10px">
+      <button class="btn secondary"
+              onclick="closeModal('diModal')">
+        Annuler
+      </button>
 
-        <button
-            class="btn btn-secondary"
-            onclick="closeModal('diModal')">
-            Annuler
-        </button>
-
-        <button
-            class="btn btn-primary"
-            onclick="addDI()">
-            Créer DI
-        </button>
+      <button class="btn"
+              onclick="saveDI()">
+        Envoyer la DI
+      </button>
 
     </div>
 
+  </div>
+
 </div>
-</div>
 
 
-<!-- =====================================================
-OT MODAL
-===================================================== -->
+<!-- =========================================================
+     MODAL PREVENTIVE
+========================================================= -->
 
-<div class="modal" id="otModal">
+<div id="preventiveModal" class="modal hidden">
 
-<div class="modal-content">
+  <div class="modal-card">
 
     <div class="modal-header">
 
-        <h3>Nouvel ordre de travail</h3>
+      <h2>Nouveau plan préventif</h2>
 
-        <div class="close"
-             onclick="closeModal('otModal')">
-            ×
-        </div>
+      <button class="close"
+              onclick="closeModal('preventiveModal')">
+        ×
+      </button>
 
     </div>
-
 
     <div class="form-grid">
 
-        <div class="form-group">
+      <div class="field">
+        <label>Code PM</label>
+        <input class="code-auto"
+               value="Généré automatiquement"
+               disabled>
+      </div>
 
-            <label>Équipement</label>
+      <div class="field">
+        <label>Équipement</label>
+        <select id="pmEquipment"></select>
+      </div>
 
-            <select id="otEquipment"></select>
+      <div class="field full">
+        <label>Opération</label>
+        <input id="pmOperation">
+      </div>
 
-        </div>
+      <div class="field">
+        <label>Fréquence</label>
+        <select id="pmFrequency">
+          <option value="daily">Quotidienne</option>
+          <option value="weekly">Hebdomadaire</option>
+          <option value="monthly">Mensuelle</option>
+          <option value="quarterly">Trimestrielle</option>
+          <option value="semiannual">Semestrielle</option>
+          <option value="annual">Annuelle</option>
+        </select>
+      </div>
 
+      <div class="field">
+        <label>Prochaine date</label>
+        <input id="pmNextDate" type="date">
+      </div>
 
-        <div class="form-group">
-
-            <label>Sous-équipement</label>
-
-            <select id="otSubEquipment"></select>
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Type</label>
-
-            <select id="otType">
-
-                <option value="corrective">Corrective</option>
-                <option value="preventive">Préventive</option>
-                <option value="improvement">Amélioration</option>
-
-            </select>
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Statut</label>
-
-            <select id="otStatus">
-
-                <option value="open">Ouvert</option>
-                <option value="in_progress">En cours</option>
-                <option value="closed">Clôturé</option>
-
-            </select>
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Temps d'arrêt</label>
-
-            <input
-                type="number"
-                id="otDowntime"
-                value="0"
-                min="0">
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Durée intervention</label>
-
-            <input
-                type="number"
-                id="otDuration"
-                value="0"
-                min="0">
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Technicien</label>
-
-            <input id="otTechnician">
-
-        </div>
-
-
-        <div class="form-group full">
-
-            <label>Cause</label>
-
-            <textarea id="otCause"></textarea>
-
-        </div>
-
-
-        <div class="form-group full">
-
-            <label>Travail réalisé</label>
-
-            <textarea id="otWork"></textarea>
-
-        </div>
+      <div class="field full">
+        <label>Instructions</label>
+        <textarea id="pmInstructions"></textarea>
+      </div>
 
     </div>
 
+    <div class="actions">
 
-    <div style="display:flex;justify-content:flex-end;gap:10px">
+      <button class="btn secondary"
+              onclick="closeModal('preventiveModal')">
+        Annuler
+      </button>
 
-        <button
-            class="btn btn-secondary"
-            onclick="closeModal('otModal')">
-            Annuler
-        </button>
-
-        <button
-            class="btn btn-primary"
-            onclick="addOT()">
-            Créer OT
-        </button>
+      <button class="btn"
+              onclick="savePreventive()">
+        Créer
+      </button>
 
     </div>
 
+  </div>
+
 </div>
-</div>
 
 
-<!-- =====================================================
-PM MODAL
-===================================================== -->
+<!-- =========================================================
+     MODAL PART
+========================================================= -->
 
-<div class="modal" id="pmModal">
+<div id="partModal" class="modal hidden">
 
-<div class="modal-content">
+  <div class="modal-card">
 
     <div class="modal-header">
 
-        <h3>Nouveau plan préventif</h3>
+      <h2>Nouvelle pièce de rechange</h2>
 
-        <div class="close"
-             onclick="closeModal('pmModal')">
-            ×
-        </div>
+      <button class="close"
+              onclick="closeModal('partModal')">
+        ×
+      </button>
 
     </div>
-
 
     <div class="form-grid">
 
-        <div class="form-group">
+      <div class="field">
+        <label>Code PDR</label>
+        <input class="code-auto"
+               value="Généré automatiquement"
+               disabled>
+      </div>
 
-            <label>Équipement</label>
+      <div class="field">
+        <label>Désignation *</label>
+        <input id="partDesignation">
+      </div>
 
-            <select id="pmEquipment"></select>
+      <div class="field">
+        <label>Stock initial</label>
+        <input id="partStock" type="number" value="0">
+      </div>
 
-        </div>
+      <div class="field">
+        <label>Stock minimum</label>
+        <input id="partMinStock" type="number" value="0">
+      </div>
 
+      <div class="field">
+        <label>Unité</label>
+        <input id="partUnit" value="PCS">
+      </div>
 
-        <div class="form-group">
-
-            <label>Sous-équipement</label>
-
-            <select id="pmSubEquipment"></select>
-
-        </div>
-
-
-        <div class="form-group full">
-
-            <label>Opération *</label>
-
-            <input
-                id="pmOperation"
-                placeholder="Ex: Contrôle vibration moteur">
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Fréquence</label>
-
-            <select id="pmFrequency">
-
-                <option>Quotidienne</option>
-                <option>Hebdomadaire</option>
-                <option>Mensuelle</option>
-                <option>Trimestrielle</option>
-                <option>Semestrielle</option>
-                <option>Annuelle</option>
-
-            </select>
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Dernière date</label>
-
-            <input
-                type="date"
-                id="pmLastDate">
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Prochaine date</label>
-
-            <input
-                type="date"
-                id="pmNextDate">
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Responsable</label>
-
-            <input id="pmResponsible">
-
-        </div>
-
-
-        <div class="form-group full">
-
-            <label>Instructions</label>
-
-            <textarea id="pmInstructions"></textarea>
-
-        </div>
+      <div class="field">
+        <label>Fournisseur</label>
+        <input id="partSupplier">
+      </div>
 
     </div>
 
+    <div class="actions">
 
-    <div style="display:flex;justify-content:flex-end;gap:10px">
+      <button class="btn secondary"
+              onclick="closeModal('partModal')">
+        Annuler
+      </button>
 
-        <button
-            class="btn btn-secondary"
-            onclick="closeModal('pmModal')">
-            Annuler
-        </button>
-
-        <button
-            class="btn btn-primary"
-            onclick="addPM()">
-            Enregistrer PM
-        </button>
+      <button class="btn"
+              onclick="savePart()">
+        Créer
+      </button>
 
     </div>
 
+  </div>
+
 </div>
-</div>
 
 
-<!-- =====================================================
-RCA MODAL
-===================================================== -->
+<!-- =========================================================
+     MODAL USER
+========================================================= -->
 
-<div class="modal" id="rcaModal">
+<div id="userModal" class="modal hidden">
 
-<div class="modal-content">
+  <div class="modal-card">
 
     <div class="modal-header">
 
-        <h3>Analyse RCA / BDA</h3>
+      <h2>Ajouter un utilisateur</h2>
 
-        <div class="close"
-             onclick="closeModal('rcaModal')">
-            ×
-        </div>
+      <button class="close"
+              onclick="closeModal('userModal')">
+        ×
+      </button>
 
     </div>
-
 
     <div class="form-grid">
 
-        <div class="form-group">
+      <div class="field">
+        <label>Nom complet</label>
+        <input id="userName">
+      </div>
 
-            <label>OT</label>
+      <div class="field">
+        <label>Email</label>
+        <input id="userEmail" type="email">
+      </div>
 
-            <select id="rcaOT"></select>
+      <div class="field">
+        <label>Rôle</label>
 
-        </div>
+        <select id="userRole">
 
+          <option value="technicien">
+            Technicien
+          </option>
 
-        <div class="form-group">
+          <option value="responsable">
+            Responsable Maintenance
+          </option>
 
-            <label>Équipement</label>
+          <option value="administrateur">
+            Administrateur
+          </option>
 
-            <select id="rcaEquipment"></select>
+        </select>
 
-        </div>
+      </div>
 
+      <div class="field">
+        <label>Statut</label>
 
-        <div class="form-group full">
+        <select id="userStatus">
+          <option value="active">Actif</option>
+          <option value="inactive">Inactif</option>
+        </select>
 
-            <label>Méthode 5M</label>
+      </div>
 
-            <textarea
-                id="rca5m"
-                placeholder="Main d'œuvre / Méthode / Machine / Matière / Milieu"></textarea>
+      <div class="field full">
 
-        </div>
+        <div style="
+          background:#291e0c;
+          border:1px solid #634717;
+          padding:12px;
+          border-radius:8px;
+          color:#f5c76d;
+          font-size:12px;
+          line-height:1.6">
 
+          ⚠️ La création réelle d'un compte
+          <b>Supabase Auth</b> depuis un panneau
+          administrateur doit passer par une
+          Edge Function sécurisée avec
+          <b>service_role</b>.
 
-        <div class="form-group">
-
-            <label>Pourquoi 1</label>
-            <input id="why1">
-        </div>
-
-        <div class="form-group">
-
-            <label>Pourquoi 2</label>
-            <input id="why2">
-        </div>
-
-        <div class="form-group">
-
-            <label>Pourquoi 3</label>
-            <input id="why3">
-        </div>
-
-        <div class="form-group">
-
-            <label>Pourquoi 4</label>
-            <input id="why4">
-        </div>
-
-        <div class="form-group">
-
-            <label>Pourquoi 5</label>
-            <input id="why5">
-        </div>
-
-
-        <div class="form-group full">
-
-            <label>Cause racine *</label>
-
-            <textarea id="rootCause"></textarea>
+          Le <b>service_role</b> ne doit jamais être
+          placé dans ce fichier HTML.
 
         </div>
 
-
-        <div class="form-group full">
-
-            <label>Action corrective</label>
-
-            <textarea id="correctiveAction"></textarea>
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Responsable</label>
-
-            <input id="rcaResponsible">
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Échéance</label>
-
-            <input
-                type="date"
-                id="rcaDueDate">
-
-        </div>
+      </div>
 
     </div>
 
+    <div class="actions">
 
-    <div style="display:flex;justify-content:flex-end;gap:10px">
+      <button class="btn secondary"
+              onclick="closeModal('userModal')">
+        Annuler
+      </button>
 
-        <button
-            class="btn btn-secondary"
-            onclick="closeModal('rcaModal')">
-            Annuler
-        </button>
-
-        <button
-            class="btn btn-primary"
-            onclick="addRCA()">
-            Enregistrer RCA
-        </button>
+      <button class="btn"
+              onclick="createUserRequest()">
+        Préparer l'utilisateur
+      </button>
 
     </div>
 
-</div>
+  </div>
+
 </div>
 
 
-<!-- =====================================================
-PART MODAL
-===================================================== -->
+<!-- TOAST -->
 
-<div class="modal" id="partModal">
-
-<div class="modal-content">
-
-    <div class="modal-header">
-
-        <h3>Nouvelle pièce de rechange</h3>
-
-        <div class="close"
-             onclick="closeModal('partModal')">
-            ×
-        </div>
-
-    </div>
-
-
-    <div class="form-grid">
-
-        <div class="form-group full">
-
-            <label>Désignation *</label>
-
-            <input
-                id="partDesignation"
-                placeholder="Ex: Roulement 6205">
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Stock initial</label>
-
-            <input
-                type="number"
-                id="partStock"
-                value="0">
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Stock minimum</label>
-
-            <input
-                type="number"
-                id="partMinStock"
-                value="0">
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Unité</label>
-
-            <input
-                id="partUnit"
-                value="U">
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Fournisseur</label>
-
-            <input id="partSupplier">
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Équipement</label>
-
-            <select id="partEquipment"></select>
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Sous-équipement</label>
-
-            <select id="partSubEquipment"></select>
-
-        </div>
-
-    </div>
-
-
-    <div style="display:flex;justify-content:flex-end;gap:10px">
-
-        <button
-            class="btn btn-secondary"
-            onclick="closeModal('partModal')">
-            Annuler
-        </button>
-
-        <button
-            class="btn btn-primary"
-            onclick="addPart()">
-            Enregistrer PDR
-        </button>
-
-    </div>
-
+<div id="toast"
+     class="toast hidden">
 </div>
-</div>
-
-
-<div id="toast"></div>
 
 
 <script>
 
-/* =====================================================
-SUPABASE CONFIG
-===================================================== */
+/* ============================================================
+   SUPABASE CONFIGURATION
+============================================================ */
 
 const SUPABASE_URL =
-"https://qnrfkfrornozwvgewcwk.supabase.co";
+  "https://qnrfkfrornozwvgewcw.supabase.co";
 
 const SUPABASE_ANON_KEY =
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzIiwiaWF0IjoxNzg5NzQxMDU4LCJleHAiOjIxMDUzMTcwNTN9.NT4nYxEp0s-qs-ZqNpDhZfUfyRdo7s8u_rinf1xoKP8";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFucmZrZnJvcm5vd3Znd2Vjd2N3IiwiaWF0IjoxNzg5NzQxMDU4LCJleHAiOjIxMDUzMTcwNTN9.NT4nYxEp0s-qs-ZqNpDhZfUfyRdo7s8u_rinf1xoKP8";
 
-const sb = supabase.createClient(
+const sb =
+  window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_ANON_KEY
-);
+  );
 
 
-/* =====================================================
-GLOBAL
-===================================================== */
+/* ============================================================
+   GLOBAL
+============================================================ */
 
 let currentUser = null;
 let currentProfile = null;
@@ -2482,2203 +2139,3206 @@ let currentProfile = null;
 let zonesCache = [];
 let equipmentCache = [];
 let subEquipmentCache = [];
-let otCache = [];
 
-let otChartInstance = null;
-let zoneChartInstance = null;
+let diChart = null;
+let otChart = null;
 
 
-/* =====================================================
-UTILITY
-===================================================== */
+/* ============================================================
+   PERMISSIONS
+============================================================ */
 
-function showToast(message,type="success"){
+const permissions = {
 
-    const toast=document.getElementById("toast");
+  administrateur: [
+    "manage_users",
+    "manage_equipment",
+    "manage_di",
+    "manage_ot",
+    "manage_preventive",
+    "manage_parts",
+    "manage_reports",
+    "manage_security"
+  ],
 
-    toast.textContent=message;
+  responsable: [
+    "manage_equipment",
+    "manage_di",
+    "manage_ot",
+    "manage_preventive",
+    "manage_parts",
+    "manage_reports"
+  ],
 
-    toast.className="";
-    toast.id="toast";
-    toast.classList.add("show",type);
+  technicien: [
+    "create_di",
+    "execute_ot",
+    "view_equipment"
+  ]
 
-    setTimeout(()=>{
-        toast.classList.remove("show");
-    },4500);
+};
+
+
+function hasPermission(permission){
+
+  if(!currentProfile) return false;
+
+  const role = currentProfile.role;
+
+  return (
+    permissions[role] &&
+    permissions[role].includes(permission)
+  );
 }
 
 
-function formatError(error){
+function isAdmin(){
+  return currentProfile?.role === "administrateur";
+}
 
-    if(!error){
-        return "Erreur inconnue";
+
+function isResponsable(){
+  return currentProfile?.role === "responsable";
+}
+
+
+function isTechnicien(){
+  return currentProfile?.role === "technicien";
+}
+
+
+/* ============================================================
+   INIT
+============================================================ */
+
+document.addEventListener("DOMContentLoaded", async () => {
+
+  const {
+    data:{
+      session
+    }
+  } = await sb.auth.getSession();
+
+  if(session){
+
+    currentUser = session.user;
+
+    await loadProfile();
+
+    if(currentProfile){
+      enterApplication();
     }
 
-    return (
-        error.message ||
-        error.details ||
-        error.hint ||
-        JSON.stringify(error)
+  }
+
+});
+
+
+sb.auth.onAuthStateChange(
+  async (event,session)=>{
+
+    if(event === "SIGNED_OUT"){
+      currentUser = null;
+      currentProfile = null;
+      location.reload();
+    }
+
+  }
+);
+
+
+/* ============================================================
+   LOGIN
+============================================================ */
+
+async function login(){
+
+  const email =
+    document.getElementById("loginEmail").value.trim();
+
+  const password =
+    document.getElementById("loginPassword").value;
+
+  const message =
+    document.getElementById("loginMessage");
+
+  message.textContent = "";
+
+  if(!email || !password){
+
+    message.textContent =
+      "Veuillez saisir email et mot de passe.";
+
+    return;
+  }
+
+  const {
+    data,
+    error
+  } =
+  await sb.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if(error){
+
+    message.textContent =
+      error.message;
+
+    return;
+  }
+
+  currentUser = data.user;
+
+  const profileOK =
+    await loadProfile();
+
+  if(!profileOK){
+
+    await sb.auth.signOut();
+
+    message.textContent =
+      "Profil utilisateur introuvable.";
+
+    return;
+  }
+
+  enterApplication();
+
+}
+
+
+/* ============================================================
+   LOAD PROFILE
+============================================================ */
+
+async function loadProfile(){
+
+  if(!currentUser) return false;
+
+  const {
+    data,
+    error
+  } =
+  await sb
+    .from("profiles")
+    .select("*")
+    .eq("id",currentUser.id)
+    .single();
+
+  if(error){
+
+    console.error(error);
+
+    return false;
+  }
+
+  currentProfile = data;
+
+  return true;
+}
+
+
+/* ============================================================
+   ENTER APP
+============================================================ */
+
+function enterApplication(){
+
+  document
+    .getElementById("loginPage")
+    .classList.add("hidden");
+
+  document
+    .getElementById("app")
+    .classList.remove("hidden");
+
+  document
+    .getElementById("topUserEmail")
+    .textContent =
+    currentUser.email;
+
+  document
+    .getElementById("topUserName")
+    .textContent =
+    currentProfile.full_name ||
+    currentUser.email;
+
+  document
+    .getElementById("sidebarRole")
+    .textContent =
+    roleLabel(currentProfile.role);
+
+  document
+    .getElementById("currentRoleDescription")
+    .innerHTML =
+    roleDescription(currentProfile.role);
+
+  applyPermissions();
+
+  loadDashboard();
+
+}
+
+
+/* ============================================================
+   ROLE LABEL
+============================================================ */
+
+function roleLabel(role){
+
+  const labels = {
+
+    administrateur:
+      "ADMINISTRATEUR",
+
+    responsable:
+      "RESPONSABLE MAINTENANCE",
+
+    technicien:
+      "TECHNICIEN"
+
+  };
+
+  return labels[role] || role;
+}
+
+
+function roleDescription(role){
+
+  if(role === "administrateur"){
+
+    return `
+      <b style="color:#60a5fa">
+      Administrateur
+      </b><br>
+      Accès complet à la plateforme,
+      gestion des utilisateurs,
+      équipements, maintenance,
+      sécurité et administration.
+    `;
+
+  }
+
+  if(role === "responsable"){
+
+    return `
+      <b style="color:#fbbf24">
+      Responsable Maintenance
+      </b><br>
+      Gestion des équipements,
+      validation des DI,
+      création et affectation des OT,
+      confirmation et clôture des interventions.
+    `;
+
+  }
+
+  return `
+    <b style="color:#4ade80">
+    Technicien
+    </b><br>
+    Création des demandes,
+    exécution des interventions,
+    rapport technique et retour terrain.
+  `;
+
+}
+
+
+/* ============================================================
+   APPLY PERMISSIONS
+============================================================ */
+
+function applyPermissions(){
+
+  document
+    .querySelectorAll("[data-permission]")
+    .forEach(el=>{
+
+      const permission =
+        el.dataset.permission;
+
+      if(!hasPermission(permission)){
+
+        el.style.display = "none";
+
+      }
+
+    });
+
+
+  if(isAdmin()){
+
+    document
+      .getElementById("adminMenu")
+      .classList.remove("hidden");
+
+  }else{
+
+    document
+      .getElementById("adminMenu")
+      .classList.add("hidden");
+
+  }
+
+}
+
+
+/* ============================================================
+   NAVIGATION
+============================================================ */
+
+function showPage(page){
+
+  document
+    .querySelectorAll(".page")
+    .forEach(p =>
+      p.classList.add("hidden")
     );
+
+  const target =
+    document.getElementById(
+      "page-" + page
+    );
+
+  if(!target) return;
+
+  target.classList.remove("hidden");
+
+  document
+    .querySelectorAll(".nav-item")
+    .forEach(n =>
+      n.classList.remove("active")
+    );
+
+  const nav =
+    document.querySelector(
+      `.nav-item[data-page="${page}"]`
+    );
+
+  if(nav)
+    nav.classList.add("active");
+
+
+  const titles = {
+
+    dashboard:"Dashboard",
+    zones:"Zones",
+    equipment:"Équipements",
+    subequipment:"Sous-équipements",
+    di:"Demandes d'intervention",
+    ot:"Ordres de travail",
+    preventive:"Maintenance préventive",
+    rca:"RCA / BDA",
+    analysis:"KPI / Pareto",
+    parts:"PDR / Stock",
+    users:"Utilisateurs",
+    permissions:"Rôles & permissions",
+    audit:"Journal activité",
+    security:"Sécurité"
+
+  };
+
+  document
+    .getElementById("pageHeaderTitle")
+    .textContent =
+    titles[page] || page;
+
+
+  if(page === "zones") loadZones();
+
+  if(page === "equipment") loadEquipment();
+
+  if(page === "subequipment")
+    loadSubEquipment();
+
+  if(page === "di") loadDI();
+
+  if(page === "ot") loadOT();
+
+  if(page === "preventive")
+    loadPreventive();
+
+  if(page === "parts")
+    loadParts();
+
+  if(page === "users" && isAdmin())
+    loadUsers();
+
+  if(page === "audit" && isAdmin())
+    loadAudit();
+
+  if(page === "analysis")
+    loadCharts();
+
 }
 
 
-function escapeHTML(value){
+/* ============================================================
+   DASHBOARD
+============================================================ */
 
-    if(value===null || value===undefined){
-        return "";
+async function loadDashboard(){
+
+  try{
+
+    const [
+      zones,
+      equipment,
+      di,
+      ot
+    ] =
+    await Promise.all([
+
+      sb.from("zones")
+        .select("id",{count:"exact",head:true}),
+
+      sb.from("equipment")
+        .select("id",{count:"exact",head:true}),
+
+      sb.from("intervention_requests")
+        .select("id",{count:"exact",head:true})
+        .not("status","in",
+          '("clôturé","refusé")'),
+
+      sb.from("work_orders")
+        .select("id",{count:"exact",head:true})
+        .not("status","eq","clôturé")
+
+    ]);
+
+
+    document
+      .getElementById("kpiZones")
+      .textContent =
+      zones.count ?? 0;
+
+    document
+      .getElementById("kpiEquipment")
+      .textContent =
+      equipment.count ?? 0;
+
+    document
+      .getElementById("kpiDI")
+      .textContent =
+      di.count ?? 0;
+
+    document
+      .getElementById("kpiOT")
+      .textContent =
+      ot.count ?? 0;
+
+  }catch(e){
+
+    console.error(e);
+
+  }
+
+}
+
+
+/* ============================================================
+   ZONES
+============================================================ */
+
+async function loadZones(){
+
+  const {
+    data,
+    error
+  } =
+  await sb
+    .from("zones")
+    .select("*")
+    .order("created_at",{ascending:false});
+
+  if(error){
+
+    toast(error.message,"error");
+    return;
+
+  }
+
+  zonesCache = data || [];
+
+  const tbody =
+    document.getElementById("zonesTable");
+
+  tbody.innerHTML = "";
+
+  if(!zonesCache.length){
+
+    tbody.innerHTML =
+      `<tr>
+        <td colspan="5" class="empty">
+          Aucune zone.
+        </td>
+      </tr>`;
+
+    return;
+  }
+
+
+  zonesCache.forEach(z=>{
+
+    tbody.innerHTML += `
+      <tr>
+
+        <td>
+          <b style="color:#60a5fa">
+            ${escapeHtml(z.code || "—")}
+          </b>
+        </td>
+
+        <td>
+          ${escapeHtml(z.name)}
+        </td>
+
+        <td>
+          ${escapeHtml(z.description || "—")}
+        </td>
+
+        <td>
+          ${statusBadge(z.status)}
+        </td>
+
+        <td>
+
+          ${
+            hasPermission("manage_equipment")
+            ?
+            `<button class="btn small danger"
+              onclick="deleteZone('${z.id}')">
+              Supprimer
+            </button>`
+            :
+            ""
+          }
+
+        </td>
+
+      </tr>
+    `;
+
+  });
+
+}
+
+
+async function saveZone(){
+
+  if(!hasPermission("manage_equipment")){
+
+    toast("Accès refusé.","error");
+    return;
+
+  }
+
+  const name =
+    document.getElementById("zoneName")
+      .value.trim();
+
+  const description =
+    document.getElementById("zoneDescription")
+      .value.trim();
+
+  if(!name){
+
+    toast("Le nom de la zone est obligatoire.","error");
+    return;
+
+  }
+
+
+  const {
+    data,
+    error
+  } =
+  await sb
+    .from("zones")
+    .insert({
+
+      name,
+      description,
+      status:"active",
+      created_by:currentUser.id
+
+    })
+    .select()
+    .single();
+
+
+  if(error){
+
+    toast("Erreur création zone : " + error.message,"error");
+    console.error(error);
+    return;
+
+  }
+
+
+  closeModal("zoneModal");
+
+  document.getElementById("zoneName").value="";
+  document.getElementById("zoneDescription").value="";
+
+  toast(
+    "Zone créée : " + data.code,
+    "success"
+  );
+
+  loadZones();
+  loadDashboard();
+
+}
+
+
+async function deleteZone(id){
+
+  if(!isAdmin()){
+
+    toast(
+      "Seul l'administrateur peut supprimer une zone.",
+      "error"
+    );
+
+    return;
+  }
+
+  if(!confirm("Supprimer cette zone ?"))
+    return;
+
+  const {error} =
+    await sb
+      .from("zones")
+      .delete()
+      .eq("id",id);
+
+  if(error){
+
+    toast(error.message,"error");
+    return;
+
+  }
+
+  toast("Zone supprimée.","success");
+
+  loadZones();
+  loadDashboard();
+
+}
+
+
+/* ============================================================
+   EQUIPMENT
+============================================================ */
+
+async function loadEquipment(){
+
+  const {
+    data,
+    error
+  } =
+  await sb
+    .from("equipment")
+    .select(`
+      *,
+      zones(name,code)
+    `)
+    .order("created_at",{ascending:false});
+
+
+  if(error){
+
+    toast(error.message,"error");
+    return;
+
+  }
+
+  equipmentCache =
+    data || [];
+
+  const tbody =
+    document.getElementById(
+      "equipmentTable"
+    );
+
+  tbody.innerHTML="";
+
+
+  equipmentCache.forEach(e=>{
+
+    tbody.innerHTML += `
+
+      <tr>
+
+        <td>
+          <b style="color:#60a5fa">
+            ${escapeHtml(e.code || "—")}
+          </b>
+        </td>
+
+        <td>
+          ${escapeHtml(e.designation || "—")}
+        </td>
+
+        <td>
+          ${
+            e.zones
+            ?
+            escapeHtml(
+              e.zones.code +
+              " — " +
+              e.zones.name
+            )
+            :
+            "—"
+          }
+        </td>
+
+        <td>
+          ${escapeHtml(e.type || "—")}
+        </td>
+
+        <td>
+          ${escapeHtml(e.criticality || "—")}
+        </td>
+
+        <td>
+          ${statusBadge(e.status)}
+        </td>
+
+        <td>
+
+          ${
+            hasPermission("manage_equipment")
+            ?
+            `<button class="btn small danger"
+              onclick="deleteEquipment('${e.id}')">
+              Supprimer
+            </button>`
+            :
+            ""
+          }
+
+        </td>
+
+      </tr>
+
+    `;
+
+  });
+
+}
+
+
+async function saveEquipment(){
+
+  if(!hasPermission("manage_equipment")){
+
+    toast("Accès refusé.","error");
+    return;
+
+  }
+
+  const payload = {
+
+    designation:
+      document.getElementById("eqDesignation")
+        .value.trim(),
+
+    zone_id:
+      document.getElementById("eqZone").value,
+
+    type:
+      document.getElementById("eqType").value.trim(),
+
+    brand:
+      document.getElementById("eqBrand").value.trim(),
+
+    model:
+      document.getElementById("eqModel").value.trim(),
+
+    serial_number:
+      document.getElementById("eqSerial").value.trim(),
+
+    criticality:
+      document.getElementById("eqCriticality").value,
+
+    status:
+      document.getElementById("eqStatus").value,
+
+    installation_date:
+      document.getElementById("eqInstallation").value || null,
+
+    description:
+      document.getElementById("eqDescription").value.trim(),
+
+    created_by:
+      currentUser.id
+
+  };
+
+
+  if(!payload.designation ||
+     !payload.zone_id){
+
+    toast(
+      "Désignation et zone obligatoires.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  const {
+    data,
+    error
+  } =
+  await sb
+    .from("equipment")
+    .insert(payload)
+    .select()
+    .single();
+
+
+  if(error){
+
+    toast(
+      "Erreur équipement : " +
+      error.message,
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  closeModal("equipmentModal");
+
+  toast(
+    "Équipement créé : " +
+    data.code,
+    "success"
+  );
+
+  loadEquipment();
+  loadDashboard();
+
+}
+
+
+async function deleteEquipment(id){
+
+  if(!isAdmin()){
+
+    toast(
+      "Suppression réservée à l'administrateur.",
+      "error"
+    );
+
+    return;
+  }
+
+  if(!confirm("Supprimer cet équipement ?"))
+    return;
+
+  const {error} =
+    await sb
+      .from("equipment")
+      .delete()
+      .eq("id",id);
+
+  if(error){
+
+    toast(error.message,"error");
+    return;
+
+  }
+
+  toast("Équipement supprimé.","success");
+
+  loadEquipment();
+  loadDashboard();
+
+}
+
+
+/* ============================================================
+   SUB EQUIPMENT
+============================================================ */
+
+async function loadSubEquipment(){
+
+  const {
+    data,
+    error
+  } =
+  await sb
+    .from("sub_equipment")
+    .select(`
+      *,
+      equipment(designation,code)
+    `)
+    .order("created_at",{ascending:false});
+
+
+  if(error){
+
+    toast(error.message,"error");
+    return;
+
+  }
+
+  subEquipmentCache =
+    data || [];
+
+  const tbody =
+    document.getElementById(
+      "subEquipmentTable"
+    );
+
+  tbody.innerHTML="";
+
+
+  subEquipmentCache.forEach(s=>{
+
+    tbody.innerHTML += `
+
+      <tr>
+
+        <td>
+          <b style="color:#a78bfa">
+            ${escapeHtml(s.code || "—")}
+          </b>
+        </td>
+
+        <td>
+          ${escapeHtml(s.designation || "—")}
+        </td>
+
+        <td>
+          ${
+            s.equipment
+            ?
+            escapeHtml(
+              s.equipment.code +
+              " — " +
+              s.equipment.designation
+            )
+            :
+            "—"
+          }
+        </td>
+
+        <td>
+          ${escapeHtml(s.type || "—")}
+        </td>
+
+        <td>
+          ${escapeHtml(s.criticality || "—")}
+        </td>
+
+        <td>
+          ${statusBadge(s.status)}
+        </td>
+
+      </tr>
+
+    `;
+
+  });
+
+}
+
+
+async function saveSubEquipment(){
+
+  if(!hasPermission("manage_equipment")){
+
+    toast("Accès refusé.","error");
+    return;
+
+  }
+
+  const payload = {
+
+    designation:
+      document.getElementById("subDesignation")
+        .value.trim(),
+
+    equipment_id:
+      document.getElementById("subEquipmentParent")
+        .value,
+
+    type:
+      document.getElementById("subType")
+        .value.trim(),
+
+    brand:
+      document.getElementById("subBrand")
+        .value.trim(),
+
+    model:
+      document.getElementById("subModel")
+        .value.trim(),
+
+    serial_number:
+      document.getElementById("subSerial")
+        .value.trim(),
+
+    criticality:
+      document.getElementById("subCriticality")
+        .value,
+
+    status:"active",
+
+    observation:
+      document.getElementById("subObservation")
+        .value.trim(),
+
+    created_by:
+      currentUser.id
+
+  };
+
+
+  if(!payload.designation ||
+     !payload.equipment_id){
+
+    toast(
+      "Désignation et équipement parent obligatoires.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  const {
+    data,
+    error
+  } =
+  await sb
+    .from("sub_equipment")
+    .insert(payload)
+    .select()
+    .single();
+
+
+  if(error){
+
+    toast(error.message,"error");
+    return;
+
+  }
+
+
+  closeModal("subEquipmentModal");
+
+  toast(
+    "Sous-équipement créé : " +
+    data.code,
+    "success"
+  );
+
+  loadSubEquipment();
+
+}
+
+
+/* ============================================================
+   DI
+============================================================ */
+
+async function loadDI(){
+
+  let query =
+    sb
+      .from("intervention_requests")
+      .select(`
+        *,
+        zones(name,code),
+        equipment(designation,code)
+      `)
+      .order("created_at",{ascending:false});
+
+
+  /*
+    Technicien:
+    afficher uniquement ses demandes.
+  */
+
+  if(isTechnicien()){
+
+    query =
+      query.eq(
+        "created_by",
+        currentUser.id
+      );
+
+  }
+
+
+  const {
+    data,
+    error
+  } =
+  await query;
+
+
+  if(error){
+
+    toast(error.message,"error");
+    return;
+
+  }
+
+
+  const tbody =
+    document.getElementById("diTable");
+
+  tbody.innerHTML="";
+
+
+  if(!data || !data.length){
+
+    tbody.innerHTML =
+      `<tr>
+        <td colspan="8" class="empty">
+          Aucune demande.
+        </td>
+      </tr>`;
+
+    return;
+  }
+
+
+  data.forEach(d=>{
+
+    tbody.innerHTML += `
+
+      <tr>
+
+        <td>
+          <b style="color:#60a5fa">
+            ${escapeHtml(d.code || "—")}
+          </b>
+        </td>
+
+        <td>
+          ${formatDate(d.date)}
+        </td>
+
+        <td>
+          ${
+            d.zones
+            ?
+            escapeHtml(d.zones.name)
+            :
+            "—"
+          }
+        </td>
+
+        <td>
+          ${
+            d.equipment
+            ?
+            escapeHtml(
+              d.equipment.code +
+              " — " +
+              d.equipment.designation
+            )
+            :
+            "—"
+          }
+        </td>
+
+        <td>
+          ${priorityBadge(d.priority)}
+        </td>
+
+        <td>
+          ${diStatusBadge(d.status)}
+        </td>
+
+        <td>
+          ${escapeHtml(d.requester || "—")}
+        </td>
+
+        <td>
+
+          ${
+            isResponsable()
+            ?
+            diManagerActions(d)
+            :
+            isTechnicien()
+            ?
+            diTechnicianActions(d)
+            :
+            ""
+          }
+
+        </td>
+
+      </tr>
+
+    `;
+
+  });
+
+}
+
+
+function diManagerActions(d){
+
+  if(d.status === "nouveau" ||
+     d.status === "envoyé"){
+
+    return `
+
+      <button class="btn small success"
+        onclick="acceptDI('${d.id}')">
+        Accepter
+      </button>
+
+      <button class="btn small danger"
+        onclick="rejectDI('${d.id}')">
+        Refuser
+      </button>
+
+    `;
+
+  }
+
+  return "";
+
+}
+
+
+function diTechnicianActions(d){
+
+  return "";
+
+}
+
+
+async function saveDI(){
+
+  const payload = {
+
+    date:
+      document.getElementById("diDate").value ||
+      new Date().toISOString().slice(0,10),
+
+    time:
+      new Date().toTimeString().slice(0,5),
+
+    requester:
+      currentProfile.full_name ||
+      currentUser.email,
+
+    zone_id:
+      document.getElementById("diZone").value || null,
+
+    equipment_id:
+      document.getElementById("diEquipment").value || null,
+
+    priority:
+      document.getElementById("diPriority").value,
+
+    type:
+      document.getElementById("diType").value,
+
+    status:"envoyé",
+
+    description:
+      document.getElementById("diDescription")
+        .value.trim(),
+
+    created_by:
+      currentUser.id
+
+  };
+
+
+  if(!payload.description){
+
+    toast(
+      "Décrivez le problème.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  const {
+    data,
+    error
+  } =
+  await sb
+    .from("intervention_requests")
+    .insert(payload)
+    .select()
+    .single();
+
+
+  if(error){
+
+    toast(
+      "Erreur DI : " +
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  closeModal("diModal");
+
+  toast(
+    "DI envoyée : " +
+    data.code,
+    "success"
+  );
+
+  loadDI();
+  loadDashboard();
+
+}
+
+
+async function acceptDI(id){
+
+  if(!isResponsable() &&
+     !isAdmin()){
+
+    toast("Accès refusé.","error");
+    return;
+  }
+
+
+  const {
+    error
+  } =
+  await sb
+    .from("intervention_requests")
+    .update({
+      status:"accepté",
+      responsible_id:currentUser.id,
+      updated_at:new Date().toISOString()
+    })
+    .eq("id",id);
+
+
+  if(error){
+
+    toast(error.message,"error");
+    return;
+  }
+
+
+  toast(
+    "DI acceptée. Créez maintenant l'OT.",
+    "success"
+  );
+
+  loadDI();
+  loadDashboard();
+
+}
+
+
+async function rejectDI(id){
+
+  if(!isResponsable() &&
+     !isAdmin()){
+
+    toast("Accès refusé.","error");
+    return;
+  }
+
+
+  const reason =
+    prompt("Motif du refus :");
+
+  if(reason === null)
+    return;
+
+
+  const {
+    error
+  } =
+  await sb
+    .from("intervention_requests")
+    .update({
+
+      status:"refusé",
+
+      rejection_reason:
+        reason,
+
+      responsible_id:
+        currentUser.id,
+
+      updated_at:
+        new Date().toISOString()
+
+    })
+    .eq("id",id);
+
+
+  if(error){
+
+    toast(error.message,"error");
+    return;
+  }
+
+
+  toast(
+    "DI refusée.",
+    "success"
+  );
+
+  loadDI();
+  loadDashboard();
+
+}
+
+
+/* ============================================================
+   OT
+============================================================ */
+
+async function loadOT(){
+
+  let query =
+    sb
+      .from("work_orders")
+      .select(`
+        *,
+        equipment(designation,code)
+      `)
+      .order("created_at",{ascending:false});
+
+
+  if(isTechnicien()){
+
+    query =
+      query.eq(
+        "technician_id",
+        currentUser.id
+      );
+
+  }
+
+
+  const {
+    data,
+    error
+  } =
+  await query;
+
+
+  if(error){
+
+    toast(error.message,"error");
+    return;
+
+  }
+
+
+  const tbody =
+    document.getElementById("otTable");
+
+  tbody.innerHTML="";
+
+
+  if(!data || !data.length){
+
+    tbody.innerHTML =
+      `<tr>
+        <td colspan="7" class="empty">
+          Aucun OT.
+        </td>
+      </tr>`;
+
+    return;
+
+  }
+
+
+  data.forEach(o=>{
+
+    tbody.innerHTML += `
+
+      <tr>
+
+        <td>
+          <b style="color:#60a5fa">
+            ${escapeHtml(o.code || "—")}
+          </b>
+        </td>
+
+        <td>
+          ${
+            o.equipment
+            ?
+            escapeHtml(
+              o.equipment.code +
+              " — " +
+              o.equipment.designation
+            )
+            :
+            "—"
+          }
+        </td>
+
+        <td>
+          ${escapeHtml(o.type || "—")}
+        </td>
+
+        <td>
+          ${otStatusBadge(o.status)}
+        </td>
+
+        <td>
+          ${escapeHtml(o.technician || "—")}
+        </td>
+
+        <td>
+          ${o.duration ?? 0} h
+        </td>
+
+        <td>
+
+          ${
+            isTechnicien() &&
+            o.status === "planifié"
+            ?
+            `<button class="btn small"
+              onclick="startOT('${o.id}')">
+              Démarrer
+            </button>`
+            :
+            ""
+          }
+
+          ${
+            isTechnicien() &&
+            o.status === "en cours"
+            ?
+            `<button class="btn small success"
+              onclick="finishOT('${o.id}')">
+              Terminer
+            </button>`
+            :
+            ""
+          }
+
+          ${
+            isResponsable() &&
+            o.status === "à confirmer"
+            ?
+            `<button class="btn small success"
+              onclick="confirmOT('${o.id}')">
+              Confirmer
+            </button>
+            <button class="btn small danger"
+              onclick="returnOT('${o.id}')">
+              Retour
+            </button>`
+            :
+            ""
+          }
+
+        </td>
+
+      </tr>
+
+    `;
+
+  });
+
+}
+
+
+/*
+  Démarrage intervention
+*/
+
+async function startOT(id){
+
+  if(!isTechnicien()){
+
+    toast("Action réservée au technicien.","error");
+    return;
+
+  }
+
+
+  const {
+    error
+  } =
+  await sb
+    .from("work_orders")
+    .update({
+
+      status:"en cours",
+
+      started_at:
+        new Date().toISOString(),
+
+      updated_at:
+        new Date().toISOString()
+
+    })
+    .eq("id",id)
+    .eq("technician_id",currentUser.id);
+
+
+  if(error){
+
+    toast(error.message,"error");
+    return;
+
+  }
+
+  toast(
+    "Intervention démarrée.",
+    "success"
+  );
+
+  loadOT();
+
+}
+
+
+/*
+  Fin intervention
+*/
+
+async function finishOT(id){
+
+  if(!isTechnicien()){
+
+    toast("Action réservée au technicien.","error");
+    return;
+
+  }
+
+
+  const cause =
+    prompt("Cause de la panne :");
+
+  if(cause === null)
+    return;
+
+
+  const work =
+    prompt("Travail effectué :");
+
+  if(work === null)
+    return;
+
+
+  const duration =
+    prompt("Durée d'intervention en heures :","1");
+
+
+  const {
+    error
+  } =
+  await sb
+    .from("work_orders")
+    .update({
+
+      status:"à confirmer",
+
+      cause,
+
+      work_performed:
+        work,
+
+      duration:
+        Number(duration) || 0,
+
+      finished_at:
+        new Date().toISOString(),
+
+      updated_at:
+        new Date().toISOString()
+
+    })
+    .eq("id",id)
+    .eq("technician_id",currentUser.id);
+
+
+  if(error){
+
+    toast(error.message,"error");
+    return;
+
+  }
+
+
+  toast(
+    "OT envoyé au responsable pour confirmation.",
+    "success"
+  );
+
+  loadOT();
+
+}
+
+
+/*
+  Confirmation responsable
+*/
+
+async function confirmOT(id){
+
+  if(!isResponsable() &&
+     !isAdmin()){
+
+    toast("Accès refusé.","error");
+    return;
+
+  }
+
+
+  const {
+    error
+  } =
+  await sb
+    .from("work_orders")
+    .update({
+
+      status:"confirmé",
+
+      confirmed_by:
+        currentUser.id,
+
+      confirmed_at:
+        new Date().toISOString(),
+
+      updated_at:
+        new Date().toISOString()
+
+    })
+    .eq("id",id);
+
+
+  if(error){
+
+    toast(error.message,"error");
+    return;
+
+  }
+
+
+  toast(
+    "Intervention confirmée.",
+    "success"
+  );
+
+  loadOT();
+
+}
+
+
+async function returnOT(id){
+
+  const reason =
+    prompt(
+      "Pourquoi retourner l'OT au technicien ?"
+    );
+
+  if(reason === null)
+    return;
+
+
+  const {
+    error
+  } =
+  await sb
+    .from("work_orders")
+    .update({
+
+      status:"en cours",
+
+      supervisor_comment:
+        reason,
+
+      updated_at:
+        new Date().toISOString()
+
+    })
+    .eq("id",id);
+
+
+  if(error){
+
+    toast(error.message,"error");
+    return;
+
+  }
+
+
+  toast(
+    "OT retourné au technicien.",
+    "success"
+  );
+
+  loadOT();
+
+}
+
+
+/* ============================================================
+   PREVENTIVE
+============================================================ */
+
+async function loadPreventive(){
+
+  const {
+    data,
+    error
+  } =
+  await sb
+    .from("preventive_plans")
+    .select(`
+      *,
+      equipment(designation,code)
+    `)
+    .order("created_at",{ascending:false});
+
+
+  if(error){
+
+    toast(error.message,"error");
+    return;
+
+  }
+
+
+  const tbody =
+    document.getElementById(
+      "preventiveTable"
+    );
+
+  tbody.innerHTML="";
+
+
+  (data || []).forEach(p=>{
+
+    tbody.innerHTML += `
+
+      <tr>
+
+        <td>
+          <b style="color:#a78bfa">
+            ${escapeHtml(p.code || "—")}
+          </b>
+        </td>
+
+        <td>
+          ${
+            p.equipment
+            ?
+            escapeHtml(
+              p.equipment.code +
+              " — " +
+              p.equipment.designation
+            )
+            :
+            "—"
+          }
+        </td>
+
+        <td>
+          ${escapeHtml(p.operation || "—")}
+        </td>
+
+        <td>
+          ${escapeHtml(p.frequency || "—")}
+        </td>
+
+        <td>
+          ${formatDate(p.next_date)}
+        </td>
+
+        <td>
+          ${statusBadge(p.status)}
+        </td>
+
+      </tr>
+
+    `;
+
+  });
+
+}
+
+
+async function savePreventive(){
+
+  if(!hasPermission("manage_preventive")){
+
+    toast("Accès refusé.","error");
+    return;
+
+  }
+
+
+  const payload = {
+
+    equipment_id:
+      document.getElementById(
+        "pmEquipment"
+      ).value || null,
+
+    operation:
+      document.getElementById(
+        "pmOperation"
+      ).value.trim(),
+
+    frequency:
+      document.getElementById(
+        "pmFrequency"
+      ).value,
+
+    next_date:
+      document.getElementById(
+        "pmNextDate"
+      ).value || null,
+
+    instructions:
+      document.getElementById(
+        "pmInstructions"
+      ).value.trim(),
+
+    status:"active",
+
+    created_by:
+      currentUser.id
+
+  };
+
+
+  const {
+    data,
+    error
+  } =
+  await sb
+    .from("preventive_plans")
+    .insert(payload)
+    .select()
+    .single();
+
+
+  if(error){
+
+    toast(error.message,"error");
+    return;
+
+  }
+
+
+  closeModal("preventiveModal");
+
+  toast(
+    "Plan préventif créé : " +
+    data.code,
+    "success"
+  );
+
+  loadPreventive();
+
+}
+
+
+/* ============================================================
+   PARTS
+============================================================ */
+
+async function loadParts(){
+
+  const {
+    data,
+    error
+  } =
+  await sb
+    .from("parts")
+    .select("*")
+    .order("created_at",{ascending:false});
+
+
+  if(error){
+
+    toast(error.message,"error");
+    return;
+
+  }
+
+
+  const tbody =
+    document.getElementById("partsTable");
+
+  tbody.innerHTML="";
+
+
+  (data || []).forEach(p=>{
+
+    const low =
+      Number(p.stock) <=
+      Number(p.min_stock);
+
+
+    tbody.innerHTML += `
+
+      <tr>
+
+        <td>
+          <b style="color:#60a5fa">
+            ${escapeHtml(p.code || "—")}
+          </b>
+        </td>
+
+        <td>
+          ${escapeHtml(p.designation || "—")}
+        </td>
+
+        <td>
+          <span class="${low ? "badge red":"badge green"}">
+            ${p.stock ?? 0}
+          </span>
+        </td>
+
+        <td>
+          ${p.min_stock ?? 0}
+        </td>
+
+        <td>
+          ${escapeHtml(p.unit || "PCS")}
+        </td>
+
+        <td>
+          ${escapeHtml(p.supplier || "—")}
+        </td>
+
+      </tr>
+
+    `;
+
+  });
+
+}
+
+
+async function savePart(){
+
+  if(!hasPermission("manage_parts")){
+
+    toast("Accès refusé.","error");
+    return;
+
+  }
+
+
+  const payload = {
+
+    designation:
+      document.getElementById(
+        "partDesignation"
+      ).value.trim(),
+
+    stock:
+      Number(
+        document.getElementById(
+          "partStock"
+        ).value
+      ) || 0,
+
+    min_stock:
+      Number(
+        document.getElementById(
+          "partMinStock"
+        ).value
+      ) || 0,
+
+    unit:
+      document.getElementById(
+        "partUnit"
+      ).value.trim(),
+
+    supplier:
+      document.getElementById(
+        "partSupplier"
+      ).value.trim(),
+
+    created_by:
+      currentUser.id
+
+  };
+
+
+  const {
+    data,
+    error
+  } =
+  await sb
+    .from("parts")
+    .insert(payload)
+    .select()
+    .single();
+
+
+  if(error){
+
+    toast(error.message,"error");
+    return;
+
+  }
+
+
+  closeModal("partModal");
+
+  toast(
+    "PDR créée : " +
+    data.code,
+    "success"
+  );
+
+  loadParts();
+
+}
+
+
+/* ============================================================
+   USERS
+============================================================ */
+
+async function loadUsers(){
+
+  if(!isAdmin())
+    return;
+
+
+  const {
+    data,
+    error
+  } =
+  await sb
+    .from("profiles")
+    .select("*")
+    .order("created_at",{ascending:false});
+
+
+  if(error){
+
+    toast(error.message,"error");
+    return;
+
+  }
+
+
+  const tbody =
+    document.getElementById(
+      "usersTable"
+    );
+
+  tbody.innerHTML="";
+
+
+  (data || []).forEach(u=>{
+
+    tbody.innerHTML += `
+
+      <tr>
+
+        <td>
+          ${escapeHtml(
+            u.full_name || "—"
+          )}
+        </td>
+
+        <td>
+          ${escapeHtml(
+            u.email || "—"
+          )}
+        </td>
+
+        <td>
+          ${roleBadge(u.role)}
+        </td>
+
+        <td>
+          ${statusBadge(
+            u.status || "active"
+          )}
+        </td>
+
+        <td>
+
+          <button
+            class="btn small secondary"
+            onclick="editUserRole('${u.id}')">
+            Modifier rôle
+          </button>
+
+          ${
+            u.id !== currentUser.id
+            ?
+            `<button
+              class="btn small danger"
+              onclick="disableUser('${u.id}')">
+              Désactiver
+            </button>`
+            :
+            ""
+          }
+
+        </td>
+
+      </tr>
+
+    `;
+
+  });
+
+}
+
+
+/*
+  Important:
+  Le HTML ne doit pas utiliser service_role.
+
+  Cette fonction prépare la demande.
+*/
+
+function createUserRequest(){
+
+  if(!isAdmin()){
+
+    toast("Accès réservé à l'administrateur.","error");
+    return;
+
+  }
+
+
+  const name =
+    document.getElementById(
+      "userName"
+    ).value.trim();
+
+  const email =
+    document.getElementById(
+      "userEmail"
+    ).value.trim();
+
+  const role =
+    document.getElementById(
+      "userRole"
+    ).value;
+
+
+  if(!name || !email){
+
+    toast(
+      "Nom et email obligatoires.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  /*
+    À cette étape, l'interface est prête.
+    La création Auth réelle doit être effectuée
+    par une Edge Function.
+  */
+
+  closeModal("userModal");
+
+  toast(
+    "Interface utilisateur prête. Pour créer le compte Auth automatiquement, il faut connecter l'Edge Function sécurisée.",
+    "success"
+  );
+
+}
+
+
+async function editUserRole(id){
+
+  if(!isAdmin())
+    return;
+
+  const role =
+    prompt(
+      "Nouveau rôle :\n\nadministrateur\nresponsable\ntechnicien"
+    );
+
+  if(![
+    "administrateur",
+    "responsable",
+    "technicien"
+  ].includes(role))
+    return;
+
+
+  const {
+    error
+  } =
+  await sb
+    .from("profiles")
+    .update({
+      role,
+      updated_at:
+        new Date().toISOString()
+    })
+    .eq("id",id);
+
+
+  if(error){
+
+    toast(error.message,"error");
+    return;
+
+  }
+
+
+  toast(
+    "Rôle modifié.",
+    "success"
+  );
+
+  loadUsers();
+
+}
+
+
+async function disableUser(id){
+
+  if(!isAdmin())
+    return;
+
+
+  if(!confirm(
+    "Désactiver cet utilisateur ?"
+  ))
+    return;
+
+
+  const {
+    error
+  } =
+  await sb
+    .from("profiles")
+    .update({
+      status:"inactive",
+      updated_at:
+        new Date().toISOString()
+    })
+    .eq("id",id);
+
+
+  if(error){
+
+    toast(error.message,"error");
+    return;
+
+  }
+
+
+  toast(
+    "Utilisateur désactivé.",
+    "success"
+  );
+
+  loadUsers();
+
+}
+
+
+/* ============================================================
+   AUDIT
+============================================================ */
+
+async function loadAudit(){
+
+  if(!isAdmin())
+    return;
+
+
+  const {
+    data,
+    error
+  } =
+  await sb
+    .from("audit_logs")
+    .select("*")
+    .order("created_at",{ascending:false})
+    .limit(200);
+
+
+  if(error){
+
+    toast(error.message,"error");
+    return;
+
+  }
+
+
+  const tbody =
+    document.getElementById(
+      "auditTable"
+    );
+
+  tbody.innerHTML="";
+
+
+  (data || []).forEach(a=>{
+
+    tbody.innerHTML += `
+
+      <tr>
+
+        <td>
+          ${formatDateTime(a.created_at)}
+        </td>
+
+        <td>
+          ${escapeHtml(
+            a.user_id || "—"
+          )}
+        </td>
+
+        <td>
+          ${escapeHtml(
+            a.action || "—"
+          )}
+        </td>
+
+        <td>
+          ${escapeHtml(
+            a.entity || "—"
+          )}
+        </td>
+
+        <td>
+          ${escapeHtml(
+            JSON.stringify(
+              a.details || {}
+            )
+          )}
+        </td>
+
+      </tr>
+
+    `;
+
+  });
+
+}
+
+
+/* ============================================================
+   CHARTS
+============================================================ */
+
+async function loadCharts(){
+
+  const {
+    data:di
+  } =
+  await sb
+    .from("intervention_requests")
+    .select("status");
+
+
+  const {
+    data:ot
+  } =
+  await sb
+    .from("work_orders")
+    .select("status");
+
+
+  const diCounts =
+    countStatuses(di || []);
+
+  const otCounts =
+    countStatuses(ot || []);
+
+
+  if(diChart)
+    diChart.destroy();
+
+  if(otChart)
+    otChart.destroy();
+
+
+  diChart =
+    new Chart(
+      document.getElementById("diChart"),
+      {
+        type:"doughnut",
+        data:{
+          labels:Object.keys(diCounts),
+          datasets:[{
+            data:Object.values(diCounts)
+          }]
+        },
+        options:{
+          responsive:true,
+          maintainAspectRatio:false
+        }
+      }
+    );
+
+
+  otChart =
+    new Chart(
+      document.getElementById("otChart"),
+      {
+        type:"doughnut",
+        data:{
+          labels:Object.keys(otCounts),
+          datasets:[{
+            data:Object.values(otCounts)
+          }]
+        },
+        options:{
+          responsive:true,
+          maintainAspectRatio:false
+        }
+      }
+    );
+
+}
+
+
+function countStatuses(rows){
+
+  const result={};
+
+  rows.forEach(r=>{
+
+    const s =
+      r.status || "inconnu";
+
+    result[s] =
+      (result[s] || 0) + 1;
+
+  });
+
+  return result;
+
+}
+
+
+/* ============================================================
+   PASSWORD
+============================================================ */
+
+async function changePassword(){
+
+  const p1 =
+    document.getElementById(
+      "newPassword"
+    ).value;
+
+  const p2 =
+    document.getElementById(
+      "newPassword2"
+    ).value;
+
+
+  if(!p1 || p1.length < 8){
+
+    toast(
+      "Minimum 8 caractères.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if(p1 !== p2){
+
+    toast(
+      "Les mots de passe sont différents.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  const {
+    error
+  } =
+  await sb.auth.updateUser({
+    password:p1
+  });
+
+
+  if(error){
+
+    toast(error.message,"error");
+    return;
+
+  }
+
+
+  document.getElementById(
+    "newPassword"
+  ).value="";
+
+  document.getElementById(
+    "newPassword2"
+  ).value="";
+
+
+  toast(
+    "Mot de passe modifié.",
+    "success"
+  );
+
+}
+
+
+/* ============================================================
+   FORGOT PASSWORD
+============================================================ */
+
+async function forgotPassword(){
+
+  const email =
+    document.getElementById(
+      "loginEmail"
+    ).value.trim();
+
+
+  if(!email){
+
+    document.getElementById(
+      "loginMessage"
+    ).textContent =
+      "Saisissez votre email.";
+
+    return;
+
+  }
+
+
+  const {
+    error
+  } =
+  await sb.auth.resetPasswordForEmail(
+    email,
+    {
+      redirectTo:
+        window.location.origin +
+        window.location.pathname
     }
+  );
 
-    return String(value)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
+
+  document.getElementById(
+    "loginMessage"
+  ).style.color =
+    error ? "#f87171" : "#4ade80";
+
+
+  document.getElementById(
+    "loginMessage"
+  ).textContent =
+    error
+    ?
+    error.message
+    :
+    "Un email de récupération a été envoyé.";
+
 }
 
 
-function openModal(id){
+/* ============================================================
+   LOGOUT
+============================================================ */
 
-    document.getElementById(id).classList.add("show");
+async function logout(){
+
+  await sb.auth.signOut();
+
+}
+
+
+/* ============================================================
+   MODALS
+============================================================ */
+
+function openZoneModal(){
+
+  if(!hasPermission("manage_equipment")){
+
+    toast("Accès refusé.","error");
+    return;
+
+  }
+
+  document
+    .getElementById("zoneModal")
+    .classList.remove("hidden");
+
+}
+
+
+async function openEquipmentModal(){
+
+  if(!hasPermission("manage_equipment")){
+
+    toast("Accès refusé.","error");
+    return;
+
+  }
+
+  await fillZoneSelect(
+    "eqZone"
+  );
+
+  document
+    .getElementById("equipmentModal")
+    .classList.remove("hidden");
+
+}
+
+
+async function openSubEquipmentModal(){
+
+  if(!hasPermission("manage_equipment")){
+
+    toast("Accès refusé.","error");
+    return;
+
+  }
+
+  await fillEquipmentSelect(
+    "subEquipmentParent"
+  );
+
+  document
+    .getElementById(
+      "subEquipmentModal"
+    )
+    .classList.remove("hidden");
+
+}
+
+
+async function openDIModal(){
+
+  if(!hasPermission("create_di") &&
+     !hasPermission("manage_di")){
+
+    toast("Accès refusé.","error");
+    return;
+
+  }
+
+  await fillZoneSelect("diZone");
+
+  await fillEquipmentSelect(
+    "diEquipment"
+  );
+
+  document
+    .getElementById("diDate")
+    .value =
+    new Date()
+      .toISOString()
+      .slice(0,10);
+
+  document
+    .getElementById("diModal")
+    .classList.remove("hidden");
+
+}
+
+
+async function openPreventiveModal(){
+
+  if(!hasPermission("manage_preventive")){
+
+    toast("Accès refusé.","error");
+    return;
+
+  }
+
+  await fillEquipmentSelect(
+    "pmEquipment"
+  );
+
+  document
+    .getElementById("preventiveModal")
+    .classList.remove("hidden");
+
+}
+
+
+function openPartModal(){
+
+  if(!hasPermission("manage_parts")){
+
+    toast("Accès refusé.","error");
+    return;
+
+  }
+
+  document
+    .getElementById("partModal")
+    .classList.remove("hidden");
+
+}
+
+
+function openUserModal(){
+
+  if(!isAdmin()){
+
+    toast("Accès réservé à l'administrateur.","error");
+    return;
+
+  }
+
+  document
+    .getElementById("userModal")
+    .classList.remove("hidden");
+
 }
 
 
 function closeModal(id){
 
-    document.getElementById(id).classList.remove("show");
-}
-
-
-function filterTable(tableId,value){
-
-    const table=document.getElementById(tableId);
-
-    if(!table) return;
-
-    const rows=table.querySelectorAll("tbody tr");
-
-    const search=value.toLowerCase();
-
-    rows.forEach(row=>{
-        row.style.display =
-            row.innerText.toLowerCase().includes(search)
-            ? ""
-            : "none";
-    });
-}
-
-
-function today(){
-
-    return new Date().toISOString().split("T")[0];
-}
-
-
-/* =====================================================
-NAVIGATION
-===================================================== */
-
-function showPage(page,element){
-
-    document.querySelectorAll(".page")
-        .forEach(p=>p.classList.remove("active"));
-
-    const target=document.getElementById("page-"+page);
-
-    if(target){
-        target.classList.add("active");
-    }
-
-    document.querySelectorAll(".nav-item")
-        .forEach(n=>n.classList.remove("active"));
-
-    if(element){
-        element.classList.add("active");
-    }
-
-    const titles={
-        dashboard:"Dashboard",
-        zones:"Zones de production",
-        equipment:"Équipements",
-        subequipment:"Sous-équipements",
-        di:"Demandes d'intervention",
-        ot:"Ordres de travail",
-        preventive:"Maintenance préventive",
-        rca:"RCA / BDA",
-        parts:"Pièces de rechange",
-        security:"Sécurité"
-    };
-
-    document.getElementById("topbarTitle")
-        .textContent=titles[page] || "GMAO PRO";
-
-    if(page==="dashboard") loadDashboard();
-    if(page==="zones") loadZones();
-    if(page==="equipment") loadEquipment();
-    if(page==="subequipment") loadSubEquipment();
-    if(page==="di") loadDI();
-    if(page==="ot") loadOT();
-    if(page==="preventive") loadPM();
-    if(page==="rca") loadRCA();
-    if(page==="parts") loadParts();
-}
-
-
-/* =====================================================
-AUTH
-===================================================== */
-
-async function login(){
-
-    const email=document.getElementById("loginEmail").value.trim();
-    const password=document.getElementById("loginPassword").value;
-
-    const errorBox=document.getElementById("loginError");
-
-    errorBox.style.display="none";
-
-    if(!email || !password){
-
-        errorBox.textContent=
-            "Veuillez saisir l'email et le mot de passe.";
-
-        errorBox.style.display="block";
-
-        return;
-    }
-
-
-    const {data,error}=await sb.auth.signInWithPassword({
-        email,
-        password
-    });
-
-
-    if(error){
-
-        console.error(error);
-
-        errorBox.textContent=formatError(error);
-        errorBox.style.display="block";
-
-        return;
-    }
-
-
-    currentUser=data.user;
-
-    await initializeApp();
+  document
+    .getElementById(id)
+    .classList.add("hidden");
 
 }
 
 
-async function resetPassword(){
+/* ============================================================
+   SELECTS
+============================================================ */
 
-    const email=
-        document.getElementById("loginEmail").value.trim();
+async function fillZoneSelect(id){
 
-    if(!email){
+  if(!zonesCache.length){
 
-        alert("Saisissez votre email.");
+    const {
+      data
+    } =
+    await sb
+      .from("zones")
+      .select("id,code,name")
+      .eq("status","active")
+      .order("name");
 
-        return;
-    }
+    zonesCache =
+      data || [];
 
-
-    const redirectTo=
-        window.location.origin +
-        window.location.pathname;
-
-
-    const {error}=await sb.auth.resetPasswordForEmail(
-        email,
-        {
-            redirectTo
-        }
-    );
+  }
 
 
-    if(error){
+  const select =
+    document.getElementById(id);
 
-        alert(formatError(error));
-
-        return;
-    }
-
-
-    alert(
-        "Un email de réinitialisation a été envoyé."
-    );
-}
+  select.innerHTML =
+    `<option value="">
+      -- Sélectionner --
+    </option>`;
 
 
-async function logout(){
+  zonesCache.forEach(z=>{
 
-    await sb.auth.signOut();
+    select.innerHTML += `
+      <option value="${z.id}">
+        ${escapeHtml(z.code)} —
+        ${escapeHtml(z.name)}
+      </option>
+    `;
 
-    currentUser=null;
-    currentProfile=null;
-
-    document.getElementById("app").style.display="none";
-    document.getElementById("loginScreen").style.display="flex";
-
-    document.getElementById("loginPassword").value="";
-}
-
-
-/* =====================================================
-INITIALIZATION
-===================================================== */
-
-async function initializeApp(){
-
-    document.getElementById("loginScreen").style.display="none";
-    document.getElementById("app").style.display="block";
-
-
-    await loadProfile();
-
-    await Promise.all([
-        loadZones(),
-        loadEquipment(),
-        loadSubEquipment(),
-        loadDI(),
-        loadOT(),
-        loadPM(),
-        loadRCA(),
-        loadParts()
-    ]);
-
-    await loadDashboard();
+  });
 
 }
 
 
-async function loadProfile(){
+async function fillEquipmentSelect(id){
 
-    if(!currentUser) return;
-
-
-    const {data,error}=await sb
-        .from("profiles")
-        .select("*")
-        .eq("id",currentUser.id)
-        .maybeSingle();
-
-
-    if(error){
-
-        console.error(error);
-
-        showToast(
-            "Erreur profile : "+formatError(error),
-            "error"
-        );
-
-        return;
-    }
+  const {
+    data,
+    error
+  } =
+  await sb
+    .from("equipment")
+    .select("id,code,designation")
+    .eq("status","active")
+    .order("designation");
 
 
-    currentProfile=data;
+  if(error){
+
+    toast(error.message,"error");
+    return;
+
+  }
 
 
-    const name=
-        data?.full_name ||
-        currentUser.email ||
-        "Utilisateur";
+  const select =
+    document.getElementById(id);
+
+  select.innerHTML =
+    `<option value="">
+      -- Sélectionner --
+    </option>`;
 
 
-    const role=
-        data?.role ||
-        "technician";
+  (data || []).forEach(e=>{
 
+    select.innerHTML += `
+      <option value="${e.id}">
+        ${escapeHtml(e.code)} —
+        ${escapeHtml(e.designation)}
+      </option>
+    `;
 
-    document.getElementById("userName")
-        .textContent=name;
-
-    document.getElementById("userRole")
-        .textContent=role;
-
-    document.getElementById("avatar")
-        .textContent=name.charAt(0).toUpperCase();
+  });
 
 }
 
 
-/* =====================================================
-ZONE
-===================================================== */
+/* ============================================================
+   HELPERS
+============================================================ */
 
-async function loadZones(){
+function statusBadge(status){
 
-    const {data,error}=await sb
-        .from("zones")
-        .select("*")
-        .order("created_at",{ascending:false});
+  const s =
+    String(status || "—")
+      .toLowerCase();
 
+  let cls="gray";
 
-    if(error){
+  if(
+    ["active","actif","confirmé","en cours"]
+      .includes(s)
+  )
+    cls="green";
 
-        console.error(error);
+  if(
+    ["maintenance","planifié","accepté"]
+      .includes(s)
+  )
+    cls="blue";
 
-        showToast(
-            "Erreur chargement zones : "+
-            formatError(error),
-            "error"
-        );
+  if(
+    ["inactive","inactif","refusé","clôturé"]
+      .includes(s)
+  )
+    cls="red";
 
-        return;
-    }
-
-
-    zonesCache=data || [];
-
-
-    const body=document.getElementById("zonesBody");
-
-    if(body){
-
-        body.innerHTML=
-            zonesCache.map(z=>`
-
-                <tr>
-
-                    <td class="code">
-                        ${escapeHTML(z.code)}
-                    </td>
-
-                    <td>
-                        ${escapeHTML(z.name)}
-                    </td>
-
-                    <td>
-                        ${escapeHTML(z.description || "-")}
-                    </td>
-
-                    <td>
-                        <span class="badge badge-success">
-                            ${escapeHTML(z.status || "active")}
-                        </span>
-                    </td>
-
-                    <td>
-                        ${z.created_at
-                            ? new Date(z.created_at).toLocaleDateString("fr-FR")
-                            : "-"}
-                    </td>
-
-                </tr>
-
-            `).join("");
-
-    }
-
-
-    populateZoneSelects();
+  return `
+    <span class="badge ${cls}">
+      ${escapeHtml(status || "—")}
+    </span>
+  `;
 
 }
 
 
-function populateZoneSelects(){
+function roleBadge(role){
 
-    const selects=[
-        "eqZone",
-        "diZone"
-    ];
+  const map = {
 
+    administrateur:
+      ["purple","Administrateur"],
 
-    selects.forEach(id=>{
+    responsable:
+      ["orange","Responsable"],
 
-        const select=document.getElementById(id);
+    technicien:
+      ["green","Technicien"]
 
-        if(!select) return;
+  };
 
-        select.innerHTML=
-            `<option value="">-- Sélectionner --</option>`+
-            zonesCache.map(z=>`
-                <option value="${z.id}">
-                    ${escapeHTML(z.code)} - ${escapeHTML(z.name)}
-                </option>
-            `).join("");
-
-    });
-
-}
+  const x =
+    map[role] ||
+    ["gray",role];
 
 
-async function addZone(){
-
-    const name=
-        document.getElementById("zoneName")
-        .value.trim();
-
-    const description=
-        document.getElementById("zoneDescription")
-        .value.trim();
-
-
-    if(!name){
-
-        showToast(
-            "Le nom de la zone est obligatoire.",
-            "warning"
-        );
-
-        return;
-    }
-
-
-    if(!currentUser){
-
-        showToast(
-            "Session utilisateur introuvable.",
-            "error"
-        );
-
-        return;
-    }
-
-
-    /*
-       IMPORTANT:
-       Aucun code n'est envoyé ici.
-       Supabase génère automatiquement:
-       ZP-001
-       ZP-002
-       ZP-003...
-    */
-
-    const {data,error}=await sb
-        .from("zones")
-        .insert({
-            name:name,
-            description:description || null,
-            status:"active",
-            created_by:currentUser.id
-        })
-        .select()
-        .single();
-
-
-    if(error){
-
-        console.error("ADD ZONE ERROR:",error);
-
-        showToast(
-            "Erreur création zone : "+
-            formatError(error),
-            "error"
-        );
-
-        return;
-    }
-
-
-    closeModal("zoneModal");
-
-    document.getElementById("zoneName").value="";
-    document.getElementById("zoneDescription").value="";
-
-
-    showToast(
-        "Zone créée : "+data.code,
-        "success"
-    );
-
-
-    await loadZones();
-    await loadDashboard();
+  return `
+    <span class="badge ${x[0]}">
+      ${escapeHtml(x[1])}
+    </span>
+  `;
 
 }
 
 
-/* =====================================================
-EQUIPMENT
-===================================================== */
+function priorityBadge(priority){
 
-function openEquipmentModal(){
+  const cls = {
 
-    populateZoneSelects();
+    critique:"red",
+    haute:"orange",
+    normale:"blue",
+    basse:"gray"
 
-    document.getElementById("eqDesignation").value="";
-    document.getElementById("eqType").value="";
-    document.getElementById("eqBrand").value="";
-    document.getElementById("eqModel").value="";
-    document.getElementById("eqSerial").value="";
-    document.getElementById("eqDescription").value="";
-
-    openModal("equipmentModal");
-}
+  }[priority] || "gray";
 
 
-async function loadEquipment(){
-
-    const {data,error}=await sb
-        .from("equipment")
-        .select(`
-            *,
-            zones (
-                code,
-                name
-            )
-        `)
-        .order("created_at",{ascending:false});
-
-
-    if(error){
-
-        console.error(error);
-
-        showToast(
-            "Erreur équipements : "+
-            formatError(error),
-            "error"
-        );
-
-        return;
-    }
-
-
-    equipmentCache=data || [];
-
-
-    const body=document.getElementById("equipmentBody");
-
-    if(!body) return;
-
-
-    body.innerHTML=
-        equipmentCache.map(e=>`
-
-            <tr>
-
-                <td class="code">
-                    ${escapeHTML(e.code)}
-                </td>
-
-                <td>
-                    ${escapeHTML(e.designation)}
-                </td>
-
-                <td>
-                    ${e.zones
-                        ? escapeHTML(e.zones.code+" - "+e.zones.name)
-                        : "-"}
-                </td>
-
-                <td>
-                    ${escapeHTML(e.type || "-")}
-                </td>
-
-                <td>
-                    ${escapeHTML(e.brand || "-")}
-                </td>
-
-                <td>
-                    ${escapeHTML(e.criticality || "-")}
-                </td>
-
-                <td>
-                    ${escapeHTML(e.status || "-")}
-                </td>
-
-            </tr>
-
-        `).join("");
-
-
-    populateEquipmentSelects();
+  return `
+    <span class="badge ${cls}">
+      ${escapeHtml(priority || "—")}
+    </span>
+  `;
 
 }
 
 
-function populateEquipmentSelects(){
+function diStatusBadge(status){
 
-    const ids=[
-        "seEquipment",
-        "diEquipment",
-        "otEquipment",
-        "pmEquipment",
-        "rcaEquipment",
-        "partEquipment"
-    ];
+  const cls = {
+
+    nouveau:"blue",
+    envoyé:"blue",
+    accepté:"green",
+    refusé:"red",
+    planifié:"purple",
+    "en cours":"orange",
+    terminé:"green",
+    "à confirmer":"orange",
+    confirmé:"green",
+    clôturé:"gray"
+
+  }[status] || "gray";
 
 
-    ids.forEach(id=>{
-
-        const select=document.getElementById(id);
-
-        if(!select) return;
-
-
-        select.innerHTML=
-            `<option value="">-- Sélectionner --</option>`+
-            equipmentCache.map(e=>`
-                <option value="${e.id}">
-                    ${escapeHTML(e.code)} - ${escapeHTML(e.designation)}
-                </option>
-            `).join("");
-
-    });
+  return `
+    <span class="badge ${cls}">
+      ${escapeHtml(status || "—")}
+    </span>
+  `;
 
 }
 
 
-async function addEquipment(){
+function otStatusBadge(status){
 
-    const designation=
-        document.getElementById("eqDesignation")
-        .value.trim();
+  const cls = {
 
-    const zone_id=
-        document.getElementById("eqZone")
-        .value || null;
+    ouvert:"blue",
+    planifié:"purple",
+    "en cours":"orange",
+    terminé:"green",
+    "à confirmer":"orange",
+    confirmé:"green",
+    clôturé:"gray"
 
-
-    if(!designation || !zone_id){
-
-        showToast(
-            "Désignation et zone obligatoires.",
-            "warning"
-        );
-
-        return;
-    }
+  }[status] || "gray";
 
 
-    const {data,error}=await sb
-        .from("equipment")
-        .insert({
-
-            designation,
-
-            zone_id,
-
-            type:
-                document.getElementById("eqType")
-                .value.trim() || null,
-
-            brand:
-                document.getElementById("eqBrand")
-                .value.trim() || null,
-
-            model:
-                document.getElementById("eqModel")
-                .value.trim() || null,
-
-            serial_number:
-                document.getElementById("eqSerial")
-                .value.trim() || null,
-
-            criticality:
-                document.getElementById("eqCriticality")
-                .value,
-
-            status:
-                document.getElementById("eqStatus")
-                .value,
-
-            description:
-                document.getElementById("eqDescription")
-                .value.trim() || null,
-
-            created_by:currentUser.id
-
-        })
-        .select()
-        .single();
-
-
-    if(error){
-
-        console.error(error);
-
-        showToast(
-            "Erreur équipement : "+
-            formatError(error),
-            "error"
-        );
-
-        return;
-    }
-
-
-    closeModal("equipmentModal");
-
-    showToast(
-        "Équipement créé : "+data.code,
-        "success"
-    );
-
-
-    await loadEquipment();
-    await loadDashboard();
+  return `
+    <span class="badge ${cls}">
+      ${escapeHtml(status || "—")}
+    </span>
+  `;
 
 }
 
 
-/* =====================================================
-SUB EQUIPMENT
-===================================================== */
+function formatDate(value){
 
-function openSubEquipmentModal(){
+  if(!value) return "—";
 
-    populateEquipmentSelects();
+  try{
 
-    openModal("subEquipmentModal");
-}
+    return new Date(value)
+      .toLocaleDateString("fr-FR");
 
+  }catch{
 
-async function loadSubEquipment(){
+    return value;
 
-    const {data,error}=await sb
-        .from("sub_equipment")
-        .select(`
-            *,
-            equipment (
-                code,
-                designation
-            )
-        `)
-        .order("created_at",{ascending:false});
-
-
-    if(error){
-
-        console.error(error);
-
-        showToast(
-            "Erreur sous-équipements : "+
-            formatError(error),
-            "error"
-        );
-
-        return;
-    }
-
-
-    subEquipmentCache=data || [];
-
-
-    const body=document.getElementById("subEquipmentBody");
-
-    if(!body) return;
-
-
-    body.innerHTML=
-        subEquipmentCache.map(s=>`
-
-            <tr>
-
-                <td class="code">
-                    ${escapeHTML(s.code)}
-                </td>
-
-                <td>
-                    ${escapeHTML(s.designation)}
-                </td>
-
-                <td>
-                    ${s.equipment
-                        ? escapeHTML(
-                            s.equipment.code+
-                            " - "+
-                            s.equipment.designation
-                          )
-                        : "-"}
-                </td>
-
-                <td>
-                    ${escapeHTML(s.type || "-")}
-                </td>
-
-                <td>
-                    ${escapeHTML(s.criticality || "-")}
-                </td>
-
-                <td>
-                    ${escapeHTML(s.status || "-")}
-                </td>
-
-            </tr>
-
-        `).join("");
-
-
-    populateSubEquipmentSelects();
+  }
 
 }
 
 
-function populateSubEquipmentSelects(){
+function formatDateTime(value){
 
-    const ids=[
-        "diSubEquipment",
-        "otSubEquipment",
-        "pmSubEquipment",
-        "partSubEquipment"
-    ];
+  if(!value) return "—";
 
+  try{
 
-    ids.forEach(id=>{
+    return new Date(value)
+      .toLocaleString("fr-FR");
 
-        const select=document.getElementById(id);
+  }catch{
 
-        if(!select) return;
+    return value;
 
-
-        select.innerHTML=
-            `<option value="">-- Aucun --</option>`+
-            subEquipmentCache.map(s=>`
-                <option value="${s.id}">
-                    ${escapeHTML(s.code)} -
-                    ${escapeHTML(s.designation)}
-                </option>
-            `).join("");
-
-    });
+  }
 
 }
 
 
-async function addSubEquipment(){
+function escapeHtml(value){
 
-    const equipment_id=
-        document.getElementById("seEquipment").value;
-
-    const designation=
-        document.getElementById("seDesignation")
-        .value.trim();
-
-
-    if(!equipment_id || !designation){
-
-        showToast(
-            "Équipement parent et désignation obligatoires.",
-            "warning"
-        );
-
-        return;
-    }
-
-
-    const {data,error}=await sb
-        .from("sub_equipment")
-        .insert({
-
-            equipment_id,
-
-            designation,
-
-            type:
-                document.getElementById("seType")
-                .value.trim() || null,
-
-            brand:
-                document.getElementById("seBrand")
-                .value.trim() || null,
-
-            model:
-                document.getElementById("seModel")
-                .value.trim() || null,
-
-            serial_number:
-                document.getElementById("seSerial")
-                .value.trim() || null,
-
-            criticality:
-                document.getElementById("seCriticality")
-                .value,
-
-            status:
-                document.getElementById("seStatus")
-                .value,
-
-            observation:
-                document.getElementById("seObservation")
-                .value.trim() || null,
-
-            created_by:currentUser.id
-
-        })
-        .select()
-        .single();
-
-
-    if(error){
-
-        showToast(
-            "Erreur sous-équipement : "+
-            formatError(error),
-            "error"
-        );
-
-        return;
-    }
-
-
-    closeModal("subEquipmentModal");
-
-    showToast(
-        "Sous-équipement créé : "+data.code,
-        "success"
-    );
-
-
-    await loadSubEquipment();
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 
 }
 
 
-/* =====================================================
-DI
-===================================================== */
+function toast(message,type="success"){
 
-async function openDIModal(){
+  const el =
+    document.getElementById("toast");
 
-    await loadZones();
-    await loadEquipment();
-    await loadSubEquipment();
+  el.textContent =
+    message;
 
-    document.getElementById("diRequester").value="";
-    document.getElementById("diDescription").value="";
-    document.getElementById("diZone").value="";
-    document.getElementById("diEquipment").innerHTML=
-        `<option value="">-- Sélectionner --</option>`;
+  el.className =
+    "toast " +
+    type;
 
-    openModal("diModal");
-}
+  el.classList.remove("hidden");
 
+  setTimeout(()=>{
 
-async function loadEquipmentForDI(){
+    el.classList.add("hidden");
 
-    const zoneId=
-        document.getElementById("diZone").value;
-
-    const select=
-        document.getElementById("diEquipment");
-
-
-    const list=
-        zoneId
-        ? equipmentCache.filter(e=>e.zone_id===zoneId)
-        : equipmentCache;
-
-
-    select.innerHTML=
-        `<option value="">-- Sélectionner --</option>`+
-        list.map(e=>`
-            <option value="${e.id}">
-                ${escapeHTML(e.code)} -
-                ${escapeHTML(e.designation)}
-            </option>
-        `).join("");
+  },4000);
 
 }
-
-
-async function addDI(){
-
-    const description=
-        document.getElementById("diDescription")
-        .value.trim();
-
-
-    if(!description){
-
-        showToast(
-            "La description est obligatoire.",
-            "warning"
-        );
-
-        return;
-    }
-
-
-    const {data,error}=await sb
-        .from("intervention_requests")
-        .insert({
-
-            date:today(),
-
-            requester:
-                document.getElementById("diRequester")
-                .value.trim() || null,
-
-            zone_id:
-                document.getElementById("diZone")
-                .value || null,
-
-            equipment_id:
-                document.getElementById("diEquipment")
-                .value || null,
-
-            sub_equipment_id:
-                document.getElementById("diSubEquipment")
-                .value || null,
-
-            priority:
-                document.getElementById("diPriority")
-                .value,
-
-            type:
-                document.getElementById("diType")
-                .value,
-
-            status:"open",
-
-            description,
-
-            created_by:currentUser.id
-
-        })
-        .select()
-        .single();
-
-
-    if(error){
-
-        showToast(
-            "Erreur DI : "+formatError(error),
-            "error"
-        );
-
-        return;
-    }
-
-
-    closeModal("diModal");
-
-    showToast(
-        "DI créée : "+data.code,
-        "success"
-    );
-
-
-    await loadDI();
-    await loadDashboard();
-
-}
-
-
-async function loadDI(){
-
-    const {data,error}=await sb
-        .from("intervention_requests")
-        .select(`
-            *,
-            zones(code,name),
-            equipment(code,designation)
-        `)
-        .order("created_at",{ascending:false});
-
-
-    if(error){
-
-        console.error(error);
-
-        return;
-    }
-
-
-    const body=document.getElementById("diBody");
-
-    if(!body) return;
-
-
-    body.innerHTML=
-        (data || []).map(d=>`
-
-            <tr>
-
-                <td class="code">
-                    ${escapeHTML(d.code)}
-                </td>
-
-                <td>
-                    ${escapeHTML(d.date || "-")}
-                </td>
-
-                <td>
-                    ${escapeHTML(d.requester || "-")}
-                </td>
-
-                <td>
-                    ${d.zones
-                        ? escapeHTML(d.zones.code)
-                        : "-"}
-                </td>
-
-                <td>
-                    ${d.equipment
-                        ? escapeHTML(
-                            d.equipment.code+
-                            " - "+
-                            d.equipment.designation
-                          )
-                        : "-"}
-                </td>
-
-                <td>
-                    ${escapeHTML(d.priority || "-")}
-                </td>
-
-                <td>
-                    ${escapeHTML(d.type || "-")}
-                </td>
-
-                <td>
-                    <span class="badge badge-warning">
-                        ${escapeHTML(d.status || "-")}
-                    </span>
-                </td>
-
-                <td>
-                    ${escapeHTML(d.description || "-")}
-                </td>
-
-            </tr>
-
-        `).join("");
-
-}
-
-
-/* =====================================================
-OT
-===================================================== */
-
-async function openOTModal(){
-
-    await loadEquipment();
-    await loadSubEquipment();
-
-    document.getElementById("otTechnician").value="";
-
-    openModal("otModal");
-}
-
-
-async function addOT(){
-
-    const {data,error}=await sb
-        .from("work_orders")
-        .insert({
-
-            date:today(),
-
-            equipment_id:
-                document.getElementById("otEquipment")
-                .value || null,
-
-            sub_equipment_id:
-                document.getElementById("otSubEquipment")
-                .value || null,
-
-            type:
-                document.getElementById("otType")
-                .value,
-
-            status:
-                document.getElementById("otStatus")
-                .value,
-
-            downtime:
-                Number(
-                    document.getElementById("otDowntime")
-                    .value
-                ) || 0,
-
-            duration:
-                Number(
-                    document.getElementById("otDuration")
-                    .value
-                ) || 0,
-
-            cause:
-                document.getElementById("otCause")
-                .value.trim() || null,
-
-            work_performed:
-                document.getElementById("otWork")
-                .value.trim() || null,
-
-            technician:
-                document.getElementById("otTechnician")
-                .value.trim() || null,
-
-            created_by:currentUser.id
-
-        })
-        .select()
-        .single();
-
-
-    if(error){
-
-        showToast(
-            "Erreur OT : "+formatError(error),
-            "error"
-        );
-
-        return;
-    }
-
-
-    otCache.push(data);
-
-    closeModal("otModal");
-
-    showToast(
-        "OT créé : "+data.code,
-        "success"
-    );
-
-
-    await loadOT();
-    await loadDashboard();
-
-}
-
-
-async function loadOT(){
-
-    const {data,error}=await sb
-        .from("work_orders")
-        .select(`
-            *,
-            equipment(code,designation)
-        `)
-        .order("created_at",{ascending:false});
-
-
-    if(error){
-
-        console.error(error);
-
-        return;
-    }
-
-
-    otCache=data || [];
-
-
-    const body=document.getElementById("otBody");
-
-    if(!body) return;
-
-
-    body.innerHTML=
-        otCache.map(o=>`
-
-            <tr>
-
-                <td class="code">
-                    ${escapeHTML(o.code)}
-                </td>
-
-                <td>
-                    ${escapeHTML(o.date || "-")}
-                </td>
-
-                <td>
-                    ${o.equipment
-                        ? escapeHTML(
-                            o.equipment.code+
-                            " - "+
-                            o.equipment.designation
-                          )
-                        : "-"}
-                </td>
-
-                <td>
-                    ${escapeHTML(o.type || "-")}
-                </td>
-
-                <td>
-                    <span class="badge ${
-                        o.status==="closed"
-                        ?"badge-success"
-                        :o.status==="in_progress"
-                        ?"badge-info"
-                        :"badge-warning"
-                    }">
-                        ${escapeHTML(o.status || "-")}
-                    </span>
-                </td>
-
-                <td>
-                    ${escapeHTML(o.downtime ?? 0)}
-                </td>
-
-                <td>
-                    ${escapeHTML(o.duration ?? 0)}
-                </td>
-
-                <td>
-                    ${escapeHTML(o.technician || "-")}
-                </td>
-
-            </tr>
-
-        `).join("");
-
-}
-
-
-/* =====================================================
-PM
-===================================================== */
-
-async function openPMModal(){
-
-    await loadEquipment();
-    await loadSubEquipment();
-
-    openModal("pmModal");
-}
-
-
-async function addPM(){
-
-    const operation=
-        document.getElementById("pmOperation")
-        .value.trim();
-
-
-    if(!operation){
-
-        showToast(
-            "L'opération est obligatoire.",
-            "warning"
-        );
-
-        return;
-    }
-
-
-    const {data,error}=await sb
-        .from("preventive_plans")
-        .insert({
-
-            equipment_id:
-                document.getElementById("pmEquipment")
-                .value || null,
-
-            sub_equipment_id:
-                document.getElementById("pmSubEquipment")
-                .value || null,
-
-            operation,
-
-            frequency:
-                document.getElementById("pmFrequency")
-                .value,
-
-            last_date:
-                document.getElementById("pmLastDate")
-                .value || null,
-
-            next_date:
-                document.getElementById("pmNextDate")
-                .value || null,
-
-            responsible:
-                document.getElementById("pmResponsible")
-                .value.trim() || null,
-
-            status:"planned",
-
-            instructions:
-                document.getElementById("pmInstructions")
-                .value.trim() || null,
-
-            created_by:currentUser.id
-
-        })
-        .select()
-        .single();
-
-
-    if(error){
-
-        showToast(
-            "Erreur PM : "+formatError(error),
-            "error"
-        );
-
-        return;
-    }
-
-
-    closeModal("pmModal");
-
-    showToast(
-        "Plan préventif créé : "+data.code,
-        "success"
-    );
-
-
-    await loadPM();
-
-}
-
-
-async function loadPM(){
-
-    const {data,error}=await sb
-        .from("preventive_plans")
-        .select(`
-            *,
-            equipment(code,designation)
-        `)
-        .order("created_at",{ascending:false});
-
-
-    if(error){
-
-        console.error(error);
-
-        return;
-    }
-
-
-    const body=document.getElementById("pmBody");
-
-    if(!body) return;
-
-
-    body.innerHTML=
-        (data || []).map(p=>`
-
-            <tr>
-
-                <td class="code">
-                    ${escapeHTML(p.code)}
-                </td>
-
-                <td>
-                    ${p.equipment
-                        ? escapeHTML(
-                            p.equipment.code+
-                            " - "+
-                            p.equipment.designation
-                          )
-                        : "-"}
-                </td>
-
-                <td>
-                    ${escapeHTML(p.operation)}
-                </td>
-
-                <td>
-                    ${escapeHTML(p.frequency || "-")}
-                </td>
-
-                <td>
-                    ${escapeHTML(p.last_date || "-")}
-                </td>
-
-                <td>
-                    ${escapeHTML(p.next_date || "-")}
-                </td>
-
-                <td>
-                    ${escapeHTML(p.responsible || "-")}
-                </td>
-
-                <td>
-                    ${escapeHTML(p.status || "-")}
-                </td>
-
-            </tr>
-
-        `).join("");
-
-}
-
-
-/* =====================================================
-RCA
-===================================================== */
-
-async function openRCAModal(){
-
-    await loadOT();
-    await loadEquipment();
-
-    const select=document.getElementById("rcaOT");
-
-    select.innerHTML=
-        `<option value="">-- Sélectionner --</option>`+
-        otCache.map(o=>`
-            <option value="${o.id}">
-                ${escapeHTML(o.code)}
-            </option>
-        `).join("");
-
-    openModal("rcaModal");
-}
-
-
-async function addRCA(){
-
-    const rootCause=
-        document.getElementById("rootCause")
-        .value.trim();
-
-
-    if(!rootCause){
-
-        showToast(
-            "La cause racine est obligatoire.",
-            "warning"
-        );
-
-        return;
-    }
-
-
-    const {data,error}=await sb
-        .from("rca_bda")
-        .insert({
-
-            ot_id:
-                document.getElementById("rcaOT")
-                .value || null,
-
-            equipment_id:
-                document.getElementById("rcaEquipment")
-                .value || null,
-
-            method_5m:
-                document.getElementById("rca5m")
-                .value.trim() || null,
-
-            why1:
-                document.getElementById("why1").value.trim() || null,
-
-            why2:
-                document.getElementById("why2").value.trim() || null,
-
-            why3:
-                document.getElementById("why3").value.trim() || null,
-
-            why4:
-                document.getElementById("why4").value.trim() || null,
-
-            why5:
-                document.getElementById("why5").value.trim() || null,
-
-            root_cause:rootCause,
-
-            corrective_action:
-                document.getElementById("correctiveAction")
-                .value.trim() || null,
-
-            responsible:
-                document.getElementById("rcaResponsible")
-                .value.trim() || null,
-
-            due_date:
-                document.getElementById("rcaDueDate")
-                .value || null,
-
-            status:"open",
-
-            created_by:currentUser.id
-
-        })
-        .select()
-        .single();
-
-
-    if(error){
-
-        showToast(
-            "Erreur RCA : "+formatError(error),
-            "error"
-        );
-
-        return;
-    }
-
-
-    closeModal("rcaModal");
-
-    showToast(
-        "RCA créée : "+data.code,
-        "success"
-    );
-
-
-    await loadRCA();
-
-}
-
-
-async function loadRCA(){
-
-    const {data,error}=await sb
-        .from("rca_bda")
-        .select(`
-            *,
-            work_orders(code),
-            equipment(code,designation)
-        `)
-        .order("created_at",{ascending:false});
-
-
-    if(error){
-
-        console.error(error);
-
-        return;
-    }
-
-
-    const body=document.getElementById("rcaBody");
-
-    if(!body) return;
-
-
-    body.innerHTML=
-        (data || []).map(r=>`
-
-            <tr>
-
-                <td class="code">
-                    ${escapeHTML(r.code)}
-                </td>
-
-                <td>
-                    ${r.work_orders
-                        ? escapeHTML(r.work_orders.code)
-                        : "-"}
-                </td>
-
-                <td>
-                    ${r.equipment
-                        ? escapeHTML(
-                            r.equipment.code+
-                            " - "+
-                            r.equipment.designation
-                          )
-                        : "-"}
-                </td>
-
-                <td>
-                    ${escapeHTML(r.root_cause || "-")}
-                </td>
-
-                <td>
-                    ${escapeHTML(r.corrective_action || "-")}
-                </td>
-
-                <td>
-                    ${escapeHTML(r.responsible || "-")}
-                </td>
-
-                <td>
-                    ${escapeHTML(r.due_date || "-")}
-                </td>
-
-                <td>
-                    ${escapeHTML(r.status || "-")}
-                </td>
-
-            </tr>
-
-        `).join("");
-
-}
-
-
-/* =====================================================
-PARTS
-===================================================== */
-
-async function openPartModal(){
-
-    await loadEquipment();
-    await loadSubEquipment();
-
-    openModal("partModal");
-}
-
-
-async function addPart(){
-
-    const designation=
-        document.getElementById("partDesignation")
-        .value.trim();
-
-
-    if(!designation){
-
-        showToast(
-            "La désignation est obligatoire.",
-            "warning"
-        );
-
-        return;
-    }
-
-
-    const {data,error}=await sb
-        .from("parts")
-        .insert({
-
-            designation,
-
-            stock:
-                Number(
-                    document.getElementById("partStock")
-                    .value
-                ) || 0,
-
-            min_stock:
-                Number(
-                    document.getElementById("partMinStock")
-                    .value
-                ) || 0,
-
-            unit:
-                document.getElementById("partUnit")
-                .value.trim() || null,
-
-            supplier:
-                document.getElementById("partSupplier")
-                .value.trim() || null,
-
-            equipment_id:
-                document.getElementById("partEquipment")
-                .value || null,
-
-            sub_equipment_id:
-                document.getElementById("partSubEquipment")
-                .value || null,
-
-            created_by:currentUser.id
-
-        })
-        .select()
-        .single();
-
-
-    if(error){
-
-        showToast(
-            "Erreur PDR : "+formatError(error),
-            "error"
-        );
-
-        return;
-    }
-
-
-    closeModal("partModal");
-
-    showToast(
-        "PDR créée : "+data.code,
-        "success"
-    );
-
-
-    await loadParts();
-
-}
-
-
-async function loadParts(){
-
-    const {data,error}=await sb
-        .from("parts")
-        .select(`
-            *,
-            equipment(code,designation)
-        `)
-        .order("created_at",{ascending:false});
-
-
-    if(error){
-
-        console.error(error);
-
-        return;
-    }
-
-
-    const body=document.getElementById("partsBody");
-
-    if(!body) return;
-
-
-    body.innerHTML=
-        (data || []).map(p=>`
-
-            <tr>
-
-                <td class="code">
-                    ${escapeHTML(p.code)}
-                </td>
-
-                <td>
-                    ${escapeHTML(p.designation)}
-                </td>
-
-                <td>
-                    <span class="${
-                        Number(p.stock)<=Number(p.min_stock)
-                        ?"badge badge-danger"
-                        :"badge badge-success"
-                    }">
-                        ${escapeHTML(p.stock)}
-                    </span>
-                </td>
-
-                <td>
-                    ${escapeHTML(p.min_stock)}
-                </td>
-
-                <td>
-                    ${escapeHTML(p.unit || "-")}
-                </td>
-
-                <td>
-                    ${escapeHTML(p.supplier || "-")}
-                </td>
-
-                <td>
-                    ${p.equipment
-                        ? escapeHTML(
-                            p.equipment.code+
-                            " - "+
-                            p.equipment.designation
-                          )
-                        : "-"}
-                </td>
-
-            </tr>
-
-        `).join("");
-
-}
-
-
-/* =====================================================
-DASHBOARD
-===================================================== */
-
-async function loadDashboard(){
-
-    try{
-
-        const [
-            zonesResult,
-            equipmentResult,
-            diResult,
-            otResult
-        ]=await Promise.all([
-
-            sb
-            .from("zones")
-            .select("id",{count:"exact",head:true}),
-
-            sb
-            .from("equipment")
-            .select("id",{count:"exact",head:true}),
-
-            sb
-            .from("intervention_requests")
-            .select("id,status"),
-
-            sb
-            .from("work_orders")
-            .select("id,status,equipment_id")
-
-        ]);
-
-
-        document.getElementById("kpiZones")
-            .textContent=
-            zonesResult.count || 0;
-
-
-        document.getElementById("kpiEquipment")
-            .textContent=
-            equipmentResult.count || 0;
-
-
-        const openDI=
-            (diResult.data || [])
-            .filter(d=>
-                d.status==="open"
-            ).length;
-
-
-        document.getElementById("kpiDI")
-            .textContent=openDI;
-
-
-        document.getElementById("kpiOT")
-            .textContent=
-            (otResult.data || []).length;
-
-
-        buildOTChart(
-            otResult.data || []
-        );
-
-
-        buildZoneChart();
-
-
-    }catch(error){
-
-        console.error(error);
-
-    }
-
-}
-
-
-function buildOTChart(data){
-
-    const ctx=
-        document.getElementById("otChart");
-
-    if(!ctx) return;
-
-
-    let open=0;
-    let progress=0;
-    let closed=0;
-
-
-    data.forEach(o=>{
-
-        if(o.status==="open") open++;
-        else if(o.status==="in_progress") progress++;
-        else if(o.status==="closed") closed++;
-
-    });
-
-
-    if(otChartInstance){
-        otChartInstance.destroy();
-    }
-
-
-    otChartInstance=
-        new Chart(ctx,{
-
-            type:"doughnut",
-
-            data:{
-                labels:[
-                    "Ouvert",
-                    "En cours",
-                    "Clôturé"
-                ],
-
-                datasets:[{
-                    data:[
-                        open,
-                        progress,
-                        closed
-                    ]
-                }]
-            },
-
-            options:{
-                responsive:true
-            }
-
-        });
-
-}
-
-
-function buildZoneChart(){
-
-    const ctx=
-        document.getElementById("zoneChart");
-
-    if(!ctx) return;
-
-
-    const counts=
-        zonesCache.map(z=>{
-
-            return equipmentCache
-                .filter(e=>e.zone_id===z.id)
-                .length;
-
-        });
-
-
-    if(zoneChartInstance){
-        zoneChartInstance.destroy();
-    }
-
-
-    zoneChartInstance=
-        new Chart(ctx,{
-
-            type:"bar",
-
-            data:{
-
-                labels:
-                    zonesCache.map(z=>z.code),
-
-                datasets:[{
-
-                    label:"Équipements",
-
-                    data:counts
-
-                }]
-
-            },
-
-            options:{
-                responsive:true,
-
-                scales:{
-                    y:{
-                        beginAtZero:true
-                    }
-                }
-            }
-
-        });
-
-}
-
-
-/* =====================================================
-PASSWORD
-===================================================== */
-
-async function changePassword(){
-
-    const password=
-        document.getElementById("newPassword")
-        .value;
-
-    const confirm=
-        document.getElementById("confirmPassword")
-        .value;
-
-
-    if(password.length<6){
-
-        showToast(
-            "Le mot de passe doit contenir au moins 6 caractères.",
-            "warning"
-        );
-
-        return;
-    }
-
-
-    if(password!==confirm){
-
-        showToast(
-            "Les deux mots de passe sont différents.",
-            "warning"
-        );
-
-        return;
-    }
-
-
-    const {error}=
-        await sb.auth.updateUser({
-            password
-        });
-
-
-    if(error){
-
-        showToast(
-            "Erreur : "+formatError(error),
-            "error"
-        );
-
-        return;
-    }
-
-
-    document.getElementById("newPassword").value="";
-    document.getElementById("confirmPassword").value="";
-
-
-    showToast(
-        "Mot de passe modifié avec succès.",
-        "success"
-    );
-
-}
-
-
-/* =====================================================
-SESSION AUTO
-===================================================== */
-
-async function checkSession(){
-
-    const {data,error}=
-        await sb.auth.getSession();
-
-
-    if(error){
-
-        console.error(error);
-
-        return;
-    }
-
-
-    if(data.session){
-
-        currentUser=data.session.user;
-
-        await initializeApp();
-
-    }
-
-}
-
-
-sb.auth.onAuthStateChange(
-    async(event,session)=>{
-
-        if(session){
-
-            currentUser=session.user;
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-START
-===================================================== */
-
-document.addEventListener(
-    "DOMContentLoaded",
-    ()=>{
-
-        checkSession();
-
-    }
-);
 
 </script>
 
