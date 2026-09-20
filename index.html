@@ -3,45 +3,51 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GMAO PRO V11.1 — Maintenance</title>
+
+<title>GMAO PRO V5 Secure — Maintenance</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 :root{
-    --bg:#07111f;
-    --panel:#0d1b2e;
-    --panel2:#10243b;
-    --border:#1e3a56;
-    --text:#e8f1fa;
-    --muted:#8da4bb;
-    --primary:#2196f3;
-    --primary2:#1565c0;
-    --success:#16a34a;
-    --warning:#f59e0b;
-    --danger:#ef4444;
-    --purple:#8b5cf6;
-    --cyan:#06b6d4;
+    --bg:#07111d;
+    --panel:#0d1b2a;
+    --panel2:#102338;
+    --border:#1c3851;
+    --text:#e8f1f8;
+    --muted:#8ca3b7;
+    --primary:#1597ff;
+    --primary2:#0878d1;
+    --success:#20c997;
+    --warning:#f5b942;
+    --danger:#ef5350;
+    --purple:#8b7cff;
+    --shadow:0 12px 35px rgba(0,0,0,.25);
 }
 
 *{
     box-sizing:border-box;
+}
+
+html,body{
     margin:0;
     padding:0;
+    width:100%;
+    min-height:100%;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
 }
 
 body{
-    font-family:Arial,Helvetica,sans-serif;
-    background:var(--bg);
-    color:var(--text);
-    min-height:100vh;
+    overflow-x:hidden;
 }
 
 button,
 input,
 select,
 textarea{
-    font-family:inherit;
+    font:inherit;
 }
 
 button{
@@ -52,136 +58,69 @@ button{
     display:none!important;
 }
 
-/* LOGIN */
+/* ============================================================
+   LOGIN
+============================================================ */
 
 #loginScreen{
     min-height:100vh;
     display:flex;
-    justify-content:center;
     align-items:center;
+    justify-content:center;
+    padding:20px;
     background:
-        radial-gradient(circle at 20% 20%,rgba(33,150,243,.15),transparent 35%),
-        radial-gradient(circle at 80% 80%,rgba(139,92,246,.12),transparent 35%),
+        radial-gradient(circle at 20% 20%,rgba(21,151,255,.13),transparent 30%),
+        radial-gradient(circle at 80% 80%,rgba(139,124,255,.10),transparent 30%),
         var(--bg);
 }
 
-.login-box{
-    width:420px;
-    max-width:92%;
-    background:rgba(13,27,46,.96);
+.login-card{
+    width:100%;
+    max-width:430px;
+    background:rgba(13,27,42,.96);
     border:1px solid var(--border);
-    border-radius:18px;
-    padding:35px;
-    box-shadow:0 20px 70px rgba(0,0,0,.45);
+    border-radius:20px;
+    padding:34px;
+    box-shadow:var(--shadow);
 }
 
 .logo{
-    text-align:center;
-    margin-bottom:30px;
-}
-
-.logo-icon{
-    width:70px;
-    height:70px;
-    border-radius:18px;
-    background:linear-gradient(135deg,var(--primary),var(--purple));
+    width:58px;
+    height:58px;
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:34px;
-    margin:0 auto 15px;
+    border-radius:16px;
+    background:linear-gradient(135deg,var(--primary),var(--purple));
+    font-size:25px;
+    font-weight:900;
+    margin-bottom:18px;
 }
 
-.logo h1{
-    font-size:24px;
+.login-card h1{
+    margin:0 0 8px;
+    font-size:25px;
 }
 
-.logo p{
+.login-card p{
     color:var(--muted);
-    margin-top:7px;
+    margin:0 0 25px;
+    line-height:1.6;
 }
 
-.form-group{
-    margin-bottom:16px;
-}
-
-label{
-    display:block;
-    color:#b8cadc;
-    font-size:13px;
-    margin-bottom:7px;
-}
-
-input,
-select,
-textarea{
-    width:100%;
-    background:#081624;
-    color:var(--text);
+.login-info{
+    margin-top:18px;
+    padding:12px;
+    border-radius:10px;
+    background:#091725;
     border:1px solid var(--border);
-    border-radius:8px;
-    padding:11px 12px;
-    outline:none;
+    color:var(--muted);
+    font-size:12px;
 }
 
-input:focus,
-select:focus,
-textarea:focus{
-    border-color:var(--primary);
-    box-shadow:0 0 0 2px rgba(33,150,243,.1);
-}
-
-textarea{
-    min-height:90px;
-    resize:vertical;
-}
-
-.btn{
-    border:0;
-    border-radius:8px;
-    padding:10px 15px;
-    color:white;
-    font-weight:600;
-    transition:.2s;
-}
-
-.btn:hover{
-    transform:translateY(-1px);
-    filter:brightness(1.08);
-}
-
-.btn-primary{background:var(--primary);}
-.btn-success{background:var(--success);}
-.btn-warning{background:var(--warning);color:#111;}
-.btn-danger{background:var(--danger);}
-.btn-secondary{background:#334155;}
-.btn-purple{background:var(--purple);}
-.btn-cyan{background:var(--cyan);color:#06202a;}
-
-.btn-block{
-    width:100%;
-}
-
-.message{
-    padding:10px;
-    border-radius:7px;
-    margin-bottom:15px;
-    font-size:13px;
-}
-
-.message.error{
-    background:rgba(239,68,68,.12);
-    color:#fca5a5;
-    border:1px solid rgba(239,68,68,.25);
-}
-
-.message.success{
-    background:rgba(22,163,74,.12);
-    color:#86efac;
-    border:1px solid rgba(22,163,74,.25);
-}
-
-/* APP */
+/* ============================================================
+   APP LAYOUT
+============================================================ */
 
 #app{
     min-height:100vh;
@@ -189,124 +128,160 @@ textarea{
 }
 
 .sidebar{
-    width:245px;
-    background:#081524;
-    border-right:1px solid var(--border);
     position:fixed;
     top:0;
-    bottom:0;
     left:0;
-    z-index:50;
+    bottom:0;
+    width:250px;
+    background:#091725;
+    border-right:1px solid var(--border);
+    padding:18px 12px;
     overflow-y:auto;
+    z-index:50;
 }
 
 .brand{
-    padding:22px 18px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:5px 8px 22px;
     border-bottom:1px solid var(--border);
+    margin-bottom:15px;
+}
+
+.brand-icon{
+    width:42px;
+    height:42px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:12px;
+    background:linear-gradient(135deg,var(--primary),var(--purple));
+    font-weight:900;
 }
 
 .brand strong{
     display:block;
-    font-size:18px;
+    font-size:14px;
 }
 
-.brand span{
+.brand small{
     color:var(--muted);
-    font-size:12px;
-}
-
-.nav{
-    padding:15px 10px;
+    font-size:10px;
 }
 
 .nav-section{
-    color:#58728c;
+    margin:18px 8px 8px;
+    color:#58738a;
     font-size:10px;
     text-transform:uppercase;
     letter-spacing:1px;
-    padding:12px 10px 7px;
+    font-weight:700;
 }
 
-.nav button{
+.nav-btn{
     width:100%;
-    background:none;
     border:0;
-    color:#9fb4c8;
+    background:transparent;
+    color:#9db1c2;
     padding:11px 12px;
+    margin:2px 0;
+    border-radius:9px;
     text-align:left;
-    border-radius:8px;
-    margin-bottom:3px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    transition:.2s;
 }
 
-.nav button:hover{
-    background:#10243b;
+.nav-btn:hover{
+    background:#10263a;
     color:white;
 }
 
-.nav button.active{
-    background:linear-gradient(90deg,#123a60,#10243b);
-    color:#fff;
-    border-left:3px solid var(--primary);
+.nav-btn.active{
+    background:rgba(21,151,255,.13);
+    color:#55b4ff;
+    border:1px solid rgba(21,151,255,.16);
+}
+
+.nav-btn.disabled-page{
+    opacity:.45;
 }
 
 .main{
-    margin-left:245px;
-    width:calc(100% - 245px);
+    width:calc(100% - 250px);
+    margin-left:250px;
     min-height:100vh;
 }
 
 .topbar{
+    position:sticky;
+    top:0;
+    z-index:40;
     height:68px;
+    background:rgba(7,17,29,.92);
+    backdrop-filter:blur(12px);
     border-bottom:1px solid var(--border);
-    background:rgba(7,17,31,.95);
     display:flex;
     align-items:center;
     justify-content:space-between;
     padding:0 25px;
-    position:sticky;
-    top:0;
-    z-index:30;
 }
 
-.page-title{
-    font-size:19px;
-    font-weight:bold;
-}
-
-.user-area{
+.topbar-left{
     display:flex;
     align-items:center;
-    gap:12px;
+    gap:15px;
+}
+
+#pageTitle{
+    margin:0;
+    font-size:19px;
+}
+
+.version{
+    font-size:10px;
+    color:#5e7b91;
+    border:1px solid var(--border);
+    padding:4px 7px;
+    border-radius:5px;
+}
+
+.user-box{
+    display:flex;
+    align-items:center;
+    gap:10px;
 }
 
 .user-avatar{
-    width:37px;
-    height:37px;
+    width:34px;
+    height:34px;
     border-radius:50%;
     background:linear-gradient(135deg,var(--primary),var(--purple));
     display:flex;
     align-items:center;
     justify-content:center;
-    font-weight:bold;
+    font-weight:800;
 }
 
-.user-info{
-    text-align:right;
+.user-name{
+    font-size:12px;
+    font-weight:700;
 }
 
-.user-info strong{
-    display:block;
-    font-size:13px;
-}
-
-.user-info span{
+.user-role{
     color:var(--muted);
-    font-size:11px;
+    font-size:10px;
 }
 
 .content{
     padding:25px;
 }
+
+/* ============================================================
+   PAGES
+============================================================ */
 
 .page{
     display:none;
@@ -316,13 +291,80 @@ textarea{
     display:block;
 }
 
-/* DASHBOARD */
+.page-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.page-header h2{
+    margin:0;
+    font-size:18px;
+}
+
+.page-header p{
+    color:var(--muted);
+    margin:5px 0 0;
+    font-size:12px;
+}
+
+/* ============================================================
+   BUTTONS
+============================================================ */
+
+.btn{
+    border:1px solid var(--border);
+    background:#102338;
+    color:var(--text);
+    border-radius:8px;
+    padding:9px 13px;
+    transition:.2s;
+}
+
+.btn:hover{
+    transform:translateY(-1px);
+    border-color:#315775;
+}
+
+.btn-primary{
+    background:var(--primary);
+    border-color:var(--primary);
+    color:white;
+}
+
+.btn-primary:hover{
+    background:var(--primary2);
+}
+
+.btn-danger{
+    background:rgba(239,83,80,.10);
+    border-color:rgba(239,83,80,.3);
+    color:#ff7673;
+}
+
+.btn-success{
+    background:rgba(32,201,151,.10);
+    border-color:rgba(32,201,151,.3);
+    color:#55d8b0;
+}
+
+.btn-warning{
+    background:rgba(245,185,66,.10);
+    border-color:rgba(245,185,66,.3);
+    color:#f5c967;
+}
+
+/* ============================================================
+   CARDS / KPI
+============================================================ */
 
 .kpi-grid{
     display:grid;
     grid-template-columns:repeat(4,1fr);
     gap:15px;
-    margin-bottom:22px;
+    margin-bottom:20px;
 }
 
 .kpi{
@@ -330,48 +372,49 @@ textarea{
     border:1px solid var(--border);
     border-radius:12px;
     padding:18px;
+    position:relative;
+    overflow:hidden;
 }
 
-.kpi-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.kpi-icon{
-    width:40px;
-    height:40px;
-    border-radius:9px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:19px;
-    background:#122b44;
-}
-
-.kpi-value{
-    font-size:27px;
-    font-weight:bold;
-    margin-top:15px;
+.kpi:after{
+    content:"";
+    position:absolute;
+    width:80px;
+    height:80px;
+    right:-25px;
+    bottom:-25px;
+    border-radius:50%;
+    background:rgba(21,151,255,.05);
 }
 
 .kpi-label{
     color:var(--muted);
-    font-size:12px;
-    margin-top:4px;
+    font-size:11px;
+    margin-bottom:9px;
 }
 
-.dashboard-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:18px;
+.kpi-value{
+    font-size:27px;
+    font-weight:800;
 }
+
+.kpi-icon{
+    position:absolute;
+    right:16px;
+    top:15px;
+    font-size:21px;
+}
+
+/* ============================================================
+   TABLE
+============================================================ */
 
 .panel{
     background:var(--panel);
     border:1px solid var(--border);
     border-radius:12px;
     overflow:hidden;
+    margin-bottom:20px;
 }
 
 .panel-header{
@@ -380,210 +423,270 @@ textarea{
     display:flex;
     align-items:center;
     justify-content:space-between;
+    gap:10px;
 }
 
 .panel-header h3{
-    font-size:14px;
+    margin:0;
+    font-size:13px;
 }
 
 .panel-body{
     padding:17px;
 }
 
-/* TOOLBAR */
-
-.toolbar{
-    display:flex;
-    gap:9px;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:15px;
-    flex-wrap:wrap;
-}
-
-.toolbar-left,
-.toolbar-right{
-    display:flex;
-    gap:8px;
-    flex-wrap:wrap;
-}
-
-.search{
-    min-width:240px;
-}
-
-/* TABLE */
-
-.table-wrapper{
-    overflow:auto;
+.table-wrap{
+    width:100%;
+    overflow-x:auto;
 }
 
 table{
     width:100%;
     border-collapse:collapse;
-    min-width:700px;
+    min-width:800px;
 }
 
 th{
-    background:#0a1828;
-    color:#829bb2;
-    text-align:left;
-    padding:11px;
-    font-size:11px;
+    color:#6f899e;
+    font-size:10px;
     text-transform:uppercase;
-    white-space:nowrap;
+    letter-spacing:.5px;
+    text-align:left;
+    padding:12px 13px;
+    background:#0a1725;
+    border-bottom:1px solid var(--border);
 }
 
 td{
-    padding:11px;
-    border-top:1px solid #152d43;
+    padding:12px 13px;
+    border-bottom:1px solid rgba(28,56,81,.55);
     font-size:12px;
     vertical-align:middle;
 }
 
 tr:hover td{
-    background:rgba(33,150,243,.035);
+    background:rgba(21,151,255,.025);
 }
 
+.empty{
+    padding:30px;
+    text-align:center;
+    color:#607b90;
+}
+
+/* ============================================================
+   BADGES
+============================================================ */
+
 .badge{
-    display:inline-block;
-    padding:4px 8px;
+    display:inline-flex;
+    align-items:center;
     border-radius:20px;
+    padding:4px 8px;
     font-size:10px;
-    font-weight:bold;
+    font-weight:700;
 }
 
 .badge-success{
-    background:rgba(22,163,74,.15);
-    color:#86efac;
+    background:rgba(32,201,151,.12);
+    color:#55d8b0;
 }
 
 .badge-warning{
-    background:rgba(245,158,11,.15);
-    color:#fcd34d;
+    background:rgba(245,185,66,.12);
+    color:#f5c967;
 }
 
 .badge-danger{
-    background:rgba(239,68,68,.15);
-    color:#fca5a5;
+    background:rgba(239,83,80,.12);
+    color:#ff7774;
 }
 
 .badge-info{
-    background:rgba(33,150,243,.15);
-    color:#93c5fd;
+    background:rgba(21,151,255,.12);
+    color:#55b4ff;
 }
 
 .badge-purple{
-    background:rgba(139,92,246,.15);
-    color:#c4b5fd;
+    background:rgba(139,124,255,.12);
+    color:#a89dff;
 }
 
-.action-group{
+/* ============================================================
+   FORMS
+============================================================ */
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.form-group{
     display:flex;
-    gap:5px;
-    flex-wrap:wrap;
+    flex-direction:column;
+    gap:6px;
 }
 
-.action-btn{
-    border:1px solid var(--border);
-    background:#10243b;
-    color:#b9cce0;
-    padding:6px 8px;
-    border-radius:6px;
+.form-group.full{
+    grid-column:1/-1;
+}
+
+label{
+    color:#8fa6b9;
     font-size:11px;
 }
 
-.action-btn:hover{
-    color:white;
-    border-color:var(--primary);
+input,
+select,
+textarea{
+    width:100%;
+    background:#091725;
+    color:var(--text);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:10px 11px;
+    outline:none;
 }
 
-/* MODAL */
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:var(--primary);
+    box-shadow:0 0 0 2px rgba(21,151,255,.08);
+}
+
+textarea{
+    resize:vertical;
+    min-height:90px;
+}
+
+input[readonly]{
+    opacity:.7;
+}
+
+.form-actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+    margin-top:20px;
+}
+
+/* ============================================================
+   SEARCH
+============================================================ */
+
+.toolbar{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:15px;
+}
+
+.search{
+    max-width:320px;
+}
+
+.filter{
+    width:auto;
+}
+
+/* ============================================================
+   DASHBOARD
+============================================================ */
+
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+.dashboard-list{
+    display:flex;
+    flex-direction:column;
+}
+
+.dashboard-item{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    padding:12px 0;
+    border-bottom:1px solid var(--border);
+}
+
+.dashboard-item:last-child{
+    border-bottom:0;
+}
+
+.dashboard-item strong{
+    font-size:12px;
+}
+
+.dashboard-item small{
+    display:block;
+    margin-top:4px;
+    color:var(--muted);
+}
+
+/* ============================================================
+   MODAL
+============================================================ */
 
 .modal{
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.68);
+    background:rgba(0,0,0,.65);
     display:none;
     align-items:center;
     justify-content:center;
-    z-index:100;
     padding:20px;
+    z-index:100;
 }
 
 .modal.show{
     display:flex;
 }
 
-.modal-box{
-    background:#0b1a2c;
+.modal-card{
+    width:100%;
+    max-width:760px;
+    max-height:90vh;
+    overflow-y:auto;
+    background:#0d1b2a;
     border:1px solid var(--border);
-    border-radius:14px;
-    width:680px;
-    max-width:100%;
-    max-height:92vh;
-    overflow:auto;
-    box-shadow:0 25px 90px rgba(0,0,0,.55);
+    border-radius:15px;
+    box-shadow:0 25px 70px rgba(0,0,0,.5);
 }
 
 .modal-header{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    padding:17px 20px;
+    padding:16px 18px;
     border-bottom:1px solid var(--border);
 }
 
 .modal-header h3{
-    font-size:16px;
+    margin:0;
+    font-size:15px;
 }
 
-.close{
+.modal-close{
     border:0;
-    background:none;
-    color:#9eb3c7;
-    font-size:23px;
+    background:transparent;
+    color:#8198aa;
+    font-size:20px;
 }
 
 .modal-body{
-    padding:20px;
+    padding:18px;
 }
 
-.form-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:14px;
-}
+/* ============================================================
+   TOAST
+============================================================ */
 
-.form-full{
-    grid-column:1/-1;
-}
-
-.modal-footer{
-    padding:15px 20px;
-    border-top:1px solid var(--border);
-    display:flex;
-    justify-content:flex-end;
-    gap:8px;
-}
-
-/* EMPTY */
-
-.empty{
-    text-align:center;
-    color:#71879d;
-    padding:35px;
-}
-
-.loading{
-    text-align:center;
-    padding:35px;
-    color:#7f98ae;
-}
-
-/* ALERT */
-
-.toast-container{
+#toastContainer{
     position:fixed;
     right:20px;
     bottom:20px;
@@ -595,142 +698,193 @@ tr:hover td{
 
 .toast{
     min-width:280px;
-    max-width:400px;
-    padding:13px 15px;
-    border-radius:9px;
-    background:#12243a;
+    max-width:420px;
+    background:#102338;
     border:1px solid var(--border);
-    box-shadow:0 10px 30px rgba(0,0,0,.3);
-    font-size:13px;
+    border-radius:10px;
+    padding:12px 14px;
+    box-shadow:var(--shadow);
+    font-size:12px;
+    animation:toastIn .2s ease;
 }
 
 .toast.success{
-    border-left:4px solid var(--success);
-}
-
-.toast.error{
-    border-left:4px solid var(--danger);
+    border-color:rgba(32,201,151,.4);
 }
 
 .toast.warning{
-    border-left:4px solid var(--warning);
+    border-color:rgba(245,185,66,.4);
 }
 
-/* MOBILE */
+.toast.error{
+    border-color:rgba(239,83,80,.4);
+}
+
+@keyframes toastIn{
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+    to{
+        opacity:1;
+        transform:none;
+    }
+}
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
 
 @media(max-width:1100px){
+
     .kpi-grid{
         grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:850px){
+
+    .sidebar{
+        width:70px;
+        padding:12px 7px;
+    }
+
+    .brand-text,
+    .nav-btn span,
+    .nav-section{
+        display:none;
+    }
+
+    .brand{
+        justify-content:center;
+        padding-bottom:15px;
+    }
+
+    .nav-btn{
+        justify-content:center;
+        padding:12px 5px;
+    }
+
+    .main{
+        width:calc(100% - 70px);
+        margin-left:70px;
     }
 
     .dashboard-grid{
         grid-template-columns:1fr;
     }
+
 }
 
-@media(max-width:800px){
-    .sidebar{
-        width:70px;
+@media(max-width:600px){
+
+    .content{
+        padding:15px;
     }
 
-    .brand strong,
-    .brand span,
-    .nav-section,
-    .nav button span{
+    .topbar{
+        padding:0 15px;
+    }
+
+    .user-name,
+    .user-role{
         display:none;
     }
 
-    .nav button{
-        text-align:center;
-        font-size:19px;
-    }
-
-    .main{
-        margin-left:70px;
-        width:calc(100% - 70px);
+    .kpi-grid{
+        grid-template-columns:1fr;
     }
 
     .form-grid{
         grid-template-columns:1fr;
     }
 
-    .form-full{
-        grid-column:auto;
-    }
-}
-
-@media(max-width:600px){
-    .kpi-grid{
-        grid-template-columns:1fr;
+    .page-header{
+        align-items:flex-start;
+        flex-direction:column;
     }
 
-    .content{
-        padding:14px;
+    .search{
+        max-width:none;
     }
 
-    .topbar{
-        padding:0 14px;
-    }
-
-    .user-info{
-        display:none;
-    }
 }
 </style>
 </head>
 
 <body>
 
-<!-- ========================================================= -->
-<!-- LOGIN -->
-<!-- ========================================================= -->
+<!-- ============================================================
+     LOGIN
+============================================================ -->
 
-<div id="loginScreen">
+<section id="loginScreen">
 
-    <div class="login-box">
+    <div class="login-card">
 
-        <div class="logo">
-            <div class="logo-icon">⚙</div>
-            <h1>GMAO PRO</h1>
-            <p>Maintenance Management System V11.1</p>
-        </div>
+        <div class="logo">GM</div>
 
-        <div id="loginMessage"></div>
+        <h1>GMAO PRO V5</h1>
+
+        <p>
+            Plateforme sécurisée de gestion de maintenance,
+            équipements, DI, OT et interventions.
+        </p>
 
         <form id="loginForm">
 
             <div class="form-group">
                 <label>Email</label>
+
                 <input
-                    type="email"
                     id="loginEmail"
-                    required
-                    placeholder="admin@entreprise.com">
+                    type="email"
+                    autocomplete="username"
+                    placeholder="email@entreprise.com"
+                    required>
             </div>
+
+            <br>
 
             <div class="form-group">
                 <label>Mot de passe</label>
+
                 <input
-                    type="password"
                     id="loginPassword"
-                    required
-                    placeholder="••••••••">
+                    type="password"
+                    autocomplete="current-password"
+                    placeholder="••••••••"
+                    required>
             </div>
 
-            <button class="btn btn-primary btn-block" type="submit">
-                🔐 Connexion
+            <br>
+
+            <button
+                class="btn btn-primary"
+                style="width:100%"
+                type="submit">
+
+                Se connecter
+
             </button>
 
         </form>
 
+        <div class="login-info">
+            🔐 Authentification Supabase<br>
+            🛡️ Architecture prévue avec RLS PostgreSQL<br>
+            📋 Audit des opérations dans V5
+        </div>
+
     </div>
 
-</div>
+</section>
 
 
-<!-- ========================================================= -->
-<!-- APPLICATION -->
-<!-- ========================================================= -->
+<!-- ============================================================
+     APP
+============================================================ -->
 
 <div id="app" class="hidden">
 
@@ -739,69 +893,90 @@ tr:hover td{
     <aside class="sidebar">
 
         <div class="brand">
-            <strong>⚙ GMAO PRO</strong>
-            <span>Maintenance V11.1</span>
-        </div>
 
-        <div class="nav">
+            <div class="brand-icon">GM</div>
 
-            <div class="nav-section">Pilotage</div>
-
-            <button class="nav-btn active" data-page="dashboard">
-                📊 <span>Dashboard</span>
-            </button>
-
-            <div class="nav-section">Référentiel</div>
-
-            <button class="nav-btn" data-page="personnel">
-                👥 <span>Personnel</span>
-            </button>
-
-            <button class="nav-btn" data-page="zones">
-                🏭 <span>Zones</span>
-            </button>
-
-            <button class="nav-btn" data-page="equipment">
-                ⚙️ <span>Équipements</span>
-            </button>
-
-            <button class="nav-btn" data-page="subequipment">
-                🔧 <span>Sous-équipements</span>
-            </button>
-
-            <div class="nav-section">Maintenance</div>
-
-            <button class="nav-btn" data-page="di">
-                📩 <span>Demandes DI</span>
-            </button>
-
-            <button class="nav-btn" data-page="ot">
-                🛠️ <span>Ordres de Travail OT</span>
-            </button>
-
-            <button class="nav-btn disabled-page" data-page="preventive">
-                📅 <span>Préventif</span>
-            </button>
-
-            <button class="nav-btn disabled-page" data-page="rca">
-                🔎 <span>RCA / BDA</span>
-            </button>
-
-            <button class="nav-btn disabled-page" data-page="reports">
-                📑 <span>Rapports</span>
-            </button>
-
-            <div class="nav-section">Système</div>
-
-            <button class="nav-btn" data-page="settings">
-                ⚙️ <span>Paramètres</span>
-            </button>
-
-            <button id="logoutBtn">
-                🚪 <span>Déconnexion</span>
-            </button>
+            <div class="brand-text">
+                <strong>GMAO PRO</strong>
+                <small>V5 SECURE</small>
+            </div>
 
         </div>
+
+
+        <div class="nav-section">
+            Général
+        </div>
+
+        <button
+            class="nav-btn active"
+            data-page="dashboard">
+            📊 <span>Dashboard</span>
+        </button>
+
+
+        <div class="nav-section">
+            Référentiel
+        </div>
+
+        <button class="nav-btn" data-page="personnel">
+            👥 <span>Personnel</span>
+        </button>
+
+        <button class="nav-btn" data-page="zones">
+            📍 <span>Zones</span>
+        </button>
+
+        <button class="nav-btn" data-page="equipment">
+            ⚙️ <span>Équipements</span>
+        </button>
+
+        <button class="nav-btn" data-page="subequipment">
+            🔧 <span>Sous-équipements</span>
+        </button>
+
+
+        <div class="nav-section">
+            Maintenance
+        </div>
+
+        <button class="nav-btn" data-page="di">
+            📝 <span>Demandes d'intervention</span>
+        </button>
+
+        <button class="nav-btn" data-page="ot">
+            🛠️ <span>Ordres de Travail</span>
+        </button>
+
+        <button class="nav-btn disabled-page" data-page="preventive">
+            🔄 <span>Préventif</span>
+        </button>
+
+        <button class="nav-btn disabled-page" data-page="rca">
+            🔎 <span>RCA / BDA</span>
+        </button>
+
+
+        <div class="nav-section">
+            Analyse
+        </div>
+
+        <button class="nav-btn disabled-page" data-page="reports">
+            📈 <span>Rapports</span>
+        </button>
+
+
+        <div class="nav-section">
+            Système
+        </div>
+
+        <button class="nav-btn" data-page="settings">
+            ⚙️ <span>Paramètres</span>
+        </button>
+
+        <button class="nav-btn" id="logoutBtn">
+            🚪 <span>Déconnexion</span>
+        </button>
 
     </aside>
 
@@ -812,21 +987,41 @@ tr:hover td{
 
         <header class="topbar">
 
-            <div>
-                <div class="page-title" id="pageTitle">
+            <div class="topbar-left">
+
+                <h1 id="pageTitle">
                     Dashboard
-                </div>
+                </h1>
+
+                <span class="version">
+                    V5 SECURE
+                </span>
+
             </div>
 
-            <div class="user-area">
 
-                <div class="user-info">
-                    <strong id="topUserName">Utilisateur</strong>
-                    <span id="topUserRole">-</span>
+            <div class="user-box">
+
+                <div>
+
+                    <div
+                        class="user-name"
+                        id="topUserName">
+                        —
+                    </div>
+
+                    <div
+                        class="user-role"
+                        id="topUserRole">
+                        —
+                    </div>
+
                 </div>
 
-                <div class="user-avatar" id="userAvatar">
-                    A
+                <div
+                    class="user-avatar"
+                    id="userAvatar">
+                    U
                 </div>
 
             </div>
@@ -834,1257 +1029,1665 @@ tr:hover td{
         </header>
 
 
-        <section class="content">
+        <div class="content">
 
 
-            <!-- ================================================= -->
-            <!-- DASHBOARD -->
-            <!-- ================================================= -->
+<!-- ============================================================
+     DASHBOARD
+============================================================ -->
 
-            <div id="page-dashboard" class="page active">
+<section
+    class="page active"
+    id="page-dashboard">
 
-                <div class="kpi-grid">
+    <div class="page-header">
 
-                    <div class="kpi">
-                        <div class="kpi-top">
-                            <span class="kpi-label">Équipements</span>
-                            <div class="kpi-icon">⚙️</div>
-                        </div>
-                        <div class="kpi-value" id="kpiEquipment">0</div>
-                        <div class="kpi-label">Référentiel équipements</div>
-                    </div>
+        <div>
+            <h2>Vue générale</h2>
 
-                    <div class="kpi">
-                        <div class="kpi-top">
-                            <span class="kpi-label">DI ouvertes</span>
-                            <div class="kpi-icon">📩</div>
-                        </div>
-                        <div class="kpi-value" id="kpiDI">0</div>
-                        <div class="kpi-label">Demandes d'intervention</div>
-                    </div>
+            <p>
+                Situation actuelle du système de maintenance.
+            </p>
+        </div>
 
-                    <div class="kpi">
-                        <div class="kpi-top">
-                            <span class="kpi-label">OT</span>
-                            <div class="kpi-icon">🛠️</div>
-                        </div>
-                        <div class="kpi-value" id="kpiOT">0</div>
-                        <div class="kpi-label">Ordres de travail</div>
-                    </div>
-
-                    <div class="kpi">
-                        <div class="kpi-top">
-                            <span class="kpi-label">Personnel</span>
-                            <div class="kpi-icon">👥</div>
-                        </div>
-                        <div class="kpi-value" id="kpiPersonnel">0</div>
-                        <div class="kpi-label">Profils actifs</div>
-                    </div>
-
-                </div>
+    </div>
 
 
-                <div class="dashboard-grid">
+    <div class="kpi-grid">
 
-                    <div class="panel">
+        <div class="kpi">
 
-                        <div class="panel-header">
-                            <h3>📩 Dernières DI</h3>
-                            <button class="btn btn-secondary" onclick="showPage('di')">
-                                Voir
-                            </button>
-                        </div>
+            <div class="kpi-label">
+                Équipements
+            </div>
 
-                        <div class="panel-body" id="dashboardDI">
-                            <div class="loading">Chargement...</div>
-                        </div>
+            <div
+                class="kpi-value"
+                id="kpiEquipment">
+                0
+            </div>
 
-                    </div>
+            <div class="kpi-icon">
+                ⚙️
+            </div>
+
+        </div>
 
 
-                    <div class="panel">
+        <div class="kpi">
 
-                        <div class="panel-header">
-                            <h3>🛠️ Derniers OT</h3>
-                            <button class="btn btn-secondary" onclick="showPage('ot')">
-                                Voir
-                            </button>
-                        </div>
+            <div class="kpi-label">
+                DI ouvertes
+            </div>
 
-                        <div class="panel-body" id="dashboardOT">
-                            <div class="loading">Chargement...</div>
-                        </div>
+            <div
+                class="kpi-value"
+                id="kpiDI">
+                0
+            </div>
 
-                    </div>
+            <div class="kpi-icon">
+                📝
+            </div>
 
+        </div>
+
+
+        <div class="kpi">
+
+            <div class="kpi-label">
+                OT ouverts
+            </div>
+
+            <div
+                class="kpi-value"
+                id="kpiOT">
+                0
+            </div>
+
+            <div class="kpi-icon">
+                🛠️
+            </div>
+
+        </div>
+
+
+        <div class="kpi">
+
+            <div class="kpi-label">
+                Personnel actif
+            </div>
+
+            <div
+                class="kpi-value"
+                id="kpiPersonnel">
+                0
+            </div>
+
+            <div class="kpi-icon">
+                👥
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="dashboard-grid">
+
+        <div class="panel">
+
+            <div class="panel-header">
+
+                <h3>
+                    Dernières demandes d'intervention
+                </h3>
+
+            </div>
+
+            <div
+                class="panel-body dashboard-list"
+                id="dashboardDI">
+
+                <div class="empty">
+                    Chargement...
                 </div>
 
             </div>
 
-
-            <!-- ================================================= -->
-            <!-- PERSONNEL -->
-            <!-- ================================================= -->
-
-            <div id="page-personnel" class="page">
-
-                <div class="toolbar">
-
-                    <div class="toolbar-left">
-                        <input
-                            class="search"
-                            id="personnelSearch"
-                            placeholder="🔎 Rechercher personnel..."
-                            oninput="renderPersonnel()">
-                    </div>
-
-                    <div class="toolbar-right">
-
-                        <button
-                            class="btn btn-primary manage-only"
-                            onclick="openPersonnelModal()">
-                            + Ajouter personnel
-                        </button>
-
-                    </div>
-
-                </div>
+        </div>
 
 
-                <div class="panel">
+        <div class="panel">
 
-                    <div class="panel-header">
-                        <h3>👥 Personnel</h3>
-                        <span id="personnelCount" class="badge badge-info">0</span>
-                    </div>
+            <div class="panel-header">
 
-                    <div class="table-wrapper">
+                <h3>
+                    Derniers ordres de travail
+                </h3>
 
-                        <table>
+            </div>
 
-                            <thead>
-                                <tr>
-                                    <th>Code</th>
-                                    <th>Nom</th>
-                                    <th>Rôle</th>
-                                    <th>Département</th>
-                                    <th>Poste</th>
-                                    <th>Téléphone</th>
-                                    <th>Statut</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
+            <div
+                class="panel-body dashboard-list"
+                id="dashboardOT">
 
-                            <tbody id="personnelTable"></tbody>
-
-                        </table>
-
-                    </div>
-
+                <div class="empty">
+                    Chargement...
                 </div>
 
             </div>
 
+        </div>
 
-            <!-- ================================================= -->
-            <!-- ZONES -->
-            <!-- ================================================= -->
+    </div>
 
-            <div id="page-zones" class="page">
+</section>
 
-                <div class="toolbar">
 
-                    <div class="toolbar-left">
-                        <input
-                            class="search"
-                            id="zoneSearch"
-                            placeholder="🔎 Rechercher zone..."
-                            oninput="renderZones()">
-                    </div>
+<!-- ============================================================
+     PERSONNEL
+============================================================ -->
 
-                    <div class="toolbar-right">
+<section
+    class="page"
+    id="page-personnel">
 
-                        <button
-                            class="btn btn-primary manage-only"
-                            onclick="openZoneModal()">
-                            + Ajouter zone
-                        </button>
+    <div class="page-header">
 
-                    </div>
+        <div>
+            <h2>Personnel</h2>
 
+            <p>
+                Utilisateurs et intervenants maintenance.
+            </p>
+        </div>
+
+        <button
+            class="btn btn-primary manage-only"
+            onclick="openPersonnelModal()">
+
+            + Ajouter
+
+        </button>
+
+    </div>
+
+
+    <div class="toolbar">
+
+        <input
+            class="search"
+            id="personnelSearch"
+            placeholder="Rechercher..."
+            oninput="renderPersonnel()">
+
+    </div>
+
+
+    <div class="panel">
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Code</th>
+                        <th>Nom</th>
+                        <th>Email</th>
+                        <th>Rôle</th>
+                        <th>Département</th>
+                        <th>Poste</th>
+                        <th>Statut</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="personnelTable"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ============================================================
+     ZONES
+============================================================ -->
+
+<section
+    class="page"
+    id="page-zones">
+
+    <div class="page-header">
+
+        <div>
+            <h2>Zones</h2>
+            <p>Organisation des secteurs industriels.</p>
+        </div>
+
+        <button
+            class="btn btn-primary manage-only"
+            onclick="openZoneModal()">
+
+            + Nouvelle zone
+
+        </button>
+
+    </div>
+
+
+    <div class="toolbar">
+
+        <input
+            class="search"
+            id="zoneSearch"
+            placeholder="Rechercher une zone..."
+            oninput="renderZones()">
+
+    </div>
+
+
+    <div class="panel">
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Code</th>
+                        <th>Nom</th>
+                        <th>Description</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="zoneTable"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ============================================================
+     EQUIPMENT
+============================================================ -->
+
+<section
+    class="page"
+    id="page-equipment">
+
+    <div class="page-header">
+
+        <div>
+            <h2>Équipements</h2>
+            <p>Référentiel technique des équipements.</p>
+        </div>
+
+        <button
+            class="btn btn-primary manage-only"
+            onclick="openEquipmentModal()">
+
+            + Équipement
+
+        </button>
+
+    </div>
+
+
+    <div class="toolbar">
+
+        <input
+            class="search"
+            id="equipmentSearch"
+            placeholder="Code, désignation, marque..."
+            oninput="renderEquipment()">
+
+    </div>
+
+
+    <div class="panel">
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Code</th>
+                        <th>Désignation</th>
+                        <th>Zone</th>
+                        <th>Type</th>
+                        <th>Marque</th>
+                        <th>Modèle</th>
+                        <th>Criticité</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="equipmentTable"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ============================================================
+     SUB EQUIPMENT
+============================================================ -->
+
+<section
+    class="page"
+    id="page-subequipment">
+
+    <div class="page-header">
+
+        <div>
+            <h2>Sous-équipements</h2>
+            <p>Composants liés aux équipements parents.</p>
+        </div>
+
+        <button
+            class="btn btn-primary manage-only"
+            onclick="openSubEquipmentModal()">
+
+            + Sous-équipement
+
+        </button>
+
+    </div>
+
+
+    <div class="toolbar">
+
+        <input
+            class="search"
+            id="subEquipmentSearch"
+            placeholder="Rechercher..."
+            oninput="renderSubEquipment()">
+
+    </div>
+
+
+    <div class="panel">
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Code</th>
+                        <th>Désignation</th>
+                        <th>Équipement</th>
+                        <th>Type</th>
+                        <th>Marque</th>
+                        <th>Modèle</th>
+                        <th>Criticité</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="subEquipmentTable"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ============================================================
+     DI
+============================================================ -->
+
+<section
+    class="page"
+    id="page-di">
+
+    <div class="page-header">
+
+        <div>
+            <h2>Demandes d'intervention</h2>
+            <p>Gestion des demandes de maintenance.</p>
+        </div>
+
+        <button
+            class="btn btn-primary"
+            onclick="openDIModal()">
+
+            + Nouvelle DI
+
+        </button>
+
+    </div>
+
+
+    <div class="toolbar">
+
+        <input
+            class="search"
+            id="diSearch"
+            placeholder="Rechercher..."
+            oninput="renderDI()">
+
+
+        <select
+            class="filter"
+            id="diStatusFilter"
+            onchange="renderDI()">
+
+            <option value="">Tous les statuts</option>
+            <option value="new">Nouvelle</option>
+            <option value="in_progress">En cours</option>
+            <option value="closed">Clôturée</option>
+
+        </select>
+
+    </div>
+
+
+    <div class="panel">
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Code</th>
+                        <th>Date</th>
+                        <th>Demandeur</th>
+                        <th>Zone</th>
+                        <th>Équipement</th>
+                        <th>Priorité</th>
+                        <th>Type</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="diTable"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ============================================================
+     OT
+============================================================ -->
+
+<section
+    class="page"
+    id="page-ot">
+
+    <div class="page-header">
+
+        <div>
+            <h2>Ordres de Travail</h2>
+            <p>Planification et exécution des interventions.</p>
+        </div>
+
+        <button
+            class="btn btn-primary"
+            onclick="openOTModal()">
+
+            + Nouvel OT
+
+        </button>
+
+    </div>
+
+
+    <div class="toolbar">
+
+        <input
+            class="search"
+            id="otSearch"
+            placeholder="Rechercher..."
+            oninput="renderOT()">
+
+
+        <select
+            class="filter"
+            id="otStatusFilter"
+            onchange="renderOT()">
+
+            <option value="">Tous</option>
+            <option value="open">Ouvert</option>
+            <option value="in_progress">En cours</option>
+            <option value="completed">Terminé</option>
+            <option value="validated">Validé</option>
+            <option value="closed">Clôturé</option>
+
+        </select>
+
+    </div>
+
+
+    <div class="panel">
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Code</th>
+                        <th>Date</th>
+                        <th>DI</th>
+                        <th>Équipement</th>
+                        <th>Technicien</th>
+                        <th>Priorité</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="otTable"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ============================================================
+     PREVENTIVE
+============================================================ -->
+
+<section
+    class="page"
+    id="page-preventive">
+
+    <div class="panel">
+
+        <div class="panel-body">
+
+            <h2>Maintenance Préventive</h2>
+
+            <p style="color:var(--muted)">
+                Module prévu pour V5.3 :
+                plans préventifs, gammes, périodicité,
+                échéances et génération automatique des OT.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ============================================================
+     RCA
+============================================================ -->
+
+<section
+    class="page"
+    id="page-rca">
+
+    <div class="panel">
+
+        <div class="panel-body">
+
+            <h2>RCA / BDA</h2>
+
+            <p style="color:var(--muted)">
+                Module prévu pour les analyses 5 Why,
+                5M, Ishikawa, causes racines et plans d'action.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ============================================================
+     REPORTS
+============================================================ -->
+
+<section
+    class="page"
+    id="page-reports">
+
+    <div class="panel">
+
+        <div class="panel-body">
+
+            <h2>Rapports & KPI</h2>
+
+            <p style="color:var(--muted)">
+                MTBF, MTTR, disponibilité, Pareto,
+                préventif/correctif et reporting maintenance.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ============================================================
+     SETTINGS
+============================================================ -->
+
+<section
+    class="page"
+    id="page-settings">
+
+    <div class="page-header">
+
+        <div>
+            <h2>Paramètres</h2>
+            <p>Informations du compte connecté.</p>
+        </div>
+
+    </div>
+
+
+    <div class="panel">
+
+        <div
+            class="panel-body"
+            id="settingsInfo">
+
+            Chargement...
+
+        </div>
+
+    </div>
+
+
+    <div class="panel">
+
+        <div class="panel-header">
+
+            <h3>
+                Architecture sécurité
+            </h3>
+
+        </div>
+
+        <div class="panel-body">
+
+            <div class="form-grid">
+
+                <div>
+                    <label>Authentification</label>
+                    <input
+                        value="Supabase Auth"
+                        readonly>
                 </div>
 
+                <div>
+                    <label>Autorisation</label>
+                    <input
+                        value="RLS PostgreSQL"
+                        readonly>
+                </div>
 
-                <div class="panel">
+                <div>
+                    <label>Journalisation</label>
+                    <input
+                        value="Audit Logs"
+                        readonly>
+                </div>
 
-                    <div class="panel-header">
-                        <h3>🏭 Zones</h3>
-                        <span id="zoneCount" class="badge badge-info">0</span>
-                    </div>
-
-                    <div class="table-wrapper">
-
-                        <table>
-
-                            <thead>
-                                <tr>
-                                    <th>Code</th>
-                                    <th>Nom</th>
-                                    <th>Description</th>
-                                    <th>Statut</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-
-                            <tbody id="zoneTable"></tbody>
-
-                        </table>
-
-                    </div>
-
+                <div>
+                    <label>Version</label>
+                    <input
+                        value="GMAO PRO V5 Secure"
+                        readonly>
                 </div>
 
             </div>
 
+        </div>
 
-            <!-- ================================================= -->
-            <!-- EQUIPMENT -->
-            <!-- ================================================= -->
+    </div>
 
-            <div id="page-equipment" class="page">
+</section>
 
-                <div class="toolbar">
 
-                    <div class="toolbar-left">
-                        <input
-                            class="search"
-                            id="equipmentSearch"
-                            placeholder="🔎 Rechercher équipement..."
-                            oninput="renderEquipment()">
-                    </div>
-
-                    <div class="toolbar-right">
-
-                        <button
-                            class="btn btn-primary manage-only"
-                            onclick="openEquipmentModal()">
-                            + Ajouter équipement
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-                <div class="panel">
-
-                    <div class="panel-header">
-                        <h3>⚙️ Équipements</h3>
-                        <span id="equipmentCount" class="badge badge-info">0</span>
-                    </div>
-
-                    <div class="table-wrapper">
-
-                        <table>
-
-                            <thead>
-                                <tr>
-                                    <th>Code</th>
-                                    <th>Désignation</th>
-                                    <th>Zone</th>
-                                    <th>Type</th>
-                                    <th>Marque</th>
-                                    <th>Modèle</th>
-                                    <th>Criticité</th>
-                                    <th>Statut</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-
-                            <tbody id="equipmentTable"></tbody>
-
-                        </table>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- ================================================= -->
-            <!-- SOUS EQUIPMENT -->
-            <!-- ================================================= -->
-
-            <div id="page-subequipment" class="page">
-
-                <div class="toolbar">
-
-                    <div class="toolbar-left">
-
-                        <input
-                            class="search"
-                            id="subEquipmentSearch"
-                            placeholder="🔎 Rechercher sous-équipement..."
-                            oninput="renderSubEquipment()">
-
-                    </div>
-
-                    <div class="toolbar-right">
-
-                        <button
-                            class="btn btn-primary manage-only"
-                            onclick="openSubEquipmentModal()">
-                            + Ajouter sous-équipement
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-                <div class="panel">
-
-                    <div class="panel-header">
-                        <h3>🔧 Sous-équipements</h3>
-                        <span id="subEquipmentCount" class="badge badge-info">0</span>
-                    </div>
-
-                    <div class="table-wrapper">
-
-                        <table>
-
-                            <thead>
-                                <tr>
-                                    <th>Code</th>
-                                    <th>Désignation</th>
-                                    <th>Équipement parent</th>
-                                    <th>Type</th>
-                                    <th>Marque</th>
-                                    <th>Modèle</th>
-                                    <th>Criticité</th>
-                                    <th>Statut</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-
-                            <tbody id="subEquipmentTable"></tbody>
-
-                        </table>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- ================================================= -->
-            <!-- DI -->
-            <!-- ================================================= -->
-
-            <div id="page-di" class="page">
-
-                <div class="toolbar">
-
-                    <div class="toolbar-left">
-
-                        <input
-                            class="search"
-                            id="diSearch"
-                            placeholder="🔎 Code, équipement, description..."
-                            oninput="renderDI()">
-
-                        <select id="diStatusFilter" onchange="renderDI()">
-                            <option value="">Tous les statuts</option>
-                            <option value="new">Nouvelle</option>
-                            <option value="in_progress">En cours</option>
-                            <option value="closed">Clôturée</option>
-                        </select>
-
-                    </div>
-
-                    <div class="toolbar-right">
-
-                        <button
-                            class="btn btn-primary"
-                            onclick="openDIModal()">
-                            + Nouvelle DI
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-                <div class="panel">
-
-                    <div class="panel-header">
-                        <h3>📩 Demandes d'intervention</h3>
-                        <span id="diCount" class="badge badge-info">0</span>
-                    </div>
-
-                    <div class="table-wrapper">
-
-                        <table>
-
-                            <thead>
-                                <tr>
-                                    <th>Code</th>
-                                    <th>Date</th>
-                                    <th>Demandeur</th>
-                                    <th>Zone</th>
-                                    <th>Équipement</th>
-                                    <th>Priorité</th>
-                                    <th>Type</th>
-                                    <th>Statut</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-
-                            <tbody id="diTable"></tbody>
-
-                        </table>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- ================================================= -->
-            <!-- OT -->
-            <!-- ================================================= -->
-
-            <div id="page-ot" class="page">
-
-                <div class="toolbar">
-
-                    <div class="toolbar-left">
-
-                        <input
-                            class="search"
-                            id="otSearch"
-                            placeholder="🔎 Code OT, équipement, technicien..."
-                            oninput="renderOT()">
-
-                        <select id="otStatusFilter" onchange="renderOT()">
-                            <option value="">Tous les statuts</option>
-                            <option value="open">Ouvert</option>
-                            <option value="in_progress">En cours</option>
-                            <option value="completed">Terminé</option>
-                            <option value="validated">Validé</option>
-                            <option value="closed">Clôturé</option>
-                        </select>
-
-                    </div>
-
-                    <div class="toolbar-right">
-
-                        <button
-                            class="btn btn-primary manage-only"
-                            onclick="openOTModal()">
-                            + Créer OT
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-                <div class="panel">
-
-                    <div class="panel-header">
-                        <h3>🛠️ Ordres de Travail</h3>
-                        <span id="otCount" class="badge badge-info">0</span>
-                    </div>
-
-                    <div class="table-wrapper">
-
-                        <table>
-
-                            <thead>
-                                <tr>
-                                    <th>Code</th>
-                                    <th>Date</th>
-                                    <th>DI</th>
-                                    <th>Équipement</th>
-                                    <th>Technicien</th>
-                                    <th>Priorité</th>
-                                    <th>Statut</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-
-                            <tbody id="otTable"></tbody>
-
-                        </table>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- ================================================= -->
-            <!-- PREVENTIVE -->
-            <!-- ================================================= -->
-
-            <div id="page-preventive" class="page">
-
-                <div class="panel">
-
-                    <div class="panel-header">
-                        <h3>📅 Maintenance préventive</h3>
-                    </div>
-
-                    <div class="empty">
-                        <div style="font-size:40px">📅</div>
-                        <p style="margin-top:10px">
-                            Module Préventif — prochaine étape
-                        </p>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- ================================================= -->
-            <!-- RCA -->
-            <!-- ================================================= -->
-
-            <div id="page-rca" class="page">
-
-                <div class="panel">
-
-                    <div class="panel-header">
-                        <h3>🔎 RCA / BDA</h3>
-                    </div>
-
-                    <div class="empty">
-                        <div style="font-size:40px">🔎</div>
-                        <p style="margin-top:10px">
-                            Module RCA/BDA — prochaine étape
-                        </p>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- ================================================= -->
-            <!-- REPORTS -->
-            <!-- ================================================= -->
-
-            <div id="page-reports" class="page">
-
-                <div class="panel">
-
-                    <div class="panel-header">
-                        <h3>📑 Rapports</h3>
-                    </div>
-
-                    <div class="empty">
-                        <div style="font-size:40px">📑</div>
-                        <p style="margin-top:10px">
-                            Module Rapports — prochaine étape
-                        </p>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- ================================================= -->
-            <!-- SETTINGS -->
-            <!-- ================================================= -->
-
-            <div id="page-settings" class="page">
-
-                <div class="panel">
-
-                    <div class="panel-header">
-                        <h3>⚙️ Paramètres</h3>
-                    </div>
-
-                    <div class="panel-body">
-
-                        <h3 style="margin-bottom:15px">
-                            Informations utilisateur
-                        </h3>
-
-                        <div id="settingsInfo"></div>
-
-                        <hr style="border:0;border-top:1px solid var(--border);margin:25px 0">
-
-                        <h3 style="margin-bottom:15px">
-                            Session
-                        </h3>
-
-                        <button
-                            class="btn btn-danger"
-                            onclick="logout()">
-                            🚪 Déconnexion
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-        </section>
-
+        </div>
     </main>
 
 </div>
 
 
-<!-- ========================================================= -->
-<!-- PERSONNEL MODAL -->
-<!-- ========================================================= -->
+<!-- ============================================================
+     MODALS
+============================================================ -->
 
-<div class="modal" id="personnelModal">
+<!-- ZONE -->
 
-    <div class="modal-box">
+<div
+    class="modal"
+    id="zoneModal">
+
+    <div class="modal-card">
 
         <div class="modal-header">
-            <h3>👥 Ajouter un personnel</h3>
-            <button class="close" onclick="closeModal('personnelModal')">×</button>
+
+            <h3>Nouvelle zone</h3>
+
+            <button
+                class="modal-close"
+                onclick="closeModal('zoneModal')">
+                ×
+            </button>
+
         </div>
 
-        <form id="personnelForm">
+        <div class="modal-body">
 
-            <div class="modal-body">
-
-                <div id="personnelModalMessage"></div>
+            <form id="zoneForm">
 
                 <div class="form-grid">
 
                     <div class="form-group">
-                        <label>Nom complet *</label>
-                        <input id="personnelName" required>
-                    </div>
 
-                    <div class="form-group">
-                        <label>Email *</label>
-                        <input id="personnelEmail" type="email" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Mot de passe initial *</label>
-                        <input
-                            id="personnelPassword"
-                            type="password"
-                            minlength="6"
-                            required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Rôle *</label>
-
-                        <select id="personnelRole" required>
-                            <option value="technician">Technicien</option>
-                            <option value="manager">Responsable Maintenance</option>
-                            <option value="admin">Administrateur</option>
-                        </select>
-
-                    </div>
-
-                    <div class="form-group">
-                        <label>Téléphone</label>
-                        <input id="personnelPhone">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Département</label>
-                        <input id="personnelDepartment">
-                    </div>
-
-                    <div class="form-group form-full">
-                        <label>Poste</label>
-                        <input id="personnelPosition">
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="modal-footer">
-
-                <button
-                    type="button"
-                    class="btn btn-secondary"
-                    onclick="closeModal('personnelModal')">
-                    Annuler
-                </button>
-
-                <button
-                    type="submit"
-                    class="btn btn-primary">
-                    Créer personnel
-                </button>
-
-            </div>
-
-        </form>
-
-    </div>
-
-</div>
-
-
-<!-- ========================================================= -->
-<!-- ZONE MODAL -->
-<!-- ========================================================= -->
-
-<div class="modal" id="zoneModal">
-
-    <div class="modal-box">
-
-        <div class="modal-header">
-            <h3>🏭 Ajouter une zone</h3>
-            <button class="close" onclick="closeModal('zoneModal')">×</button>
-        </div>
-
-        <form id="zoneForm">
-
-            <div class="modal-body">
-
-                <div class="form-grid">
-
-                    <div class="form-group">
                         <label>Code</label>
+
                         <input
                             id="zoneCode"
-                            placeholder="Auto : ZP-001">
+                            placeholder="ZP-001">
+
                     </div>
 
                     <div class="form-group">
+
                         <label>Nom *</label>
-                        <input id="zoneName" required>
-                    </div>
 
-                    <div class="form-group form-full">
-                        <label>Description</label>
-                        <textarea id="zoneDescription"></textarea>
+                        <input
+                            id="zoneName"
+                            required>
+
                     </div>
 
                     <div class="form-group">
+
                         <label>Statut</label>
+
                         <select id="zoneStatus">
-                            <option value="active">Active</option>
-                            <option value="inactive">Inactive</option>
+
+                            <option value="active">
+                                Actif
+                            </option>
+
+                            <option value="inactive">
+                                Inactif
+                            </option>
+
                         </select>
+
+                    </div>
+
+                    <div class="form-group full">
+
+                        <label>Description</label>
+
+                        <textarea
+                            id="zoneDescription"></textarea>
+
                     </div>
 
                 </div>
 
-            </div>
+                <div class="form-actions">
 
-            <div class="modal-footer">
+                    <button
+                        type="button"
+                        class="btn"
+                        onclick="closeModal('zoneModal')">
+                        Annuler
+                    </button>
 
-                <button
-                    type="button"
-                    class="btn btn-secondary"
-                    onclick="closeModal('zoneModal')">
-                    Annuler
-                </button>
+                    <button
+                        class="btn btn-primary"
+                        type="submit">
+                        Créer
+                    </button>
 
-                <button
-                    type="submit"
-                    class="btn btn-primary">
-                    Enregistrer
-                </button>
+                </div>
 
-            </div>
+            </form>
 
-        </form>
+        </div>
 
     </div>
 
 </div>
 
 
-<!-- ========================================================= -->
-<!-- EQUIPMENT MODAL -->
-<!-- ========================================================= -->
+<!-- EQUIPMENT -->
 
-<div class="modal" id="equipmentModal">
+<div
+    class="modal"
+    id="equipmentModal">
 
-    <div class="modal-box">
+    <div class="modal-card">
 
         <div class="modal-header">
-            <h3>⚙️ Ajouter un équipement</h3>
-            <button class="close" onclick="closeModal('equipmentModal')">×</button>
+
+            <h3>Nouvel équipement</h3>
+
+            <button
+                class="modal-close"
+                onclick="closeModal('equipmentModal')">
+                ×
+            </button>
+
         </div>
 
-        <form id="equipmentForm">
+        <div class="modal-body">
 
-            <div class="modal-body">
+            <form id="equipmentForm">
 
                 <div class="form-grid">
 
                     <div class="form-group">
+
                         <label>Code</label>
-                        <input
-                            id="equipmentCode"
-                            placeholder="Auto : EQ-0001">
+
+                        <input id="equipmentCode">
+
                     </div>
 
                     <div class="form-group">
+
                         <label>Désignation *</label>
-                        <input id="equipmentDesignation" required>
+
+                        <input
+                            id="equipmentDesignation"
+                            required>
+
                     </div>
 
                     <div class="form-group">
-                        <label>Zone *</label>
-                        <select id="equipmentZone" required></select>
+
+                        <label>Zone</label>
+
+                        <select id="equipmentZone"></select>
+
                     </div>
 
                     <div class="form-group">
+
                         <label>Type</label>
+
                         <input id="equipmentType">
+
                     </div>
 
                     <div class="form-group">
+
                         <label>Marque</label>
+
                         <input id="equipmentBrand">
+
                     </div>
 
                     <div class="form-group">
+
                         <label>Modèle</label>
+
                         <input id="equipmentModel">
+
                     </div>
 
                     <div class="form-group">
-                        <label>N° Série</label>
+
+                        <label>N° série</label>
+
                         <input id="equipmentSerial">
+
                     </div>
 
                     <div class="form-group">
+
                         <label>Criticité</label>
+
                         <select id="equipmentCriticality">
+
                             <option value="A">A — Critique</option>
-                            <option value="B" selected>B — Importante</option>
-                            <option value="C">C — Standard</option>
+                            <option value="B">B — Moyenne</option>
+                            <option value="C">C — Faible</option>
+
                         </select>
+
                     </div>
 
                     <div class="form-group">
+
                         <label>Statut</label>
+
                         <select id="equipmentStatus">
+
                             <option value="active">Actif</option>
                             <option value="maintenance">Maintenance</option>
                             <option value="inactive">Inactif</option>
+
                         </select>
+
                     </div>
 
                     <div class="form-group">
+
                         <label>Date installation</label>
+
                         <input
-                            id="equipmentInstallationDate"
-                            type="date">
+                            type="date"
+                            id="equipmentInstallationDate">
+
                     </div>
 
-                    <div class="form-group form-full">
+                    <div class="form-group full">
+
                         <label>Description</label>
-                        <textarea id="equipmentDescription"></textarea>
+
+                        <textarea
+                            id="equipmentDescription"></textarea>
+
                     </div>
 
                 </div>
 
-            </div>
+                <div class="form-actions">
 
-            <div class="modal-footer">
+                    <button
+                        type="button"
+                        class="btn"
+                        onclick="closeModal('equipmentModal')">
+                        Annuler
+                    </button>
 
-                <button
-                    type="button"
-                    class="btn btn-secondary"
-                    onclick="closeModal('equipmentModal')">
-                    Annuler
-                </button>
+                    <button
+                        type="submit"
+                        class="btn btn-primary">
+                        Créer
+                    </button>
 
-                <button
-                    type="submit"
-                    class="btn btn-primary">
-                    Enregistrer
-                </button>
+                </div>
 
-            </div>
+            </form>
 
-        </form>
+        </div>
 
     </div>
 
 </div>
 
 
-<!-- ========================================================= -->
-<!-- SUB EQUIPMENT MODAL -->
-<!-- ========================================================= -->
+<!-- SUB EQUIPMENT -->
 
-<div class="modal" id="subEquipmentModal">
+<div
+    class="modal"
+    id="subEquipmentModal">
 
-    <div class="modal-box">
+    <div class="modal-card">
 
         <div class="modal-header">
-            <h3>🔧 Ajouter un sous-équipement</h3>
-            <button class="close" onclick="closeModal('subEquipmentModal')">×</button>
+
+            <h3>Nouveau sous-équipement</h3>
+
+            <button
+                class="modal-close"
+                onclick="closeModal('subEquipmentModal')">
+                ×
+            </button>
+
         </div>
 
-        <form id="subEquipmentForm">
+        <div class="modal-body">
 
-            <div class="modal-body">
+            <form id="subEquipmentForm">
 
                 <div class="form-grid">
 
                     <div class="form-group">
+
                         <label>Code</label>
-                        <input
-                            id="subEquipmentCode"
-                            placeholder="Auto : SE-0001">
+                        <input id="subEquipmentCode">
+
                     </div>
 
                     <div class="form-group">
+
                         <label>Désignation *</label>
-                        <input id="subEquipmentDesignation" required>
+                        <input
+                            id="subEquipmentDesignation"
+                            required>
+
                     </div>
 
-                    <div class="form-group form-full">
-                        <label>Équipement parent *</label>
-                        <select id="subEquipmentParent" required></select>
+                    <div class="form-group full">
+
+                        <label>Équipement parent</label>
+
+                        <select
+                            id="subEquipmentParent">
+                        </select>
+
                     </div>
 
                     <div class="form-group">
+
                         <label>Type</label>
                         <input id="subEquipmentType">
+
                     </div>
 
                     <div class="form-group">
+
                         <label>Marque</label>
                         <input id="subEquipmentBrand">
+
                     </div>
 
                     <div class="form-group">
+
                         <label>Modèle</label>
                         <input id="subEquipmentModel">
+
                     </div>
 
                     <div class="form-group">
-                        <label>N° Série</label>
+
+                        <label>N° série</label>
                         <input id="subEquipmentSerial">
+
                     </div>
 
                     <div class="form-group">
+
                         <label>Criticité</label>
+
                         <select id="subEquipmentCriticality">
+
                             <option value="A">A — Critique</option>
-                            <option value="B" selected>B — Importante</option>
-                            <option value="C">C — Standard</option>
+                            <option value="B">B — Moyenne</option>
+                            <option value="C">C — Faible</option>
+
                         </select>
+
                     </div>
 
                     <div class="form-group">
+
                         <label>Statut</label>
+
                         <select id="subEquipmentStatus">
+
                             <option value="active">Actif</option>
                             <option value="maintenance">Maintenance</option>
                             <option value="inactive">Inactif</option>
+
                         </select>
+
                     </div>
 
-                    <div class="form-group form-full">
+                    <div class="form-group full">
+
                         <label>Spécification</label>
-                        <textarea id="subEquipmentSpecification"></textarea>
+
+                        <textarea
+                            id="subEquipmentSpecification">
+                        </textarea>
+
                     </div>
 
-                    <div class="form-group form-full">
+                    <div class="form-group full">
+
                         <label>Observation</label>
-                        <textarea id="subEquipmentObservation"></textarea>
+
+                        <textarea
+                            id="subEquipmentObservation">
+                        </textarea>
+
                     </div>
 
                 </div>
 
-            </div>
+                <div class="form-actions">
 
-            <div class="modal-footer">
+                    <button
+                        type="button"
+                        class="btn"
+                        onclick="closeModal('subEquipmentModal')">
+                        Annuler
+                    </button>
 
-                <button
-                    type="button"
-                    class="btn btn-secondary"
-                    onclick="closeModal('subEquipmentModal')">
-                    Annuler
-                </button>
+                    <button
+                        type="submit"
+                        class="btn btn-primary">
+                        Créer
+                    </button>
 
-                <button
-                    type="submit"
-                    class="btn btn-primary">
-                    Enregistrer
-                </button>
+                </div>
 
-            </div>
+            </form>
 
-        </form>
+        </div>
 
     </div>
 
 </div>
 
 
-<!-- ========================================================= -->
-<!-- DI MODAL -->
-<!-- ========================================================= -->
+<!-- DI -->
 
-<div class="modal" id="diModal">
+<div
+    class="modal"
+    id="diModal">
 
-    <div class="modal-box">
+    <div class="modal-card">
 
         <div class="modal-header">
-            <h3>📩 Nouvelle demande d'intervention</h3>
-            <button class="close" onclick="closeModal('diModal')">×</button>
+
+            <h3>Nouvelle demande d'intervention</h3>
+
+            <button
+                class="modal-close"
+                onclick="closeModal('diModal')">
+                ×
+            </button>
+
         </div>
 
-        <form id="diForm">
+        <div class="modal-body">
 
-            <div class="modal-body">
+            <form id="diForm">
 
                 <div class="form-grid">
 
                     <div class="form-group">
-                        <label>Demandeur *</label>
-                        <input id="diRequester" required>
+
+                        <label>Demandeur</label>
+
+                        <input
+                            id="diRequester"
+                            required>
+
                     </div>
 
                     <div class="form-group">
-                        <label>Zone</label>
-                        <select id="diZone"></select>
-                    </div>
 
-                    <div class="form-group">
-                        <label>Équipement</label>
-                        <select id="diEquipment"></select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Sous-équipement</label>
-                        <select id="diSubEquipment"></select>
-                    </div>
-
-                    <div class="form-group">
                         <label>Priorité</label>
 
                         <select id="diPriority">
-                            <option value="high">Haute</option>
-                            <option value="medium" selected>Moyenne</option>
-                            <option value="low">Basse</option>
+
+                            <option value="high">
+                                Haute
+                            </option>
+
+                            <option value="medium" selected>
+                                Moyenne
+                            </option>
+
+                            <option value="low">
+                                Faible
+                            </option>
+
                         </select>
 
                     </div>
 
                     <div class="form-group">
+
+                        <label>Zone</label>
+
+                        <select id="diZone"></select>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>Équipement</label>
+
+                        <select id="diEquipment"></select>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>Sous-équipement</label>
+
+                        <select id="diSubEquipment"></select>
+
+                    </div>
+
+                    <div class="form-group">
+
                         <label>Type</label>
 
                         <select id="diType">
-                            <option value="curative">Curative</option>
-                            <option value="preventive">Préventive</option>
-                            <option value="improvement">Amélioration</option>
-                            <option value="inspection">Inspection</option>
+
+                            <option value="corrective">
+                                Corrective
+                            </option>
+
+                            <option value="preventive">
+                                Préventive
+                            </option>
+
+                            <option value="inspection">
+                                Inspection
+                            </option>
+
                         </select>
 
                     </div>
 
-                    <div class="form-group form-full">
-                        <label>Description du problème *</label>
+                    <div class="form-group full">
+
+                        <label>Description *</label>
+
                         <textarea
                             id="diDescription"
-                            required
-                            placeholder="Décrire la panne ou le besoin d'intervention..."></textarea>
+                            required></textarea>
+
                     </div>
 
                 </div>
 
-            </div>
+                <div class="form-actions">
 
-            <div class="modal-footer">
+                    <button
+                        type="button"
+                        class="btn"
+                        onclick="closeModal('diModal')">
+                        Annuler
+                    </button>
 
-                <button
-                    type="button"
-                    class="btn btn-secondary"
-                    onclick="closeModal('diModal')">
-                    Annuler
-                </button>
+                    <button
+                        class="btn btn-primary"
+                        type="submit">
+                        Créer la DI
+                    </button>
 
-                <button
-                    type="submit"
-                    class="btn btn-primary">
-                    Créer DI
-                </button>
+                </div>
 
-            </div>
+            </form>
 
-        </form>
+        </div>
 
     </div>
 
 </div>
 
 
-<!-- ========================================================= -->
-<!-- OT MODAL -->
-<!-- ========================================================= -->
+<!-- OT -->
 
-<div class="modal" id="otModal">
+<div
+    class="modal"
+    id="otModal">
 
-    <div class="modal-box">
+    <div class="modal-card">
 
         <div class="modal-header">
-            <h3>🛠️ Ordre de Travail</h3>
-            <button class="close" onclick="closeModal('otModal')">×</button>
+
+            <h3>Ordre de Travail</h3>
+
+            <button
+                class="modal-close"
+                onclick="closeModal('otModal')">
+                ×
+            </button>
+
         </div>
 
-        <form id="otForm">
+        <div class="modal-body">
 
-            <input type="hidden" id="otId">
+            <form id="otForm">
 
-            <div class="modal-body">
+                <input
+                    type="hidden"
+                    id="otId">
 
                 <div class="form-grid">
 
                     <div class="form-group">
-                        <label>DI associée</label>
+
+                        <label>DI</label>
+
                         <select id="otDI"></select>
+
                     </div>
 
                     <div class="form-group">
+
                         <label>Équipement</label>
+
                         <select id="otEquipment"></select>
+
                     </div>
 
                     <div class="form-group">
+
                         <label>Sous-équipement</label>
+
                         <select id="otSubEquipment"></select>
+
                     </div>
 
                     <div class="form-group">
+
                         <label>Technicien</label>
+
                         <select id="otTechnician"></select>
+
                     </div>
 
                     <div class="form-group">
+
                         <label>Priorité</label>
 
                         <select id="otPriority">
+
                             <option value="high">Haute</option>
-                            <option value="medium" selected>Moyenne</option>
-                            <option value="low">Basse</option>
+                            <option value="medium">Moyenne</option>
+                            <option value="low">Faible</option>
+
                         </select>
 
                     </div>
 
                     <div class="form-group">
+
                         <label>Statut</label>
 
                         <select id="otStatus">
-                            <option value="open">Ouvert</option>
-                            <option value="in_progress">En cours</option>
-                            <option value="completed">Terminé</option>
-                            <option value="validated">Validé</option>
-                            <option value="closed">Clôturé</option>
+
+                            <option value="open">
+                                Ouvert
+                            </option>
+
+                            <option value="in_progress">
+                                En cours
+                            </option>
+
+                            <option value="completed">
+                                Terminé
+                            </option>
+
+                            <option value="validated">
+                                Validé
+                            </option>
+
+                            <option value="closed">
+                                Clôturé
+                            </option>
+
                         </select>
 
                     </div>
 
-                    <div class="form-group form-full">
-                        <label>Travail à effectuer</label>
-                        <textarea id="otWorkPerformed"></textarea>
+                    <div class="form-group full">
+
+                        <label>Travail effectué</label>
+
+                        <textarea
+                            id="otWorkPerformed">
+                        </textarea>
+
                     </div>
 
-                    <div class="form-group form-full">
+                    <div class="form-group full">
+
                         <label>Rapport d'intervention</label>
+
                         <textarea
-                            id="otReport"
-                            placeholder="Travaux réalisés, pièces remplacées, mesures, observations..."></textarea>
+                            id="otReport">
+                        </textarea>
+
                     </div>
 
                 </div>
 
-            </div>
+                <div class="form-actions">
 
-            <div class="modal-footer">
+                    <button
+                        type="button"
+                        class="btn"
+                        onclick="closeModal('otModal')">
+                        Annuler
+                    </button>
 
-                <button
-                    type="button"
-                    class="btn btn-secondary"
-                    onclick="closeModal('otModal')">
-                    Annuler
-                </button>
+                    <button
+                        type="submit"
+                        class="btn btn-primary">
+                        Enregistrer
+                    </button>
 
-                <button
-                    type="submit"
-                    class="btn btn-primary">
-                    Enregistrer OT
-                </button>
+                </div>
 
-            </div>
+            </form>
 
-        </form>
+        </div>
 
     </div>
 
 </div>
 
 
-<div class="toast-container" id="toastContainer"></div>
+<!-- PERSONNEL -->
+
+<div
+    class="modal"
+    id="personnelModal">
+
+    <div class="modal-card">
+
+        <div class="modal-header">
+
+            <h3>Ajouter un personnel</h3>
+
+            <button
+                class="modal-close"
+                onclick="closeModal('personnelModal')">
+                ×
+            </button>
+
+        </div>
+
+        <div class="modal-body">
+
+            <form id="personnelForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>Code employé</label>
+
+                        <input id="personnelCode">
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>Nom complet *</label>
+
+                        <input
+                            id="personnelName"
+                            required>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>Email *</label>
+
+                        <input
+                            type="email"
+                            id="personnelEmail"
+                            required>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>Mot de passe initial *</label>
+
+                        <input
+                            type="password"
+                            id="personnelPassword"
+                            minlength="8"
+                            required>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>Rôle</label>
+
+                        <select id="personnelRole">
+
+                            <option value="technician">
+                                Technicien
+                            </option>
+
+                            <option value="manager">
+                                Responsable Maintenance
+                            </option>
+
+                            <option value="viewer">
+                                Consultation
+                            </option>
+
+                            <option value="admin">
+                                Administrateur
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>Téléphone</label>
+
+                        <input id="personnelPhone">
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>Département</label>
+
+                        <input id="personnelDepartment">
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>Poste</label>
+
+                        <input id="personnelPosition">
+
+                    </div>
+
+                </div>
+
+                <div class="login-info">
+                    ⚠️ Dans la version finale sécurisée,
+                    la création Auth sera déplacée vers une
+                    Edge Function protégée.
+                </div>
+
+                <div class="form-actions">
+
+                    <button
+                        type="button"
+                        class="btn"
+                        onclick="closeModal('personnelModal')">
+                        Annuler
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary">
+                        Créer
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- TOAST -->
+
+<div id="toastContainer"></div>
 
 
 <script>
-
 /* ============================================================
    SUPABASE
 ============================================================ */
 
 const SUPABASE_URL =
-'https://qnrfkfrornozwvgewcwk.supabase.co';
+    'https://qnrfkfrornozwvgewcwk.supabase.co';
 
 const SUPABASE_ANON_KEY =
-'sb_publishable_DBe5PuyHPvdHnRnqr2lpqw_t4m3C8SY';
+    'sb_publishable_DBe5PuyHPvdHnRnqr2lpqw_t4m3C8SY';
 
 const sb =
-window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-);
-
-
-/*
-   Client séparé uniquement pour créer un compte Auth.
-   persistSession:false évite de remplacer la session
-   de l'administrateur connecté.
-*/
-
-const authClient =
-window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY,
-    {
-        auth:{
-            persistSession:false,
-            autoRefreshToken:false,
-            detectSessionInUrl:false
-        }
-    }
-);
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
 
 
 /* ============================================================
-   VARIABLES
+   STATE
 ============================================================ */
 
 let currentUser = null;
@@ -2099,41 +2702,124 @@ let otList = [];
 
 
 /* ============================================================
-   HELPERS
+   ROLE
+============================================================ */
+
+const roleLabels = {
+
+    admin:
+        'Administrateur',
+
+    manager:
+        'Responsable Maintenance',
+
+    technician:
+        'Technicien',
+
+    viewer:
+        'Consultation'
+
+};
+
+
+function roleLabel(role){
+
+    return roleLabels[role] || role || '—';
+
+}
+
+
+function canManage(){
+
+    return !!(
+        currentProfile &&
+        (
+            currentProfile.role === 'admin' ||
+            currentProfile.role === 'manager'
+        )
+    );
+
+}
+
+
+function isAdmin(){
+
+    return currentProfile?.role === 'admin';
+
+}
+
+
+function canExecuteOT(){
+
+    return !!(
+        currentProfile &&
+        [
+            'admin',
+            'manager',
+            'technician'
+        ].includes(currentProfile.role)
+    );
+
+}
+
+
+function canCloseOT(){
+
+    return !!(
+        currentProfile &&
+        (
+            currentProfile.role === 'admin' ||
+            currentProfile.role === 'manager'
+        )
+    );
+
+}
+
+
+/* ============================================================
+   UTILS
 ============================================================ */
 
 function escapeHtml(value){
 
-    if(value === null || value === undefined)
-        return '';
+    return String(value ?? '')
+        .replaceAll('&','&amp;')
+        .replaceAll('<','&lt;')
+        .replaceAll('>','&gt;')
+        .replaceAll('"','&quot;')
+        .replaceAll("'","&#039;");
 
-    return String(value)
-        .replace(/&/g,'&amp;')
-        .replace(/</g,'&lt;')
-        .replace(/>/g,'&gt;')
-        .replace(/"/g,'&quot;')
-        .replace(/'/g,'&#039;');
 }
 
 
-function showToast(message,type='success'){
+function showToast(
+    message,
+    type='success'
+){
 
     const container =
-        document.getElementById('toastContainer');
+        document.getElementById(
+            'toastContainer'
+        );
 
-    const div =
+    const toast =
         document.createElement('div');
 
-    div.className =
+    toast.className =
         `toast ${type}`;
 
-    div.textContent = message;
+    toast.textContent =
+        message;
 
-    container.appendChild(div);
+    container.appendChild(toast);
 
-    setTimeout(()=>{
-        div.remove();
-    },3500);
+    setTimeout(
+        ()=>{
+            toast.remove();
+        },
+        4000
+    );
+
 }
 
 
@@ -2141,20 +2827,11 @@ function showError(error){
 
     console.error(error);
 
-    const message =
+    showToast(
         error?.message ||
-        error?.error_description ||
-        'Une erreur est survenue.';
-
-    showToast(message,'error');
-}
-
-
-function closeModal(id){
-
-    document
-        .getElementById(id)
-        .classList.remove('show');
+        'Une erreur est survenue.',
+        'error'
+    );
 
 }
 
@@ -2163,182 +2840,174 @@ function openModal(id){
 
     document
         .getElementById(id)
-        .classList.add('show');
+        ?.classList.add('show');
 
 }
 
 
-function canManage(){
+function closeModal(id){
 
-    return (
-        currentProfile &&
-        (
-            currentProfile.role === 'admin' ||
-            currentProfile.role === 'manager'
-        )
-    );
-}
+    document
+        .getElementById(id)
+        ?.classList.remove('show');
 
-
-function canCloseOT(){
-
-    return (
-        currentProfile &&
-        (
-            currentProfile.role === 'admin' ||
-            currentProfile.role === 'manager'
-        )
-    );
-}
-
-
-function canExecuteOT(){
-
-    return (
-        currentProfile &&
-        [
-            'admin',
-            'manager',
-            'technician'
-        ].includes(currentProfile.role)
-    );
-}
-
-
-function roleLabel(role){
-
-    const roles = {
-        admin:'Administrateur',
-        manager:'Responsable Maintenance',
-        technician:'Technicien'
-    };
-
-    return roles[role] || role || '-';
-}
-
-
-function statusLabel(status){
-
-    const map = {
-        new:'Nouvelle',
-        open:'Ouvert',
-        in_progress:'En cours',
-        completed:'Terminé',
-        validated:'Validé',
-        closed:'Clôturée',
-        active:'Actif',
-        inactive:'Inactif',
-        maintenance:'Maintenance'
-    };
-
-    return map[status] || status || '-';
-}
-
-
-function priorityLabel(priority){
-
-    const map = {
-        high:'Haute',
-        medium:'Moyenne',
-        low:'Basse'
-    };
-
-    return map[priority] || priority || '-';
-}
-
-
-function priorityBadge(priority){
-
-    const cls =
-        priority === 'high'
-        ? 'badge-danger'
-        : priority === 'low'
-            ? 'badge-success'
-            : 'badge-warning';
-
-    return `
-        <span class="badge ${cls}">
-            ${escapeHtml(priorityLabel(priority))}
-        </span>
-    `;
 }
 
 
 function statusBadge(status){
 
-    let cls='badge-info';
+    const labels = {
+
+        new:'Nouvelle',
+        open:'Ouvert',
+        in_progress:'En cours',
+        completed:'Terminé',
+        validated:'Validé',
+        closed:'Clôturé',
+        active:'Actif',
+        maintenance:'Maintenance',
+        inactive:'Inactif'
+
+    };
+
+    let cls =
+        'badge-info';
 
     if(
-        status === 'closed' ||
-        status === 'validated' ||
-        status === 'completed' ||
-        status === 'active'
+        [
+            'closed',
+            'completed',
+            'active'
+        ].includes(status)
     ){
         cls='badge-success';
     }
 
     if(
-        status === 'in_progress' ||
-        status === 'maintenance'
+        [
+            'in_progress',
+            'maintenance',
+            'validated'
+        ].includes(status)
     ){
         cls='badge-warning';
     }
 
-    if(status === 'inactive'){
+    if(
+        [
+            'inactive'
+        ].includes(status)
+    ){
         cls='badge-danger';
     }
 
     return `
         <span class="badge ${cls}">
-            ${escapeHtml(statusLabel(status))}
+            ${escapeHtml(labels[status] || status || '-')}
         </span>
     `;
+
+}
+
+
+function priorityBadge(priority){
+
+    const labels = {
+
+        high:'Haute',
+        medium:'Moyenne',
+        low:'Faible'
+
+    };
+
+    const cls =
+        priority === 'high'
+        ? 'badge-danger'
+        : priority === 'medium'
+            ? 'badge-warning'
+            : 'badge-success';
+
+    return `
+        <span class="badge ${cls}">
+            ${escapeHtml(
+                labels[priority] ||
+                priority ||
+                '-'
+            )}
+        </span>
+    `;
+
 }
 
 
 /* ============================================================
-   CODE AUTO
+   CODE GENERATOR
 ============================================================ */
 
-async function generateCode(table,column,prefix,padding){
+async function generateCode(
+    table,
+    column,
+    prefix,
+    digits=4
+){
 
     const {data,error} =
         await sb
         .from(table)
         .select(column)
-        .ilike(column,`${prefix}%`)
-        .order(column,{ascending:false})
+        .like(
+            column,
+            `${prefix}%`
+        )
+        .order(
+            column,
+            {
+                ascending:false
+            }
+        )
         .limit(100);
 
     if(error){
-        console.warn(error);
-        return `${prefix}${String(1).padStart(padding,'0')}`;
+
+        console.error(error);
+
+        return (
+            prefix +
+            String(1).padStart(
+                digits,
+                '0'
+            )
+        );
+
     }
 
     let max=0;
 
     (data || []).forEach(row=>{
 
-        const code = row[column];
+        const value =
+            String(row[column] || '');
 
-        if(!code) return;
-
-        const match =
-            String(code).match(
-                new RegExp(`^${prefix}(\\d+)$`)
+        const number =
+            parseInt(
+                value
+                    .replace(prefix,''),
+                10
             );
 
-        if(match){
-
-            const n =
-                parseInt(match[1],10);
-
-            if(n>max) max=n;
-        }
+        if(!isNaN(number))
+            max=Math.max(max,number);
 
     });
 
-    return `${prefix}${String(max+1).padStart(padding,'0')}`;
+    return (
+        prefix +
+        String(max+1).padStart(
+            digits,
+            '0'
+        )
+    );
+
 }
 
 
@@ -2348,44 +3017,50 @@ async function generateCode(table,column,prefix,padding){
 
 document
 .getElementById('loginForm')
-.addEventListener('submit',async function(e){
+.addEventListener(
+    'submit',
+    async function(e){
 
-    e.preventDefault();
+        e.preventDefault();
 
-    const email =
-        document.getElementById('loginEmail').value.trim();
+        const email =
+            document
+            .getElementById('loginEmail')
+            .value
+            .trim();
 
-    const password =
-        document.getElementById('loginPassword').value;
+        const password =
+            document
+            .getElementById('loginPassword')
+            .value;
 
-    const box =
-        document.getElementById('loginMessage');
+        if(!email || !password)
+            return;
 
-    box.innerHTML =
-        `<div class="message">Connexion...</div>`;
+        showToast(
+            'Connexion...',
+            'success'
+        );
 
-    const {data,error} =
-        await sb.auth.signInWithPassword({
-            email,
-            password
-        });
+        const {data,error} =
+            await sb.auth.signInWithPassword({
+                email,
+                password
+            });
 
-    if(error){
+        if(error){
 
-        box.innerHTML =
-            `<div class="message error">
-                ${escapeHtml(error.message)}
-            </div>`;
+            showError(error);
+            return;
+        }
 
-        return;
+        currentUser =
+            data.user;
+
+        await loadProfile();
+
     }
-
-    currentUser =
-        data.user;
-
-    await loadProfile();
-
-});
+);
 
 
 async function loadProfile(){
@@ -2397,22 +3072,44 @@ async function loadProfile(){
         await sb
         .from('profiles')
         .select('*')
-        .eq('id',currentUser.id)
+        .eq(
+            'id',
+            currentUser.id
+        )
         .single();
 
     if(error){
 
-        console.error(error);
+        showError(error);
 
-        showToast(
-            'Utilisateur connecté mais profil introuvable.',
-            'error'
-        );
+        await sb.auth.signOut();
 
         return;
     }
 
-    currentProfile = data;
+    currentProfile =
+        data;
+
+    if(
+        currentProfile.active === false
+    ){
+
+        showToast(
+            'Ce compte est désactivé.',
+            'error'
+        );
+
+        await sb.auth.signOut();
+
+        return;
+    }
+
+    showApplication();
+
+}
+
+
+function showApplication(){
 
     document
         .getElementById('loginScreen')
@@ -2422,52 +3119,59 @@ async function loadProfile(){
         .getElementById('app')
         .classList.remove('hidden');
 
-    document
-        .getElementById('topUserName')
-        .textContent =
-            currentProfile.full_name ||
-            currentUser.email;
-
-    document
-        .getElementById('topUserRole')
-        .textContent =
-            roleLabel(currentProfile.role);
-
-    document
-        .getElementById('userAvatar')
-        .textContent =
-            (
-                currentProfile.full_name ||
-                currentUser.email ||
-                'A'
-            ).charAt(0).toUpperCase();
+    updateUserUI();
 
     applyPermissions();
 
-    await loadAll();
+    loadAll();
 
     showPage('dashboard');
 
 }
 
 
-/* ============================================================
-   PERMISSIONS UI
-============================================================ */
+function updateUserUI(){
+
+    const name =
+        currentProfile?.full_name ||
+        currentUser?.email ||
+        'Utilisateur';
+
+    document
+        .getElementById('topUserName')
+        .textContent =
+            name;
+
+    document
+        .getElementById('topUserRole')
+        .textContent =
+            roleLabel(
+                currentProfile?.role
+            );
+
+    document
+        .getElementById('userAvatar')
+        .textContent =
+            name
+                .trim()
+                .charAt(0)
+                .toUpperCase();
+
+}
+
 
 function applyPermissions(){
 
-    const manageButtons =
-        document.querySelectorAll('.manage-only');
+    document
+        .querySelectorAll('.manage-only')
+        .forEach(el=>{
 
-    manageButtons.forEach(btn=>{
+            el.style.display =
+                canManage()
+                ? ''
+                : 'none';
 
-        btn.style.display =
-            canManage()
-            ? ''
-            : 'none';
-
-    });
+        });
 
 }
 
@@ -2488,6 +3192,7 @@ async function loadAll(){
     ]);
 
     refreshSelects();
+
     updateDashboard();
 
 }
@@ -2503,13 +3208,19 @@ async function loadPersonnel(){
         await sb
         .from('profiles')
         .select('*')
-        .order('full_name',{ascending:true});
+        .order(
+            'full_name',
+            {
+                ascending:true
+            }
+        );
 
     if(error){
 
         console.error(error);
         showError(error);
         return;
+
     }
 
     personnel =
@@ -2523,50 +3234,51 @@ async function loadPersonnel(){
 function renderPersonnel(){
 
     const tbody =
-        document.getElementById('personnelTable');
+        document.getElementById(
+            'personnelTable'
+        );
 
     const search =
         (
-            document.getElementById('personnelSearch')?.value ||
-            ''
-        ).toLowerCase();
+            document
+            .getElementById(
+                'personnelSearch'
+            )
+            ?.value || ''
+        )
+        .toLowerCase();
 
     const filtered =
-        personnel.filter(p=>{
+        personnel.filter(p=>
 
-            const text =
-                [
-                    p.employee_code,
-                    p.full_name,
-                    p.role,
-                    p.department,
-                    p.position,
-                    p.phone
-                ]
-                .join(' ')
-                .toLowerCase();
+            [
+                p.employee_code,
+                p.full_name,
+                p.email,
+                p.department,
+                p.position,
+                p.role
+            ]
+            .join(' ')
+            .toLowerCase()
+            .includes(search)
 
-            return text.includes(search);
-
-        });
-
-    document
-        .getElementById('personnelCount')
-        .textContent =
-            filtered.length;
+        );
 
     if(!filtered.length){
 
-        tbody.innerHTML =
-            `<tr>
-                <td colspan="8">
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="7">
                     <div class="empty">
                         Aucun personnel trouvé.
                     </div>
                 </td>
-            </tr>`;
+            </tr>
+        `;
 
         return;
+
     }
 
     tbody.innerHTML =
@@ -2575,57 +3287,49 @@ function renderPersonnel(){
             <tr>
 
                 <td>
+                    ${escapeHtml(
+                        p.employee_code || '-'
+                    )}
+                </td>
+
+                <td>
                     <strong>
-                        ${escapeHtml(p.employee_code || '-')}
+                        ${escapeHtml(
+                            p.full_name || '-'
+                        )}
                     </strong>
                 </td>
 
                 <td>
-                    ${escapeHtml(p.full_name || '-')}
+                    ${escapeHtml(
+                        p.email || '-'
+                    )}
                 </td>
 
                 <td>
-                    ${escapeHtml(roleLabel(p.role))}
+                    ${escapeHtml(
+                        roleLabel(p.role)
+                    )}
                 </td>
 
                 <td>
-                    ${escapeHtml(p.department || '-')}
+                    ${escapeHtml(
+                        p.department || '-'
+                    )}
                 </td>
 
                 <td>
-                    ${escapeHtml(p.position || '-')}
+                    ${escapeHtml(
+                        p.position || '-'
+                    )}
                 </td>
 
                 <td>
-                    ${escapeHtml(p.phone || '-')}
-                </td>
-
-                <td>
-                    ${p.active === false
-                        ? statusBadge('inactive')
-                        : statusBadge('active')}
-                </td>
-
-                <td>
-
                     ${
-                        canManage()
-                        ?
-                        `
-                        <div class="action-group">
-
-                            <button
-                                class="action-btn"
-                                onclick="togglePersonnel('${p.id}',${p.active !== false})">
-                                ${p.active === false ? 'Activer' : 'Désactiver'}
-                            </button>
-
-                        </div>
-                        `
-                        :
-                        '-'
+                        p.active === false
+                        ? statusBadge('inactive')
+                        : statusBadge('active')
                     }
-
                 </td>
 
             </tr>
@@ -2640,202 +3344,213 @@ function openPersonnelModal(){
     if(!canManage()){
 
         showToast(
-            'Seuls Admin et Responsable Maintenance peuvent ajouter un personnel.',
+            'Droits insuffisants.',
             'warning'
         );
 
         return;
+
     }
 
     document
-        .getElementById('personnelForm')
+        .getElementById(
+            'personnelForm'
+        )
         .reset();
 
-    document
-        .getElementById('personnelRole')
-        .value='technician';
-
-    openModal('personnelModal');
+    openModal(
+        'personnelModal'
+    );
 
 }
 
+
+/*
+ IMPORTANT :
+ La création Auth depuis le navigateur est conservée
+ ici uniquement pour compatibilité avec la V11.
+
+ Dans V5 Secure finale :
+ cette opération sera déplacée vers
+ une Supabase Edge Function.
+*/
 
 document
 .getElementById('personnelForm')
-.addEventListener('submit',async function(e){
+.addEventListener(
+    'submit',
+    async function(e){
 
-    e.preventDefault();
+        e.preventDefault();
 
-    if(!canManage()) return;
+        if(!canManage())
+            return;
 
-    const name =
-        document
-        .getElementById('personnelName')
-        .value.trim();
+        const email =
+            document
+            .getElementById(
+                'personnelEmail'
+            )
+            .value
+            .trim();
 
-    const email =
-        document
-        .getElementById('personnelEmail')
-        .value.trim();
+        const password =
+            document
+            .getElementById(
+                'personnelPassword'
+            )
+            .value;
 
-    const password =
-        document
-        .getElementById('personnelPassword')
-        .value;
+        const fullName =
+            document
+            .getElementById(
+                'personnelName'
+            )
+            .value
+            .trim();
 
-    const role =
-        document
-        .getElementById('personnelRole')
-        .value;
+        const role =
+            document
+            .getElementById(
+                'personnelRole'
+            )
+            .value;
 
-    const phone =
-        document
-        .getElementById('personnelPhone')
-        .value.trim();
+        /*
+         Empêcher un manager de créer un admin.
+        */
 
-    const department =
-        document
-        .getElementById('personnelDepartment')
-        .value.trim();
+        if(
+            role === 'admin' &&
+            !isAdmin()
+        ){
 
-    const position =
-        document
-        .getElementById('personnelPosition')
-        .value.trim();
+            showToast(
+                'Seul un administrateur peut créer un administrateur.',
+                'warning'
+            );
 
+            return;
 
-    if(!name || !email || !password){
+        }
 
-        showToast(
-            'Nom, email et mot de passe sont obligatoires.',
-            'warning'
-        );
+        const authClient =
+            window.supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_ANON_KEY,
+                {
+                    auth:{
+                        persistSession:false,
+                        autoRefreshToken:false,
+                        detectSessionInUrl:false
+                    }
+                }
+            );
 
-        return;
-    }
+        const {data,error} =
+            await authClient.auth.signUp({
+                email,
+                password
+            });
 
+        if(error){
 
-    showToast(
-        'Création du compte utilisateur...',
-        'warning'
-    );
+            showError(error);
+            return;
 
+        }
 
-    /*
-       Création via client Auth séparé.
-       La session admin reste intacte.
-    */
+        if(!data?.user){
 
-    const {
-        data,
-        error
-    } =
-        await authClient.auth.signUp({
+            showToast(
+                'Utilisateur non créé.',
+                'error'
+            );
+
+            return;
+
+        }
+
+        const profilePayload = {
+
+            id:data.user.id,
+
+            full_name:fullName,
+
             email,
-            password
-        });
 
+            employee_code:
+                document
+                .getElementById(
+                    'personnelCode'
+                )
+                .value
+                .trim() || null,
 
-    if(error){
+            role,
 
-        showError(error);
-        return;
-    }
+            phone:
+                document
+                .getElementById(
+                    'personnelPhone'
+                )
+                .value
+                .trim() || null,
 
+            department:
+                document
+                .getElementById(
+                    'personnelDepartment'
+                )
+                .value
+                .trim() || null,
 
-    if(!data.user){
+            position:
+                document
+                .getElementById(
+                    'personnelPosition'
+                )
+                .value
+                .trim() || null,
 
-        showToast(
-            'Le compte n’a pas pu être créé.',
-            'error'
+            active:true,
+
+            updated_at:
+                new Date().toISOString()
+
+        };
+
+        const {error:profileError} =
+            await sb
+            .from('profiles')
+            .upsert(
+                profilePayload,
+                {
+                    onConflict:'id'
+                }
+            );
+
+        if(profileError){
+
+            showError(profileError);
+            return;
+
+        }
+
+        closeModal(
+            'personnelModal'
         );
 
-        return;
+        showToast(
+            'Utilisateur créé.'
+        );
+
+        await loadPersonnel();
+
+        refreshSelects();
+
     }
-
-
-    const userId =
-        data.user.id;
-
-
-    /*
-       Upsert du profil.
-       Si un trigger Supabase a déjà créé le profil,
-       l'upsert le met à jour.
-    */
-
-    const {data:profileData,error:profileError} =
-        await sb
-        .from('profiles')
-        .upsert({
-            id:userId,
-            full_name:name,
-            role,
-            active:true,
-            phone:phone || null,
-            department:department || null,
-            position:position || null
-        },{
-            onConflict:'id'
-        })
-        .select()
-        .single();
-
-
-    if(profileError){
-
-        showError(profileError);
-
-        return;
-    }
-
-
-    closeModal('personnelModal');
-
-    showToast(
-        `Personnel créé : ${profileData?.employee_code || name}`,
-        'success'
-    );
-
-    await loadPersonnel();
-
-    refreshSelects();
-
-    updateDashboard();
-
-});
-
-
-async function togglePersonnel(id,currentActive){
-
-    if(!canManage()) return;
-
-    const {error} =
-        await sb
-        .from('profiles')
-        .update({
-            active:!currentActive,
-            updated_at:new Date().toISOString()
-        })
-        .eq('id',id);
-
-    if(error){
-
-        showError(error);
-        return;
-    }
-
-    showToast(
-        currentActive
-        ? 'Personnel désactivé.'
-        : 'Personnel activé.'
-    );
-
-    await loadPersonnel();
-
-    refreshSelects();
-
-}
+);
 
 
 /* ============================================================
@@ -2848,13 +3563,18 @@ async function loadZones(){
         await sb
         .from('zones')
         .select('*')
-        .order('name',{ascending:true});
+        .order(
+            'name',
+            {
+                ascending:true
+            }
+        );
 
     if(error){
 
-        console.error(error);
         showError(error);
         return;
+
     }
 
     zones =
@@ -2868,16 +3588,23 @@ async function loadZones(){
 function renderZones(){
 
     const tbody =
-        document.getElementById('zoneTable');
+        document.getElementById(
+            'zoneTable'
+        );
 
     const search =
         (
-            document.getElementById('zoneSearch')?.value ||
-            ''
-        ).toLowerCase();
+            document
+            .getElementById(
+                'zoneSearch'
+            )
+            ?.value || ''
+        )
+        .toLowerCase();
 
     const filtered =
         zones.filter(z=>
+
             [
                 z.code,
                 z.name,
@@ -2887,25 +3614,23 @@ function renderZones(){
             .join(' ')
             .toLowerCase()
             .includes(search)
-        );
 
-    document
-        .getElementById('zoneCount')
-        .textContent =
-            filtered.length;
+        );
 
     if(!filtered.length){
 
-        tbody.innerHTML =
-            `<tr>
+        tbody.innerHTML = `
+            <tr>
                 <td colspan="5">
                     <div class="empty">
                         Aucune zone trouvée.
                     </div>
                 </td>
-            </tr>`;
+            </tr>
+        `;
 
         return;
+
     }
 
     tbody.innerHTML =
@@ -2915,16 +3640,22 @@ function renderZones(){
 
                 <td>
                     <strong>
-                        ${escapeHtml(z.code || '-')}
+                        ${escapeHtml(
+                            z.code || '-'
+                        )}
                     </strong>
                 </td>
 
                 <td>
-                    ${escapeHtml(z.name)}
+                    ${escapeHtml(
+                        z.name || '-'
+                    )}
                 </td>
 
                 <td>
-                    ${escapeHtml(z.description || '-')}
+                    ${escapeHtml(
+                        z.description || '-'
+                    )}
                 </td>
 
                 <td>
@@ -2938,9 +3669,9 @@ function renderZones(){
                         ?
                         `
                         <button
-                            class="action-btn"
+                            class="btn btn-danger"
                             onclick="deleteZone('${z.id}')">
-                            🗑 Supprimer
+                            🗑
                         </button>
                         `
                         :
@@ -2956,7 +3687,7 @@ function renderZones(){
 }
 
 
-async function openZoneModal(){
+function openZoneModal(){
 
     if(!canManage()){
 
@@ -2966,107 +3697,157 @@ async function openZoneModal(){
         );
 
         return;
+
     }
 
     document
-        .getElementById('zoneForm')
+        .getElementById(
+            'zoneForm'
+        )
         .reset();
 
     document
-        .getElementById('zoneCode')
+        .getElementById(
+            'zoneCode'
+        )
         .value =
-            await generateCode(
+            awaitGenerateCode(
                 'zones',
                 'code',
                 'ZP-',
                 3
             );
 
-    openModal('zoneModal');
+    openModal(
+        'zoneModal'
+    );
+
+}
+
+
+/*
+ Version non-bloquante pour afficher
+ immédiatement un code.
+*/
+async function awaitGenerateCode(
+    table,
+    column,
+    prefix,
+    digits
+){
+
+    return await generateCode(
+        table,
+        column,
+        prefix,
+        digits
+    );
 
 }
 
 
 document
 .getElementById('zoneForm')
-.addEventListener('submit',async function(e){
+.addEventListener(
+    'submit',
+    async function(e){
 
-    e.preventDefault();
+        e.preventDefault();
 
-    if(!canManage()) return;
+        if(!canManage())
+            return;
 
-    let code =
-        document
-        .getElementById('zoneCode')
-        .value.trim();
+        let code =
+            document
+            .getElementById(
+                'zoneCode'
+            )
+            .value
+            .trim();
 
-    if(!code){
+        if(!code){
 
-        code =
-            await generateCode(
-                'zones',
-                'code',
-                'ZP-',
-                3
-            );
+            code =
+                await generateCode(
+                    'zones',
+                    'code',
+                    'ZP-',
+                    3
+                );
+
+        }
+
+        const payload = {
+
+            code,
+
+            name:
+                document
+                .getElementById(
+                    'zoneName'
+                )
+                .value
+                .trim(),
+
+            description:
+                document
+                .getElementById(
+                    'zoneDescription'
+                )
+                .value
+                .trim() || null,
+
+            status:
+                document
+                .getElementById(
+                    'zoneStatus'
+                )
+                .value,
+
+            created_by:
+                currentUser.id
+
+        };
+
+        const {error} =
+            await sb
+            .from('zones')
+            .insert(payload);
+
+        if(error){
+
+            showError(error);
+            return;
+
+        }
+
+        closeModal(
+            'zoneModal'
+        );
+
+        showToast(
+            `Zone ${code} créée avec succès.`
+        );
+
+        await loadZones();
+
+        refreshSelects();
+
     }
-
-    const payload = {
-
-        code,
-
-        name:
-            document
-            .getElementById('zoneName')
-            .value.trim(),
-
-        description:
-            document
-            .getElementById('zoneDescription')
-            .value.trim() || null,
-
-        status:
-            document
-            .getElementById('zoneStatus')
-            .value,
-
-        created_by:
-            currentUser.id
-
-    };
-
-
-    const {error} =
-        await sb
-        .from('zones')
-        .insert(payload);
-
-    if(error){
-
-        showError(error);
-        return;
-    }
-
-    closeModal('zoneModal');
-
-    showToast(
-        `Zone ${code} créée avec succès.`
-    );
-
-    await loadZones();
-
-    refreshSelects();
-
-});
+);
 
 
 async function deleteZone(id){
 
-    if(!canManage()) return;
+    if(!canManage())
+        return;
 
-    if(!confirm(
-        'Supprimer cette zone ?\n\nLes équipements liés ne seront pas supprimés automatiquement.'
-    )) return;
+    if(
+        !confirm(
+            'Supprimer cette zone ?'
+        )
+    )
+        return;
 
     const {error} =
         await sb
@@ -3078,9 +3859,12 @@ async function deleteZone(id){
 
         showError(error);
         return;
+
     }
 
-    showToast('Zone supprimée.');
+    showToast(
+        'Zone supprimée.'
+    );
 
     await loadZones();
 
@@ -3106,13 +3890,18 @@ async function loadEquipment(){
                 name
             )
         `)
-        .order('designation',{ascending:true});
+        .order(
+            'designation',
+            {
+                ascending:true
+            }
+        );
 
     if(error){
 
-        console.error(error);
         showError(error);
         return;
+
     }
 
     equipment =
@@ -3126,17 +3915,23 @@ async function loadEquipment(){
 function renderEquipment(){
 
     const tbody =
-        document.getElementById('equipmentTable');
+        document.getElementById(
+            'equipmentTable'
+        );
 
     const search =
         (
             document
-            .getElementById('equipmentSearch')
+            .getElementById(
+                'equipmentSearch'
+            )
             ?.value || ''
-        ).toLowerCase();
+        )
+        .toLowerCase();
 
     const filtered =
         equipment.filter(e=>
+
             [
                 e.code,
                 e.designation,
@@ -3149,25 +3944,23 @@ function renderEquipment(){
             .join(' ')
             .toLowerCase()
             .includes(search)
-        );
 
-    document
-        .getElementById('equipmentCount')
-        .textContent =
-            filtered.length;
+        );
 
     if(!filtered.length){
 
-        tbody.innerHTML =
-            `<tr>
+        tbody.innerHTML = `
+            <tr>
                 <td colspan="9">
                     <div class="empty">
                         Aucun équipement trouvé.
                     </div>
                 </td>
-            </tr>`;
+            </tr>
+        `;
 
         return;
+
     }
 
     tbody.innerHTML =
@@ -3182,26 +3975,37 @@ function renderEquipment(){
                 </td>
 
                 <td>
-                    ${escapeHtml(e.designation)}
+                    ${escapeHtml(
+                        e.designation || '-'
+                    )}
                 </td>
 
                 <td>
-                    ${escapeHtml(e.zones?.name || '-')}
+                    ${escapeHtml(
+                        e.zones?.name || '-'
+                    )}
                 </td>
 
                 <td>
-                    ${escapeHtml(e.type || '-')}
+                    ${escapeHtml(
+                        e.type || '-'
+                    )}
                 </td>
 
                 <td>
-                    ${escapeHtml(e.brand || '-')}
+                    ${escapeHtml(
+                        e.brand || '-'
+                    )}
                 </td>
 
                 <td>
-                    ${escapeHtml(e.model || '-')}
+                    ${escapeHtml(
+                        e.model || '-'
+                    )}
                 </td>
 
                 <td>
+
                     <span class="badge ${
                         e.criticality === 'A'
                         ? 'badge-danger'
@@ -3209,8 +4013,13 @@ function renderEquipment(){
                             ? 'badge-warning'
                             : 'badge-success'
                     }">
-                        ${escapeHtml(e.criticality || '-')}
+
+                        ${escapeHtml(
+                            e.criticality || '-'
+                        )}
+
                     </span>
+
                 </td>
 
                 <td>
@@ -3224,7 +4033,7 @@ function renderEquipment(){
                         ?
                         `
                         <button
-                            class="action-btn"
+                            class="btn btn-danger"
                             onclick="deleteEquipment('${e.id}')">
                             🗑
                         </button>
@@ -3252,6 +4061,7 @@ async function openEquipmentModal(){
         );
 
         return;
+
     }
 
     if(!zones.length){
@@ -3262,14 +4072,19 @@ async function openEquipmentModal(){
         );
 
         return;
+
     }
 
     document
-        .getElementById('equipmentForm')
+        .getElementById(
+            'equipmentForm'
+        )
         .reset();
 
     document
-        .getElementById('equipmentCode')
+        .getElementById(
+            'equipmentCode'
+        )
         .value =
             await generateCode(
                 'equipment',
@@ -3280,133 +4095,170 @@ async function openEquipmentModal(){
 
     refreshSelects();
 
-    openModal('equipmentModal');
+    openModal(
+        'equipmentModal'
+    );
 
 }
 
 
 document
 .getElementById('equipmentForm')
-.addEventListener('submit',async function(e){
+.addEventListener(
+    'submit',
+    async function(e){
 
-    e.preventDefault();
+        e.preventDefault();
 
-    if(!canManage()) return;
+        if(!canManage())
+            return;
 
-    let code =
-        document
-        .getElementById('equipmentCode')
-        .value.trim();
+        let code =
+            document
+            .getElementById(
+                'equipmentCode'
+            )
+            .value
+            .trim();
 
-    if(!code){
+        if(!code){
 
-        code =
-            await generateCode(
-                'equipment',
-                'code',
-                'EQ-',
-                4
-            );
+            code =
+                await generateCode(
+                    'equipment',
+                    'code',
+                    'EQ-',
+                    4
+                );
+
+        }
+
+        const payload = {
+
+            code,
+
+            designation:
+                document
+                .getElementById(
+                    'equipmentDesignation'
+                )
+                .value
+                .trim(),
+
+            zone_id:
+                document
+                .getElementById(
+                    'equipmentZone'
+                )
+                .value || null,
+
+            type:
+                document
+                .getElementById(
+                    'equipmentType'
+                )
+                .value
+                .trim() || null,
+
+            brand:
+                document
+                .getElementById(
+                    'equipmentBrand'
+                )
+                .value
+                .trim() || null,
+
+            model:
+                document
+                .getElementById(
+                    'equipmentModel'
+                )
+                .value
+                .trim() || null,
+
+            serial_number:
+                document
+                .getElementById(
+                    'equipmentSerial'
+                )
+                .value
+                .trim() || null,
+
+            criticality:
+                document
+                .getElementById(
+                    'equipmentCriticality'
+                )
+                .value,
+
+            status:
+                document
+                .getElementById(
+                    'equipmentStatus'
+                )
+                .value,
+
+            installation_date:
+                document
+                .getElementById(
+                    'equipmentInstallationDate'
+                )
+                .value || null,
+
+            description:
+                document
+                .getElementById(
+                    'equipmentDescription'
+                )
+                .value
+                .trim() || null,
+
+            created_by:
+                currentUser.id
+
+        };
+
+        const {error} =
+            await sb
+            .from('equipment')
+            .insert(payload);
+
+        if(error){
+
+            showError(error);
+            return;
+
+        }
+
+        closeModal(
+            'equipmentModal'
+        );
+
+        showToast(
+            `Équipement ${code} créé avec succès.`
+        );
+
+        await loadEquipment();
+
+        refreshSelects();
+
+        updateDashboard();
+
     }
-
-
-    const zoneId =
-        document
-        .getElementById('equipmentZone')
-        .value;
-
-
-    const payload = {
-
-        code,
-
-        designation:
-            document
-            .getElementById('equipmentDesignation')
-            .value.trim(),
-
-        zone_id:
-            zoneId || null,
-
-        type:
-            document
-            .getElementById('equipmentType')
-            .value.trim() || null,
-
-        brand:
-            document
-            .getElementById('equipmentBrand')
-            .value.trim() || null,
-
-        model:
-            document
-            .getElementById('equipmentModel')
-            .value.trim() || null,
-
-        serial_number:
-            document
-            .getElementById('equipmentSerial')
-            .value.trim() || null,
-
-        criticality:
-            document
-            .getElementById('equipmentCriticality')
-            .value,
-
-        status:
-            document
-            .getElementById('equipmentStatus')
-            .value,
-
-        installation_date:
-            document
-            .getElementById('equipmentInstallationDate')
-            .value || null,
-
-        description:
-            document
-            .getElementById('equipmentDescription')
-            .value.trim() || null,
-
-        created_by:
-            currentUser.id
-
-    };
-
-
-    const {error} =
-        await sb
-        .from('equipment')
-        .insert(payload);
-
-    if(error){
-
-        showError(error);
-        return;
-    }
-
-    closeModal('equipmentModal');
-
-    showToast(
-        `Équipement ${code} créé avec succès.`
-    );
-
-    await loadEquipment();
-
-    refreshSelects();
-
-    updateDashboard();
-
-});
+);
 
 
 async function deleteEquipment(id){
 
-    if(!canManage()) return;
+    if(!canManage())
+        return;
 
-    if(!confirm(
-        'Supprimer cet équipement ?'
-    )) return;
+    if(
+        !confirm(
+            'Supprimer cet équipement ?'
+        )
+    )
+        return;
 
     const {error} =
         await sb
@@ -3418,9 +4270,12 @@ async function deleteEquipment(id){
 
         showError(error);
         return;
+
     }
 
-    showToast('Équipement supprimé.');
+    showToast(
+        'Équipement supprimé.'
+    );
 
     await loadEquipment();
 
@@ -3448,13 +4303,18 @@ async function loadSubEquipment(){
                 designation
             )
         `)
-        .order('designation',{ascending:true});
+        .order(
+            'designation',
+            {
+                ascending:true
+            }
+        );
 
     if(error){
 
-        console.error(error);
         showError(error);
         return;
+
     }
 
     subEquipment =
@@ -3468,17 +4328,23 @@ async function loadSubEquipment(){
 function renderSubEquipment(){
 
     const tbody =
-        document.getElementById('subEquipmentTable');
+        document.getElementById(
+            'subEquipmentTable'
+        );
 
     const search =
         (
             document
-            .getElementById('subEquipmentSearch')
+            .getElementById(
+                'subEquipmentSearch'
+            )
             ?.value || ''
-        ).toLowerCase();
+        )
+        .toLowerCase();
 
     const filtered =
         subEquipment.filter(s=>
+
             [
                 s.code,
                 s.designation,
@@ -3491,25 +4357,23 @@ function renderSubEquipment(){
             .join(' ')
             .toLowerCase()
             .includes(search)
-        );
 
-    document
-        .getElementById('subEquipmentCount')
-        .textContent =
-            filtered.length;
+        );
 
     if(!filtered.length){
 
-        tbody.innerHTML =
-            `<tr>
+        tbody.innerHTML = `
+            <tr>
                 <td colspan="9">
                     <div class="empty">
                         Aucun sous-équipement trouvé.
                     </div>
                 </td>
-            </tr>`;
+            </tr>
+        `;
 
         return;
+
     }
 
     tbody.innerHTML =
@@ -3519,12 +4383,16 @@ function renderSubEquipment(){
 
                 <td>
                     <strong>
-                        ${escapeHtml(s.code || '-')}
+                        ${escapeHtml(
+                            s.code || '-'
+                        )}
                     </strong>
                 </td>
 
                 <td>
-                    ${escapeHtml(s.designation)}
+                    ${escapeHtml(
+                        s.designation || '-'
+                    )}
                 </td>
 
                 <td>
@@ -3536,18 +4404,25 @@ function renderSubEquipment(){
                 </td>
 
                 <td>
-                    ${escapeHtml(s.type || '-')}
+                    ${escapeHtml(
+                        s.type || '-'
+                    )}
                 </td>
 
                 <td>
-                    ${escapeHtml(s.brand || '-')}
+                    ${escapeHtml(
+                        s.brand || '-'
+                    )}
                 </td>
 
                 <td>
-                    ${escapeHtml(s.model || '-')}
+                    ${escapeHtml(
+                        s.model || '-'
+                    )}
                 </td>
 
                 <td>
+
                     <span class="badge ${
                         s.criticality === 'A'
                         ? 'badge-danger'
@@ -3555,8 +4430,13 @@ function renderSubEquipment(){
                             ? 'badge-warning'
                             : 'badge-success'
                     }">
-                        ${escapeHtml(s.criticality || '-')}
+
+                        ${escapeHtml(
+                            s.criticality || '-'
+                        )}
+
                     </span>
+
                 </td>
 
                 <td>
@@ -3570,7 +4450,7 @@ function renderSubEquipment(){
                         ?
                         `
                         <button
-                            class="action-btn"
+                            class="btn btn-danger"
                             onclick="deleteSubEquipment('${s.id}')">
                             🗑
                         </button>
@@ -3598,6 +4478,7 @@ async function openSubEquipmentModal(){
         );
 
         return;
+
     }
 
     if(!equipment.length){
@@ -3608,14 +4489,19 @@ async function openSubEquipmentModal(){
         );
 
         return;
+
     }
 
     document
-        .getElementById('subEquipmentForm')
+        .getElementById(
+            'subEquipmentForm'
+        )
         .reset();
 
     document
-        .getElementById('subEquipmentCode')
+        .getElementById(
+            'subEquipmentCode'
+        )
         .value =
             await generateCode(
                 'sub_equipment',
@@ -3626,127 +4512,169 @@ async function openSubEquipmentModal(){
 
     refreshSelects();
 
-    openModal('subEquipmentModal');
+    openModal(
+        'subEquipmentModal'
+    );
 
 }
 
 
 document
 .getElementById('subEquipmentForm')
-.addEventListener('submit',async function(e){
+.addEventListener(
+    'submit',
+    async function(e){
 
-    e.preventDefault();
+        e.preventDefault();
 
-    if(!canManage()) return;
+        if(!canManage())
+            return;
 
-    let code =
-        document
-        .getElementById('subEquipmentCode')
-        .value.trim();
+        let code =
+            document
+            .getElementById(
+                'subEquipmentCode'
+            )
+            .value
+            .trim();
 
-    if(!code){
+        if(!code){
 
-        code =
-            await generateCode(
-                'sub_equipment',
-                'code',
-                'SE-',
-                4
-            );
+            code =
+                await generateCode(
+                    'sub_equipment',
+                    'code',
+                    'SE-',
+                    4
+                );
+
+        }
+
+        const payload = {
+
+            code,
+
+            designation:
+                document
+                .getElementById(
+                    'subEquipmentDesignation'
+                )
+                .value
+                .trim(),
+
+            equipment_id:
+                document
+                .getElementById(
+                    'subEquipmentParent'
+                )
+                .value || null,
+
+            type:
+                document
+                .getElementById(
+                    'subEquipmentType'
+                )
+                .value
+                .trim() || null,
+
+            brand:
+                document
+                .getElementById(
+                    'subEquipmentBrand'
+                )
+                .value
+                .trim() || null,
+
+            model:
+                document
+                .getElementById(
+                    'subEquipmentModel'
+                )
+                .value
+                .trim() || null,
+
+            serial_number:
+                document
+                .getElementById(
+                    'subEquipmentSerial'
+                )
+                .value
+                .trim() || null,
+
+            criticality:
+                document
+                .getElementById(
+                    'subEquipmentCriticality'
+                )
+                .value,
+
+            status:
+                document
+                .getElementById(
+                    'subEquipmentStatus'
+                )
+                .value,
+
+            specification:
+                document
+                .getElementById(
+                    'subEquipmentSpecification'
+                )
+                .value
+                .trim() || null,
+
+            observation:
+                document
+                .getElementById(
+                    'subEquipmentObservation'
+                )
+                .value
+                .trim() || null,
+
+            created_by:
+                currentUser.id
+
+        };
+
+        const {error} =
+            await sb
+            .from('sub_equipment')
+            .insert(payload);
+
+        if(error){
+
+            showError(error);
+            return;
+
+        }
+
+        closeModal(
+            'subEquipmentModal'
+        );
+
+        showToast(
+            `Sous-équipement ${code} créé avec succès.`
+        );
+
+        await loadSubEquipment();
+
+        refreshSelects();
+
     }
-
-
-    const payload = {
-
-        code,
-
-        designation:
-            document
-            .getElementById('subEquipmentDesignation')
-            .value.trim(),
-
-        equipment_id:
-            document
-            .getElementById('subEquipmentParent')
-            .value || null,
-
-        type:
-            document
-            .getElementById('subEquipmentType')
-            .value.trim() || null,
-
-        brand:
-            document
-            .getElementById('subEquipmentBrand')
-            .value.trim() || null,
-
-        model:
-            document
-            .getElementById('subEquipmentModel')
-            .value.trim() || null,
-
-        serial_number:
-            document
-            .getElementById('subEquipmentSerial')
-            .value.trim() || null,
-
-        criticality:
-            document
-            .getElementById('subEquipmentCriticality')
-            .value,
-
-        status:
-            document
-            .getElementById('subEquipmentStatus')
-            .value,
-
-        specification:
-            document
-            .getElementById('subEquipmentSpecification')
-            .value.trim() || null,
-
-        observation:
-            document
-            .getElementById('subEquipmentObservation')
-            .value.trim() || null,
-
-        created_by:
-            currentUser.id
-
-    };
-
-
-    const {error} =
-        await sb
-        .from('sub_equipment')
-        .insert(payload);
-
-    if(error){
-
-        showError(error);
-        return;
-    }
-
-    closeModal('subEquipmentModal');
-
-    showToast(
-        `Sous-équipement ${code} créé avec succès.`
-    );
-
-    await loadSubEquipment();
-
-    refreshSelects();
-
-});
+);
 
 
 async function deleteSubEquipment(id){
 
-    if(!canManage()) return;
+    if(!canManage())
+        return;
 
-    if(!confirm(
-        'Supprimer ce sous-équipement ?'
-    )) return;
+    if(
+        !confirm(
+            'Supprimer ce sous-équipement ?'
+        )
+    )
+        return;
 
     const {error} =
         await sb
@@ -3758,6 +4686,7 @@ async function deleteSubEquipment(id){
 
         showError(error);
         return;
+
     }
 
     showToast(
@@ -3798,13 +4727,18 @@ async function loadDI(){
                 designation
             )
         `)
-        .order('created_at',{ascending:false});
+        .order(
+            'created_at',
+            {
+                ascending:false
+            }
+        );
 
     if(error){
 
-        console.error(error);
         showError(error);
         return;
+
     }
 
     diList =
@@ -3818,18 +4752,25 @@ async function loadDI(){
 function renderDI(){
 
     const tbody =
-        document.getElementById('diTable');
+        document.getElementById(
+            'diTable'
+        );
 
     const search =
         (
             document
-            .getElementById('diSearch')
+            .getElementById(
+                'diSearch'
+            )
             ?.value || ''
-        ).toLowerCase();
+        )
+        .toLowerCase();
 
     const status =
         document
-        .getElementById('diStatusFilter')
+        .getElementById(
+            'diStatusFilter'
+        )
         ?.value || '';
 
     const filtered =
@@ -3848,32 +4789,29 @@ function renderDI(){
 
             return (
                 text.includes(search) &&
-                (!status || d.status===status)
+                (
+                    !status ||
+                    d.status === status
+                )
             );
 
         });
 
-
-    document
-        .getElementById('diCount')
-        .textContent =
-            filtered.length;
-
-
     if(!filtered.length){
 
-        tbody.innerHTML =
-            `<tr>
+        tbody.innerHTML = `
+            <tr>
                 <td colspan="9">
                     <div class="empty">
                         Aucune DI trouvée.
                     </div>
                 </td>
-            </tr>`;
+            </tr>
+        `;
 
         return;
-    }
 
+    }
 
     tbody.innerHTML =
         filtered.map(d=>`
@@ -3882,30 +4820,49 @@ function renderDI(){
 
                 <td>
                     <strong>
-                        ${escapeHtml(d.code || '-')}
+                        ${escapeHtml(
+                            d.code || d.id
+                        )}
                     </strong>
                 </td>
 
                 <td>
-                    ${escapeHtml(d.date || '-')}
-                </td>
-
-                <td>
-                    ${escapeHtml(d.requester || '-')}
-                </td>
-
-                <td>
-                    ${escapeHtml(d.zones?.name || '-')}
-                </td>
-
-                <td>
                     ${escapeHtml(
-                        d.equipment?.designation || '-'
+                        d.date ||
+                        (
+                            d.created_at
+                            ? d.created_at.substring(
+                                0,
+                                10
+                            )
+                            : '-'
+                        )
                     )}
                 </td>
 
                 <td>
-                    ${priorityBadge(d.priority)}
+                    ${escapeHtml(
+                        d.requester || '-'
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        d.zones?.name || '-'
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        d.equipment?.designation ||
+                        '-'
+                    )}
+                </td>
+
+                <td>
+                    ${priorityBadge(
+                        d.priority
+                    )}
                 </td>
 
                 <td>
@@ -3915,21 +4872,26 @@ function renderDI(){
                 </td>
 
                 <td>
-                    ${statusBadge(d.status)}
+                    ${statusBadge(
+                        d.status
+                    )}
                 </td>
 
                 <td>
 
-                    <div class="action-group">
+                    <div style="
+                        display:flex;
+                        gap:5px;
+                    ">
 
                         ${
                             canManage()
                             ?
                             `
                             <button
-                                class="action-btn"
+                                class="btn"
                                 onclick="createOTFromDI('${d.id}')">
-                                🛠 Créer OT
+                                🛠 OT
                             </button>
                             `
                             :
@@ -3937,11 +4899,12 @@ function renderDI(){
                         }
 
                         ${
-                            canManage()
+                            canManage() &&
+                            d.status !== 'closed'
                             ?
                             `
                             <button
-                                class="action-btn"
+                                class="btn btn-success"
                                 onclick="closeDI('${d.id}')">
                                 ✓
                             </button>
@@ -3964,110 +4927,147 @@ function renderDI(){
 function openDIModal(){
 
     document
-        .getElementById('diForm')
+        .getElementById(
+            'diForm'
+        )
         .reset();
 
     if(currentProfile){
 
         document
-            .getElementById('diRequester')
+            .getElementById(
+                'diRequester'
+            )
             .value =
-                currentProfile.full_name || '';
+                currentProfile.full_name ||
+                '';
 
     }
 
     refreshSelects();
 
-    openModal('diModal');
+    openModal(
+        'diModal'
+    );
 
 }
 
 
 document
 .getElementById('diForm')
-.addEventListener('submit',async function(e){
+.addEventListener(
+    'submit',
+    async function(e){
 
-    e.preventDefault();
+        e.preventDefault();
 
-    const payload = {
+        if(!currentUser)
+            return;
 
-        requester:
-            document
-            .getElementById('diRequester')
-            .value.trim(),
+        const payload = {
 
-        zone_id:
-            document
-            .getElementById('diZone')
-            .value || null,
+            requester:
+                document
+                .getElementById(
+                    'diRequester'
+                )
+                .value
+                .trim(),
 
-        equipment_id:
-            document
-            .getElementById('diEquipment')
-            .value || null,
+            zone_id:
+                document
+                .getElementById(
+                    'diZone'
+                )
+                .value || null,
 
-        sub_equipment_id:
-            document
-            .getElementById('diSubEquipment')
-            .value || null,
+            equipment_id:
+                document
+                .getElementById(
+                    'diEquipment'
+                )
+                .value || null,
 
-        priority:
-            document
-            .getElementById('diPriority')
-            .value,
+            sub_equipment_id:
+                document
+                .getElementById(
+                    'diSubEquipment'
+                )
+                .value || null,
 
-        type:
-            document
-            .getElementById('diType')
-            .value,
+            priority:
+                document
+                .getElementById(
+                    'diPriority'
+                )
+                .value,
 
-        status:'new',
+            type:
+                document
+                .getElementById(
+                    'diType'
+                )
+                .value,
 
-        description:
-            document
-            .getElementById('diDescription')
-            .value.trim(),
+            status:'new',
 
-        created_by:
-            currentUser.id
+            description:
+                document
+                .getElementById(
+                    'diDescription'
+                )
+                .value
+                .trim(),
 
-    };
+            created_by:
+                currentUser.id
 
+        };
 
-    const {error} =
-        await sb
-        .from('intervention_requests')
-        .insert(payload);
+        const {error} =
+            await sb
+            .from(
+                'intervention_requests'
+            )
+            .insert(payload);
 
-    if(error){
+        if(error){
 
-        showError(error);
-        return;
+            showError(error);
+            return;
+
+        }
+
+        closeModal(
+            'diModal'
+        );
+
+        showToast(
+            'Demande d’intervention créée.'
+        );
+
+        await loadDI();
+
+        updateDashboard();
+
     }
-
-    closeModal('diModal');
-
-    showToast(
-        'Demande d’intervention créée.'
-    );
-
-    await loadDI();
-
-    updateDashboard();
-
-});
+);
 
 
 async function closeDI(id){
 
-    if(!canManage()) return;
+    if(!canManage())
+        return;
 
     const {error} =
         await sb
-        .from('intervention_requests')
+        .from(
+            'intervention_requests'
+        )
         .update({
             status:'closed',
-            updated_at:new Date().toISOString()
+            updated_at:
+                new Date().toISOString()
         })
         .eq('id',id);
 
@@ -4075,9 +5075,12 @@ async function closeDI(id){
 
         showError(error);
         return;
+
     }
 
-    showToast('DI clôturée.');
+    showToast(
+        'DI clôturée.'
+    );
 
     await loadDI();
 
@@ -4094,13 +5097,18 @@ async function loadOT(){
         await sb
         .from('work_orders')
         .select('*')
-        .order('created_at',{ascending:false});
+        .order(
+            'created_at',
+            {
+                ascending:false
+            }
+        );
 
     if(error){
 
-        console.error(error);
         showError(error);
         return;
+
     }
 
     otList =
@@ -4114,40 +5122,54 @@ async function loadOT(){
 function technicianName(id){
 
     const p =
-        personnel.find(x=>x.id===id);
+        personnel.find(
+            x=>x.id===id
+        );
 
     return p?.full_name || '-';
+
 }
 
 
 function equipmentName(id){
 
     const e =
-        equipment.find(x=>x.id===id);
+        equipment.find(
+            x=>x.id===id
+        );
 
-    return e?.designation ||
+    return (
+        e?.designation ||
         e?.code ||
-        '-';
+        '-'
+    );
+
 }
 
 
 function renderOT(){
 
     const tbody =
-        document.getElementById('otTable');
+        document.getElementById(
+            'otTable'
+        );
 
     const search =
         (
             document
-            .getElementById('otSearch')
+            .getElementById(
+                'otSearch'
+            )
             ?.value || ''
-        ).toLowerCase();
+        )
+        .toLowerCase();
 
     const status =
         document
-        .getElementById('otStatusFilter')
+        .getElementById(
+            'otStatusFilter'
+        )
         ?.value || '';
-
 
     const filtered =
         otList.filter(o=>{
@@ -4156,8 +5178,12 @@ function renderOT(){
                 [
                     o.code,
                     o.technician,
-                    technicianName(o.technician_id),
-                    equipmentName(o.equipment_id),
+                    technicianName(
+                        o.technician_id
+                    ),
+                    equipmentName(
+                        o.equipment_id
+                    ),
                     o.work_performed,
                     o.intervention_report
                 ]
@@ -4166,32 +5192,29 @@ function renderOT(){
 
             return (
                 text.includes(search) &&
-                (!status || o.status===status)
+                (
+                    !status ||
+                    o.status === status
+                )
             );
 
         });
 
-
-    document
-        .getElementById('otCount')
-        .textContent =
-            filtered.length;
-
-
     if(!filtered.length){
 
-        tbody.innerHTML =
-            `<tr>
+        tbody.innerHTML = `
+            <tr>
                 <td colspan="8">
                     <div class="empty">
                         Aucun OT trouvé.
                     </div>
                 </td>
-            </tr>`;
+            </tr>
+        `;
 
         return;
-    }
 
+    }
 
     tbody.innerHTML =
         filtered.map(o=>`
@@ -4200,7 +5223,9 @@ function renderOT(){
 
                 <td>
                     <strong>
-                        ${escapeHtml(o.code || '-')}
+                        ${escapeHtml(
+                            o.code || '-'
+                        )}
                     </strong>
                 </td>
 
@@ -4209,50 +5234,65 @@ function renderOT(){
                         o.date ||
                         (
                             o.created_at
-                            ? o.created_at.substring(0,10)
+                            ? o.created_at.substring(
+                                0,
+                                10
+                            )
                             : '-'
                         )
                     )}
                 </td>
 
                 <td>
-                    ${escapeHtml(o.di_id || '-')}
-                </td>
-
-                <td>
                     ${escapeHtml(
-                        equipmentName(o.equipment_id)
+                        o.di_id || '-'
                     )}
                 </td>
 
                 <td>
                     ${escapeHtml(
-                        technicianName(o.technician_id) ||
-                        o.technician ||
-                        '-'
+                        equipmentName(
+                            o.equipment_id
+                        )
                     )}
                 </td>
 
                 <td>
-                    ${priorityBadge(o.priority)}
+                    ${escapeHtml(
+                        technicianName(
+                            o.technician_id
+                        )
+                    )}
                 </td>
 
                 <td>
-                    ${statusBadge(o.status)}
+                    ${priorityBadge(
+                        o.priority
+                    )}
+                </td>
+
+                <td>
+                    ${statusBadge(
+                        o.status
+                    )}
                 </td>
 
                 <td>
 
-                    <div class="action-group">
+                    <div style="
+                        display:flex;
+                        gap:5px;
+                        flex-wrap:wrap;
+                    ">
 
                         ${
                             canExecuteOT()
                             ?
                             `
                             <button
-                                class="action-btn"
+                                class="btn"
                                 onclick="openOTModal('${o.id}')">
-                                ✏ Modifier
+                                ✏
                             </button>
                             `
                             :
@@ -4265,9 +5305,9 @@ function renderOT(){
                             ?
                             `
                             <button
-                                class="action-btn"
+                                class="btn btn-success"
                                 onclick="closeOT('${o.id}')">
-                                ✓ Clôturer
+                                ✓
                             </button>
                             `
                             :
@@ -4295,84 +5335,112 @@ function openOTModal(id=null){
         );
 
         return;
+
     }
 
-
     document
-        .getElementById('otForm')
+        .getElementById(
+            'otForm'
+        )
         .reset();
 
     document
-        .getElementById('otId')
+        .getElementById(
+            'otId'
+        )
         .value =
             id || '';
 
     refreshSelects();
 
-
     if(id){
 
         const o =
-            otList.find(x=>x.id===id);
+            otList.find(
+                x=>x.id===id
+            );
 
-        if(!o) return;
+        if(!o)
+            return;
 
         document
-            .getElementById('otDI')
+            .getElementById(
+                'otDI'
+            )
             .value =
                 o.di_id || '';
 
         document
-            .getElementById('otEquipment')
+            .getElementById(
+                'otEquipment'
+            )
             .value =
                 o.equipment_id || '';
 
         document
-            .getElementById('otSubEquipment')
+            .getElementById(
+                'otSubEquipment'
+            )
             .value =
                 o.sub_equipment_id || '';
 
         document
-            .getElementById('otTechnician')
+            .getElementById(
+                'otTechnician'
+            )
             .value =
                 o.technician_id || '';
 
         document
-            .getElementById('otPriority')
+            .getElementById(
+                'otPriority'
+            )
             .value =
                 o.priority || 'medium';
 
         document
-            .getElementById('otStatus')
+            .getElementById(
+                'otStatus'
+            )
             .value =
                 o.status || 'open';
 
         document
-            .getElementById('otWorkPerformed')
+            .getElementById(
+                'otWorkPerformed'
+            )
             .value =
                 o.work_performed || '';
 
         document
-            .getElementById('otReport')
+            .getElementById(
+                'otReport'
+            )
             .value =
                 o.intervention_report || '';
 
-    }else{
+    }
+    else{
 
         document
-            .getElementById('otStatus')
+            .getElementById(
+                'otStatus'
+            )
             .value =
                 'open';
 
     }
 
-
-    openModal('otModal');
+    openModal(
+        'otModal'
+    );
 
 }
 
 
-async function createOTFromDI(diId){
+async function createOTFromDI(
+    diId
+){
 
     if(!canManage()){
 
@@ -4382,203 +5450,256 @@ async function createOTFromDI(diId){
         );
 
         return;
+
     }
 
-
     const d =
-        diList.find(x=>x.id===diId);
+        diList.find(
+            x=>x.id===diId
+        );
 
-    if(!d) return;
-
+    if(!d)
+        return;
 
     document
-        .getElementById('otForm')
+        .getElementById(
+            'otForm'
+        )
         .reset();
 
     document
-        .getElementById('otId')
+        .getElementById(
+            'otId'
+        )
         .value='';
-
 
     refreshSelects();
 
-
     document
-        .getElementById('otDI')
+        .getElementById(
+            'otDI'
+        )
         .value =
             d.id;
 
     document
-        .getElementById('otEquipment')
+        .getElementById(
+            'otEquipment'
+        )
         .value =
             d.equipment_id || '';
 
     document
-        .getElementById('otSubEquipment')
+        .getElementById(
+            'otSubEquipment'
+        )
         .value =
             d.sub_equipment_id || '';
 
     document
-        .getElementById('otPriority')
+        .getElementById(
+            'otPriority'
+        )
         .value =
             d.priority || 'medium';
 
     document
-        .getElementById('otWorkPerformed')
+        .getElementById(
+            'otWorkPerformed'
+        )
         .value =
             d.description || '';
 
     document
-        .getElementById('otStatus')
+        .getElementById(
+            'otStatus'
+        )
         .value =
             'open';
 
-
-    openModal('otModal');
+    openModal(
+        'otModal'
+    );
 
 }
 
 
 document
 .getElementById('otForm')
-.addEventListener('submit',async function(e){
+.addEventListener(
+    'submit',
+    async function(e){
 
-    e.preventDefault();
+        e.preventDefault();
 
-    if(!canExecuteOT()) return;
+        if(!canExecuteOT())
+            return;
 
+        const id =
+            document
+            .getElementById(
+                'otId'
+            )
+            .value;
 
-    const id =
-        document
-        .getElementById('otId')
-        .value;
+        const technicianId =
+            document
+            .getElementById(
+                'otTechnician'
+            )
+            .value || null;
 
+        let status =
+            document
+            .getElementById(
+                'otStatus'
+            )
+            .value;
 
-    const technicianId =
-        document
-        .getElementById('otTechnician')
-        .value || null;
+        if(
+            currentProfile.role ===
+                'technician' &&
+            status === 'closed'
+        ){
 
+            status='completed';
 
-    let status =
-        document
-        .getElementById('otStatus')
-        .value;
+            showToast(
+                'Un technicien ne peut pas clôturer définitivement un OT.',
+                'warning'
+            );
 
+        }
 
-    /*
-       Un technicien peut exécuter son OT mais
-       ne doit pas pouvoir finaliser la clôture.
-    */
+        const payload = {
 
-    if(
-        currentProfile.role === 'technician' &&
-        status === 'closed'
-    ){
+            di_id:
+                document
+                .getElementById(
+                    'otDI'
+                )
+                .value || null,
 
-        status='completed';
+            equipment_id:
+                document
+                .getElementById(
+                    'otEquipment'
+                )
+                .value || null,
 
-        showToast(
-            'Un technicien ne peut pas clôturer définitivement un OT. Statut ramené à Terminé.',
-            'warning'
+            sub_equipment_id:
+                document
+                .getElementById(
+                    'otSubEquipment'
+                )
+                .value || null,
+
+            technician_id:
+                technicianId,
+
+            technician:
+                technicianId
+                ? technicianName(
+                    technicianId
+                )
+                : null,
+
+            priority:
+                document
+                .getElementById(
+                    'otPriority'
+                )
+                .value,
+
+            status,
+
+            work_performed:
+                document
+                .getElementById(
+                    'otWorkPerformed'
+                )
+                .value
+                .trim() || null,
+
+            intervention_report:
+                document
+                .getElementById(
+                    'otReport'
+                )
+                .value
+                .trim() || null,
+
+            updated_at:
+                new Date().toISOString()
+
+        };
+
+        let result;
+
+        if(id){
+
+            result =
+                await sb
+                .from(
+                    'work_orders'
+                )
+                .update(payload)
+                .eq(
+                    'id',
+                    id
+                );
+
+        }
+        else{
+
+            const code =
+                await generateCode(
+                    'work_orders',
+                    'code',
+                    'OT-',
+                    5
+                );
+
+            result =
+                await sb
+                .from(
+                    'work_orders'
+                )
+                .insert({
+                    ...payload,
+                    code,
+                    created_by:
+                        currentUser.id
+                });
+
+        }
+
+        if(result.error){
+
+            showError(
+                result.error
+            );
+
+            return;
+
+        }
+
+        closeModal(
+            'otModal'
         );
 
-    }
+        showToast(
+            id
+            ? 'OT mis à jour.'
+            : 'OT créé avec succès.'
+        );
 
+        await loadOT();
 
-    const payload = {
-
-        di_id:
-            document
-            .getElementById('otDI')
-            .value || null,
-
-        equipment_id:
-            document
-            .getElementById('otEquipment')
-            .value || null,
-
-        sub_equipment_id:
-            document
-            .getElementById('otSubEquipment')
-            .value || null,
-
-        technician_id:
-            technicianId,
-
-        technician:
-            technicianId
-            ? technicianName(technicianId)
-            : null,
-
-        priority:
-            document
-            .getElementById('otPriority')
-            .value,
-
-        status,
-
-        work_performed:
-            document
-            .getElementById('otWorkPerformed')
-            .value.trim() || null,
-
-        intervention_report:
-            document
-            .getElementById('otReport')
-            .value.trim() || null,
-
-        updated_at:
-            new Date().toISOString()
-
-    };
-
-
-    let result;
-
-
-    if(id){
-
-        result =
-            await sb
-            .from('work_orders')
-            .update(payload)
-            .eq('id',id);
-
-    }else{
-
-        result =
-            await sb
-            .from('work_orders')
-            .insert({
-                ...payload,
-                created_by:currentUser.id
-            });
+        updateDashboard();
 
     }
-
-
-    if(result.error){
-
-        showError(result.error);
-        return;
-    }
-
-
-    closeModal('otModal');
-
-    showToast(
-        id
-        ? 'OT mis à jour.'
-        : 'OT créé avec succès.'
-    );
-
-
-    await loadOT();
-
-    updateDashboard();
-
-});
+);
 
 
 async function closeOT(id){
@@ -4591,39 +5712,59 @@ async function closeOT(id){
         );
 
         return;
+
     }
 
+    if(
+        !confirm(
+            'Confirmer la clôture définitive de cet OT ?'
+        )
+    )
+        return;
 
-    if(!confirm(
-        'Confirmer la clôture définitive de cet OT ?'
-    )) return;
-
+    const now =
+        new Date().toISOString();
 
     const {error} =
         await sb
-        .from('work_orders')
+        .from(
+            'work_orders'
+        )
         .update({
-            status:'closed',
-            closed_by:currentUser.id,
-            closed_at:new Date().toISOString(),
-            validated_by:currentUser.id,
-            validated_at:new Date().toISOString(),
-            updated_at:new Date().toISOString()
-        })
-        .eq('id',id);
 
+            status:'closed',
+
+            closed_by:
+                currentUser.id,
+
+            closed_at:
+                now,
+
+            validated_by:
+                currentUser.id,
+
+            validated_at:
+                now,
+
+            updated_at:
+                now
+
+        })
+        .eq(
+            'id',
+            id
+        );
 
     if(error){
 
         showError(error);
         return;
-    }
 
+    }
 
     showToast(
         'OT clôturé avec succès.'
     );
-
 
     await loadOT();
 
@@ -4638,8 +5779,6 @@ async function closeOT(id){
 
 function refreshSelects(){
 
-    /* ZONES */
-
     const zoneSelects = [
         'equipmentZone',
         'diZone'
@@ -4648,18 +5787,27 @@ function refreshSelects(){
     zoneSelects.forEach(id=>{
 
         const el =
-            document.getElementById(id);
+            document
+            .getElementById(id);
 
-        if(!el) return;
+        if(!el)
+            return;
 
         const current =
             el.value;
 
         el.innerHTML =
-            `<option value="">-- Sélectionner --</option>` +
+            `
+            <option value="">
+                -- Sélectionner --
+            </option>
+            ` +
             zones.map(z=>`
-                <option value="${z.id}">
-                    ${escapeHtml(z.code)} — ${escapeHtml(z.name)}
+                <option
+                    value="${escapeHtml(z.id)}">
+                    ${escapeHtml(z.code)}
+                    —
+                    ${escapeHtml(z.name)}
                 </option>
             `).join('');
 
@@ -4668,8 +5816,6 @@ function refreshSelects(){
 
     });
 
-
-    /* EQUIPMENT */
 
     const equipmentSelects = [
         'subEquipmentParent',
@@ -4680,18 +5826,27 @@ function refreshSelects(){
     equipmentSelects.forEach(id=>{
 
         const el =
-            document.getElementById(id);
+            document
+            .getElementById(id);
 
-        if(!el) return;
+        if(!el)
+            return;
 
         const current =
             el.value;
 
         el.innerHTML =
-            `<option value="">-- Sélectionner --</option>` +
+            `
+            <option value="">
+                -- Sélectionner --
+            </option>
+            ` +
             equipment.map(e=>`
-                <option value="${e.id}">
-                    ${escapeHtml(e.code)} — ${escapeHtml(e.designation)}
+                <option
+                    value="${escapeHtml(e.id)}">
+                    ${escapeHtml(e.code)}
+                    —
+                    ${escapeHtml(e.designation)}
                 </option>
             `).join('');
 
@@ -4700,8 +5855,6 @@ function refreshSelects(){
 
     });
 
-
-    /* SUB EQUIPMENT */
 
     const subSelects = [
         'diSubEquipment',
@@ -4711,18 +5864,27 @@ function refreshSelects(){
     subSelects.forEach(id=>{
 
         const el =
-            document.getElementById(id);
+            document
+            .getElementById(id);
 
-        if(!el) return;
+        if(!el)
+            return;
 
         const current =
             el.value;
 
         el.innerHTML =
-            `<option value="">-- Aucun --</option>` +
+            `
+            <option value="">
+                -- Aucun --
+            </option>
+            ` +
             subEquipment.map(s=>`
-                <option value="${s.id}">
-                    ${escapeHtml(s.code)} — ${escapeHtml(s.designation)}
+                <option
+                    value="${escapeHtml(s.id)}">
+                    ${escapeHtml(s.code)}
+                    —
+                    ${escapeHtml(s.designation)}
                 </option>
             `).join('');
 
@@ -4732,10 +5894,11 @@ function refreshSelects(){
     });
 
 
-    /* DI */
-
     const diSelect =
-        document.getElementById('otDI');
+        document
+        .getElementById(
+            'otDI'
+        );
 
     if(diSelect){
 
@@ -4743,11 +5906,19 @@ function refreshSelects(){
             diSelect.value;
 
         diSelect.innerHTML =
-            `<option value="">-- Aucune DI --</option>` +
+            `
+            <option value="">
+                -- Aucune DI --
+            </option>
+            ` +
             diList.map(d=>`
-                <option value="${d.id}">
-                    ${escapeHtml(d.code || d.id)}
-                    — ${escapeHtml(
+                <option
+                    value="${escapeHtml(d.id)}">
+                    ${escapeHtml(
+                        d.code || d.id
+                    )}
+                    —
+                    ${escapeHtml(
                         d.description || ''
                     ).substring(0,70)}
                 </option>
@@ -4759,10 +5930,11 @@ function refreshSelects(){
     }
 
 
-    /* TECHNICIENS */
-
     const techSelect =
-        document.getElementById('otTechnician');
+        document
+        .getElementById(
+            'otTechnician'
+        );
 
     if(techSelect){
 
@@ -4772,21 +5944,27 @@ function refreshSelects(){
         const technicians =
             personnel.filter(p=>
                 p.active !== false &&
-                (
-                    p.role === 'technician' ||
-                    p.role === 'manager' ||
-                    p.role === 'admin'
-                )
+                [
+                    'technician',
+                    'manager',
+                    'admin'
+                ].includes(p.role)
             );
 
         techSelect.innerHTML =
-            `<option value="">-- Non affecté --</option>` +
+            `
+            <option value="">
+                -- Non affecté --
+            </option>
+            ` +
             technicians.map(p=>`
-                <option value="${p.id}">
+                <option
+                    value="${escapeHtml(p.id)}">
                     ${escapeHtml(
                         p.employee_code || ''
                     )}
-                    — ${escapeHtml(
+                    —
+                    ${escapeHtml(
                         p.full_name || ''
                     )}
                 </option>
@@ -4807,46 +5985,47 @@ function refreshSelects(){
 function updateDashboard(){
 
     document
-        .getElementById('kpiEquipment')
+        .getElementById(
+            'kpiEquipment'
+        )
         .textContent =
             equipment.length;
-
 
     const openDI =
         diList.filter(d=>
             d.status !== 'closed'
         ).length;
 
-
     document
-        .getElementById('kpiDI')
+        .getElementById(
+            'kpiDI'
+        )
         .textContent =
             openDI;
-
 
     const openOT =
         otList.filter(o=>
             o.status !== 'closed'
         ).length;
 
-
     document
-        .getElementById('kpiOT')
+        .getElementById(
+            'kpiOT'
+        )
         .textContent =
             openOT;
-
 
     const activePersonnel =
         personnel.filter(p=>
             p.active !== false
         ).length;
 
-
     document
-        .getElementById('kpiPersonnel')
+        .getElementById(
+            'kpiPersonnel'
+        )
         .textContent =
             activePersonnel;
-
 
     renderDashboardDI();
 
@@ -4858,48 +6037,44 @@ function updateDashboard(){
 function renderDashboardDI(){
 
     const box =
-        document.getElementById('dashboardDI');
+        document.getElementById(
+            'dashboardDI'
+        );
 
     const list =
         diList.slice(0,6);
 
     if(!list.length){
 
-        box.innerHTML =
-            `<div class="empty">
+        box.innerHTML = `
+            <div class="empty">
                 Aucune DI.
-            </div>`;
+            </div>
+        `;
 
         return;
-    }
 
+    }
 
     box.innerHTML =
         list.map(d=>`
 
-            <div style="
-                display:flex;
-                justify-content:space-between;
-                gap:10px;
-                padding:10px 0;
-                border-bottom:1px solid #162f47;
-            ">
+            <div class="dashboard-item">
 
                 <div>
 
-                    <strong style="font-size:12px">
-                        ${escapeHtml(d.code || '-')}
+                    <strong>
+                        ${escapeHtml(
+                            d.code || d.id
+                        )}
                     </strong>
 
-                    <div style="
-                        color:#8199ae;
-                        font-size:11px;
-                        margin-top:4px;
-                    ">
+                    <small>
                         ${escapeHtml(
-                            d.description || 'Sans description'
-                        ).substring(0,65)}
-                    </div>
+                            d.description ||
+                            'Sans description'
+                        ).substring(0,70)}
+                    </small>
 
                 </div>
 
@@ -4915,48 +6090,45 @@ function renderDashboardDI(){
 function renderDashboardOT(){
 
     const box =
-        document.getElementById('dashboardOT');
+        document.getElementById(
+            'dashboardOT'
+        );
 
     const list =
         otList.slice(0,6);
 
     if(!list.length){
 
-        box.innerHTML =
-            `<div class="empty">
+        box.innerHTML = `
+            <div class="empty">
                 Aucun OT.
-            </div>`;
+            </div>
+        `;
 
         return;
-    }
 
+    }
 
     box.innerHTML =
         list.map(o=>`
 
-            <div style="
-                display:flex;
-                justify-content:space-between;
-                gap:10px;
-                padding:10px 0;
-                border-bottom:1px solid #162f47;
-            ">
+            <div class="dashboard-item">
 
                 <div>
 
-                    <strong style="font-size:12px">
-                        ${escapeHtml(o.code || '-')}
+                    <strong>
+                        ${escapeHtml(
+                            o.code || '-'
+                        )}
                     </strong>
 
-                    <div style="
-                        color:#8199ae;
-                        font-size:11px;
-                        margin-top:4px;
-                    ">
+                    <small>
                         ${escapeHtml(
-                            equipmentName(o.equipment_id)
+                            equipmentName(
+                                o.equipment_id
+                            )
                         )}
-                    </div>
+                    </small>
 
                 </div>
 
@@ -5008,18 +6180,16 @@ function showPage(page){
             p.classList.remove('active')
         );
 
-
     const target =
         document
-        .getElementById(`page-${page}`);
-
+        .getElementById(
+            `page-${page}`
+        );
 
     if(!target)
         return;
 
-
     target.classList.add('active');
-
 
     document
         .querySelectorAll('.nav-btn')
@@ -5027,29 +6197,25 @@ function showPage(page){
             btn.classList.remove('active')
         );
 
-
     const button =
         document
         .querySelector(
             `.nav-btn[data-page="${page}"]`
         );
 
-
     if(button)
         button.classList.add('active');
 
-
     document
-        .getElementById('pageTitle')
+        .getElementById(
+            'pageTitle'
+        )
         .textContent =
-            pageTitles[page] || page;
+            pageTitles[page] ||
+            page;
 
-
-    if(page==='settings'){
-
+    if(page === 'settings')
         renderSettings();
-
-    }
 
 }
 
@@ -5058,31 +6224,38 @@ document
 .querySelectorAll('.nav-btn')
 .forEach(btn=>{
 
-    btn.addEventListener('click',()=>{
+    btn.addEventListener(
+        'click',
+        ()=>{
 
-        const page =
-            btn.dataset.page;
+            const page =
+                btn.dataset.page;
 
-        if(
-            btn.classList.contains('disabled-page')
-        ){
+            if(
+                btn.classList.contains(
+                    'disabled-page'
+                )
+            ){
 
-            showToast(
-                'Ce module sera activé dans la prochaine phase.',
-                'warning'
-            );
+                showToast(
+                    'Ce module sera activé dans une prochaine phase.',
+                    'warning'
+                );
 
-            return;
+                return;
+
+            }
+
+            showPage(page);
+
         }
-
-        showPage(page);
-
-    });
+    );
 
 });
 
 
-window.showPage = showPage;
+window.showPage =
+    showPage;
 
 
 /* ============================================================
@@ -5092,7 +6265,9 @@ window.showPage = showPage;
 function renderSettings(){
 
     const box =
-        document.getElementById('settingsInfo');
+        document.getElementById(
+            'settingsInfo'
+        );
 
     if(!currentProfile)
         return;
@@ -5101,58 +6276,78 @@ function renderSettings(){
 
         <div class="form-grid">
 
-            <div>
+            <div class="form-group">
+
                 <label>Nom complet</label>
+
                 <input
                     value="${escapeHtml(
                         currentProfile.full_name || ''
                     )}"
                     readonly>
+
             </div>
 
-            <div>
+            <div class="form-group">
+
                 <label>Code employé</label>
+
                 <input
                     value="${escapeHtml(
                         currentProfile.employee_code || ''
                     )}"
                     readonly>
+
             </div>
 
-            <div>
+            <div class="form-group">
+
                 <label>Rôle</label>
+
                 <input
                     value="${escapeHtml(
-                        roleLabel(currentProfile.role)
+                        roleLabel(
+                            currentProfile.role
+                        )
                     )}"
                     readonly>
+
             </div>
 
-            <div>
+            <div class="form-group">
+
                 <label>Email</label>
+
                 <input
                     value="${escapeHtml(
                         currentUser?.email || ''
                     )}"
                     readonly>
+
             </div>
 
-            <div>
+            <div class="form-group">
+
                 <label>Département</label>
+
                 <input
                     value="${escapeHtml(
                         currentProfile.department || ''
                     )}"
                     readonly>
+
             </div>
 
-            <div>
+            <div class="form-group">
+
                 <label>Poste</label>
+
                 <input
                     value="${escapeHtml(
                         currentProfile.position || ''
                     )}"
                     readonly>
+
             </div>
 
         </div>
@@ -5174,65 +6369,55 @@ async function logout(){
     currentProfile=null;
 
     document
-        .getElementById('app')
+        .getElementById(
+            'app'
+        )
         .classList.add('hidden');
 
     document
-        .getElementById('loginScreen')
+        .getElementById(
+            'loginScreen'
+        )
         .classList.remove('hidden');
 
     document
-        .getElementById('loginPassword')
+        .getElementById(
+            'loginPassword'
+        )
         .value='';
 
 }
 
 
 document
-.getElementById('logoutBtn')
-.addEventListener('click',logout);
+.getElementById(
+    'logoutBtn'
+)
+.addEventListener(
+    'click',
+    logout
+);
 
 
 /* ============================================================
-   SESSION INITIALIZATION
-============================================================ */
-
-async function initialize(){
-
-    const {
-        data
-    } =
-        await sb.auth.getSession();
-
-    if(data?.session){
-
-        currentUser =
-            data.session.user;
-
-        await loadProfile();
-
-    }
-
-}
-
-
-/* ============================================================
-   MODAL CLICK OUTSIDE
+   MODAL OUTSIDE CLICK
 ============================================================ */
 
 document
 .querySelectorAll('.modal')
 .forEach(modal=>{
 
-    modal.addEventListener('click',function(e){
+    modal.addEventListener(
+        'click',
+        function(e){
 
-        if(e.target === modal){
-
-            modal.classList.remove('show');
+            if(e.target === modal)
+                modal.classList.remove(
+                    'show'
+                );
 
         }
-
-    });
+    );
 
 });
 
@@ -5254,13 +6439,49 @@ sb.auth.onAuthStateChange(
 
         }
 
+        if(
+            event === 'SIGNED_OUT'
+        ){
+
+            currentUser=null;
+            currentProfile=null;
+
+        }
+
     }
 );
 
 
 /* ============================================================
-   START
+   INITIALIZE
 ============================================================ */
+
+async function initialize(){
+
+    const {
+        data,
+        error
+    } =
+        await sb.auth.getSession();
+
+    if(error){
+
+        console.error(error);
+        return;
+
+    }
+
+    if(data?.session){
+
+        currentUser =
+            data.session.user;
+
+        await loadProfile();
+
+    }
+
+}
+
 
 initialize();
 
