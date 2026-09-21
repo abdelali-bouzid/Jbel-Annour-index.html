@@ -1,6846 +1,1285 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="h-full bg-slate-100">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>GMAO PRO V5.2 Secure — Maintenance</title>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<style>
-:root{
-    --bg:#07111d;
-    --panel:#0d1b2a;
-    --panel2:#102338;
-    --border:#1c3851;
-    --text:#e8f1f8;
-    --muted:#8ca3b7;
-    --primary:#1597ff;
-    --success:#20c997;
-    --warning:#f5b942;
-    --danger:#ef5350;
-    --purple:#8b7cff;
-    --info:#36b9ff;
-}
-
-*{
-    box-sizing:border-box;
-}
-
-body{
-    margin:0;
-    font-family:Arial,Helvetica,sans-serif;
-    background:var(--bg);
-    color:var(--text);
-}
-
-button,input,select,textarea{
-    font:inherit;
-}
-
-button{
-    cursor:pointer;
-}
-
-.hidden{
-    display:none!important;
-}
-
-/* ================= LOGIN ================= */
-
-#loginScreen{
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    background:
-        radial-gradient(circle at top right,#123b5e 0,transparent 35%),
-        radial-gradient(circle at bottom left,#102b43 0,transparent 35%),
-        var(--bg);
-}
-
-.login-card{
-    width:100%;
-    max-width:430px;
-    background:rgba(13,27,42,.96);
-    border:1px solid var(--border);
-    border-radius:18px;
-    padding:35px;
-    box-shadow:0 25px 80px rgba(0,0,0,.4);
-}
-
-.logo{
-    width:60px;
-    height:60px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:15px;
-    background:var(--primary);
-    font-size:25px;
-    font-weight:bold;
-    margin-bottom:20px;
-}
-
-.login-card h1{
-    margin:0 0 8px;
-}
-
-.login-card p{
-    color:var(--muted);
-}
-
-/* ================= LAYOUT ================= */
-
-#app{
-    min-height:100vh;
-}
-
-.sidebar{
-    position:fixed;
-    left:0;
-    top:0;
-    bottom:0;
-    width:250px;
-    background:#081624;
-    border-right:1px solid var(--border);
-    z-index:20;
-    overflow-y:auto;
-}
-
-.brand{
-    padding:22px 20px;
-    border-bottom:1px solid var(--border);
-}
-
-.brand strong{
-    display:block;
-    font-size:18px;
-}
-
-.brand small{
-    color:var(--muted);
-}
-
-.nav{
-    padding:12px;
-}
-
-.nav button{
-    width:100%;
-    border:0;
-    background:transparent;
-    color:var(--muted);
-    padding:12px 14px;
-    text-align:left;
-    border-radius:9px;
-    margin-bottom:4px;
-    transition:.2s;
-}
-
-.nav button:hover{
-    background:var(--panel2);
-    color:var(--text);
-}
-
-.nav button.active{
-    background:rgba(21,151,255,.15);
-    color:#fff;
-    border-left:3px solid var(--primary);
-}
-
-.nav-title{
-    color:#5d7890;
-    font-size:11px;
-    text-transform:uppercase;
-    padding:18px 12px 8px;
-}
-
-.topbar{
-    position:fixed;
-    left:250px;
-    right:0;
-    top:0;
-    height:70px;
-    background:rgba(7,17,29,.94);
-    backdrop-filter:blur(12px);
-    border-bottom:1px solid var(--border);
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 25px;
-    z-index:10;
-}
-
-.topbar-title{
-    font-size:20px;
-    font-weight:bold;
-}
-
-.user-box{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.avatar{
-    width:40px;
-    height:40px;
-    border-radius:50%;
-    background:var(--primary);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-weight:bold;
-}
-
-.user-info small{
-    display:block;
-    color:var(--muted);
-}
-
-.main{
-    margin-left:250px;
-    padding:95px 25px 30px;
-}
-
-/* ================= COMPONENTS ================= */
-
-.page{
-    display:none;
-}
-
-.page.active{
-    display:block;
-}
-
-.page-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:15px;
-    margin-bottom:20px;
-}
-
-.page-header h1{
-    margin:0;
-    font-size:24px;
-}
-
-.page-header p{
-    margin:5px 0 0;
-    color:var(--muted);
-}
-
-.panel{
-    background:var(--panel);
-    border:1px solid var(--border);
-    border-radius:12px;
-    overflow:hidden;
-    margin-bottom:20px;
-}
-
-.panel-header{
-    padding:15px 18px;
-    border-bottom:1px solid var(--border);
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:15px;
-}
-
-.panel-header h2,
-.panel-header h3{
-    margin:0;
-    font-size:16px;
-}
-
-.panel-body{
-    padding:18px;
-}
-
-.kpi-grid{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:15px;
-    margin-bottom:20px;
-}
-
-.kpi{
-    background:var(--panel);
-    border:1px solid var(--border);
-    border-radius:12px;
-    padding:18px;
-}
-
-.kpi-label{
-    color:var(--muted);
-    font-size:13px;
-}
-
-.kpi-value{
-    font-size:28px;
-    font-weight:bold;
-    margin-top:8px;
-}
-
-.kpi-sub{
-    color:var(--muted);
-    font-size:12px;
-    margin-top:5px;
-}
-
-.btn{
-    border:1px solid var(--border);
-    background:var(--panel2);
-    color:var(--text);
-    padding:9px 14px;
-    border-radius:8px;
-    transition:.2s;
-}
-
-.btn:hover{
-    filter:brightness(1.15);
-}
-
-.btn-primary{
-    background:var(--primary);
-    border-color:var(--primary);
-    color:white;
-}
-
-.btn-success{
-    background:var(--success);
-    border-color:var(--success);
-    color:#03140f;
-}
-
-.btn-warning{
-    background:var(--warning);
-    border-color:var(--warning);
-    color:#201600;
-}
-
-.btn-danger{
-    background:var(--danger);
-    border-color:var(--danger);
-    color:white;
-}
-
-.btn-purple{
-    background:var(--purple);
-    border-color:var(--purple);
-    color:white;
-}
-
-.btn-sm{
-    padding:6px 9px;
-    font-size:12px;
-}
-
-.filters{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-}
-
-input,
-select,
-textarea{
-    width:100%;
-    background:#081624;
-    color:var(--text);
-    border:1px solid var(--border);
-    border-radius:8px;
-    padding:10px 11px;
-    outline:none;
-}
-
-input:focus,
-select:focus,
-textarea:focus{
-    border-color:var(--primary);
-}
-
-textarea{
-    min-height:100px;
-    resize:vertical;
-}
-
-.search{
-    max-width:320px;
-}
-
-.table-wrap{
-    overflow-x:auto;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    min-width:900px;
-}
-
-th,
-td{
-    padding:12px;
-    border-bottom:1px solid var(--border);
-    text-align:left;
-    font-size:13px;
-}
-
-th{
-    color:#a9bfd1;
-    font-size:12px;
-    text-transform:uppercase;
-}
-
-tr:hover td{
-    background:rgba(255,255,255,.02);
-}
-
-.badge{
-    display:inline-block;
-    padding:5px 8px;
-    border-radius:20px;
-    font-size:11px;
-    font-weight:bold;
-}
-
-.badge-success{
-    background:rgba(32,201,151,.15);
-    color:var(--success);
-}
-
-.badge-warning{
-    background:rgba(245,185,66,.15);
-    color:var(--warning);
-}
-
-.badge-danger{
-    background:rgba(239,83,80,.15);
-    color:var(--danger);
-}
-
-.badge-info{
-    background:rgba(54,185,255,.15);
-    color:var(--info);
-}
-
-.badge-purple{
-    background:rgba(139,124,255,.15);
-    color:var(--purple);
-}
-
-.badge-muted{
-    background:#172738;
-    color:var(--muted);
-}
-
-.actions{
-    display:flex;
-    gap:5px;
-    flex-wrap:wrap;
-}
-
-.empty{
-    text-align:center;
-    padding:30px;
-    color:var(--muted);
-}
-
-.form-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:15px;
-}
-
-.form-grid-3{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:15px;
-}
-
-.form-group{
-    margin-bottom:0;
-}
-
-.form-group label{
-    display:block;
-    margin-bottom:6px;
-    color:#a9bfd1;
-    font-size:12px;
-}
-
-.form-full{
-    grid-column:1/-1;
-}
-
-.modal{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.7);
-    z-index:100;
-    display:none;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-}
-
-.modal.show{
-    display:flex;
-}
-
-.modal-box{
-    width:100%;
-    max-width:900px;
-    max-height:90vh;
-    overflow:auto;
-    background:var(--panel);
-    border:1px solid var(--border);
-    border-radius:14px;
-}
-
-.modal-header{
-    padding:18px;
-    border-bottom:1px solid var(--border);
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.modal-header h2{
-    margin:0;
-    font-size:18px;
-}
-
-.modal-body{
-    padding:20px;
-}
-
-.modal-footer{
-    padding:15px 20px;
-    border-top:1px solid var(--border);
-    display:flex;
-    justify-content:flex-end;
-    gap:10px;
-}
-
-.close{
-    border:0;
-    background:transparent;
-    color:var(--muted);
-    font-size:24px;
-}
-
-.section-title{
-    grid-column:1/-1;
-    padding:10px 0 5px;
-    color:var(--primary);
-    border-bottom:1px solid var(--border);
-    font-weight:bold;
-}
-
-.toast-container{
-    position:fixed;
-    right:20px;
-    bottom:20px;
-    z-index:300;
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-}
-
-.toast{
-    min-width:280px;
-    max-width:420px;
-    padding:14px;
-    background:var(--panel2);
-    border:1px solid var(--border);
-    border-radius:9px;
-    box-shadow:0 10px 40px rgba(0,0,0,.3);
-}
-
-.toast.success{
-    border-left:4px solid var(--success);
-}
-
-.toast.error{
-    border-left:4px solid var(--danger);
-}
-
-.toast.warning{
-    border-left:4px solid var(--warning);
-}
-
-.progress{
-    width:100%;
-    height:7px;
-    background:#172738;
-    border-radius:10px;
-    overflow:hidden;
-}
-
-.progress-bar{
-    height:100%;
-    background:var(--primary);
-}
-
-/* ================= RESPONSIVE ================= */
-
-@media(max-width:1100px){
-    .kpi-grid{
-        grid-template-columns:repeat(2,1fr);
-    }
-}
-
-@media(max-width:800px){
-    .sidebar{
-        width:210px;
-    }
-
-    .topbar,
-    .main{
-        margin-left:210px;
-        left:210px;
-    }
-
-    .topbar{
-        left:210px;
-    }
-
-    .form-grid,
-    .form-grid-3{
-        grid-template-columns:1fr;
-    }
-}
-
-@media(max-width:650px){
-    .sidebar{
-        position:relative;
-        width:100%;
-        height:auto;
-    }
-
-    .topbar{
-        position:relative;
-        left:0;
-        height:auto;
-        padding:15px;
-    }
-
-    .main{
-        margin-left:0;
-        padding:20px 12px;
-    }
-
-    .kpi-grid{
-        grid-template-columns:1fr;
-    }
-
-    .page-header{
-        flex-direction:column;
-        align-items:flex-start;
-    }
-
-    .search{
-        max-width:none;
-    }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PLATEFORME INDUSTRIELLE INTÉGRÉE - GMAO | PANNES | KPIs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; }
+    </style>
 </head>
-
-<body>
-
-<!-- =========================================================
-LOGIN
-========================================================= -->
-
-<section id="loginScreen">
-
-<div class="login-card">
-
-<div class="logo">GM</div>
-
-<h1>GMAO PRO V5.2</h1>
-
-<p>
-Plateforme intégrée de maintenance,
-fiabilité et méthodes.
-</p>
-
-<form id="loginForm">
-
-<div class="form-group" style="margin-bottom:15px">
-<label>Email</label>
-<input
-id="loginEmail"
-type="email"
-autocomplete="username"
-required
-placeholder="votre@email.com">
-</div>
-
-<div class="form-group" style="margin-bottom:15px">
-<label>Mot de passe</label>
-<input
-id="loginPassword"
-type="password"
-autocomplete="current-password"
-required
-placeholder="••••••••">
-</div>
-
-<button
-type="submit"
-class="btn btn-primary"
-style="width:100%">
-Se connecter
-</button>
-
-</form>
-
-<p style="font-size:11px;margin-top:20px">
-Supabase Auth · PostgreSQL · RLS · Maintenance
-</p>
-
-</div>
-
-</section>
-
-
-<!-- =========================================================
-APPLICATION
-========================================================= -->
-
-<div id="app" class="hidden">
-
-<!-- SIDEBAR -->
-
-<aside class="sidebar">
-
-<div class="brand">
-<strong>GMAO PRO V5.2</strong>
-<small>Maintenance & Fiabilité</small>
-</div>
-
-<nav class="nav">
-
-<div class="nav-title">Pilotage</div>
-
-<button data-page="dashboard" class="active">
-📊 Dashboard
-</button>
-
-<button data-page="reports">
-📑 Rapports & KPI
-</button>
-
-<div class="nav-title">Référentiel</div>
-
-<button data-page="personnel" class="manage-only">
-👥 Personnel
-</button>
-
-<button data-page="zones" class="manage-only">
-📍 Zones
-</button>
-
-<button data-page="equipment">
-⚙️ Équipements
-</button>
-
-<button data-page="subequipment">
-🔩 Sous-équipements
-</button>
-
-<div class="nav-title">Maintenance</div>
-
-<button data-page="di">
-📥 Demandes d'intervention
-</button>
-
-<button data-page="ot">
-🛠️ Ordres de Travail
-</button>
-
-<button data-page="preventive">
-🔧 Maintenance Préventive
-</button>
-
-<button data-page="rca">
-🔎 RCA / BDA
-</button>
-
-<div class="nav-title">Système</div>
-
-<button data-page="settings">
-⚙️ Paramètres
-</button>
-
-<button id="logoutBtn">
-🚪 Déconnexion
-</button>
-
-</nav>
-
-</aside>
-
-
-<!-- TOPBAR -->
-
-<header class="topbar">
-
-<div class="topbar-title" id="pageTitle">
-Dashboard
-</div>
-
-<div class="user-box">
-
-<div class="user-info">
-<strong id="topUserName">Utilisateur</strong>
-<small id="topUserRole">—</small>
-</div>
-
-<div class="avatar" id="userAvatar">
-U
-</div>
-
-</div>
-
-</header>
-
-
-<!-- MAIN -->
-
-<main class="main">
-
-
-<!-- =========================================================
-DASHBOARD
-========================================================= -->
-
-<section class="page active" id="page-dashboard">
-
-<div class="page-header">
-
-<div>
-<h1>Dashboard Maintenance</h1>
-<p>Vue globale de l'activité maintenance.</p>
-</div>
-
-<button
-class="btn btn-primary"
-onclick="loadAll()">
-↻ Actualiser
-</button>
-
-</div>
-
-
-<div class="kpi-grid">
-
-<div class="kpi">
-<div class="kpi-label">Équipements</div>
-<div class="kpi-value" id="kpiEquipment">0</div>
-<div class="kpi-sub">Référentiel équipements</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">DI ouvertes</div>
-<div class="kpi-value" id="kpiDI">0</div>
-<div class="kpi-sub">Demandes à traiter</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">OT ouverts</div>
-<div class="kpi-value" id="kpiOT">0</div>
-<div class="kpi-sub">Ordres de travail</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">Personnel actif</div>
-<div class="kpi-value" id="kpiPersonnel">0</div>
-<div class="kpi-sub">Ressources maintenance</div>
-</div>
-
-</div>
-
-
-<div class="kpi-grid">
-
-<div class="kpi">
-<div class="kpi-label">Plans préventifs</div>
-<div class="kpi-value" id="dashPreventive">0</div>
-<div class="kpi-sub">Plans actifs</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">Préventif en retard</div>
-<div class="kpi-value" id="dashPreventiveLate">0</div>
-<div class="kpi-sub">À traiter</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">BDA ouvertes</div>
-<div class="kpi-value" id="dashBDA">0</div>
-<div class="kpi-sub">Analyses en cours</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">Actions RCA</div>
-<div class="kpi-value" id="dashActions">0</div>
-<div class="kpi-sub">Actions non clôturées</div>
-</div>
-
-</div>
-
-
-<div class="panel">
-
-<div class="panel-header">
-<h2>Dernières demandes d'intervention</h2>
-</div>
-
-<div class="panel-body table-wrap">
-<table>
-<thead>
-<tr>
-<th>Code</th>
-<th>Date</th>
-<th>Zone</th>
-<th>Équipement</th>
-<th>Priorité</th>
-<th>Statut</th>
-</tr>
-</thead>
-<tbody id="dashboardDI"></tbody>
-</table>
-</div>
-
-</div>
-
-
-<div class="panel">
-
-<div class="panel-header">
-<h2>Derniers Ordres de Travail</h2>
-</div>
-
-<div class="panel-body table-wrap">
-<table>
-<thead>
-<tr>
-<th>Code</th>
-<th>Date</th>
-<th>Équipement</th>
-<th>Technicien</th>
-<th>Priorité</th>
-<th>Statut</th>
-</tr>
-</thead>
-<tbody id="dashboardOT"></tbody>
-</table>
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =========================================================
-PERSONNEL
-========================================================= -->
-
-<section class="page" id="page-personnel">
-
-<div class="page-header">
-
-<div>
-<h1>Personnel</h1>
-<p>Gestion des utilisateurs maintenance.</p>
-</div>
-
-<button
-class="btn btn-primary manage-only"
-onclick="openPersonnelModal()">
-+ Nouveau personnel
-</button>
-
-</div>
-
-<div class="panel">
-
-<div class="panel-header">
-
-<input
-id="personnelSearch"
-class="search"
-placeholder="Rechercher...">
-
-</div>
-
-<div class="panel-body table-wrap">
-
-<table>
-
-<thead>
-<tr>
-<th>Code</th>
-<th>Nom</th>
-<th>Email</th>
-<th>Rôle</th>
-<th>Service</th>
-<th>Poste</th>
-<th>Statut</th>
-</tr>
-</thead>
-
-<tbody id="personnelTable"></tbody>
-
-</table>
-
-</div>
-</div>
-
-</section>
-
-
-<!-- =========================================================
-ZONES
-========================================================= -->
-
-<section class="page" id="page-zones">
-
-<div class="page-header">
-
-<div>
-<h1>Zones</h1>
-<p>Organisation géographique et fonctionnelle.</p>
-</div>
-
-<button
-class="btn btn-primary manage-only"
-onclick="openZoneModal()">
-+ Nouvelle zone
-</button>
-
-</div>
-
-<div class="panel">
-
-<div class="panel-header">
-
-<input
-id="zoneSearch"
-class="search"
-placeholder="Rechercher une zone...">
-
-</div>
-
-<div class="panel-body table-wrap">
-
-<table>
-
-<thead>
-<tr>
-<th>Code</th>
-<th>Nom</th>
-<th>Description</th>
-<th>Statut</th>
-<th>Actions</th>
-</tr>
-</thead>
-
-<tbody id="zoneTable"></tbody>
-
-</table>
-
-</div>
-</div>
-
-</section>
-
-
-<!-- =========================================================
-EQUIPEMENTS
-========================================================= -->
-
-<section class="page" id="page-equipment">
-
-<div class="page-header">
-
-<div>
-<h1>Équipements</h1>
-<p>Référentiel technique des équipements.</p>
-</div>
-
-<button
-class="btn btn-primary manage-only"
-onclick="openEquipmentModal()">
-+ Nouvel équipement
-</button>
-
-</div>
-
-<div class="panel">
-
-<div class="panel-header">
-
-<input
-id="equipmentSearch"
-class="search"
-placeholder="Code, désignation, zone...">
-
-</div>
-
-<div class="panel-body table-wrap">
-
-<table>
-
-<thead>
-<tr>
-<th>Code</th>
-<th>Désignation</th>
-<th>Zone</th>
-<th>Type</th>
-<th>Marque</th>
-<th>Modèle</th>
-<th>Criticité</th>
-<th>Statut</th>
-<th>Actions</th>
-</tr>
-</thead>
-
-<tbody id="equipmentTable"></tbody>
-
-</table>
-
-</div>
-</div>
-
-</section>
-
-
-<!-- =========================================================
-SOUS-EQUIPEMENTS
-========================================================= -->
-
-<section class="page" id="page-subequipment">
-
-<div class="page-header">
-
-<div>
-<h1>Sous-équipements</h1>
-<p>Structure détaillée des équipements.</p>
-</div>
-
-<button
-class="btn btn-primary manage-only"
-onclick="openSubEquipmentModal()">
-+ Nouveau sous-équipement
-</button>
-
-</div>
-
-<div class="panel">
-
-<div class="panel-header">
-
-<input
-id="subEquipmentSearch"
-class="search"
-placeholder="Rechercher...">
-
-</div>
-
-<div class="panel-body table-wrap">
-
-<table>
-
-<thead>
-<tr>
-<th>Code</th>
-<th>Désignation</th>
-<th>Équipement</th>
-<th>Type</th>
-<th>Marque</th>
-<th>Modèle</th>
-<th>Criticité</th>
-<th>Statut</th>
-<th>Actions</th>
-</tr>
-</thead>
-
-<tbody id="subEquipmentTable"></tbody>
-
-</table>
-
-</div>
-</div>
-
-</section>
-
-
-<!-- =========================================================
-DI
-========================================================= -->
-
-<section class="page" id="page-di">
-
-<div class="page-header">
-
-<div>
-<h1>Demandes d'intervention</h1>
-<p>Gestion des demandes maintenance.</p>
-</div>
-
-<button
-class="btn btn-primary"
-onclick="openDIModal()">
-+ Nouvelle DI
-</button>
-
-</div>
-
-<div class="panel">
-
-<div class="panel-header">
-
-<div class="filters">
-
-<input
-id="diSearch"
-class="search"
-placeholder="Rechercher...">
-
-<select id="diStatusFilter">
-<option value="">Tous les statuts</option>
-<option value="new">Nouvelle</option>
-<option value="in_progress">En cours</option>
-<option value="closed">Clôturée</option>
-</select>
-
-</div>
-
-</div>
-
-<div class="panel-body table-wrap">
-
-<table>
-
-<thead>
-<tr>
-<th>Code</th>
-<th>Date</th>
-<th>Demandeur</th>
-<th>Zone</th>
-<th>Équipement</th>
-<th>Priorité</th>
-<th>Type</th>
-<th>Statut</th>
-<th>Actions</th>
-</tr>
-</thead>
-
-<tbody id="diTable"></tbody>
-
-</table>
-
-</div>
-</div>
-
-</section>
-
-
-<!-- =========================================================
-OT
-========================================================= -->
-
-<section class="page" id="page-ot">
-
-<div class="page-header">
-
-<div>
-<h1>Ordres de Travail</h1>
-<p>Planification et exécution des interventions.</p>
-</div>
-
-<button
-class="btn btn-primary"
-onclick="openOTModal()">
-+ Nouvel OT
-</button>
-
-</div>
-
-<div class="panel">
-
-<div class="panel-header">
-
-<div class="filters">
-
-<input
-id="otSearch"
-class="search"
-placeholder="Rechercher...">
-
-<select id="otStatusFilter">
-
-<option value="">Tous les statuts</option>
-<option value="open">Ouvert</option>
-<option value="in_progress">En cours</option>
-<option value="completed">Terminé</option>
-<option value="validated">Validé</option>
-<option value="closed">Clôturé</option>
-
-</select>
-
-</div>
-
-</div>
-
-<div class="panel-body table-wrap">
-
-<table>
-
-<thead>
-<tr>
-<th>Code</th>
-<th>Date</th>
-<th>DI</th>
-<th>Équipement</th>
-<th>Technicien</th>
-<th>Priorité</th>
-<th>Statut</th>
-<th>Actions</th>
-</tr>
-</thead>
-
-<tbody id="otTable"></tbody>
-
-</table>
-
-</div>
-</div>
-
-</section>
-
-
-<!-- =========================================================
-PREVENTIF PRO
-========================================================= -->
-
-<section class="page" id="page-preventive">
-
-<div class="page-header">
-
-<div>
-<h1>Maintenance Préventive PRO</h1>
-<p>Plans, gammes, périodicités et échéances.</p>
-</div>
-
-<button
-class="btn btn-primary manage-only"
-onclick="openPreventiveModal()">
-+ Nouveau plan
-</button>
-
-</div>
-
-
-<div class="kpi-grid">
-
-<div class="kpi">
-<div class="kpi-label">Plans actifs</div>
-<div class="kpi-value" id="pmTotal">0</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">À réaliser</div>
-<div class="kpi-value" id="pmDue">0</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">En retard</div>
-<div class="kpi-value" id="pmLate">0</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">Taux réalisation</div>
-<div class="kpi-value" id="pmRate">0%</div>
-</div>
-
-</div>
-
-
-<div class="panel">
-
-<div class="panel-header">
-
-<div class="filters">
-
-<input
-id="preventiveSearch"
-class="search"
-placeholder="Code, équipement, plan...">
-
-<select id="preventiveStatusFilter">
-
-<option value="">Tous</option>
-<option value="active">Actif</option>
-<option value="inactive">Inactif</option>
-<option value="completed">Réalisé</option>
-
-</select>
-
-</div>
-
-</div>
-
-<div class="panel-body table-wrap">
-
-<table>
-
-<thead>
-<tr>
-<th>Code</th>
-<th>Équipement</th>
-<th>Plan</th>
-<th>Fréquence</th>
-<th>Prochaine échéance</th>
-<th>Responsable</th>
-<th>Priorité</th>
-<th>Statut</th>
-<th>Actions</th>
-</tr>
-</thead>
-
-<tbody id="preventiveTable"></tbody>
-
-</table>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =========================================================
-RCA / BDA
-========================================================= -->
-
-<section class="page" id="page-rca">
-
-<div class="page-header">
-
-<div>
-<h1>RCA / BDA PRO</h1>
-<p>Analyse des défaillances et causes racines.</p>
-</div>
-
-<button
-class="btn btn-primary"
-onclick="openFailureModal()">
-+ Nouvelle analyse
-</button>
-
-</div>
-
-
-<div class="kpi-grid">
-
-<div class="kpi">
-<div class="kpi-label">BDA total</div>
-<div class="kpi-value" id="bdaTotal">0</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">Ouvertes</div>
-<div class="kpi-value" id="bdaOpen">0</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">Analyses</div>
-<div class="kpi-value" id="bdaAnalysis">0</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">Actions ouvertes</div>
-<div class="kpi-value" id="bdaActions">0</div>
-</div>
-
-</div>
-
-
-<div class="panel">
-
-<div class="panel-header">
-
-<div class="filters">
-
-<input
-id="failureSearch"
-class="search"
-placeholder="Code, équipement, cause...">
-
-<select id="failureStatusFilter">
-
-<option value="">Tous les statuts</option>
-<option value="open">Ouverte</option>
-<option value="analysis">Analyse</option>
-<option value="action">Actions</option>
-<option value="closed">Clôturée</option>
-
-</select>
-
-</div>
-
-</div>
-
-<div class="panel-body table-wrap">
-
-<table>
-
-<thead>
-<tr>
-<th>Code</th>
-<th>Date</th>
-<th>Zone</th>
-<th>Équipement</th>
-<th>Arrêt</th>
-<th>Symptôme</th>
-<th>Cause racine</th>
-<th>Statut</th>
-<th>Actions</th>
-</tr>
-</thead>
-
-<tbody id="failureTable"></tbody>
-
-</table>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =========================================================
-REPORTS
-========================================================= -->
-
-<section class="page" id="page-reports">
-
-<div class="page-header">
-
-<div>
-<h1>Rapport journalier & KPI</h1>
-<p>Reporting maintenance et indicateurs de fiabilité.</p>
-</div>
-
-<div class="actions">
-
-<input
-type="date"
-id="reportDate">
-
-<button
-class="btn btn-primary"
-onclick="loadDailyReport()">
-Charger
-</button>
-
-</div>
-
-</div>
-
-
-<div class="kpi-grid">
-
-<div class="kpi">
-<div class="kpi-label">DI</div>
-<div class="kpi-value" id="reportDI">0</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">OT</div>
-<div class="kpi-value" id="reportOT">0</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">Pannes</div>
-<div class="kpi-value" id="reportFailures">0</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">Préventif</div>
-<div class="kpi-value" id="reportPreventive">0</div>
-</div>
-
-</div>
-
-
-<div class="kpi-grid">
-
-<div class="kpi">
-<div class="kpi-label">Temps d'arrêt</div>
-<div class="kpi-value" id="reportDowntime">0 min</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">MTTR</div>
-<div class="kpi-value" id="reportMTTR">N/A</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">MTBF</div>
-<div class="kpi-value" id="reportMTBF">N/A</div>
-</div>
-
-<div class="kpi">
-<div class="kpi-label">Disponibilité</div>
-<div class="kpi-value" id="reportAvailability">N/A</div>
-</div>
-
-</div>
-
-
-<div class="panel">
-
-<div class="panel-header">
-<h2>Rapport journalier</h2>
-</div>
-
-<div class="panel-body">
-
-<form id="dailyReportForm">
-
-<div class="form-grid">
-
-<input type="hidden" id="dailyReportId">
-
-<div class="form-group">
-<label>Date</label>
-<input type="date" id="dailyDate" required>
-</div>
-
-<div class="form-group">
-<label>Impact production</label>
-<select id="dailyProductionImpact">
-<option value="none">Aucun</option>
-<option value="low">Faible</option>
-<option value="medium">Moyen</option>
-<option value="high">Élevé</option>
-<option value="critical">Critique</option>
-</select>
-</div>
-
-<div class="form-group form-full">
-<label>Événements majeurs</label>
-<textarea id="dailyMajorEvents"
-placeholder="Principaux événements de la journée..."></textarea>
-</div>
-
-<div class="form-group form-full">
-<label>Principales pannes</label>
-<textarea id="dailyMainFailures"
-placeholder="Pannes principales, équipements concernés..."></textarea>
-</div>
-
-<div class="form-group form-full">
-<label>Causes racines identifiées</label>
-<textarea id="dailyRootCauses"
-placeholder="Causes techniques, organisationnelles, réglages..."></textarea>
-</div>
-
-<div class="form-group form-full">
-<label>Actions correctives / préventives</label>
-<textarea id="dailyActions"
-placeholder="Actions réalisées ou planifiées..."></textarea>
-</div>
-
-<div class="form-group form-full">
-<label>Actions en attente</label>
-<textarea id="dailyPendingActions"></textarea>
-</div>
-
-<div class="form-group form-full">
-<label>Risques / recommandations</label>
-<textarea id="dailyRisks"></textarea>
-</div>
-
-<div class="form-group form-full">
-<label>Commentaires</label>
-<textarea id="dailyComments"></textarea>
-</div>
-
-</div>
-
-<div style="margin-top:20px;display:flex;gap:10px">
-
-<button
-type="submit"
-class="btn btn-primary">
-💾 Enregistrer le rapport
-</button>
-
-<button
-type="button"
-class="btn"
-onclick="window.print()">
-🖨 Imprimer
-</button>
-
-</div>
-
-</form>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =========================================================
-SETTINGS
-========================================================= -->
-
-<section class="page" id="page-settings">
-
-<div class="page-header">
-
-<div>
-<h1>Paramètres</h1>
-<p>Informations système et profil utilisateur.</p>
-</div>
-
-</div>
-
-<div class="panel">
-
-<div class="panel-header">
-<h2>Architecture</h2>
-</div>
-
-<div class="panel-body">
-
-<div class="form-grid">
-
-<div>
-<label>Authentification</label>
-<input value="Supabase Auth" disabled>
-</div>
-
-<div>
-<label>Base de données</label>
-<input value="PostgreSQL" disabled>
-</div>
-
-<div>
-<label>Sécurité</label>
-<input value="Row Level Security (RLS)" disabled>
-</div>
-
-<div>
-<label>Version</label>
-<input value="GMAO PRO V5.2 Secure" disabled>
-</div>
-
-</div>
-
-</div>
-</div>
-
-
-<div class="panel">
-
-<div class="panel-header">
-<h2>Mon profil</h2>
-</div>
-
-<div class="panel-body" id="settingsInfo"></div>
-
-</div>
-
-</section>
-
-</main>
-
-</div>
-
-
-<!-- =========================================================
-MODAL ZONE
-========================================================= -->
-
-<div class="modal" id="zoneModal">
-
-<div class="modal-box">
-
-<div class="modal-header">
-<h2>Nouvelle zone</h2>
-<button class="close" onclick="closeModal('zoneModal')">×</button>
-</div>
-
-<form id="zoneForm">
-
-<div class="modal-body">
-
-<div class="form-grid">
-
-<div>
-<label>Code</label>
-<input id="zoneCode" readonly>
-</div>
-
-<div>
-<label>Nom</label>
-<input id="zoneName" required>
-</div>
-
-<div>
-<label>Statut</label>
-<select id="zoneStatus">
-<option value="active">Actif</option>
-<option value="inactive">Inactif</option>
-</select>
-</div>
-
-<div class="form-full">
-<label>Description</label>
-<textarea id="zoneDescription"></textarea>
-</div>
-
-</div>
-
-</div>
-
-<div class="modal-footer">
-
-<button
-type="button"
-class="btn"
-onclick="closeModal('zoneModal')">
-Annuler
-</button>
-
-<button
-type="submit"
-class="btn btn-primary">
-Enregistrer
-</button>
-
-</div>
-
-</form>
-
-</div>
-
-</div>
-
-
-<!-- =========================================================
-MODAL EQUIPMENT
-========================================================= -->
-
-<div class="modal" id="equipmentModal">
-
-<div class="modal-box">
-
-<div class="modal-header">
-<h2>Équipement</h2>
-<button class="close" onclick="closeModal('equipmentModal')">×</button>
-</div>
-
-<form id="equipmentForm">
-
-<div class="modal-body">
-
-<div class="form-grid">
-
-<div>
-<label>Code</label>
-<input id="equipmentCode" readonly>
-</div>
-
-<div>
-<label>Désignation</label>
-<input id="equipmentDesignation" required>
-</div>
-
-<div>
-<label>Zone</label>
-<select id="equipmentZone" required></select>
-</div>
-
-<div>
-<label>Type</label>
-<input id="equipmentType">
-</div>
-
-<div>
-<label>Marque</label>
-<input id="equipmentBrand">
-</div>
-
-<div>
-<label>Modèle</label>
-<input id="equipmentModel">
-</div>
-
-<div>
-<label>N° série</label>
-<input id="equipmentSerial">
-</div>
-
-<div>
-<label>Criticité</label>
-<select id="equipmentCriticality">
-<option value="low">Faible</option>
-<option value="medium" selected>Moyenne</option>
-<option value="high">Haute</option>
-<option value="critical">Critique</option>
-</select>
-</div>
-
-<div>
-<label>Statut</label>
-<select id="equipmentStatus">
-<option value="active">Actif</option>
-<option value="inactive">Inactif</option>
-</select>
-</div>
-
-<div>
-<label>Date installation</label>
-<input type="date" id="equipmentInstallation">
-</div>
-
-<div class="form-full">
-<label>Description</label>
-<textarea id="equipmentDescription"></textarea>
-</div>
-
-</div>
-
-</div>
-
-<div class="modal-footer">
-
-<button
-type="button"
-class="btn"
-onclick="closeModal('equipmentModal')">
-Annuler
-</button>
-
-<button class="btn btn-primary">
-Enregistrer
-</button>
-
-</div>
-
-</form>
-
-</div>
-
-</div>
-
-
-<!-- =========================================================
-MODAL SUB EQUIPMENT
-========================================================= -->
-
-<div class="modal" id="subEquipmentModal">
-
-<div class="modal-box">
-
-<div class="modal-header">
-<h2>Sous-équipement</h2>
-<button class="close" onclick="closeModal('subEquipmentModal')">×</button>
-</div>
-
-<form id="subEquipmentForm">
-
-<div class="modal-body">
-
-<div class="form-grid">
-
-<div>
-<label>Code</label>
-<input id="subEquipmentCode" readonly>
-</div>
-
-<div>
-<label>Désignation</label>
-<input id="subEquipmentDesignation" required>
-</div>
-
-<div class="form-full">
-<label>Équipement parent</label>
-<select id="subEquipmentParent" required></select>
-</div>
-
-<div>
-<label>Type</label>
-<input id="subEquipmentType">
+<body class="flex flex-col min-h-full text-slate-800">
+
+<!-- ÉCRAN DE CONNEXION -->
+<div id="auth-screen" class="fixed inset-0 bg-slate-900 z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-2xl max-w-md w-full p-8 border border-slate-700">
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-indigo-100 text-indigo-600 rounded-full mb-4">
+                <i class="fa-solid fa-shield-halved text-3xl"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-slate-900">Plateforme de Maintenance</h2>
+            <p class="text-sm text-slate-500 mt-1">GMAO • Pannes • Zones • KPIs</p>
+        </div>
+
+        <div id="loginError" class="hidden mb-4 p-3 bg-red-100 border border-red-400 text-red-700 text-xs rounded-lg flex items-center gap-2">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span id="loginErrorText">Identifiants incorrects.</span>
+        </div>
+
+        <form onsubmit="handleLogin(event)" class="space-y-4" autocomplete="off">
+            <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Adresse Email / Nom d'utilisateur</label>
+                <input type="text" id="loginEmail" required value="admin@usine.com" class="w-full px-4 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+            </div>
+
+            <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Mot de passe</label>
+                <div class="relative">
+                    <input type="password" id="loginPassword" required value="admin123" class="w-full px-4 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none pr-10">
+                    <button type="button" onclick="togglePasswordVisibility()" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-indigo-600 focus:outline-none">
+                        <i id="togglePasswordIcon" class="fa-solid fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Rôle Utilisateur</label>
+                <select id="loginRole" class="w-full border rounded-lg p-2 text-sm outline-none focus:ring-2 focus:ring-indigo-500 bg-white">
+                    <option value="Admin">Administrateur (Accès Total + Mots de passe)</option>
+                    <option value="Responsable">Responsable Maintenance (Limité)</option>
+                    <option value="Technicien">Technicien (Saisie & Intervention)</option>
+                </select>
+            </div>
+
+            <button type="submit" id="btnLogin" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 rounded-lg shadow-lg transition duration-200">
+                <i class="fa-solid fa-right-to-bracket mr-2"></i> Se Connecter
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- APPLICATION PRINCIPALE -->
+<div id="app-screen" class="hidden flex flex-col min-h-screen">
+    <header class="bg-slate-900 text-white shadow-md sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-gears text-2xl text-indigo-400"></i>
+                <h1 class="text-xl font-bold tracking-wide">SMART MAINTENANCE <span class="text-xs bg-indigo-600 px-2 py-0.5 rounded text-white">PRO</span></h1>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="text-right hidden sm:block">
+                    <div class="text-xs text-slate-400">Utilisateur connecté</div>
+                    <div class="text-sm font-semibold text-indigo-300" id="userDisplay">Admin</div>
+                </div>
+                <!-- Button for password change (Admin Only) -->
+                <button id="btnAdminChangePwd" onclick="openAdminPwdModal()" class="hidden bg-amber-600/20 hover:bg-amber-600 text-amber-300 hover:text-white px-3 py-1.5 rounded text-sm transition border border-amber-500/30">
+                    <i class="fa-solid fa-key mr-1"></i> Gérer Mots de passe
+                </button>
+                <button onclick="handleLogout()" class="bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white px-3 py-1.5 rounded text-sm transition border border-red-500/30">
+                    <i class="fa-solid fa-power-off mr-1"></i> Déconnexion
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-6 flex-grow w-full space-y-6">
+        <div class="flex border-b border-slate-300 gap-2 overflow-x-auto bg-white p-2 rounded-t-lg shadow-sm">
+            <button onclick="switchTab('pannes')" id="tab-pannes" class="tab-btn px-4 py-2 font-semibold text-indigo-600 border-b-2 border-indigo-600 flex items-center gap-2">
+                <i class="fa-solid fa-triangle-exclamation text-amber-500"></i> Saisie Pannes
+            </button>
+            <button onclick="switchTab('equipements')" id="tab-equipements" class="tab-btn px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent hover:text-indigo-600 flex items-center gap-2">
+                <i class="fa-solid fa-sitemap text-blue-500"></i> Zones & Équipements
+            </button>
+            <button onclick="switchTab('kpi')" id="tab-kpi" class="tab-btn px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent hover:text-indigo-600 flex items-center gap-2">
+                <i class="fa-solid fa-chart-line"></i> KPIs Performance
+            </button>
+            <button onclick="switchTab('gmao')" id="tab-gmao" class="tab-btn px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent hover:text-indigo-600 flex items-center gap-2">
+                <i class="fa-solid fa-wrench"></i> GMAO (OT)
+            </button>
+            <button onclick="switchTab('amdec')" id="tab-amdec" class="tab-btn px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent hover:text-indigo-600 flex items-center gap-2">
+                <i class="fa-solid fa-shield-halved"></i> Analyse AMDEC
+            </button>
+            <button onclick="switchTab('dmaic')" id="tab-dmaic" class="tab-btn px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent hover:text-indigo-600 flex items-center gap-2">
+                <i class="fa-solid fa-diagram-project"></i> Projets DMAIC
+            </button>
+        </div>
+
+        <!-- 1. SECTION SAISIE DES PANNES -->
+        <section id="sec-pannes" class="space-y-6">
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex justify-between items-center flex-wrap gap-3">
+                <div>
+                    <h2 class="text-lg font-bold text-slate-800"><i class="fa-solid fa-triangle-exclamation text-red-500 mr-2"></i>Journal des Pannes Journalières</h2>
+                    <p class="text-xs text-slate-500 mt-0.5">Saisissez les pannes quotidiennes pour mettre à jour les KPIs et la GMAO.</p>
+                </div>
+                <button onclick="openPanneModal()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow flex items-center gap-2">
+                    <i class="fa-solid fa-plus"></i> Déclarer une Panne
+                </button>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-x-auto">
+                <table class="w-full text-left border-collapse text-sm">
+                    <thead class="bg-slate-800 text-white uppercase text-xs">
+                        <tr>
+                            <th class="p-3">Date</th>
+                            <th class="p-3">Équipement</th>
+                            <th class="p-3">Sous-Équipement</th>
+                            <th class="p-3">Symptôme</th>
+                            <th class="p-3">Heures</th>
+                            <th class="p-3">Arrêt (h)</th>
+                            <th class="p-3">Intervenant</th>
+                            <th class="p-3 text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-pannes-body" class="divide-y divide-slate-200"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 2. SECTION ZONES & ÉQUIPEMENTS -->
+        <section id="sec-equipements" class="hidden space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Zones -->
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 space-y-4">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-bold text-slate-800"><i class="fa-solid fa-layer-group text-indigo-600 mr-2"></i>Zones</h3>
+                        <button id="btnAddZone" onclick="openZoneModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded text-xs font-semibold">
+                            <i class="fa-solid fa-plus mr-1"></i> Ajouter
+                        </button>
+                    </div>
+                    <ul id="list-zones" class="divide-y divide-slate-100 text-sm"></ul>
+                </div>
+
+                <!-- Équipements -->
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 space-y-4">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-bold text-slate-800"><i class="fa-solid fa-plug text-indigo-600 mr-2"></i>Équipements</h3>
+                        <button id="btnAddEq" onclick="openEquipementModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded text-xs font-semibold">
+                            <i class="fa-solid fa-plus mr-1"></i> Ajouter
+                        </button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-sm">
+                            <thead class="bg-slate-100 uppercase text-xs text-slate-600">
+                                <tr>
+                                    <th class="p-2">Code</th>
+                                    <th class="p-2">Nom</th>
+                                    <th class="p-2 text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-equipements-body" class="divide-y divide-slate-100"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Sous-Équipements -->
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 space-y-4">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-bold text-slate-800"><i class="fa-solid fa-gears text-indigo-600 mr-2"></i>Sous-Équipements</h3>
+                        <button id="btnAddSubEq" onclick="openSousEquipementModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded text-xs font-semibold">
+                            <i class="fa-solid fa-plus mr-1"></i> Ajouter
+                        </button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-sm">
+                            <thead class="bg-slate-100 uppercase text-xs text-slate-600">
+                                <tr>
+                                    <th class="p-2">Nom</th>
+                                    <th class="p-2">Parent</th>
+                                    <th class="p-2 text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-sousequipements-body" class="divide-y divide-slate-100"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. SECTION KPIs -->
+        <section id="sec-kpi" class="hidden space-y-6">
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-wrap justify-between items-center gap-4">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-industry text-indigo-600 text-lg"></i>
+                    <label class="font-bold text-slate-700 text-sm">Sélectionner un équipement :</label>
+                </div>
+                <select id="selectMachineKpi" onchange="updateKpiDashboard()" class="select-equipements border rounded-lg p-2 text-sm bg-slate-50 border-slate-300 outline-none focus:ring-2 focus:ring-indigo-500">
+                </select>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
+                    <div class="text-xs font-bold text-slate-400 uppercase">MTBF (Temps Moyen Entre Pannes)</div>
+                    <div class="text-3xl font-extrabold text-indigo-600 mt-2" id="kpiMtbf">-- hrs</div>
+                </div>
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
+                    <div class="text-xs font-bold text-slate-400 uppercase">MTTR (Temps Moyen de Réparation)</div>
+                    <div class="text-3xl font-extrabold text-amber-600 mt-2" id="kpiMttr">-- hrs</div>
+                </div>
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
+                    <div class="text-xs font-bold text-slate-400 uppercase">Disponibilité Opérationnelle</div>
+                    <div class="text-3xl font-extrabold text-blue-600 mt-2" id="kpiDisp">-- %</div>
+                </div>
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
+                    <div class="text-xs font-bold text-slate-400 uppercase">Nombre de Pannes Registrées</div>
+                    <div class="text-3xl font-extrabold text-red-600 mt-2" id="kpiPannes">--</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. SECTION GMAO -->
+        <section id="sec-gmao" class="hidden space-y-6">
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex justify-between items-center">
+                <h2 class="text-lg font-bold text-slate-800"><i class="fa-solid fa-list-check text-indigo-600 mr-2"></i>Ordres de Travail (OT)</h2>
+                <button id="btnOtAdd" onclick="openOtModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow">
+                    <i class="fa-solid fa-plus mr-1"></i> Ajouter un OT
+                </button>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-x-auto">
+                <table class="w-full text-left border-collapse text-sm">
+                    <thead class="bg-slate-800 text-white uppercase text-xs">
+                        <tr>
+                            <th class="p-3">N° OT</th>
+                            <th class="p-3">Équipement</th>
+                            <th class="p-3">Type</th>
+                            <th class="p-3">Durée d'arrêt (h)</th>
+                            <th class="p-3">Description</th>
+                            <th class="p-3">Priorité</th>
+                            <th class="p-3 text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-ot-body" class="divide-y divide-slate-200"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 5. SECTION AMDEC -->
+        <section id="sec-amdec" class="hidden space-y-6">
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex justify-between items-center">
+                <h2 class="text-lg font-bold text-slate-800"><i class="fa-solid fa-shield-halved text-indigo-600 mr-2"></i>Analyse AMDEC</h2>
+                <button id="btnAmdecAdd" onclick="openAmdecModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow">
+                    <i class="fa-solid fa-plus mr-1"></i> Ajouter une ligne AMDEC
+                </button>
+            </div>
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-x-auto">
+                <table class="w-full text-left border-collapse text-sm">
+                    <thead class="bg-slate-800 text-white uppercase text-xs">
+                        <tr>
+                            <th class="p-3">Équipement</th>
+                            <th class="p-3">Mode de Défaillance</th>
+                            <th class="p-3 text-center">G</th>
+                            <th class="p-3 text-center">O</th>
+                            <th class="p-3 text-center">D</th>
+                            <th class="p-3 text-center">NPR</th>
+                            <th class="p-3">Action Préconisée</th>
+                            <th class="p-3 text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-amdec-body" class="divide-y divide-slate-200"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 6. SECTION DMAIC -->
+        <section id="sec-dmaic" class="hidden space-y-6">
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex justify-between items-center">
+                <h2 class="text-lg font-bold text-slate-800"><i class="fa-solid fa-diagram-project text-indigo-600 mr-2"></i>Projets DMAIC</h2>
+                <button id="btnDmaicAdd" onclick="openDmaicModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow">
+                    <i class="fa-solid fa-plus mr-1"></i> Ajouter un Projet
+                </button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="dmaic-projects-container"></div>
+        </section>
+    </main>
+</div>
+
+<!-- MODAL CHANGEMENT DE MOT DE PASSE (ADMIN ONLY) -->
+<div id="modalAdminPwd" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 flex justify-center items-center p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden">
+        <div class="bg-slate-900 text-white px-6 py-4 flex justify-between items-center">
+            <h3 class="font-bold"><i class="fa-solid fa-key text-amber-400 mr-2"></i>Changer les Mots de Passe Utilisateurs</h3>
+            <button onclick="closeAdminPwdModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <form onsubmit="saveNewPassword(event)" class="p-6 space-y-4">
+            <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Sélectionner l'Utilisateur</label>
+                <select id="pwdUserRole" class="w-full border rounded p-2 text-sm outline-none bg-white">
+                    <option value="Admin">Administrateur (admin@usine.com)</option>
+                    <option value="Responsable">Responsable Maintenance (resp@usine.com)</option>
+                    <option value="Technicien">Technicien (tech@usine.com)</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nouveau Mot de Passe</label>
+                <input type="password" id="newPassword" required placeholder="Minimum 6 caractères" class="w-full border rounded p-2 text-sm outline-none">
+            </div>
+            <div class="flex justify-end gap-3 pt-3 border-t">
+                <button type="button" onclick="closeAdminPwdModal()" class="px-4 py-2 border rounded text-sm font-semibold text-slate-600">Annuler</button>
+                <button type="submit" class="px-5 py-2 bg-amber-600 text-white rounded text-sm font-semibold hover:bg-amber-700">Enregistrer</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL PANNE -->
+<div id="modalPanne" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 flex justify-center items-center p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden">
+        <div class="bg-red-700 text-white px-6 py-4 flex justify-between items-center">
+            <h3 class="font-bold" id="modalPanneTitle">Déclarer une Panne</h3>
+            <button onclick="closePanneModal()" class="text-slate-200 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <form onsubmit="savePanne(event)" class="p-6 space-y-3">
+            <input type="hidden" id="panneIndex">
+            <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Date</label>
+                <input type="date" id="panneDate" required class="w-full border rounded p-2 text-sm outline-none">
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Équipement</label>
+                <select id="panneEquipement" onchange="onPanneEquipementChange()" class="select-equipements w-full border rounded p-2 text-sm outline-none bg-white" required></select>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Sous-Équipement / Organe</label>
+                <select id="panneOrgane" class="w-full border rounded p-2 text-sm outline-none bg-white" required></select>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Symptôme / Cause Panne</label>
+                <textarea id="panneCause" required rows="2" placeholder="Ex: Fuite d'huile, surchauffe..." class="w-full border rounded p-2 text-sm outline-none"></textarea>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Heure Début</label>
+                    <input type="time" id="panneDebut" onchange="calcPanneDuree()" required class="w-full border rounded p-2 text-sm outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Heure Fin</label>
+                    <input type="time" id="panneFin" onchange="calcPanneDuree()" required class="w-full border rounded p-2 text-sm outline-none">
+                </div>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Durée d'arrêt (heures)</label>
+                <input type="number" step="0.1" id="panneDuree" required class="w-full border rounded p-2 text-sm outline-none bg-slate-50">
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Technicien / Intervenant</label>
+                <input type="text" id="panneIntervenant" required class="w-full border rounded p-2 text-sm outline-none">
+            </div>
+            <div class="flex justify-end gap-3 pt-3 border-t">
+                <button type="button" onclick="closePanneModal()" class="px-4 py-2 border rounded text-sm font-semibold text-slate-600">Annuler</button>
+                <button type="submit" class="px-5 py-2 bg-red-600 text-white rounded text-sm font-semibold">Enregistrer la Panne</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- MODALS SECONDAIRES -->
+<div id="modalSousEquipement" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 flex justify-center items-center p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-sm overflow-hidden">
+        <div class="bg-slate-900 text-white px-6 py-4 flex justify-between items-center">
+            <h3 class="font-bold">Ajouter Sous-Équipement</h3>
+            <button onclick="closeSousEquipementModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <form onsubmit="saveSousEquipement(event)" class="p-6 space-y-4">
+            <input type="hidden" id="sousEquipementIndex">
+            <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Machine Parente</label>
+                <select id="subEqParent" class="select-equipements w-full border rounded p-2 text-sm outline-none bg-white" required></select>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nom du Sous-Équipement</label>
+                <input type="text" id="subEqNom" required placeholder="Ex: Vérin principal..." class="w-full border rounded p-2 text-sm outline-none">
+            </div>
+            <div class="flex justify-end gap-3 pt-3 border-t">
+                <button type="button" onclick="closeSousEquipementModal()" class="px-4 py-2 border rounded text-sm font-semibold text-slate-600">Annuler</button>
+                <button type="submit" class="px-5 py-2 bg-indigo-600 text-white rounded text-sm font-semibold">Enregistrer</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="modalZone" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 flex justify-center items-center p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-sm overflow-hidden">
+        <div class="bg-slate-900 text-white px-6 py-4 flex justify-between items-center">
+            <h3 class="font-bold">Ajouter Zone de Production</h3>
+            <button onclick="closeZoneModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <form onsubmit="saveZone(event)" class="p-6 space-y-4">
+            <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nom de la Zone</label>
+                <input type="text" id="zoneNom" required placeholder="Ex: Zone de Moulage..." class="w-full border rounded p-2 text-sm outline-none">
+            </div>
+            <div class="flex justify-end gap-3 pt-3 border-t">
+                <button type="button" onclick="closeZoneModal()" class="px-4 py-2 border rounded text-sm font-semibold text-slate-600">Annuler</button>
+                <button type="submit" class="px-5 py-2 bg-indigo-600 text-white rounded text-sm font-semibold">Ajouter</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="modalEquipement" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 flex justify-center items-center p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden">
+        <div class="bg-slate-900 text-white px-6 py-4 flex justify-between items-center">
+            <h3 class="font-bold" id="modalEquipementTitle">Ajouter une Machine</h3>
+            <button onclick="closeEquipementModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <form onsubmit="saveEquipement(event)" class="p-6 space-y-4">
+            <input type="hidden" id="equipementIndex">
+            <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Code</label>
+                <input type="text" id="eqCode" required placeholder="Ex: P-01..." class="w-full border rounded p-2 text-sm outline-none">
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nom de l'Équipement</label>
+                <input type="text" id="eqNom" required placeholder="Ex: Presse Hydraulique..." class="w-full border rounded p-2 text-sm outline-none">
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Zone Associated</label>
+                <select id="eqZone" class="w-full border rounded p-2 text-sm outline-none bg-white" required></select>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Statut Opérationnel</label>
+                <select id="eqStatut" class="w-full border rounded p-2 text-sm outline-none bg-white">
+                    <option value="Opérationnel">Opérationnel</option>
+                    <option value="En Panne">En Panne</option>
+                    <option value="En Maintenance">En Maintenance</option>
+                </select>
+            </div>
+            <div class="flex justify-end gap-3 pt-3 border-t">
+                <button type="button" onclick="closeEquipementModal()" class="px-4 py-2 border rounded text-sm font-semibold text-slate-600">Annuler</button>
+                <button type="submit" class="px-5 py-2 bg-indigo-600 text-white rounded text-sm font-semibold">Enregistrer</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="modalOt" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 flex justify-center items-center p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden">
+        <div class="bg-slate-900 text-white px-6 py-4 flex justify-between items-center">
+            <h3 class="font-bold" id="modalOtTitle">Gérer un OT</h3>
+            <button onclick="closeOtModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <form onsubmit="saveOt(event)" class="p-6 space-y-4">
+            <input type="hidden" id="otIndex">
+            <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Équipement</label>
+                <select id="otEquipement" class="select-equipements w-full border rounded p-2 text-sm outline-none" required></select>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Type d'intervention</label>
+                <select id="otType" class="w-full border rounded p-2 text-sm outline-none">
+                    <option value="Correctif">Correctif</option>
+                    <option value="Préventif">Préventif</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Durée (heures)</label>
+                <input type="number" step="0.1" id="otDuree" required class="w-full border rounded p-2 text-sm outline-none">
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Description</label>
+                <textarea id="otDesc" required rows="2" class="w-full border rounded p-2 text-sm outline-none"></textarea>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Priorité</label>
+                <select id="otPriorite" class="w-full border rounded p-2 text-sm outline-none">
+                    <option value="Haute">Haute</option>
+                    <option value="Moyenne">Moyenne</option>
+                    <option value="Basse">Basse</option>
+                </select>
+            </div>
+            <div class="flex justify-end gap-3 pt-4 border-t">
+                <button type="button" onclick="closeOtModal()" class="px-4 py-2 border rounded text-sm font-semibold text-slate-600">Annuler</button>
+                <button type="submit" class="px-5 py-2 bg-indigo-600 text-white rounded text-sm font-semibold">Enregistrer</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="modalAmdec" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 flex justify-center items-center p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden">
+        <div class="bg-slate-900 text-white px-6 py-4 flex justify-between items-center">
+            <h3 class="font-bold" id="modalAmdecTitle">Gérer ligne AMDEC</h3>
+            <button onclick="closeAmdecModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <form onsubmit="saveAmdec(event)" class="p-6 space-y-4">
+            <input type="hidden" id="amdecIndex">
+            <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Équipement</label>
+                <select id="amdecEquipement" class="select-equipements w-full border rounded p-2 text-sm outline-none" required></select>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Mode de Défaillance</label>
+                <input type="text" id="amdecMode" required class="w-full border rounded p-2 text-sm outline-none">
+            </div>
+            <div class="grid grid-cols-3 gap-2">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">G (Gravité)</label>
+                    <input type="number" min="1" max="10" id="amdecG" required class="w-full border rounded p-2 text-sm outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">O (Occ.)</label>
+                    <input type="number" min="1" max="10" id="amdecO" required class="w-full border rounded p-2 text-sm outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">D (Détect.)</label>
+                    <input type="number" min="1" max="10" id="amdecD" required class="w-full border rounded p-2 text-sm outline-none">
+                </div>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Action Préconisée</label>
+                <textarea id="amdecAction" required rows="2" class="w-full border rounded p-2 text-sm outline-none"></textarea>
+            </div>
+            <div class="flex justify-end gap-3 pt-4 border-t">
+                <button type="button" onclick="closeAmdecModal()" class="px-4 py-2 border rounded text-sm font-semibold text-slate-600">Annuler</button>
+                <button type="submit" class="px-5 py-2 bg-indigo-600 text-white rounded text-sm font-semibold">Enregistrer</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="modalDmaic" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 flex justify-center items-center p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden">
+        <div class="bg-slate-900 text-white px-6 py-4 flex justify-between items-center">
+            <h3 class="font-bold" id="modalDmaicTitle">Gérer Projet DMAIC</h3>
+            <button onclick="closeDmaicModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <form onsubmit="saveDmaic(event)" class="p-6 space-y-4">
+            <input type="hidden" id="dmaicIndex">
+            <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Titre du projet</label>
+                <input type="text" id="dmaicTitre" required class="w-full border rounded p-2 text-sm outline-none">
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Étape Actuelle</label>
+                <select id="dmaicEtape" class="w-full border rounded p-2 text-sm outline-none">
+                    <option value="Définir">D - Définir</option>
+                    <option value="Mesurer">M - Mesurer</option>
+                    <option value="Analyser">A - Analyser</option>
+                    <option value="Améliorer">I - Améliorer</option>
+                    <option value="Contrôler">C - Contrôler</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Objectif</label>
+                <input type="text" id="dmaicObjectif" required class="w-full border rounded p-2 text-sm outline-none">
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Progression (%)</label>
+                <input type="number" min="0" max="100" id="dmaicProgression" required class="w-full border rounded p-2 text-sm outline-none">
+            </div>
+            <div class="flex justify-end gap-3 pt-4 border-t">
+                <button type="button" onclick="closeDmaicModal()" class="px-4 py-2 border rounded text-sm font-semibold text-slate-600">Annuler</button>
+                <button type="submit" class="px-5 py-2 bg-indigo-600 text-white rounded text-sm font-semibold">Enregistrer</button>
+            </div>
+        </form>
+    </div>
 </div>
-
-<div>
-<label>Marque</label>
-<input id="subEquipmentBrand">
-</div>
-
-<div>
-<label>Modèle</label>
-<input id="subEquipmentModel">
-</div>
-
-<div>
-<label>N° série</label>
-<input id="subEquipmentSerial">
-</div>
-
-<div>
-<label>Criticité</label>
-<select id="subEquipmentCriticality">
-<option value="low">Faible</option>
-<option value="medium" selected>Moyenne</option>
-<option value="high">Haute</option>
-<option value="critical">Critique</option>
-</select>
-</div>
-
-<div>
-<label>Statut</label>
-<select id="subEquipmentStatus">
-<option value="active">Actif</option>
-<option value="inactive">Inactif</option>
-</select>
-</div>
-
-<div class="form-full">
-<label>Spécification</label>
-<textarea id="subEquipmentSpecification"></textarea>
-</div>
-
-<div class="form-full">
-<label>Observation</label>
-<textarea id="subEquipmentObservation"></textarea>
-</div>
-
-</div>
-
-</div>
-
-<div class="modal-footer">
-
-<button type="button" class="btn"
-onclick="closeModal('subEquipmentModal')">
-Annuler
-</button>
-
-<button class="btn btn-primary">
-Enregistrer
-</button>
-
-</div>
-
-</form>
-
-</div>
-
-</div>
-
-
-<!-- =========================================================
-MODAL DI
-========================================================= -->
-
-<div class="modal" id="diModal">
-
-<div class="modal-box">
-
-<div class="modal-header">
-<h2>Demande d'intervention</h2>
-<button class="close" onclick="closeModal('diModal')">×</button>
-</div>
-
-<form id="diForm">
-
-<div class="modal-body">
-
-<div class="form-grid">
-
-<div>
-<label>Demandeur</label>
-<input id="diRequester" readonly>
-</div>
-
-<div>
-<label>Priorité</label>
-<select id="diPriority">
-<option value="low">Faible</option>
-<option value="medium" selected>Moyenne</option>
-<option value="high">Haute</option>
-<option value="critical">Critique</option>
-</select>
-</div>
-
-<div>
-<label>Zone</label>
-<select id="diZone"></select>
-</div>
-
-<div>
-<label>Équipement</label>
-<select id="diEquipment"></select>
-</div>
-
-<div>
-<label>Sous-équipement</label>
-<select id="diSubEquipment"></select>
-</div>
-
-<div>
-<label>Type</label>
-<select id="diType">
-<option value="corrective">Corrective</option>
-<option value="preventive">Préventive</option>
-<option value="improvement">Amélioration</option>
-<option value="inspection">Inspection</option>
-</select>
-</div>
-
-<div class="form-full">
-<label>Description de la demande</label>
-<textarea id="diDescription" required></textarea>
-</div>
-
-</div>
-
-</div>
-
-<div class="modal-footer">
-
-<button type="button" class="btn"
-onclick="closeModal('diModal')">
-Annuler
-</button>
-
-<button class="btn btn-primary">
-Créer la DI
-</button>
-
-</div>
-
-</form>
-
-</div>
-
-</div>
-
-
-<!-- =========================================================
-MODAL OT
-========================================================= -->
-
-<div class="modal" id="otModal">
-
-<div class="modal-box">
-
-<div class="modal-header">
-<h2>Ordre de Travail</h2>
-<button class="close" onclick="closeModal('otModal')">×</button>
-</div>
-
-<form id="otForm">
-
-<div class="modal-body">
-
-<input type="hidden" id="otId">
-
-<div class="form-grid">
-
-<div>
-<label>DI</label>
-<select id="otDI"></select>
-</div>
-
-<div>
-<label>Équipement</label>
-<select id="otEquipment"></select>
-</div>
-
-<div>
-<label>Sous-équipement</label>
-<select id="otSubEquipment"></select>
-</div>
-
-<div>
-<label>Technicien</label>
-<select id="otTechnician"></select>
-</div>
-
-<div>
-<label>Priorité</label>
-<select id="otPriority">
-<option value="low">Faible</option>
-<option value="medium" selected>Moyenne</option>
-<option value="high">Haute</option>
-<option value="critical">Critique</option>
-</select>
-</div>
-
-<div>
-<label>Statut</label>
-<select id="otStatus">
-<option value="open">Ouvert</option>
-<option value="in_progress">En cours</option>
-<option value="completed">Terminé</option>
-<option value="validated">Validé</option>
-<option value="closed">Clôturé</option>
-</select>
-</div>
-
-<div class="form-full">
-<label>Travaux réalisés</label>
-<textarea id="otWork"></textarea>
-</div>
-
-<div class="form-full">
-<label>Rapport d'intervention</label>
-<textarea id="otReport"></textarea>
-</div>
-
-</div>
-
-</div>
-
-<div class="modal-footer">
-
-<button type="button" class="btn"
-onclick="closeModal('otModal')">
-Annuler
-</button>
-
-<button class="btn btn-primary">
-Enregistrer
-</button>
-
-</div>
-
-</form>
-
-</div>
-
-</div>
-
-
-<!-- =========================================================
-MODAL PREVENTIVE
-========================================================= -->
-
-<div class="modal" id="preventiveModal">
-
-<div class="modal-box">
-
-<div class="modal-header">
-
-<h2>Plan de maintenance préventive</h2>
-
-<button
-class="close"
-onclick="closeModal('preventiveModal')">
-×
-</button>
-
-</div>
-
-<form id="preventiveForm">
-
-<div class="modal-body">
-
-<input type="hidden" id="preventiveId">
-
-<div class="form-grid">
-
-<div>
-<label>Code</label>
-<input id="preventiveCode" readonly>
-</div>
-
-<div>
-<label>Type</label>
-<select id="preventiveType">
-<option value="preventive">Préventif</option>
-<option value="inspection">Inspection</option>
-<option value="lubrication">Graissage</option>
-<option value="calibration">Calibration</option>
-<option value="condition">Conditionnel</option>
-</select>
-</div>
-
-<div>
-<label>Équipement</label>
-<select id="preventiveEquipment"></select>
-</div>
-
-<div>
-<label>Sous-équipement</label>
-<select id="preventiveSubEquipment"></select>
-</div>
-
-<div class="form-full">
-<label>Titre du plan</label>
-<input id="preventiveTitle" required>
-</div>
-
-<div class="form-full">
-<label>Description</label>
-<textarea id="preventiveDescription"></textarea>
-</div>
-
-<div>
-<label>Fréquence</label>
-<select id="preventiveFrequencyType">
-<option value="daily">Jour(s)</option>
-<option value="weekly">Semaine(s)</option>
-<option value="monthly" selected>Mois</option>
-<option value="quarterly">Trimestre(s)</option>
-<option value="yearly">Année(s)</option>
-</select>
-</div>
-
-<div>
-<label>Valeur</label>
-<input
-type="number"
-id="preventiveFrequencyValue"
-min="1"
-value="1">
-</div>
-
-<div>
-<label>Durée prévue (min)</label>
-<input
-type="number"
-id="preventiveDuration"
-min="1"
-value="60">
-</div>
-
-<div>
-<label>Responsable</label>
-<select id="preventiveResponsible"></select>
-</div>
-
-<div>
-<label>Priorité</label>
-<select id="preventivePriority">
-<option value="low">Faible</option>
-<option value="medium" selected>Moyenne</option>
-<option value="high">Haute</option>
-<option value="critical">Critique</option>
-</select>
-</div>
-
-<div>
-<label>Statut</label>
-<select id="preventiveStatus">
-<option value="active">Actif</option>
-<option value="inactive">Inactif</option>
-</select>
-</div>
-
-<div>
-<label>Dernière réalisation</label>
-<input type="date" id="preventiveLastExecution">
-</div>
-
-<div>
-<label>Prochaine échéance</label>
-<input type="date" id="preventiveNextDue">
-</div>
-
-<div class="form-full">
-<label>Gamme / Instructions</label>
-<textarea id="preventiveInstructions"></textarea>
-</div>
-
-<div class="form-full">
-<label>Consignes de sécurité</label>
-<textarea id="preventiveSafety"></textarea>
-</div>
-
-<div class="form-full">
-<label>Pièces de rechange</label>
-<textarea id="preventiveSpareParts"></textarea>
-</div>
-
-<div class="form-full">
-<label>Outillage nécessaire</label>
-<textarea id="preventiveTools"></textarea>
-</div>
-
-</div>
-
-</div>
-
-<div class="modal-footer">
-
-<button
-type="button"
-class="btn"
-onclick="closeModal('preventiveModal')">
-Annuler
-</button>
-
-<button class="btn btn-primary">
-Enregistrer le plan
-</button>
-
-</div>
-
-</form>
-
-</div>
-
-</div>
-
-
-<!-- =========================================================
-MODAL RCA
-========================================================= -->
-
-<div class="modal" id="failureModal">
-
-<div class="modal-box">
-
-<div class="modal-header">
-
-<h2>Analyse BDA / RCA</h2>
-
-<button
-class="close"
-onclick="closeModal('failureModal')">
-×
-</button>
-
-</div>
-
-<form id="failureForm">
-
-<div class="modal-body">
-
-<input type="hidden" id="failureId">
-
-<div class="form-grid">
-
-<div>
-<label>Code</label>
-<input id="failureCode" readonly>
-</div>
-
-<div>
-<label>Date</label>
-<input type="date" id="failureDate" required>
-</div>
-
-<div>
-<label>Zone</label>
-<select id="failureZone"></select>
-</div>
-
-<div>
-<label>Équipement</label>
-<select id="failureEquipment"></select>
-</div>
-
-<div>
-<label>Sous-équipement</label>
-<select id="failureSubEquipment"></select>
-</div>
-
-<div>
-<label>OT</label>
-<select id="failureOT"></select>
-</div>
-
-<div>
-<label>Début arrêt</label>
-<input type="datetime-local" id="failureStart">
-</div>
-
-<div>
-<label>Fin arrêt</label>
-<input type="datetime-local" id="failureEnd">
-</div>
-
-<div>
-<label>Temps d'arrêt (min)</label>
-<input
-type="number"
-id="failureDowntime"
-min="0"
-value="0">
-</div>
-
-<div>
-<label>Statut</label>
-<select id="failureStatus">
-<option value="open">Ouverte</option>
-<option value="analysis">Analyse</option>
-<option value="action">Actions</option>
-<option value="closed">Clôturée</option>
-</select>
-</div>
-
-<div class="form-full">
-<label>Symptôme / constat</label>
-<textarea id="failureSymptom"></textarea>
-</div>
-
-<div class="form-full">
-<label>Problème défini</label>
-<textarea id="failureProblem"></textarea>
-</div>
-
-<div class="form-full">
-<label>Impact</label>
-<textarea id="failureImpact"></textarea>
-</div>
-
-<div class="form-full">
-<label>Cause immédiate</label>
-<textarea id="failureImmediateCause"></textarea>
-</div>
-
-<div class="form-full">
-<label>Cause racine</label>
-<textarea id="failureRootCause"></textarea>
-</div>
-
-<div class="section-title">
-5M — Analyse des causes
-</div>
-
-<div>
-<label>Main d'œuvre</label>
-<textarea id="failure5MManpower"></textarea>
-</div>
-
-<div>
-<label>Machine</label>
-<textarea id="failure5MMachine"></textarea>
-</div>
-
-<div>
-<label>Méthode</label>
-<textarea id="failure5MMethod"></textarea>
-</div>
-
-<div>
-<label>Matière</label>
-<textarea id="failure5MMaterial"></textarea>
-</div>
-
-<div>
-<label>Milieu</label>
-<textarea id="failure5MEnvironment"></textarea>
-</div>
-
-<div>
-<label>Mesure</label>
-<textarea id="failure5MMeasurement"></textarea>
-</div>
-
-<div class="section-title">
-5 Why — Pourquoi ?
-</div>
-
-<div>
-<label>Pourquoi 1</label>
-<textarea id="failureWhy1"></textarea>
-</div>
-
-<div>
-<label>Pourquoi 2</label>
-<textarea id="failureWhy2"></textarea>
-</div>
-
-<div>
-<label>Pourquoi 3</label>
-<textarea id="failureWhy3"></textarea>
-</div>
-
-<div>
-<label>Pourquoi 4</label>
-<textarea id="failureWhy4"></textarea>
-</div>
-
-<div>
-<label>Pourquoi 5</label>
-<textarea id="failureWhy5"></textarea>
-</div>
-
-<div>
-<label>Responsable</label>
-<select id="failureResponsible"></select>
-</div>
-
-</div>
-
-</div>
-
-<div class="modal-footer">
-
-<button
-type="button"
-class="btn"
-onclick="closeModal('failureModal')">
-Annuler
-</button>
-
-<button class="btn btn-primary">
-Enregistrer l'analyse
-</button>
-
-</div>
-
-</form>
-
-</div>
-
-</div>
-
-
-<!-- TOAST -->
-
-<div class="toast-container" id="toastContainer"></div>
-
 
 <script>
-
-/* =========================================================
-SUPABASE
-========================================================= */
-
-const SUPABASE_URL =
-'https://qnrfkfrornozwvgewcwk.supabase.co';
-
-const SUPABASE_ANON_KEY =
-'sb_publishable_DBe5PuyHPvdHnRnqr2lpqw_t4m3C8SY';
-
-const sb =
-window.supabase.createClient(
-SUPABASE_URL,
-SUPABASE_ANON_KEY
-);
-
-
-/* =========================================================
-STATE
-========================================================= */
-
-let currentUser=null;
-let currentProfile=null;
-
-let zones=[];
-let equipment=[];
-let subEquipment=[];
-let personnel=[];
-let diList=[];
-let otList=[];
-
-let preventivePlans=[];
-let failureList=[];
-let dailyReports=[];
-
-
-/* =========================================================
-ROLES
-========================================================= */
-
-const roleLabels={
-admin:'Administrateur',
-manager:'Responsable Maintenance',
-technician:'Technicien',
-viewer:'Consultation'
-};
-
-function roleLabel(role){
-return roleLabels[role]||role||'—';
-}
-
-function canManage(){
-return !!(
-currentProfile &&
-['admin','manager'].includes(currentProfile.role)
-);
-}
-
-function isAdmin(){
-return currentProfile?.role==='admin';
-}
-
-function canExecuteOT(){
-return !!(
-currentProfile &&
-['admin','manager','technician']
-.includes(currentProfile.role)
-);
-}
-
-function canCloseOT(){
-return !!(
-currentProfile &&
-['admin','manager']
-.includes(currentProfile.role)
-);
-}
-
-
-/* =========================================================
-UTILITIES
-========================================================= */
-
-function escapeHtml(value){
-
-if(value===null||value===undefined)
-return '';
-
-return String(value)
-.replace(/&/g,'&amp;')
-.replace(/</g,'&lt;')
-.replace(/>/g,'&gt;')
-.replace(/"/g,'&quot;')
-.replace(/'/g,'&#039;');
-
-}
-
-
-function showToast(message,type='success'){
-
-const box=document.createElement('div');
-
-box.className='toast '+type;
-
-box.textContent=message;
-
-document
-.getElementById('toastContainer')
-.appendChild(box);
-
-setTimeout(()=>{
-box.remove();
-},4000);
-
-}
-
-
-function showError(error){
-
-console.error(error);
-
-showToast(
-error?.message||
-'Une erreur est survenue.',
-'error'
-);
-
-}
-
-
-function openModal(id){
-
-document
-.getElementById(id)
-.classList.add('show');
-
-}
-
-
-function closeModal(id){
-
-document
-.getElementById(id)
-.classList.remove('show');
-
-}
-
-
-function statusBadge(status){
-
-const labels={
-active:'Actif',
-inactive:'Inactif',
-new:'Nouvelle',
-in_progress:'En cours',
-open:'Ouvert',
-completed:'Terminé',
-validated:'Validé',
-closed:'Clôturé',
-analysis:'Analyse',
-action:'Actions',
-overdue:'En retard',
-due:'À réaliser',
-upcoming:'À venir'
-};
-
-let cls='badge-muted';
-
-if(['active','completed','validated','closed']
-.includes(status))
-cls='badge-success';
-
-if(['in_progress','analysis','due','action']
-.includes(status))
-cls='badge-warning';
-
-if(['overdue']
-.includes(status))
-cls='badge-danger';
-
-if(['open','new','upcoming']
-.includes(status))
-cls='badge-info';
-
-return `<span class="badge ${cls}">
-${escapeHtml(labels[status]||status)}
-</span>`;
-
-}
-
-
-function priorityBadge(priority){
-
-const labels={
-low:'Faible',
-medium:'Moyenne',
-high:'Haute',
-critical:'Critique'
-};
-
-let cls='badge-muted';
-
-if(priority==='low')
-cls='badge-success';
-
-if(priority==='medium')
-cls='badge-info';
-
-if(priority==='high')
-cls='badge-warning';
-
-if(priority==='critical')
-cls='badge-danger';
-
-return `<span class="badge ${cls}">
-${escapeHtml(labels[priority]||priority)}
-</span>`;
-
-}
-
-
-function formatDate(date){
-
-if(!date)
-return '—';
-
-return new Date(date).toLocaleDateString(
-'fr-FR'
-);
-
-}
-
-
-function todayISO(){
-
-return new Date()
-.toISOString()
-.slice(0,10);
-
-}
-
-
-function formatNumber(number){
-
-return Number(number||0)
-.toLocaleString('fr-FR',{
-maximumFractionDigits:1
-});
-
-}
-
-
-/* =========================================================
-GENERATE CODE
-========================================================= */
-
-async function generateCode(
-table,
-column,
-prefix,
-digits=4
-){
-
-const {data,error}=await sb
-.from(table)
-.select(column)
-.like(column,`${prefix}%`)
-.order(column,{ascending:false})
-.limit(100);
-
-if(error)
-throw error;
-
-let max=0;
-
-(data||[]).forEach(row=>{
-
-const value=String(row[column]||'');
-
-const number=parseInt(
-value.replace(prefix,''),
-10
-);
-
-if(!isNaN(number))
-max=Math.max(max,number);
-
-});
-
-return prefix+
-String(max+1).padStart(digits,'0');
-
-}
-
-
-/* =========================================================
-AUTH
-========================================================= */
-
-document
-.getElementById('loginForm')
-.addEventListener('submit',async e=>{
-
-e.preventDefault();
-
-const email=
-document.getElementById('loginEmail').value
-.trim();
-
-const password=
-document.getElementById('loginPassword').value;
-
-try{
-
-const {error}=await sb.auth
-.signInWithPassword({
-email,
-password
-});
-
-if(error)
-throw error;
-
-}catch(error){
-
-showError(error);
-
-}
-
-});
-
-
-async function loadProfile(){
-
-if(!currentUser)
-return false;
-
-const {data,error}=await sb
-.from('profiles')
-.select('*')
-.eq('id',currentUser.id)
-.single();
-
-if(error||!data){
-
-await sb.auth.signOut();
-
-showToast(
-'Profil utilisateur introuvable.',
-'error'
-);
-
-return false;
-}
-
-if(data.status==='inactive'){
-
-await sb.auth.signOut();
-
-showToast(
-'Utilisateur désactivé.',
-'error'
-);
-
-return false;
-}
-
-currentProfile=data;
-
-return true;
-
-}
-
-
-async function showApplication(){
-
-document
-.getElementById('loginScreen')
-.classList.add('hidden');
-
-document
-.getElementById('app')
-.classList.remove('hidden');
-
-updateUserUI();
-
-applyPermissions();
-
-await loadAll();
-
-showPage('dashboard');
-
-}
-
-
-function updateUserUI(){
-
-if(!currentProfile)
-return;
-
-const name=
-currentProfile.full_name||
-currentProfile.email||
-'Utilisateur';
-
-document
-.getElementById('topUserName')
-.textContent=name;
-
-document
-.getElementById('topUserRole')
-.textContent=
-roleLabel(currentProfile.role);
-
-document
-.getElementById('userAvatar')
-.textContent=
-name
-.split(' ')
-.map(x=>x[0])
-.join('')
-.substring(0,2)
-.toUpperCase();
-
-renderSettings();
-
-}
-
-
-function applyPermissions(){
-
-document
-.querySelectorAll('.manage-only')
-.forEach(el=>{
-el.style.display=
-canManage()?'':'none';
-});
-
-}
-
-
-/* =========================================================
-LOAD ALL
-========================================================= */
-
-async function loadAll(){
-
-try{
-
-await Promise.all([
-
-loadPersonnel(),
-loadZones(),
-loadEquipment(),
-loadSubEquipment(),
-loadDI(),
-loadOT(),
-loadPreventivePlans(),
-loadFailureAnalysis()
-
-]);
-
-refreshSelects();
-
-updateDashboard();
-
-}catch(error){
-
-showError(error);
-
-}
-
-}
-
-
-/* =========================================================
-PERSONNEL
-========================================================= */
-
-async function loadPersonnel(){
-
-const {data,error}=await sb
-.from('profiles')
-.select('*')
-.order('full_name');
-
-if(error)
-throw error;
-
-personnel=data||[];
-
-renderPersonnel();
-
-}
-
-
-function renderPersonnel(){
-
-const search=
-(document.getElementById('personnelSearch')
-?.value||'')
-.toLowerCase();
-
-const list=personnel.filter(p=>
-`${p.employee_code||''}
-${p.full_name||''}
-${p.email||''}
-${p.department||''}
-${p.position||''}
-${p.role||''}`
-.toLowerCase()
-.includes(search)
-);
-
-const tbody=
-document.getElementById('personnelTable');
-
-tbody.innerHTML=list.length?
-
-list.map(p=>`
-
-<tr>
-
-<td>${escapeHtml(p.employee_code||'—')}</td>
-
-<td>${escapeHtml(p.full_name||'—')}</td>
-
-<td>${escapeHtml(p.email||'—')}</td>
-
-<td>${escapeHtml(roleLabel(p.role))}</td>
-
-<td>${escapeHtml(p.department||'—')}</td>
-
-<td>${escapeHtml(p.position||'—')}</td>
-
-<td>${statusBadge(p.status||'active')}</td>
-
-</tr>
-
-`).join(''):
-
-`<tr>
-<td colspan="7" class="empty">
-Aucun personnel.
-</td>
-</tr>`;
-
-}
-
-
-function openPersonnelModal(){
-
-if(!canManage()){
-
-showToast(
-'Droits insuffisants.',
-'warning'
-);
-
-return;
-}
-
-showToast(
-'La création sécurisée des utilisateurs doit être réalisée via une Edge Function Supabase.',
-'warning'
-);
-
-}
-
-
-/* =========================================================
-ZONES
-========================================================= */
-
-async function loadZones(){
-
-const {data,error}=await sb
-.from('zones')
-.select('*')
-.order('name');
-
-if(error)
-throw error;
-
-zones=data||[];
-
-renderZones();
-
-}
-
-
-function renderZones(){
-
-const search=
-(document.getElementById('zoneSearch')
-?.value||'')
-.toLowerCase();
-
-const list=zones.filter(z=>
-`${z.code||''}
-${z.name||''}
-${z.description||''}`
-.toLowerCase()
-.includes(search)
-);
-
-const tbody=
-document.getElementById('zoneTable');
-
-tbody.innerHTML=list.length?
-
-list.map(z=>`
-
-<tr>
-
-<td>${escapeHtml(z.code)}</td>
-
-<td>${escapeHtml(z.name)}</td>
-
-<td>${escapeHtml(z.description||'—')}</td>
-
-<td>${statusBadge(z.status||'active')}</td>
-
-<td>
-
-<div class="actions">
-
-<button
-class="btn btn-sm btn-danger manage-only"
-onclick="deleteZone('${z.id}')">
-Supprimer
-</button>
-
-</div>
-
-</td>
-
-</tr>
-
-`).join(''):
-
-`<tr>
-<td colspan="5" class="empty">
-Aucune zone.
-</td>
-</tr>`;
-
-applyPermissions();
-
-}
-
-
-async function openZoneModal(){
-
-if(!canManage()){
-
-showToast(
-'Droits insuffisants.',
-'warning'
-);
-
-return;
-}
-
-document
-.getElementById('zoneForm')
-.reset();
-
-document
-.getElementById('zoneCode')
-.value=
-await generateCode(
-'zones',
-'code',
-'ZP-',
-3
-);
-
-openModal('zoneModal');
-
-}
-
-
-document
-.getElementById('zoneForm')
-.addEventListener('submit',async e=>{
-
-e.preventDefault();
-
-try{
-
-const payload={
-code:document.getElementById('zoneCode').value,
-name:document.getElementById('zoneName').value,
-description:document.getElementById('zoneDescription').value,
-status:document.getElementById('zoneStatus').value,
-created_by:currentUser.id
-};
-
-const {error}=await sb
-.from('zones')
-.insert(payload);
-
-if(error)
-throw error;
-
-closeModal('zoneModal');
-
-showToast(
-'Zone créée avec succès.'
-);
-
-await loadZones();
-
-refreshSelects();
-
-}catch(error){
-
-showError(error);
-
-}
-
-});
-
-
-async function deleteZone(id){
-
-if(!canManage())
-return;
-
-if(!confirm(
-'Supprimer cette zone ?'
-))
-return;
-
-const {error}=await sb
-.from('zones')
-.delete()
-.eq('id',id);
-
-if(error){
-
-showError(error);
-return;
-
-}
-
-showToast('Zone supprimée.');
-
-await loadZones();
-
-refreshSelects();
-
-}
-
-
-/* =========================================================
-EQUIPMENT
-========================================================= */
-
-async function loadEquipment(){
-
-const {data,error}=await sb
-.from('equipment')
-.select(`
-*,
-zones:zone_id(
-id,
-code,
-name
-)
-`)
-.order('designation');
-
-if(error)
-throw error;
-
-equipment=data||[];
-
-renderEquipment();
-
-}
-
-
-function renderEquipment(){
-
-const search=
-(document.getElementById('equipmentSearch')
-?.value||'')
-.toLowerCase();
-
-const list=equipment.filter(e=>
-`${e.code||''}
-${e.designation||''}
-${e.type||''}
-${e.brand||''}
-${e.model||''}
-${e.zones?.name||''}`
-.toLowerCase()
-.includes(search)
-);
-
-const tbody=
-document.getElementById('equipmentTable');
-
-tbody.innerHTML=list.length?
-
-list.map(e=>`
-
-<tr>
-
-<td>${escapeHtml(e.code)}</td>
-
-<td>${escapeHtml(e.designation)}</td>
-
-<td>${escapeHtml(e.zones?.name||'—')}</td>
-
-<td>${escapeHtml(e.type||'—')}</td>
-
-<td>${escapeHtml(e.brand||'—')}</td>
-
-<td>${escapeHtml(e.model||'—')}</td>
-
-<td>${priorityBadge(e.criticality||'medium')}</td>
-
-<td>${statusBadge(e.status||'active')}</td>
-
-<td>
-
-<button
-class="btn btn-sm btn-danger manage-only"
-onclick="deleteEquipment('${e.id}')">
-Supprimer
-</button>
-
-</td>
-
-</tr>
-
-`).join(''):
-
-`<tr>
-<td colspan="9" class="empty">
-Aucun équipement.
-</td>
-</tr>`;
-
-applyPermissions();
-
-}
-
-
-async function openEquipmentModal(){
-
-if(!canManage())
-return;
-
-if(!zones.length){
-
-showToast(
-'Créez d’abord une zone.',
-'warning'
-);
-
-return;
-}
-
-document
-.getElementById('equipmentForm')
-.reset();
-
-document
-.getElementById('equipmentCode')
-.value=
-await generateCode(
-'equipment',
-'code',
-'EQ-',
-4
-);
-
-refreshSelects();
-
-openModal('equipmentModal');
-
-}
-
-
-document
-.getElementById('equipmentForm')
-.addEventListener('submit',async e=>{
-
-e.preventDefault();
-
-try{
-
-const payload={
-
-code:
-document.getElementById('equipmentCode').value,
-
-designation:
-document.getElementById('equipmentDesignation').value,
-
-zone_id:
-document.getElementById('equipmentZone').value||null,
-
-type:
-document.getElementById('equipmentType').value,
-
-brand:
-document.getElementById('equipmentBrand').value,
-
-model:
-document.getElementById('equipmentModel').value,
-
-serial_number:
-document.getElementById('equipmentSerial').value,
-
-criticality:
-document.getElementById('equipmentCriticality').value,
-
-status:
-document.getElementById('equipmentStatus').value,
-
-installation_date:
-document.getElementById('equipmentInstallation').value||null,
-
-description:
-document.getElementById('equipmentDescription').value,
-
-created_by:
-currentUser.id
-
-};
-
-const {error}=await sb
-.from('equipment')
-.insert(payload);
-
-if(error)
-throw error;
-
-closeModal('equipmentModal');
-
-showToast(
-'Équipement créé.'
-);
-
-await loadEquipment();
-
-refreshSelects();
-
-}catch(error){
-
-showError(error);
-
-}
-
-});
-
-
-async function deleteEquipment(id){
-
-if(!canManage())
-return;
-
-if(!confirm(
-'Supprimer cet équipement ?'
-))
-return;
-
-const {error}=await sb
-.from('equipment')
-.delete()
-.eq('id',id);
-
-if(error){
-
-showError(error);
-return;
-
-}
-
-showToast('Équipement supprimé.');
-
-await loadEquipment();
-
-refreshSelects();
-
-}
-
-
-/* =========================================================
-SUB EQUIPMENT
-========================================================= */
-
-async function loadSubEquipment(){
-
-const {data,error}=await sb
-.from('sub_equipment')
-.select(`
-*,
-equipment:equipment_id(
-id,
-code,
-designation
-)
-`)
-.order('designation');
-
-if(error)
-throw error;
-
-subEquipment=data||[];
-
-renderSubEquipment();
-
-}
-
-
-function renderSubEquipment(){
-
-const search=
-(document.getElementById('subEquipmentSearch')
-?.value||'')
-.toLowerCase();
-
-const list=subEquipment.filter(s=>
-`${s.code||''}
-${s.designation||''}
-${s.type||''}
-${s.brand||''}
-${s.model||''}
-${s.equipment?.designation||''}`
-.toLowerCase()
-.includes(search)
-);
-
-const tbody=
-document.getElementById('subEquipmentTable');
-
-tbody.innerHTML=list.length?
-
-list.map(s=>`
-
-<tr>
-
-<td>${escapeHtml(s.code)}</td>
-
-<td>${escapeHtml(s.designation)}</td>
-
-<td>${escapeHtml(s.equipment?.designation||'—')}</td>
-
-<td>${escapeHtml(s.type||'—')}</td>
-
-<td>${escapeHtml(s.brand||'—')}</td>
-
-<td>${escapeHtml(s.model||'—')}</td>
-
-<td>${priorityBadge(s.criticality||'medium')}</td>
-
-<td>${statusBadge(s.status||'active')}</td>
-
-<td>
-
-<button
-class="btn btn-sm btn-danger manage-only"
-onclick="deleteSubEquipment('${s.id}')">
-Supprimer
-</button>
-
-</td>
-
-</tr>
-
-`).join(''):
-
-`<tr>
-<td colspan="9" class="empty">
-Aucun sous-équipement.
-</td>
-</tr>`;
-
-applyPermissions();
-
-}
-
-
-async function openSubEquipmentModal(){
-
-if(!canManage())
-return;
-
-if(!equipment.length){
-
-showToast(
-'Créez d’abord un équipement.',
-'warning'
-);
-
-return;
-}
-
-document
-.getElementById('subEquipmentForm')
-.reset();
-
-document
-.getElementById('subEquipmentCode')
-.value=
-await generateCode(
-'sub_equipment',
-'code',
-'SE-',
-4
-);
-
-refreshSelects();
-
-openModal('subEquipmentModal');
-
-}
-
-
-document
-.getElementById('subEquipmentForm')
-.addEventListener('submit',async e=>{
-
-e.preventDefault();
-
-try{
-
-const payload={
-
-code:
-document.getElementById('subEquipmentCode').value,
-
-designation:
-document.getElementById('subEquipmentDesignation').value,
-
-equipment_id:
-document.getElementById('subEquipmentParent').value,
-
-type:
-document.getElementById('subEquipmentType').value,
-
-brand:
-document.getElementById('subEquipmentBrand').value,
-
-model:
-document.getElementById('subEquipmentModel').value,
-
-serial_number:
-document.getElementById('subEquipmentSerial').value,
-
-criticality:
-document.getElementById('subEquipmentCriticality').value,
-
-status:
-document.getElementById('subEquipmentStatus').value,
-
-specification:
-document.getElementById('subEquipmentSpecification').value,
-
-observation:
-document.getElementById('subEquipmentObservation').value,
-
-created_by:
-currentUser.id
-
-};
-
-const {error}=await sb
-.from('sub_equipment')
-.insert(payload);
-
-if(error)
-throw error;
-
-closeModal('subEquipmentModal');
-
-showToast(
-'Sous-équipement créé.'
-);
-
-await loadSubEquipment();
-
-refreshSelects();
-
-}catch(error){
-
-showError(error);
-
-}
-
-});
-
-
-async function deleteSubEquipment(id){
-
-if(!canManage())
-return;
-
-if(!confirm(
-'Supprimer ce sous-équipement ?'
-))
-return;
-
-const {error}=await sb
-.from('sub_equipment')
-.delete()
-.eq('id',id);
-
-if(error){
-
-showError(error);
-return;
-
-}
-
-showToast(
-'Sous-équipement supprimé.'
-);
-
-await loadSubEquipment();
-
-refreshSelects();
-
-}
-
-
-/* =========================================================
-DI
-========================================================= */
-
-async function loadDI(){
-
-const {data,error}=await sb
-.from('intervention_requests')
-.select(`
-*,
-zones:zone_id(
-id,
-name
-),
-equipment:equipment_id(
-id,
-code,
-designation
-),
-sub_equipment:sub_equipment_id(
-id,
-code,
-designation
-)
-`)
-.order('created_at',{
-ascending:false
-});
-
-if(error)
-throw error;
-
-diList=data||[];
-
-renderDI();
-
-}
-
-
-function renderDI(){
-
-const search=
-(document.getElementById('diSearch')
-?.value||'')
-.toLowerCase();
-
-const status=
-document.getElementById('diStatusFilter')
-?.value||'';
-
-const list=diList.filter(d=>{
-
-const text=`
-${d.code||''}
-${d.requester||''}
-${d.description||''}
-${d.zones?.name||''}
-${d.equipment?.designation||''}
-`.toLowerCase();
-
-return text.includes(search)&&
-(!status||d.status===status);
-
-});
-
-const tbody=
-document.getElementById('diTable');
-
-tbody.innerHTML=list.length?
-
-list.map(d=>`
-
-<tr>
-
-<td>${escapeHtml(d.code||'—')}</td>
-
-<td>${formatDate(d.created_at)}</td>
-
-<td>${escapeHtml(d.requester||'—')}</td>
-
-<td>${escapeHtml(d.zones?.name||'—')}</td>
-
-<td>${escapeHtml(d.equipment?.designation||'—')}</td>
-
-<td>${priorityBadge(d.priority)}</td>
-
-<td>${escapeHtml(d.type||'—')}</td>
-
-<td>${statusBadge(d.status)}</td>
-
-<td>
-
-<div class="actions">
-
-${
-d.status!=='closed'
-?
-`<button
-class="btn btn-sm btn-primary"
-onclick="createOTFromDI('${d.id}')">
-Créer OT
-</button>`
-:''
-}
-
-${
-d.status!=='closed'
-?
-`<button
-class="btn btn-sm btn-success"
-onclick="closeDI('${d.id}')">
-Clôturer
-</button>`
-:''
-}
-
-</div>
-
-</td>
-
-</tr>
-
-`).join(''):
-
-`<tr>
-<td colspan="9" class="empty">
-Aucune demande.
-</td>
-</tr>`;
-
-}
-
-
-function openDIModal(){
-
-document
-.getElementById('diForm')
-.reset();
-
-document
-.getElementById('diRequester')
-.value=
-currentProfile?.full_name||
-currentProfile?.email||
-'Utilisateur';
-
-refreshSelects();
-
-openModal('diModal');
-
-}
-
-
-document
-.getElementById('diForm')
-.addEventListener('submit',async e=>{
-
-e.preventDefault();
-
-try{
-
-const code=
-await generateCode(
-'intervention_requests',
-'code',
-'DI-',
-5
-);
-
-const payload={
-
-code,
-
-requester:
-document.getElementById('diRequester').value,
-
-zone_id:
-document.getElementById('diZone').value||null,
-
-equipment_id:
-document.getElementById('diEquipment').value||null,
-
-sub_equipment_id:
-document.getElementById('diSubEquipment').value||null,
-
-priority:
-document.getElementById('diPriority').value,
-
-type:
-document.getElementById('diType').value,
-
-status:'new',
-
-description:
-document.getElementById('diDescription').value,
-
-created_by:
-currentUser.id
-
-};
-
-const {error}=await sb
-.from('intervention_requests')
-.insert(payload);
-
-if(error)
-throw error;
-
-closeModal('diModal');
-
-showToast(
-'DI créée avec succès.'
-);
-
-await loadDI();
-
-updateDashboard();
-
-}catch(error){
-
-showError(error);
-
-}
-
-});
-
-
-async function closeDI(id){
-
-if(!confirm(
-'Clôturer cette DI ?'
-))
-return;
-
-const {error}=await sb
-.from('intervention_requests')
-.update({
-status:'closed',
-updated_at:new Date().toISOString()
-})
-.eq('id',id);
-
-if(error){
-
-showError(error);
-return;
-
-}
-
-showToast(
-'DI clôturée.'
-);
-
-await loadDI();
-
-}
-
-
-/* =========================================================
-OT
-========================================================= */
-
-async function loadOT(){
-
-const {data,error}=await sb
-.from('work_orders')
-.select('*')
-.order('created_at',{
-ascending:false
-});
-
-if(error)
-throw error;
-
-otList=data||[];
-
-renderOT();
-
-}
-
-
-function technicianName(id){
-
-const p=personnel.find(
-x=>x.id===id
-);
-
-return p?.full_name||
-'—';
-
-}
-
-
-function equipmentName(id){
-
-const e=equipment.find(
-x=>x.id===id
-);
-
-return e?.designation||
-'—';
-
-}
-
-
-function renderOT(){
-
-const search=
-(document.getElementById('otSearch')
-?.value||'')
-.toLowerCase();
-
-const status=
-document.getElementById('otStatusFilter')
-?.value||'';
-
-const list=otList.filter(o=>{
-
-const text=`
-${o.code||''}
-${o.technician||''}
-${equipmentName(o.equipment_id)}
-`.toLowerCase();
-
-return text.includes(search)&&
-(!status||o.status===status);
-
-});
-
-const tbody=
-document.getElementById('otTable');
-
-tbody.innerHTML=list.length?
-
-list.map(o=>`
-
-<tr>
-
-<td>${escapeHtml(o.code||'—')}</td>
-
-<td>${formatDate(o.created_at)}</td>
-
-<td>${escapeHtml(o.di_id||'—')}</td>
-
-<td>${escapeHtml(equipmentName(o.equipment_id))}</td>
-
-<td>${escapeHtml(
-o.technician||
-technicianName(o.technician_id)
-)}</td>
-
-<td>${priorityBadge(o.priority)}</td>
-
-<td>${statusBadge(o.status)}</td>
-
-<td>
-
-<div class="actions">
-
-<button
-class="btn btn-sm"
-onclick="openOTModal('${o.id}')">
-Modifier
-</button>
-
-${
-o.status!=='closed'
-?
-`<button
-class="btn btn-sm btn-success"
-onclick="closeOT('${o.id}')">
-Clôturer
-</button>`
-:''
-}
-
-</div>
-
-</td>
-
-</tr>
-
-`).join(''):
-
-`<tr>
-<td colspan="8" class="empty">
-Aucun OT.
-</td>
-</tr>`;
-
-}
-
-
-function openOTModal(id=null){
-
-if(id){
-
-const o=
-otList.find(x=>x.id===id);
-
-if(!o)
-return;
-
-document
-.getElementById('otId')
-.value=o.id;
-
-document
-.getElementById('otDI')
-.value=o.di_id||'';
-
-document
-.getElementById('otEquipment')
-.value=o.equipment_id||'';
-
-document
-.getElementById('otSubEquipment')
-.value=o.sub_equipment_id||'';
-
-document
-.getElementById('otTechnician')
-.value=o.technician_id||'';
-
-document
-.getElementById('otPriority')
-.value=o.priority||'medium';
-
-document
-.getElementById('otStatus')
-.value=o.status||'open';
-
-document
-.getElementById('otWork')
-.value=o.work_performed||'';
-
-document
-.getElementById('otReport')
-.value=o.intervention_report||'';
-
-}else{
-
-document
-.getElementById('otForm')
-.reset();
-
-document
-.getElementById('otId')
-.value='';
-
-document
-.getElementById('otStatus')
-.value='open';
-
-}
-
-refreshSelects();
-
-openModal('otModal');
-
-}
-
-
-async function createOTFromDI(diId){
-
-if(!canManage()){
-
-showToast(
-'Droits insuffisants.',
-'warning'
-);
-
-return;
-}
-
-const d=
-diList.find(x=>x.id===diId);
-
-if(!d)
-return;
-
-openOTModal();
-
-document
-.getElementById('otDI')
-.value=d.id;
-
-document
-.getElementById('otEquipment')
-.value=d.equipment_id||'';
-
-document
-.getElementById('otSubEquipment')
-.value=d.sub_equipment_id||'';
-
-document
-.getElementById('otPriority')
-.value=d.priority||'medium';
-
-}
-
-
-document
-.getElementById('otForm')
-.addEventListener('submit',async e=>{
-
-e.preventDefault();
-
-try{
-
-const id=
-document.getElementById('otId').value;
-
-let status=
-document.getElementById('otStatus').value;
-
-if(
-currentProfile?.role==='technician' &&
-status==='closed'
-){
-
-status='completed';
-
-}
-
-const payload={
-
-di_id:
-document.getElementById('otDI').value||null,
-
-equipment_id:
-document.getElementById('otEquipment').value||null,
-
-sub_equipment_id:
-document.getElementById('otSubEquipment').value||null,
-
-technician_id:
-document.getElementById('otTechnician').value||null,
-
-technician:
-technicianName(
-document.getElementById('otTechnician').value
-),
-
-priority:
-document.getElementById('otPriority').value,
-
-status,
-
-work_performed:
-document.getElementById('otWork').value,
-
-intervention_report:
-document.getElementById('otReport').value,
-
-updated_at:
-new Date().toISOString()
-
-};
-
-if(id){
-
-const {error}=await sb
-.from('work_orders')
-.update(payload)
-.eq('id',id);
-
-if(error)
-throw error;
-
-}else{
-
-payload.code=
-await generateCode(
-'work_orders',
-'code',
-'OT-',
-5
-);
-
-payload.created_by=
-currentUser.id;
-
-const {error}=await sb
-.from('work_orders')
-.insert(payload);
-
-if(error)
-throw error;
-
-}
-
-closeModal('otModal');
-
-showToast(
-'OT enregistré.'
-);
-
-await loadOT();
-
-await loadDI();
-
-updateDashboard();
-
-}catch(error){
-
-showError(error);
-
-}
-
-});
-
-
-async function closeOT(id){
-
-if(!canCloseOT()){
-
-showToast(
-'Droits insuffisants.',
-'warning'
-);
-
-return;
-}
-
-const {error}=await sb
-.from('work_orders')
-.update({
-
-status:'closed',
-
-closed_by:
-currentUser.id,
-
-closed_at:
-new Date().toISOString(),
-
-validated_by:
-currentUser.id,
-
-validated_at:
-new Date().toISOString(),
-
-updated_at:
-new Date().toISOString()
-
-})
-.eq('id',id);
-
-if(error){
-
-showError(error);
-return;
-
-}
-
-showToast(
-'OT clôturé.'
-);
-
-await loadOT();
-
-}
-
-
-/* =========================================================
-PREVENTIVE
-========================================================= */
-
-async function loadPreventivePlans(){
-
-const {data,error}=await sb
-.from('preventive_plans')
-.select('*')
-.order('next_due_date');
-
-if(error)
-throw error;
-
-preventivePlans=data||[];
-
-renderPreventivePlans();
-
-}
-
-
-function getPreventiveState(plan){
-
-if(plan.status!=='active')
-return plan.status||'inactive';
-
-if(!plan.next_due_date)
-return 'upcoming';
-
-const today=todayISO();
-
-if(plan.next_due_date<today)
-return 'overdue';
-
-if(plan.next_due_date===today)
-return 'due';
-
-return 'upcoming';
-
-}
-
-
-function frequencyLabel(plan){
-
-const type=plan.frequency_type;
-
-const value=
-plan.frequency_value||1;
-
-const labels={
-daily:'jour(s)',
-weekly:'semaine(s)',
-monthly:'mois',
-quarterly:'trimestre(s)',
-yearly:'année(s)'
-};
-
-return `${value} ${labels[type]||type}`;
-
-}
-
-
-function renderPreventivePlans(){
-
-const search=
-(document.getElementById('preventiveSearch')
-?.value||'')
-.toLowerCase();
-
-const filter=
-document.getElementById('preventiveStatusFilter')
-?.value||'';
-
-const list=preventivePlans.filter(p=>{
-
-const state=getPreventiveState(p);
-
-const text=`
-${p.code||''}
-${p.title||''}
-${p.description||''}
-${equipmentName(p.equipment_id)}
-`.toLowerCase();
-
-let ok=text.includes(search);
-
-if(filter==='active')
-ok=ok&&p.status==='active';
-
-if(filter==='inactive')
-ok=ok&&p.status==='inactive';
-
-if(filter==='completed')
-ok=ok&&state==='completed';
-
-return ok;
-
-});
-
-const tbody=
-document.getElementById('preventiveTable');
-
-tbody.innerHTML=list.length?
-
-list.map(p=>{
-
-const state=getPreventiveState(p);
-
-return `
-
-<tr>
-
-<td>${escapeHtml(p.code||'—')}</td>
-
-<td>${escapeHtml(
-equipmentName(p.equipment_id)
-)}</td>
-
-<td>${escapeHtml(p.title||'—')}</td>
-
-<td>${escapeHtml(
-frequencyLabel(p)
-)}</td>
-
-<td>${formatDate(p.next_due_date)}</td>
-
-<td>${escapeHtml(
-technicianName(p.responsible_id)
-)}</td>
-
-<td>${priorityBadge(p.priority)}</td>
-
-<td>${statusBadge(state)}</td>
-
-<td>
-
-<div class="actions">
-
-<button
-class="btn btn-sm"
-onclick="openPreventiveModal('${p.id}')">
-Modifier
-</button>
-
-${
-canManage()
-?
-`<button
-class="btn btn-sm btn-success"
-onclick="executePreventive('${p.id}')">
-Réaliser
-</button>`
-:''
-}
-
-${
-canManage()
-?
-`<button
-class="btn btn-sm btn-danger"
-onclick="deletePreventive('${p.id}')">
-Supprimer
-</button>`
-:''
-}
-
-</div>
-
-</td>
-
-</tr>
-
-`;
-
-}).join(''):
-
-`<tr>
-<td colspan="9" class="empty">
-Aucun plan préventif.
-</td>
-</tr>`;
-
-updatePreventiveKPIs();
-
-}
-
-
-function updatePreventiveKPIs(){
-
-const active=
-preventivePlans.filter(
-p=>p.status==='active'
-);
-
-const due=
-active.filter(
-p=>getPreventiveState(p)==='due'
-);
-
-const late=
-active.filter(
-p=>getPreventiveState(p)==='overdue'
-);
-
-const executed=
-preventivePlans.filter(
-p=>p.last_execution_date
-);
-
-document
-.getElementById('pmTotal')
-.textContent=active.length;
-
-document
-.getElementById('pmDue')
-.textContent=due.length;
-
-document
-.getElementById('pmLate')
-.textContent=late.length;
-
-document
-.getElementById('pmRate')
-.textContent=
-active.length?
-Math.round(
-(
-(executed.length/
-active.length)*100
-)
-)+'%'
-:'0%';
-
-}
-
-
-function openPreventiveModal(id=null){
-
-if(!canManage()){
-
-showToast(
-'Droits insuffisants.',
-'warning'
-);
-
-return;
-}
-
-document
-.getElementById('preventiveForm')
-.reset();
-
-document
-.getElementById('preventiveId')
-.value='';
-
-refreshSelects();
-
-if(id){
-
-const p=
-preventivePlans.find(
-x=>x.id===id
-);
-
-if(!p)
-return;
-
-document
-.getElementById('preventiveId')
-.value=p.id;
-
-document
-.getElementById('preventiveCode')
-.value=p.code||'';
-
-document
-.getElementById('preventiveType')
-.value=p.maintenance_type||'preventive';
-
-document
-.getElementById('preventiveEquipment')
-.value=p.equipment_id||'';
-
-document
-.getElementById('preventiveSubEquipment')
-.value=p.sub_equipment_id||'';
-
-document
-.getElementById('preventiveTitle')
-.value=p.title||'';
-
-document
-.getElementById('preventiveDescription')
-.value=p.description||'';
-
-document
-.getElementById('preventiveFrequencyType')
-.value=p.frequency_type||'monthly';
-
-document
-.getElementById('preventiveFrequencyValue')
-.value=p.frequency_value||1;
-
-document
-.getElementById('preventiveDuration')
-.value=p.duration_minutes||60;
-
-document
-.getElementById('preventiveResponsible')
-.value=p.responsible_id||'';
-
-document
-.getElementById('preventivePriority')
-.value=p.priority||'medium';
-
-document
-.getElementById('preventiveStatus')
-.value=p.status||'active';
-
-document
-.getElementById('preventiveLastExecution')
-.value=p.last_execution_date||'';
-
-document
-.getElementById('preventiveNextDue')
-.value=p.next_due_date||'';
-
-document
-.getElementById('preventiveInstructions')
-.value=p.instructions||'';
-
-document
-.getElementById('preventiveSafety')
-.value=p.safety_instructions||'';
-
-document
-.getElementById('preventiveSpareParts')
-.value=p.spare_parts||'';
-
-document
-.getElementById('preventiveTools')
-.value=p.tools_required||'';
-
-}else{
-
-document
-.getElementById('preventiveCode')
-.value='Génération automatique';
-
-document
-.getElementById('preventiveStatus')
-.value='active';
-
-document
-.getElementById('preventiveFrequencyValue')
-.value=1;
-
-document
-.getElementById('preventiveDuration')
-.value=60;
-
-}
-
-openModal('preventiveModal');
-
-}
-
-
-document
-.getElementById('preventiveForm')
-.addEventListener('submit',async e=>{
-
-e.preventDefault();
-
-if(!canManage())
-return;
-
-try{
-
-const id=
-document
-.getElementById('preventiveId')
-.value;
-
-let code=
-document
-.getElementById('preventiveCode')
-.value;
-
-if(!id){
-
-code=
-await generateCode(
-'preventive_plans',
-'code',
-'PM-',
-4
-);
-
-}
-
-const payload={
-
-code,
-
-equipment_id:
-document
-.getElementById('preventiveEquipment')
-.value||null,
-
-sub_equipment_id:
-document
-.getElementById('preventiveSubEquipment')
-.value||null,
-
-title:
-document
-.getElementById('preventiveTitle')
-.value,
-
-description:
-document
-.getElementById('preventiveDescription')
-.value,
-
-maintenance_type:
-document
-.getElementById('preventiveType')
-.value,
-
-frequency_type:
-document
-.getElementById('preventiveFrequencyType')
-.value,
-
-frequency_value:
-Number(
-document
-.getElementById('preventiveFrequencyValue')
-.value
-)||1,
-
-duration_minutes:
-Number(
-document
-.getElementById('preventiveDuration')
-.value
-)||60,
-
-responsible_id:
-document
-.getElementById('preventiveResponsible')
-.value||null,
-
-priority:
-document
-.getElementById('preventivePriority')
-.value,
-
-status:
-document
-.getElementById('preventiveStatus')
-.value,
-
-last_execution_date:
-document
-.getElementById('preventiveLastExecution')
-.value||null,
-
-next_due_date:
-document
-.getElementById('preventiveNextDue')
-.value||null,
-
-instructions:
-document
-.getElementById('preventiveInstructions')
-.value,
-
-safety_instructions:
-document
-.getElementById('preventiveSafety')
-.value,
-
-spare_parts:
-document
-.getElementById('preventiveSpareParts')
-.value,
-
-tools_required:
-document
-.getElementById('preventiveTools')
-.value,
-
-updated_at:
-new Date().toISOString()
-
-};
-
-let error;
-
-if(id){
-
-({error}=await sb
-.from('preventive_plans')
-.update(payload)
-.eq('id',id));
-
-}else{
-
-payload.created_by=
-currentUser.id;
-
-({error}=await sb
-.from('preventive_plans')
-.insert(payload));
-
-}
-
-if(error)
-throw error;
-
-closeModal('preventiveModal');
-
-showToast(
-'Plan préventif enregistré.'
-);
-
-await loadPreventivePlans();
-
-updateDashboard();
-
-}catch(error){
-
-showError(error);
-
-}
-
-});
-
-
-async function executePreventive(id){
-
-if(!canManage())
-return;
-
-const p=
-preventivePlans.find(
-x=>x.id===id
-);
-
-if(!p)
-return;
-
-const date=todayISO();
-
-const nextDate=
-calculateNextDate(
-date,
-p.frequency_type,
-p.frequency_value
-);
-
-const {error}=await sb
-.from('preventive_plans')
-.update({
-
-last_execution_date:date,
-next_due_date:nextDate,
-status:'active',
-updated_at:new Date().toISOString()
-
-})
-.eq('id',id);
-
-if(error){
-
-showError(error);
-return;
-
-}
-
-showToast(
-`Préventif réalisé. Prochaine échéance : ${formatDate(nextDate)}`
-);
-
-await loadPreventivePlans();
-
-}
-
-
-function calculateNextDate(
-date,
-type,
-value
-){
-
-const d=new Date(date+'T00:00:00');
-
-const n=Number(value||1);
-
-if(type==='daily')
-d.setDate(d.getDate()+n);
-
-else if(type==='weekly')
-d.setDate(d.getDate()+7*n);
-
-else if(type==='monthly')
-d.setMonth(d.getMonth()+n);
-
-else if(type==='quarterly')
-d.setMonth(d.getMonth()+3*n);
-
-else if(type==='yearly')
-d.setFullYear(d.getFullYear()+n);
-
-return d.toISOString().slice(0,10);
-
-}
-
-
-async function deletePreventive(id){
-
-if(!canManage())
-return;
-
-if(!confirm(
-'Supprimer ce plan préventif ?'
-))
-return;
-
-const {error}=await sb
-.from('preventive_plans')
-.delete()
-.eq('id',id);
-
-if(error){
-
-showError(error);
-return;
-
-}
-
-showToast(
-'Plan préventif supprimé.'
-);
-
-await loadPreventivePlans();
-
-}
-
-
-/* =========================================================
-RCA / BDA
-========================================================= */
-
-async function loadFailureAnalysis(){
-
-const {data,error}=await sb
-.from('failure_analysis')
-.select('*')
-.order('failure_date',{
-ascending:false
-});
-
-if(error){
-
-/*
-Certaines installations peuvent avoir
-une colonne created_at au lieu de failure_date.
-On tente une seconde lecture.
-*/
-
-const retry=await sb
-.from('failure_analysis')
-.select('*')
-.order('created_at',{
-ascending:false
-});
-
-if(retry.error)
-throw error;
-
-failureList=retry.data||[];
-
-}else{
-
-failureList=data||[];
-
-}
-
-renderFailureAnalysis();
-
-}
-
-
-function renderFailureAnalysis(){
-
-const search=
-(document.getElementById('failureSearch')
-?.value||'')
-.toLowerCase();
-
-const filter=
-document.getElementById('failureStatusFilter')
-?.value||'';
-
-const list=failureList.filter(f=>{
-
-const text=`
-${f.code||''}
-${f.symptom||''}
-${f.root_cause||''}
-${equipmentName(f.equipment_id)}
-${f.immediate_cause||''}
-`.toLowerCase();
-
-return text.includes(search)&&
-(!filter||f.status===filter);
-
-});
-
-const tbody=
-document.getElementById('failureTable');
-
-tbody.innerHTML=list.length?
-
-list.map(f=>`
-
-<tr>
-
-<td>${escapeHtml(f.code||'—')}</td>
-
-<td>${formatDate(
-f.failure_date||
-f.created_at
-)}</td>
-
-<td>${escapeHtml(
-zones.find(z=>z.id===f.zone_id)?.name||'—'
-)}</td>
-
-<td>${escapeHtml(
-equipmentName(f.equipment_id)
-)}</td>
-
-<td>${formatNumber(
-f.downtime_minutes
-)} min</td>
-
-<td>${escapeHtml(
-f.symptom||'—'
-)}</td>
-
-<td>${escapeHtml(
-f.root_cause||'—'
-)}</td>
-
-<td>${statusBadge(
-f.status||'open'
-)}</td>
-
-<td>
-
-<div class="actions">
-
-<button
-class="btn btn-sm"
-onclick="openFailureModal('${f.id}')">
-Modifier
-</button>
-
-${
-canManage()
-?
-`<button
-class="btn btn-sm btn-danger"
-onclick="deleteFailure('${f.id}')">
-Supprimer
-</button>`
-:''
-}
-
-</div>
-
-</td>
-
-</tr>
-
-`).join(''):
-
-`<tr>
-<td colspan="9" class="empty">
-Aucune analyse BDA.
-</td>
-</tr>`;
-
-updateFailureKPIs();
-
-}
-
-
-async function updateFailureKPIs(){
-
-const total=failureList.length;
-
-const open=failureList.filter(
-f=>f.status==='open'
-).length;
-
-const analysis=failureList.filter(
-f=>f.status==='analysis'
-).length;
-
-let actions=0;
-
-try{
-
-const {count,error}=await sb
-.from('rca_actions')
-.select('*',{
-count:'exact',
-head:true
-})
-.neq('status','closed');
-
-if(!error)
-actions=count||0;
-
-}catch(e){
-
-console.warn(e);
-
-}
-
-document
-.getElementById('bdaTotal')
-.textContent=total;
-
-document
-.getElementById('bdaOpen')
-.textContent=open;
-
-document
-.getElementById('bdaAnalysis')
-.textContent=analysis;
-
-document
-.getElementById('bdaActions')
-.textContent=actions;
-
-}
-
-
-function openFailureModal(id=null){
-
-document
-.getElementById('failureForm')
-.reset();
-
-document
-.getElementById('failureId')
-.value='';
-
-document
-.getElementById('failureDate')
-.value=todayISO();
-
-refreshSelects();
-
-if(id){
-
-const f=
-failureList.find(
-x=>x.id===id
-);
-
-if(!f)
-return;
-
-document
-.getElementById('failureId')
-.value=f.id;
-
-document
-.getElementById('failureCode')
-.value=f.code||'';
-
-document
-.getElementById('failureDate')
-.value=
-f.failure_date||
-todayISO();
-
-document
-.getElementById('failureZone')
-.value=f.zone_id||'';
-
-document
-.getElementById('failureEquipment')
-.value=f.equipment_id||'';
-
-document
-.getElementById('failureSubEquipment')
-.value=f.sub_equipment_id||'';
-
-document
-.getElementById('failureOT')
-.value=f.work_order_id||f.ot_id||'';
-
-document
-.getElementById('failureStart')
-.value=
-f.start_time?
-formatDateTimeInput(f.start_time):
-'';
-
-document
-.getElementById('failureEnd')
-.value=
-f.end_time?
-formatDateTimeInput(f.end_time):
-'';
-
-document
-.getElementById('failureDowntime')
-.value=f.downtime_minutes||0;
-
-document
-.getElementById('failureStatus')
-.value=f.status||'open';
-
-document
-.getElementById('failureSymptom')
-.value=f.symptom||'';
-
-document
-.getElementById('failureProblem')
-.value=f.problem||'';
-
-document
-.getElementById('failureImpact')
-.value=f.impact||'';
-
-document
-.getElementById('failureImmediateCause')
-.value=f.immediate_cause||'';
-
-document
-.getElementById('failureRootCause')
-.value=f.root_cause||'';
-
-document
-.getElementById('failure5MManpower')
-.value=f.five_m_manpower||'';
-
-document
-.getElementById('failure5MMachine')
-.value=f.five_m_machine||'';
-
-document
-.getElementById('failure5MMethod')
-.value=f.five_m_method||'';
-
-document
-.getElementById('failure5MMaterial')
-.value=f.five_m_material||'';
-
-document
-.getElementById('failure5MEnvironment')
-.value=f.five_m_environment||'';
-
-document
-.getElementById('failure5MMeasurement')
-.value=f.five_m_measurement||'';
-
-document
-.getElementById('failureWhy1')
-.value=f.why_1||'';
-
-document
-.getElementById('failureWhy2')
-.value=f.why_2||'';
-
-document
-.getElementById('failureWhy3')
-.value=f.why_3||'';
-
-document
-.getElementById('failureWhy4')
-.value=f.why_4||'';
-
-document
-.getElementById('failureWhy5')
-.value=f.why_5||'';
-
-document
-.getElementById('failureResponsible')
-.value=f.responsible_id||'';
-
-}else{
-
-document
-.getElementById('failureCode')
-.value='Génération automatique';
-
-}
-
-openModal('failureModal');
-
-}
-
-
-function formatDateTimeInput(value){
-
-if(!value)
-return '';
-
-const d=new Date(value);
-
-const pad=n=>
-String(n).padStart(2,'0');
-
-return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
-
-}
-
-
-document
-.getElementById('failureForm')
-.addEventListener('submit',async e=>{
-
-e.preventDefault();
-
-try{
-
-const id=
-document
-.getElementById('failureId')
-.value;
-
-let code=
-document
-.getElementById('failureCode')
-.value;
-
-if(!id){
-
-code=
-await generateCode(
-'failure_analysis',
-'code',
-'BDA-',
-4
-);
-
-}
-
-const payload={
-
-code,
-
-failure_date:
-document
-.getElementById('failureDate')
-.value,
-
-zone_id:
-document
-.getElementById('failureZone')
-.value||null,
-
-equipment_id:
-document
-.getElementById('failureEquipment')
-.value||null,
-
-sub_equipment_id:
-document
-.getElementById('failureSubEquipment')
-.value||null,
-
-work_order_id:
-document
-.getElementById('failureOT')
-.value||null,
-
-start_time:
-document
-.getElementById('failureStart')
-.value||null,
-
-end_time:
-document
-.getElementById('failureEnd')
-.value||null,
-
-downtime_minutes:
-Number(
-document
-.getElementById('failureDowntime')
-.value
-)||0,
-
-status:
-document
-.getElementById('failureStatus')
-.value,
-
-symptom:
-document
-.getElementById('failureSymptom')
-.value,
-
-problem:
-document
-.getElementById('failureProblem')
-.value,
-
-impact:
-document
-.getElementById('failureImpact')
-.value,
-
-immediate_cause:
-document
-.getElementById('failureImmediateCause')
-.value,
-
-root_cause:
-document
-.getElementById('failureRootCause')
-.value,
-
-five_m_manpower:
-document
-.getElementById('failure5MManpower')
-.value,
-
-five_m_machine:
-document
-.getElementById('failure5MMachine')
-.value,
-
-five_m_method:
-document
-.getElementById('failure5MMethod')
-.value,
-
-five_m_material:
-document
-.getElementById('failure5MMaterial')
-.value,
-
-five_m_environment:
-document
-.getElementById('failure5MEnvironment')
-.value,
-
-five_m_measurement:
-document
-.getElementById('failure5MMeasurement')
-.value,
-
-why_1:
-document.getElementById('failureWhy1').value,
-
-why_2:
-document.getElementById('failureWhy2').value,
-
-why_3:
-document.getElementById('failureWhy3').value,
-
-why_4:
-document.getElementById('failureWhy4').value,
-
-why_5:
-document.getElementById('failureWhy5').value,
-
-responsible_id:
-document
-.getElementById('failureResponsible')
-.value||null,
-
-updated_at:
-new Date().toISOString()
-
-};
-
-let error;
-
-if(id){
-
-({error}=await sb
-.from('failure_analysis')
-.update(payload)
-.eq('id',id));
-
-}else{
-
-payload.created_by=
-currentUser.id;
-
-({error}=await sb
-.from('failure_analysis')
-.insert(payload));
-
-}
-
-if(error)
-throw error;
-
-closeModal('failureModal');
-
-showToast(
-'Analyse BDA enregistrée.'
-);
-
-await loadFailureAnalysis();
-
-updateDashboard();
-
-}catch(error){
-
-showError(error);
-
-}
-
-});
-
-
-async function deleteFailure(id){
-
-if(!canManage())
-return;
-
-if(!confirm(
-'Supprimer cette analyse ?'
-))
-return;
-
-const {error}=await sb
-.from('failure_analysis')
-.delete()
-.eq('id',id);
-
-if(error){
-
-showError(error);
-return;
-
-}
-
-showToast(
-'Analyse supprimée.'
-);
-
-await loadFailureAnalysis();
-
-}
-
-
-/* =========================================================
-DAILY REPORT
-========================================================= */
-
-async function loadDailyReport(){
-
-const date=
-document.getElementById('reportDate')
-.value||
-todayISO();
-
-document
-.getElementById('dailyDate')
-.value=date;
-
-const start=
-`${date}T00:00:00`;
-
-const end=
-`${date}T23:59:59`;
-
-const diDay=
-diList.filter(d=>
-d.created_at>=start &&
-d.created_at<=end
-);
-
-const otDay=
-otList.filter(o=>
-o.created_at>=start &&
-o.created_at<=end
-);
-
-const failures=
-failureList.filter(f=>
-String(
-f.failure_date||
-f.created_at||
-''
-).startsWith(date)
-);
-
-const preventive=
-preventivePlans.filter(p=>
-String(
-p.last_execution_date||
-''
-)===date
-);
-
-const downtime=
-failures.reduce(
-(sum,f)=>
-sum+
-Number(f.downtime_minutes||0),
-0
-);
-
-const failureCount=
-failures.length;
-
-const mttr=
-failureCount?
-downtime/failureCount:
-null;
-
-const periodMinutes=1440;
-
-const availability=
-(
-(periodMinutes-downtime)/
-periodMinutes
-)*100;
-
-const mtbf=
-failureCount?
-(periodMinutes-downtime)/
-failureCount:
-null;
-
-document
-.getElementById('reportDI')
-.textContent=diDay.length;
-
-document
-.getElementById('reportOT')
-.textContent=otDay.length;
-
-document
-.getElementById('reportFailures')
-.textContent=failureCount;
-
-document
-.getElementById('reportPreventive')
-.textContent=preventive.length;
-
-document
-.getElementById('reportDowntime')
-.textContent=
-formatNumber(downtime)+' min';
-
-document
-.getElementById('reportMTTR')
-.textContent=
-mttr===null?
-'N/A':
-formatNumber(mttr)+' min';
-
-document
-.getElementById('reportMTBF')
-.textContent=
-mtbf===null?
-'N/A':
-formatNumber(mtbf)+' min';
-
-document
-.getElementById('reportAvailability')
-.textContent=
-Math.max(
-0,
-availability
-).toFixed(1)+'%';
-
-
-/*
-Chargement du rapport enregistré.
-*/
-
-try{
-
-const {data,error}=await sb
-.from('daily_reports')
-.select('*')
-.eq('report_date',date)
-.maybeSingle();
-
-if(!error&&data){
-
-document
-.getElementById('dailyReportId')
-.value=data.id;
-
-document
-.getElementById('dailyProductionImpact')
-.value=
-data.production_impact||'none';
-
-document
-.getElementById('dailyMajorEvents')
-.value=
-data.major_events||'';
-
-document
-.getElementById('dailyMainFailures')
-.value=
-data.main_failures||'';
-
-document
-.getElementById('dailyRootCauses')
-.value=
-data.root_causes||'';
-
-document
-.getElementById('dailyActions')
-.value=
-data.actions||'';
-
-document
-.getElementById('dailyPendingActions')
-.value=
-data.pending_actions||'';
-
-document
-.getElementById('dailyRisks')
-.value=
-data.risks||'';
-
-document
-.getElementById('dailyComments')
-.value=
-data.comments||'';
-
-}else{
-
-document
-.getElementById('dailyReportId')
-.value='';
-
-document
-.getElementById('dailyProductionImpact')
-.value='none';
-
-[
-'dailyMajorEvents',
-'dailyMainFailures',
-'dailyRootCauses',
-'dailyActions',
-'dailyPendingActions',
-'dailyRisks',
-'dailyComments'
-].forEach(id=>{
-document.getElementById(id).value='';
-});
-
-}
-
-}catch(error){
-
-console.warn(
-'Lecture rapport:',
-error
-);
-
-}
-
-}
-
-
-document
-.getElementById('dailyReportForm')
-.addEventListener('submit',async e=>{
-
-e.preventDefault();
-
-try{
-
-const date=
-document.getElementById('dailyDate')
-.value;
-
-const id=
-document.getElementById('dailyReportId')
-.value;
-
-const payload={
-
-report_date:date,
-
-production_impact:
-document
-.getElementById('dailyProductionImpact')
-.value,
-
-major_events:
-document
-.getElementById('dailyMajorEvents')
-.value,
-
-main_failures:
-document
-.getElementById('dailyMainFailures')
-.value,
-
-root_causes:
-document
-.getElementById('dailyRootCauses')
-.value,
-
-actions:
-document
-.getElementById('dailyActions')
-.value,
-
-pending_actions:
-document
-.getElementById('dailyPendingActions')
-.value,
-
-risks:
-document
-.getElementById('dailyRisks')
-.value,
-
-comments:
-document
-.getElementById('dailyComments')
-.value,
-
-updated_at:
-new Date().toISOString()
-
-};
-
-let error;
-
-if(id){
-
-({error}=await sb
-.from('daily_reports')
-.update(payload)
-.eq('id',id));
-
-}else{
-
-payload.created_by=
-currentUser.id;
-
-({error}=await sb
-.from('daily_reports')
-.insert(payload));
-
-}
-
-if(error)
-throw error;
-
-showToast(
-'Rapport journalier enregistré.'
-);
-
-await loadDailyReport();
-
-}catch(error){
-
-showError(error);
-
-}
-
-});
-
-
-/* =========================================================
-SELECTS
-========================================================= */
-
-function refreshSelects(){
-
-/* ZONES */
-
-const zoneOptions=
-`<option value="">— Sélectionner —</option>`+
-zones.map(z=>
-`<option value="${z.id}">
-${escapeHtml(z.code)} — ${escapeHtml(z.name)}
-</option>`
-).join('');
-
-[
-'equipmentZone',
-'diZone',
-'failureZone'
-].forEach(id=>{
-
-const el=
-document.getElementById(id);
-
-if(el)
-el.innerHTML=zoneOptions;
-
-});
-
-
-/* EQUIPMENT */
-
-const equipmentOptions=
-`<option value="">— Aucun —</option>`+
-equipment.map(e=>
-`<option value="${e.id}">
-${escapeHtml(e.code)} — ${escapeHtml(e.designation)}
-</option>`
-).join('');
-
-[
-'subEquipmentParent',
-'diEquipment',
-'otEquipment',
-'preventiveEquipment',
-'failureEquipment'
-].forEach(id=>{
-
-const el=
-document.getElementById(id);
-
-if(el){
-
-if(id==='subEquipmentParent'){
-
-el.innerHTML=
-`<option value="">— Sélectionner —</option>`+
-equipment.map(e=>
-`<option value="${e.id}">
-${escapeHtml(e.code)} — ${escapeHtml(e.designation)}
-</option>`
-).join('');
-
-}else{
-
-el.innerHTML=equipmentOptions;
-
-}
-
-}
-
-});
-
-
-/* SUB EQUIPMENT */
-
-const subOptions=
-`<option value="">— Aucun —</option>`+
-subEquipment.map(s=>
-`<option value="${s.id}">
-${escapeHtml(s.code)} — ${escapeHtml(s.designation)}
-</option>`
-).join('');
-
-[
-'diSubEquipment',
-'otSubEquipment',
-'preventiveSubEquipment',
-'failureSubEquipment'
-].forEach(id=>{
-
-const el=
-document.getElementById(id);
-
-if(el)
-el.innerHTML=subOptions;
-
-});
-
-
-/* PERSONNEL */
-
-const responsibleOptions=
-`<option value="">— Non défini —</option>`+
-personnel
-.filter(p=>
-p.status!=='inactive'
-)
-.map(p=>
-`<option value="${p.id}">
-${escapeHtml(p.full_name||p.email)}
-</option>`
-)
-.join('');
-
-[
-'preventiveResponsible',
-'failureResponsible'
-].forEach(id=>{
-
-const el=
-document.getElementById(id);
-
-if(el)
-el.innerHTML=responsibleOptions;
-
-});
-
-
-/* TECHNICIENS */
-
-const techOptions=
-`<option value="">— Non affecté —</option>`+
-personnel
-.filter(p=>
-p.status!=='inactive' &&
-['technician','manager','admin']
-.includes(p.role)
-)
-.map(p=>
-`<option value="${p.id}">
-${escapeHtml(p.full_name||p.email)}
-</option>`
-)
-.join('');
-
-const tech=
-document.getElementById('otTechnician');
-
-if(tech)
-tech.innerHTML=techOptions;
-
-
-/* DI */
-
-const diOptions=
-`<option value="">— Aucune DI —</option>`+
-diList
-.filter(d=>d.status!=='closed')
-.map(d=>
-`<option value="${d.id}">
-${escapeHtml(d.code||d.id)}
-</option>`
-)
-.join('');
-
-const otDI=
-document.getElementById('otDI');
-
-if(otDI)
-otDI.innerHTML=diOptions;
-
-
-/* OT */
-
-const otOptions=
-`<option value="">— Aucun OT —</option>`+
-otList.map(o=>
-`<option value="${o.id}">
-${escapeHtml(o.code||o.id)}
-</option>`
-).join('');
-
-const failureOT=
-document.getElementById('failureOT');
-
-if(failureOT)
-failureOT.innerHTML=otOptions;
-
-}
-
-
-/* =========================================================
-DASHBOARD
-========================================================= */
-
-function updateDashboard(){
-
-document
-.getElementById('kpiEquipment')
-.textContent=
-equipment.length;
-
-document
-.getElementById('kpiDI')
-.textContent=
-diList.filter(
-d=>d.status!=='closed'
-).length;
-
-document
-.getElementById('kpiOT')
-.textContent=
-otList.filter(
-o=>o.status!=='closed'
-).length;
-
-document
-.getElementById('kpiPersonnel')
-.textContent=
-personnel.filter(
-p=>p.status!=='inactive'
-).length;
-
-document
-.getElementById('dashPreventive')
-.textContent=
-preventivePlans.filter(
-p=>p.status==='active'
-).length;
-
-document
-.getElementById('dashPreventiveLate')
-.textContent=
-preventivePlans.filter(
-p=>getPreventiveState(p)==='overdue'
-).length;
-
-document
-.getElementById('dashBDA')
-.textContent=
-failureList.filter(
-f=>f.status!=='closed'
-).length;
-
-document
-.getElementById('dashActions')
-.textContent='—';
-
-renderDashboardDI();
-
-renderDashboardOT();
-
-}
-
-
-function renderDashboardDI(){
-
-const tbody=
-document.getElementById('dashboardDI');
-
-const list=
-diList.slice(0,8);
-
-tbody.innerHTML=list.length?
-
-list.map(d=>`
-
-<tr>
-
-<td>${escapeHtml(d.code||'—')}</td>
-
-<td>${formatDate(d.created_at)}</td>
-
-<td>${escapeHtml(
-d.zones?.name||'—'
-)}</td>
-
-<td>${escapeHtml(
-d.equipment?.designation||'—'
-)}</td>
-
-<td>${priorityBadge(d.priority)}</td>
-
-<td>${statusBadge(d.status)}</td>
-
-</tr>
-
-`).join(''):
-
-`<tr>
-<td colspan="6" class="empty">
-Aucune DI.
-</td>
-</tr>`;
-
-}
-
-
-function renderDashboardOT(){
-
-const tbody=
-document.getElementById('dashboardOT');
-
-const list=
-otList.slice(0,8);
-
-tbody.innerHTML=list.length?
-
-list.map(o=>`
-
-<tr>
-
-<td>${escapeHtml(o.code||'—')}</td>
-
-<td>${formatDate(o.created_at)}</td>
-
-<td>${escapeHtml(
-equipmentName(o.equipment_id)
-)}</td>
-
-<td>${escapeHtml(
-o.technician||
-technicianName(o.technician_id)
-)}</td>
-
-<td>${priorityBadge(o.priority)}</td>
-
-<td>${statusBadge(o.status)}</td>
-
-</tr>
-
-`).join(''):
-
-`<tr>
-<td colspan="6" class="empty">
-Aucun OT.
-</td>
-</tr>`;
-
-}
-
-
-/* =========================================================
-SETTINGS
-========================================================= */
-
-function renderSettings(){
-
-const box=
-document.getElementById('settingsInfo');
-
-if(!currentProfile){
-
-box.innerHTML=
-'<p class="empty">Profil indisponible.</p>';
-
-return;
-
-}
-
-box.innerHTML=`
-
-<div class="form-grid">
-
-<div>
-<label>Nom</label>
-<input
-value="${escapeHtml(currentProfile.full_name||'')}"
-disabled>
-</div>
-
-<div>
-<label>Email</label>
-<input
-value="${escapeHtml(currentProfile.email||'')}"
-disabled>
-</div>
-
-<div>
-<label>Rôle</label>
-<input
-value="${escapeHtml(
-roleLabel(currentProfile.role)
-)}"
-disabled>
-</div>
-
-<div>
-<label>Service</label>
-<input
-value="${escapeHtml(
-currentProfile.department||'Maintenance'
-)}"
-disabled>
-</div>
-
-</div>
-
-`;
-
-}
-
-
-/* =========================================================
-NAVIGATION
-========================================================= */
-
-const pageTitles={
-
-dashboard:'Dashboard',
-
-personnel:'Personnel',
-
-zones:'Zones',
-
-equipment:'Équipements',
-
-subequipment:'Sous-équipements',
-
-di:"Demandes d'intervention",
-
-ot:'Ordres de Travail',
-
-preventive:'Maintenance Préventive',
-
-rca:'RCA / BDA',
-
-reports:'Rapports',
-
-settings:'Paramètres'
-
-};
-
-
-function showPage(page){
-
-document
-.querySelectorAll('.page')
-.forEach(section=>{
-section.classList.remove('active');
-});
-
-const target=
-document.getElementById(
-'page-'+page
-);
-
-if(!target)
-return;
-
-target.classList.add('active');
-
-document
-.getElementById('pageTitle')
-.textContent=
-pageTitles[page]||page;
-
-document
-.querySelectorAll('.nav button[data-page]')
-.forEach(btn=>{
-btn.classList.toggle(
-'active',
-btn.dataset.page===page
-);
-});
-
-if(page==='preventive')
-renderPreventivePlans();
-
-if(page==='rca')
-renderFailureAnalysis();
-
-if(page==='reports'){
-
-const date=
-document.getElementById('reportDate');
-
-if(!date.value)
-date.value=todayISO();
-
-loadDailyReport();
-
-}
-
-if(page==='settings')
-renderSettings();
-
-}
-
-
-/* =========================================================
-NAV LISTENERS
-========================================================= */
-
-document
-.querySelectorAll('.nav button[data-page]')
-.forEach(btn=>{
-
-btn.addEventListener('click',()=>{
-
-const page=btn.dataset.page;
-
-if(
-btn.classList.contains('manage-only') &&
-!canManage()
-){
-
-showToast(
-'Droits insuffisants.',
-'warning'
-);
-
-return;
-
-}
-
-showPage(page);
-
-});
-
-});
-
-
-/* =========================================================
-SEARCH LISTENERS
-========================================================= */
-
-[
-['personnelSearch',renderPersonnel],
-['zoneSearch',renderZones],
-['equipmentSearch',renderEquipment],
-['subEquipmentSearch',renderSubEquipment],
-['diSearch',renderDI],
-['diStatusFilter',renderDI],
-['otSearch',renderOT],
-['otStatusFilter',renderOT],
-['preventiveSearch',renderPreventivePlans],
-['preventiveStatusFilter',renderPreventivePlans],
-['failureSearch',renderFailureAnalysis],
-['failureStatusFilter',renderFailureAnalysis]
-]
-.forEach(([id,fn])=>{
-
-const el=
-document.getElementById(id);
-
-if(el){
-
-el.addEventListener(
-'el'==='change'?
-'change':
-'input',
-fn
-);
-
-}
-
-});
-
-
-/* Correction filtres select */
-
-[
-'diStatusFilter',
-'otStatusFilter',
-'preventiveStatusFilter',
-'failureStatusFilter'
-]
-.forEach(id=>{
-
-const el=
-document.getElementById(id);
-
-if(el){
-
-el.addEventListener(
-'change',
-()=>{
-
-if(id.includes('di'))
-renderDI();
-
-else if(id.includes('ot'))
-renderOT();
-
-else if(id.includes('preventive'))
-renderPreventivePlans();
-
-else
-renderFailureAnalysis();
-
-});
-
-}
-
-});
-
-
-/* =========================================================
-LOGOUT
-========================================================= */
-
-document
-.getElementById('logoutBtn')
-.addEventListener('click',async()=>{
-
-await sb.auth.signOut();
-
-});
-
-
-/* =========================================================
-AUTH STATE
-========================================================= */
-
-sb.auth.onAuthStateChange(
-async(event,session)=>{
-
-if(event==='SIGNED_IN'){
-
-currentUser=
-session?.user||null;
-
-if(
-currentUser &&
-await loadProfile()
-){
-
-await showApplication();
-
-}
-
-}
-
-if(event==='SIGNED_OUT'){
-
-currentUser=null;
-
-currentProfile=null;
-
-document
-.getElementById('app')
-.classList.add('hidden');
-
-document
-.getElementById('loginScreen')
-.classList.remove('hidden');
-
-document
-.getElementById('loginForm')
-.reset();
-
-}
-
-});
-
-
-/* =========================================================
-MODAL OUTSIDE CLICK
-========================================================= */
-
-document
-.querySelectorAll('.modal')
-.forEach(modal=>{
-
-modal.addEventListener(
-'click',
-e=>{
-
-if(e.target===modal)
-modal.classList.remove('show');
-
-});
-
-});
-
-
-/* =========================================================
-INITIALIZE
-========================================================= */
-
-async function initialize(){
-
-try{
-
-const {data}=await sb.auth.getSession();
-
-if(data?.session){
-
-currentUser=
-data.session.user;
-
-if(
-await loadProfile()
-){
-
-await showApplication();
-
-}
-
-}
-
-}catch(error){
-
-showError(error);
-
-}
-
-}
-
-
-/* =========================================================
-DEFAULT REPORT DATE
-========================================================= */
-
-document
-.getElementById('reportDate')
-.value=todayISO();
-
-document
-.getElementById('dailyDate')
-.value=todayISO();
-
-
-/* =========================================================
-START
-========================================================= */
-
-initialize();
-
+    const HEURES_OUVERTURE_MENSUEL = 160;
+
+    // GESTION UTILISATEURS & MOTS DE PASSE
+    let defaultUsers = {
+        'Admin': { email: 'admin@usine.com', pwd: 'admin123', role: 'Admin' },
+        'Responsable': { email: 'resp@usine.com', pwd: 'resp123', role: 'Responsable' },
+        'Technicien': { email: 'tech@usine.com', pwd: 'tech123', role: 'Technicien' }
+    };
+
+    let userAccounts = JSON.parse(localStorage.getItem('APP_USER_ACCOUNTS')) || defaultUsers;
+
+    let dataZones = JSON.parse(localStorage.getItem('DATA_ZONES')) || ['Zone Usinage', 'Ligne d\'Assemblage', 'Atelier Extrusion'];
+
+    let dataEquipements = JSON.parse(localStorage.getItem('DATA_EQUIPEMENTS')) || [
+        { code: 'P-01', nom: 'Presse Hydraulique P-01', zone: 'Zone Usinage', statut: 'Opérationnel' },
+        { code: 'M-02', nom: 'Moteur Principal M-02', zone: 'Zone Usinage', statut: 'Opérationnel' },
+        { code: 'B-02', nom: 'Ligne d\'Extrusion B-02', zone: 'Atelier Extrusion', statut: 'Opérationnel' }
+    ];
+
+    let dataSousEquipements = JSON.parse(localStorage.getItem('DATA_SOUS_EQUIPEMENTS')) || [
+        { nom: 'Vérin principal', parent: 'Presse Hydraulique P-01' },
+        { nom: 'Distributeur hydraulique', parent: 'Presse Hydraulique P-01' },
+        { nom: 'Roulement avant', parent: 'Moteur Principal M-02' }
+    ];
+
+    let dataPannes = JSON.parse(localStorage.getItem('DATA_PANNES')) || [
+        { date: '2026-03-01', equipement: 'Presse Hydraulique P-01', organe: 'Vérin principal', cause: 'Fuite d\'huile au joint', debut: '08:30', fin: '12:00', duree: 3.5, intervenant: 'Karim' }
+    ];
+
+    let dataOt = JSON.parse(localStorage.getItem('DATA_OT')) || [
+        { id: 'OT-1001', equipement: 'Presse Hydraulique P-01', type: 'Correctif', duree: 3.5, desc: 'Fuite d\'huile au joint', priorite: 'Haute' }
+    ];
+
+    let dataAmdec = JSON.parse(localStorage.getItem('DATA_AMDEC')) || [
+        { equipement: 'Presse Hydraulique P-01', mode: 'Fuite d\'huile', g: 6, o: 5, d: 4, npr: 120, action: 'Remplacement préventif des joints' }
+    ];
+
+    let dataDmaic = JSON.parse(localStorage.getItem('DATA_DMAIC')) || [
+        { titre: 'Réduction pannes Presse P-01', etape: 'Analyser', objectif: 'Atteindre 98% de Disponibilité', progression: 60 }
+    ];
+
+    document.addEventListener("DOMContentLoaded", () => {
+        checkSession();
+        updateEquipementDropdowns();
+        renderZones();
+        renderEquipements();
+        renderSousEquipements();
+        renderPannes();
+        renderOt();
+        renderAmdec();
+        renderDmaic();
+        updateKpiDashboard();
+    });
+
+    function sanitizeInput(str) {
+        const temp = document.createElement('div');
+        temp.textContent = str;
+        return temp.innerHTML;
+    }
+
+    function togglePasswordVisibility() {
+        const input = document.getElementById('loginPassword');
+        const icon = document.getElementById('togglePasswordIcon');
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.className = 'fa-solid fa-eye-slash';
+        } else {
+            input.type = 'password';
+            icon.className = 'fa-solid fa-eye';
+        }
+    }
+
+    function handleLogin(e) {
+        e.preventDefault();
+        const emailInput = document.getElementById('loginEmail').value.trim();
+        const pwdInput = document.getElementById('loginPassword').value.trim();
+        const selectedRole = document.getElementById('loginRole').value;
+
+        const targetUser = userAccounts[selectedRole];
+
+        if (targetUser && targetUser.pwd === pwdInput) {
+            sessionStorage.setItem('SESSION_USER', JSON.stringify({ email: targetUser.email, role: targetUser.role }));
+            document.getElementById('loginError').classList.add('hidden');
+            checkSession();
+        } else {
+            document.getElementById('loginErrorText').textContent = 'Identifiants ou mot de passe incorrects pour ce rôle.';
+            document.getElementById('loginError').classList.remove('hidden');
+        }
+    }
+
+    function handleLogout() {
+        sessionStorage.removeItem('SESSION_USER');
+        checkSession();
+    }
+
+    function checkSession() {
+        const stored = sessionStorage.getItem('SESSION_USER');
+        if (stored) {
+            const user = JSON.parse(stored);
+            document.getElementById('auth-screen').classList.add('hidden');
+            document.getElementById('app-screen').classList.remove('hidden');
+            document.getElementById('userDisplay').textContent = `${user.email} (${user.role})`;
+
+            applyRolePermissions(user.role);
+        } else {
+            document.getElementById('auth-screen').classList.remove('hidden');
+            document.getElementById('app-screen').classList.add('hidden');
+        }
+    }
+
+    // AFFECTATION STRICTE DES DROITS ET PRIVILÈGES
+    function applyRolePermissions(role) {
+        const btnAdminPwd = document.getElementById('btnAdminChangePwd');
+        const btnAddZone = document.getElementById('btnAddZone');
+        const btnAddEq = document.getElementById('btnAddEq');
+        const btnAddSubEq = document.getElementById('btnAddSubEq');
+
+        if (role === 'Admin') {
+            btnAdminPwd.classList.remove('hidden');
+            if (btnAddZone) btnAddZone.classList.remove('hidden');
+            if (btnAddEq) btnAddEq.classList.remove('hidden');
+            if (btnAddSubEq) btnAddSubEq.classList.remove('hidden');
+        } else {
+            btnAdminPwd.classList.add('hidden');
+            // Responsable et Technicien ne peuvent pas ajouter/supprimer de zones ou d'équipements
+            if (btnAddZone) btnAddZone.classList.add('hidden');
+            if (btnAddEq) btnAddEq.classList.add('hidden');
+            if (btnAddSubEq) btnAddSubEq.classList.add('hidden');
+        }
+    }
+
+    // CHANGEMENT DE MOT DE PASSE (RESERVÉ À L'ADMINISTRATEUR)
+    function openAdminPwdModal() {
+        const stored = sessionStorage.getItem('SESSION_USER');
+        if (stored && JSON.parse(stored).role === 'Admin') {
+            document.getElementById('modalAdminPwd').classList.remove('hidden');
+        } else {
+            alert('Accès refusé ! Seul un Administrateur peut modifier les mots de passe.');
+        }
+    }
+
+    function closeAdminPwdModal() {
+        document.getElementById('modalAdminPwd').classList.add('hidden');
+    }
+
+    function saveNewPassword(e) {
+        e.preventDefault();
+        const role = document.getElementById('pwdUserRole').value;
+        const newPwd = document.getElementById('newPassword').value.trim();
+
+        if (newPwd.length < 4) {
+            alert('Le mot de passe doit contenir au moins 4 caractères.');
+            return;
+        }
+
+        userAccounts[role].pwd = newPwd;
+        localStorage.setItem('APP_USER_ACCOUNTS', JSON.stringify(userAccounts));
+        alert(`Le mot de passe pour le rôle ${role} a été mis à jour avec succès.`);
+        closeAdminPwdModal();
+    }
+
+    function switchTab(tab) {
+        ['pannes', 'equipements', 'kpi', 'gmao', 'amdec', 'dmaic'].forEach(t => {
+            document.getElementById(`sec-${t}`).classList.add('hidden');
+            document.getElementById(`tab-${t}`).classList.remove('text-indigo-600', 'border-indigo-600');
+            document.getElementById(`tab-${t}`).classList.add('text-slate-600', 'border-transparent');
+        });
+        document.getElementById(`sec-${tab}`).classList.remove('hidden');
+        document.getElementById(`tab-${tab}`).classList.add('text-indigo-600', 'border-indigo-600');
+    }
+
+    function updateEquipementDropdowns() {
+        const selects = document.querySelectorAll('.select-equipements');
+        selects.forEach(select => {
+            const isKpiSelect = select.id === 'selectMachineKpi';
+            let html = isKpiSelect ? '<option value="ALL">Toutes les machines (Total Usine)</option>' : '';
+            dataEquipements.forEach(eq => {
+                html += `<option value="${sanitizeInput(eq.nom)}">${sanitizeInput(eq.nom)}</option>`;
+            });
+            select.innerHTML = html;
+        });
+
+        const zoneSelect = document.getElementById('eqZone');
+        if(zoneSelect) {
+            let zoneHtml = '';
+            dataZones.forEach(z => {
+                zoneHtml += `<option value="${sanitizeInput(z)}">${sanitizeInput(z)}</option>`;
+            });
+            zoneSelect.innerHTML = zoneHtml;
+        }
+        onPanneEquipementChange();
+    }
+
+    function onPanneEquipementChange() {
+        const selectedMachine = document.getElementById('panneEquipement').value;
+        const subSelect = document.getElementById('panneOrgane');
+        if (!subSelect) return;
+
+        const filteredSubs = dataSousEquipements.filter(s => s.parent === selectedMachine);
+        let html = '';
+        if (filteredSubs.length === 0) {
+            html = '<option value="Général / Inconnu">Général / Inconnu</option>';
+        } else {
+            filteredSubs.forEach(s => {
+                html += `<option value="${sanitizeInput(s.nom)}">${sanitizeInput(s.nom)}</option>`;
+            });
+        }
+        subSelect.innerHTML = html;
+    }
+
+    function renderSousEquipements() {
+        const tbody = document.getElementById('table-sousequipements-body');
+        const currentUser = JSON.parse(sessionStorage.getItem('SESSION_USER') || '{}');
+        tbody.innerHTML = '';
+        dataSousEquipements.forEach((s, idx) => {
+            const actions = currentUser.role === 'Admin' ? `<button onclick="deleteSousEquipement(${idx})" class="text-red-600 hover:text-red-900"><i class="fa-solid fa-trash"></i></button>` : '-';
+            tbody.innerHTML += `
+                <tr class="hover:bg-slate-50">
+                    <td class="p-2 font-semibold text-slate-800">${sanitizeInput(s.nom)}</td>
+                    <td class="p-2 text-slate-600 text-xs">${sanitizeInput(s.parent)}</td>
+                    <td class="p-2 text-center">${actions}</td>
+                </tr>
+            `;
+        });
+    }
+
+    function openSousEquipementModal() {
+        document.getElementById('sousEquipementIndex').value = '';
+        document.getElementById('subEqNom').value = '';
+        document.getElementById('modalSousEquipement').classList.remove('hidden');
+    }
+    function closeSousEquipementModal() { document.getElementById('modalSousEquipement').classList.add('hidden'); }
+
+    function saveSousEquipement(e) {
+        e.preventDefault();
+        const obj = {
+            nom: sanitizeInput(document.getElementById('subEqNom').value),
+            parent: sanitizeInput(document.getElementById('subEqParent').value)
+        };
+        dataSousEquipements.push(obj);
+        saveData('DATA_SOUS_EQUIPEMENTS', dataSousEquipements);
+        renderSousEquipements();
+        onPanneEquipementChange();
+        closeSousEquipementModal();
+    }
+
+    function deleteSousEquipement(idx) {
+        if(confirm("Supprimer ce sous-équipement ?")) {
+            dataSousEquipements.splice(idx, 1);
+            saveData('DATA_SOUS_EQUIPEMENTS', dataSousEquipements);
+            renderSousEquipements();
+            onPanneEquipementChange();
+        }
+    }
+
+    function renderZones() {
+        const list = document.getElementById('list-zones');
+        const currentUser = JSON.parse(sessionStorage.getItem('SESSION_USER') || '{}');
+        list.innerHTML = '';
+        dataZones.forEach((z, idx) => {
+            const action = currentUser.role === 'Admin' ? `<button onclick="deleteZone(${idx})" class="text-red-500 hover:text-red-700 text-xs"><i class="fa-solid fa-trash"></i></button>` : '';
+            list.innerHTML += `
+                <li class="py-2.5 flex justify-between items-center">
+                    <span class="font-medium text-slate-700">${sanitizeInput(z)}</span>
+                    ${action}
+                </li>
+            `;
+        });
+    }
+
+    function openZoneModal() { document.getElementById('modalZone').classList.remove('hidden'); }
+    function closeZoneModal() { document.getElementById('modalZone').classList.add('hidden'); }
+
+    function saveZone(e) {
+        e.preventDefault();
+        const nom = sanitizeInput(document.getElementById('zoneNom').value);
+        if (nom && !dataZones.includes(nom)) {
+            dataZones.push(nom);
+            saveData('DATA_ZONES', dataZones);
+            renderZones();
+            updateEquipementDropdowns();
+        }
+        closeZoneModal();
+    }
+
+    function deleteZone(idx) {
+        if(confirm("Supprimer cette zone ?")) {
+            dataZones.splice(idx, 1);
+            saveData('DATA_ZONES', dataZones);
+            renderZones();
+            updateEquipementDropdowns();
+        }
+    }
+
+    function renderEquipements() {
+        const tbody = document.getElementById('table-equipements-body');
+        const currentUser = JSON.parse(sessionStorage.getItem('SESSION_USER') || '{}');
+        tbody.innerHTML = '';
+        dataEquipements.forEach((eq, idx) => {
+            const actions = currentUser.role === 'Admin' ? `
+                <button onclick="editEquipement(${idx})" class="text-indigo-600 hover:text-indigo-900"><i class="fa-solid fa-pen"></i></button>
+                <button onclick="deleteEquipement(${idx})" class="text-red-600 hover:text-red-900"><i class="fa-solid fa-trash"></i></button>
+            ` : '-';
+            tbody.innerHTML += `
+                <tr class="hover:bg-slate-50">
+                    <td class="p-2 font-bold text-indigo-600">${sanitizeInput(eq.code)}</td>
+                    <td class="p-2 font-semibold text-slate-800">${sanitizeInput(eq.nom)}</td>
+                    <td class="p-2 text-center space-x-2">${actions}</td>
+                </tr>
+            `;
+        });
+    }
+
+    function openEquipementModal() {
+        document.getElementById('equipementIndex').value = '';
+        document.getElementById('eqCode').value = '';
+        document.getElementById('eqNom').value = '';
+        document.getElementById('modalEquipementTitle').textContent = 'Ajouter une Machine';
+        document.getElementById('modalEquipement').classList.remove('hidden');
+    }
+
+    function closeEquipementModal() { document.getElementById('modalEquipement').classList.add('hidden'); }
+
+    function editEquipement(idx) {
+        const eq = dataEquipements[idx];
+        document.getElementById('equipementIndex').value = idx;
+        document.getElementById('eqCode').value = eq.code;
+        document.getElementById('eqNom').value = eq.nom;
+        document.getElementById('eqZone').value = eq.zone;
+        document.getElementById('eqStatut').value = eq.statut;
+        document.getElementById('modalEquipementTitle').textContent = 'Modifier la Machine';
+        document.getElementById('modalEquipement').classList.remove('hidden');
+    }
+
+    function saveEquipement(e) {
+        e.preventDefault();
+        const idx = document.getElementById('equipementIndex').value;
+        const obj = {
+            code: sanitizeInput(document.getElementById('eqCode').value),
+            nom: sanitizeInput(document.getElementById('eqNom').value),
+            zone: sanitizeInput(document.getElementById('eqZone').value),
+            statut: sanitizeInput(document.getElementById('eqStatut').value)
+        };
+        if (idx !== '') dataEquipements[idx] = obj; else dataEquipements.push(obj);
+        saveData('DATA_EQUIPEMENTS', dataEquipements);
+        renderEquipements();
+        updateEquipementDropdowns();
+        closeEquipementModal();
+    }
+
+    function deleteEquipement(idx) {
+        if(confirm("Supprimer cette machine ?")) {
+            dataEquipements.splice(idx, 1);
+            saveData('DATA_EQUIPEMENTS', dataEquipements);
+            renderEquipements();
+            updateEquipementDropdowns();
+        }
+    }
+
+    function renderPannes() {
+        const tbody = document.getElementById('table-pannes-body');
+        tbody.innerHTML = '';
+        dataPannes.forEach((p, idx) => {
+            tbody.innerHTML += `
+                <tr class="hover:bg-slate-50">
+                    <td class="p-3 font-semibold">${sanitizeInput(p.date)}</td>
+                    <td class="p-3 font-bold text-slate-800">${sanitizeInput(p.equipement)}</td>
+                    <td class="p-3 text-indigo-700 font-medium">${sanitizeInput(p.organe)}</td>
+                    <td class="p-3 text-slate-600">${sanitizeInput(p.cause)}</td>
+                    <td class="p-3 text-xs">${sanitizeInput(p.debut)} - ${sanitizeInput(p.fin)}</td>
+                    <td class="p-3 font-bold text-red-600">${p.duree} h</td>
+                    <td class="p-3 text-slate-700">${sanitizeInput(p.intervenant)}</td>
+                    <td class="p-3 text-center space-x-2">
+                        <button onclick="editPanne(${idx})" class="text-indigo-600 hover:text-indigo-900"><i class="fa-solid fa-pen"></i></button>
+                        <button onclick="deletePanne(${idx})" class="text-red-600 hover:text-red-900"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                </tr>
+            `;
+        });
+    }
+
+    function openPanneModal() {
+        document.getElementById('panneIndex').value = '';
+        document.getElementById('panneDate').value = new Date().toISOString().split('T')[0];
+        document.getElementById('panneCause').value = '';
+        document.getElementById('panneDebut').value = '08:00';
+        document.getElementById('panneFin').value = '09:00';
+        document.getElementById('panneDuree').value = '1.0';
+        document.getElementById('panneIntervenant').value = '';
+        document.getElementById('modalPanneTitle').textContent = 'Déclarer une Panne';
+        onPanneEquipementChange();
+        document.getElementById('modalPanne').classList.remove('hidden');
+    }
+
+    function closePanneModal() { document.getElementById('modalPanne').classList.add('hidden'); }
+
+    function calcPanneDuree() {
+        const debut = document.getElementById('panneDebut').value;
+        const fin = document.getElementById('panneFin').value;
+        if (debut && fin) {
+            const [h1, m1] = debut.split(':').map(Number);
+            const [h2, m2] = fin.split(':').map(Number);
+            let diff = (h2 * 60 + m2) - (h1 * 60 + m1);
+            if (diff < 0) diff += 24 * 60;
+            document.getElementById('panneDuree').value = (diff / 60).toFixed(1);
+        }
+    }
+
+    function editPanne(index) {
+        const p = dataPannes[index];
+        document.getElementById('panneIndex').value = index;
+        document.getElementById('panneDate').value = p.date;
+        document.getElementById('panneEquipement').value = p.equipement;
+        onPanneEquipementChange();
+        document.getElementById('panneOrgane').value = p.organe;
+        document.getElementById('panneCause').value = p.cause;
+        document.getElementById('panneDebut').value = p.debut;
+        document.getElementById('panneFin').value = p.fin;
+        document.getElementById('panneDuree').value = p.duree;
+        document.getElementById('panneIntervenant').value = p.intervenant;
+        document.getElementById('modalPanneTitle').textContent = 'Modifier la Panne';
+        document.getElementById('modalPanne').classList.remove('hidden');
+    }
+
+    function deletePanne(index) {
+        if (confirm("Supprimer cette panne ?")) {
+            dataPannes.splice(index, 1);
+            saveData('DATA_PANNES', dataPannes);
+            renderPannes();
+            updateKpiDashboard();
+        }
+    }
+
+    function savePanne(e) {
+        e.preventDefault();
+        const idx = document.getElementById('panneIndex').value;
+        const equipement = sanitizeInput(document.getElementById('panneEquipement').value);
+        const duree = parseFloat(document.getElementById('panneDuree').value);
+        const cause = sanitizeInput(document.getElementById('panneCause').value);
+
+        const obj = {
+            date: sanitizeInput(document.getElementById('panneDate').value),
+            equipement: equipement,
+            organe: sanitizeInput(document.getElementById('panneOrgane').value),
+            cause: cause,
+            debut: sanitizeInput(document.getElementById('panneDebut').value),
+            fin: sanitizeInput(document.getElementById('panneFin').value),
+            duree: duree,
+            intervenant: sanitizeInput(document.getElementById('panneIntervenant').value)
+        };
+
+        if (idx !== '') {
+            dataPannes[idx] = obj;
+        } else {
+            dataPannes.push(obj);
+            dataOt.push({
+                id: 'OT-' + (1000 + dataOt.length + 1),
+                equipement: equipement,
+                type: 'Correctif',
+                duree: duree,
+                desc: cause,
+                priorite: 'Haute'
+            });
+            saveData('DATA_OT', dataOt);
+            renderOt();
+        }
+
+        saveData('DATA_PANNES', dataPannes);
+        renderPannes();
+        updateKpiDashboard();
+        closePanneModal();
+    }
+
+    function updateKpiDashboard() {
+        const selectedMachine = document.getElementById('selectMachineKpi').value;
+        let filteredPannes = dataPannes;
+        if (selectedMachine !== 'ALL') {
+            filteredPannes = filteredPannes.filter(p => p.equipement === selectedMachine);
+        }
+
+        const nombrePannes = filteredPannes.length;
+        if (nombrePannes === 0) {
+            document.getElementById('kpiMtbf').textContent = `${HEURES_OUVERTURE_MENSUEL} hrs`;
+            document.getElementById('kpiMttr').textContent = `0 hrs`;
+            document.getElementById('kpiDisp').textContent = `100 %`;
+            document.getElementById('kpiPannes').textContent = `0`;
+            return;
+        }
+
+        const tempsTotalArret = filteredPannes.reduce((s, p) => s + (parseFloat(p.duree) || 0), 0);
+        const tempsFonctionnement = HEURES_OUVERTURE_MENSUEL - tempsTotalArret;
+
+        const mtbf = (tempsFonctionnement / nombrePannes).toFixed(1);
+        const mttr = (tempsTotalArret / nombrePannes).toFixed(1);
+        const disp = ((parseFloat(mtbf) / (parseFloat(mtbf) + parseFloat(mttr))) * 100).toFixed(2);
+
+        document.getElementById('kpiMtbf').textContent = `${mtbf} hrs`;
+        document.getElementById('kpiMttr').textContent = `${mttr} hrs`;
+        document.getElementById('kpiDisp').textContent = `${disp} %`;
+        document.getElementById('kpiPannes').textContent = nombrePannes;
+    }
+
+    function renderOt() {
+        const tbody = document.getElementById('table-ot-body');
+        tbody.innerHTML = '';
+        dataOt.forEach((ot, idx) => {
+            tbody.innerHTML += `
+                <tr class="hover:bg-slate-50">
+                    <td class="p-3 font-bold text-slate-800">${sanitizeInput(ot.id)}</td>
+                    <td class="p-3">${sanitizeInput(ot.equipement)}</td>
+                    <td class="p-3"><span class="px-2 py-0.5 rounded text-xs ${ot.type === 'Correctif' ? 'bg-red-100 text-red-700' : 'bg-blue-100 text-blue-700'}">${sanitizeInput(ot.type)}</span></td>
+                    <td class="p-3 font-bold">${ot.duree}</td>
+                    <td class="p-3 text-slate-600">${sanitizeInput(ot.desc)}</td>
+                    <td class="p-3 font-bold text-xs ${ot.priorite === 'Haute' ? 'text-red-600' : 'text-slate-600'}">${sanitizeInput(ot.priorite)}</td>
+                    <td class="p-3 text-center space-x-2">
+                        <button onclick="editOt(${idx})" class="text-indigo-600 hover:text-indigo-900"><i class="fa-solid fa-pen"></i></button>
+                        <button onclick="deleteOt(${idx})" class="text-red-600 hover:text-red-900"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                </tr>
+            `;
+        });
+    }
+
+    function openOtModal() {
+        document.getElementById('otIndex').value = '';
+        document.getElementById('otDuree').value = '1.0';
+        document.getElementById('otDesc').value = '';
+        document.getElementById('modalOtTitle').textContent = 'Ajouter un OT';
+        document.getElementById('modalOt').classList.remove('hidden');
+    }
+    function closeOtModal() { document.getElementById('modalOt').classList.add('hidden'); }
+
+    function editOt(index) {
+        const ot = dataOt[index];
+        document.getElementById('otIndex').value = index;
+        document.getElementById('otEquipement').value = ot.equipement;
+        document.getElementById('otType').value = ot.type;
+        document.getElementById('otDuree').value = ot.duree;
+        document.getElementById('otDesc').value = ot.desc;
+        document.getElementById('otPriorite').value = ot.priorite;
+        document.getElementById('modalOtTitle').textContent = 'Modifier OT';
+        document.getElementById('modalOt').classList.remove('hidden');
+    }
+
+    function deleteOt(index) {
+        if (confirm("Supprimer cet OT ?")) {
+            dataOt.splice(index, 1);
+            saveData('DATA_OT', dataOt);
+            renderOt();
+        }
+    }
+
+    function saveOt(e) {
+        e.preventDefault();
+        const idx = document.getElementById('otIndex').value;
+        const obj = {
+            id: idx !== '' ? dataOt[idx].id : 'OT-' + (1000 + dataOt.length + 1),
+            equipement: sanitizeInput(document.getElementById('otEquipement').value),
+            type: sanitizeInput(document.getElementById('otType').value),
+            duree: parseFloat(document.getElementById('otDuree').value),
+            desc: sanitizeInput(document.getElementById('otDesc').value),
+            priorite: sanitizeInput(document.getElementById('otPriorite').value)
+        };
+        if (idx !== '') dataOt[idx] = obj; else dataOt.push(obj);
+        saveData('DATA_OT', dataOt);
+        renderOt();
+        closeOtModal();
+    }
+
+    function renderAmdec() {
+        const tbody = document.getElementById('table-amdec-body');
+        tbody.innerHTML = '';
+        dataAmdec.forEach((item, idx) => {
+            tbody.innerHTML += `
+                <tr class="hover:bg-slate-50">
+                    <td class="p-3 font-semibold">${sanitizeInput(item.equipement)}</td>
+                    <td class="p-3">${sanitizeInput(item.mode)}</td>
+                    <td class="p-3 text-center">${item.g}</td>
+                    <td class="p-3 text-center">${item.o}</td>
+                    <td class="p-3 text-center">${item.d}</td>
+                    <td class="p-3 text-center font-bold text-red-600">${item.npr}</td>
+                    <td class="p-3 text-slate-600">${sanitizeInput(item.action)}</td>
+                    <td class="p-3 text-center space-x-2">
+                        <button onclick="editAmdec(${idx})" class="text-indigo-600 hover:text-indigo-900"><i class="fa-solid fa-pen"></i></button>
+                        <button onclick="deleteAmdec(${idx})" class="text-red-600 hover:text-red-900"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                </tr>
+            `;
+        });
+    }
+
+    function openAmdecModal() {
+        document.getElementById('amdecIndex').value = '';
+        document.getElementById('modalAmdecTitle').textContent = 'Ajouter ligne AMDEC';
+        document.getElementById('modalAmdec').classList.remove('hidden');
+    }
+    function closeAmdecModal() { document.getElementById('modalAmdec').classList.add('hidden'); }
+
+    function editAmdec(index) {
+        const a = dataAmdec[index];
+        document.getElementById('amdecIndex').value = index;
+        document.getElementById('amdecEquipement').value = a.equipement;
+        document.getElementById('amdecMode').value = a.mode;
+        document.getElementById('amdecG').value = a.g;
+        document.getElementById('amdecO').value = a.o;
+        document.getElementById('amdecD').value = a.d;
+        document.getElementById('amdecAction').value = a.action;
+        document.getElementById('modalAmdec').classList.remove('hidden');
+    }
+
+    function deleteAmdec(index) {
+        if (confirm("Supprimer cette ligne AMDEC ?")) {
+            dataAmdec.splice(index, 1);
+            saveData('DATA_AMDEC', dataAmdec);
+            renderAmdec();
+        }
+    }
+
+    function saveAmdec(e) {
+        e.preventDefault();
+        const idx = document.getElementById('amdecIndex').value;
+        const g = parseInt(document.getElementById('amdecG').value);
+        const o = parseInt(document.getElementById('amdecO').value);
+        const d = parseInt(document.getElementById('amdecD').value);
+        const obj = {
+            equipement: sanitizeInput(document.getElementById('amdecEquipement').value),
+            mode: sanitizeInput(document.getElementById('amdecMode').value),
+            g: g, o: o, d: d, npr: g * o * d,
+            action: sanitizeInput(document.getElementById('amdecAction').value)
+        };
+        if (idx !== '') dataAmdec[idx] = obj; else dataAmdec.push(obj);
+        saveData('DATA_AMDEC', dataAmdec);
+        renderAmdec();
+        closeAmdecModal();
+    }
+
+    function renderDmaic() {
+        const container = document.getElementById('dmaic-projects-container');
+        container.innerHTML = '';
+        dataDmaic.forEach((p, idx) => {
+            container.innerHTML += `
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 space-y-3 relative">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-bold bg-indigo-100 text-indigo-700 px-2.5 py-1 rounded">${sanitizeInput(p.etape)}</span>
+                        <div class="space-x-2">
+                            <button onclick="editDmaic(${idx})" class="text-indigo-600 hover:text-indigo-900"><i class="fa-solid fa-pen"></i></button>
+                            <button onclick="deleteDmaic(${idx})" class="text-red-600 hover:text-red-900"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <h3 class="font-bold text-slate-800 text-lg">${sanitizeInput(p.titre)}</h3>
+                    <p class="text-xs text-slate-500">Objectif: ${sanitizeInput(p.objectif)}</p>
+                    <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+                        <div class="bg-indigo-600 h-full" style="width: ${p.progression}%"></div>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    function openDmaicModal() {
+        document.getElementById('dmaicIndex').value = '';
+        document.getElementById('modalDmaicTitle').textContent = 'Ajouter Projet DMAIC';
+        document.getElementById('modalDmaic').classList.remove('hidden');
+    }
+    function closeDmaicModal() { document.getElementById('modalDmaic').classList.add('hidden'); }
+
+    function editDmaic(index) {
+        const d = dataDmaic[index];
+        document.getElementById('dmaicIndex').value = index;
+        document.getElementById('dmaicTitre').value = d.titre;
+        document.getElementById('dmaicEtape').value = d.etape;
+        document.getElementById('dmaicObjectif').value = d.objectif;
+        document.getElementById('dmaicProgression').value = d.progression;
+        document.getElementById('modalDmaic').classList.remove('hidden');
+    }
+
+    function deleteDmaic(index) {
+        if (confirm("Supprimer ce projet DMAIC ?")) {
+            dataDmaic.splice(index, 1);
+            saveData('DATA_DMAIC', dataDmaic);
+            renderDmaic();
+        }
+    }
+
+    function saveDmaic(e) {
+        e.preventDefault();
+        const idx = document.getElementById('dmaicIndex').value;
+        const obj = {
+            titre: sanitizeInput(document.getElementById('dmaicTitre').value),
+            etape: sanitizeInput(document.getElementById('dmaicEtape').value),
+            objectif: sanitizeInput(document.getElementById('dmaicObjectif').value),
+            progression: parseInt(document.getElementById('dmaicProgression').value)
+        };
+        if (idx !== '') dataDmaic[idx] = obj; else dataDmaic.push(obj);
+        saveData('DATA_DMAIC', dataDmaic);
+        renderDmaic();
+        closeDmaicModal();
+    }
+
+    function saveData(key, data) {
+        localStorage.setItem(key, JSON.stringify(data));
+    }
 </script>
-
 </body>
 </html>
