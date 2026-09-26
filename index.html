@@ -3,14 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PLATEFORME INDUSTRIELLE INTÉGRÉE - GMAO | PANNES | KPIs</title>
+    <title>PLATEFORME INDUSTRIELLE INTÉGRÉE - GMAO | STOCK | DA</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- مكتبة Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <style>
-        body { font-family: system-ui, -apple-system, sans-serif; }
-    </style>
 </head>
 <body class="flex flex-col min-h-full text-slate-800">
 
@@ -22,40 +18,27 @@
                 <i class="fa-solid fa-shield-halved text-3xl"></i>
             </div>
             <h2 class="text-2xl font-bold text-slate-900">Plateforme de Maintenance</h2>
-            <p class="text-sm text-slate-500 mt-1">GMAO • Pannes • Stock • KPIs</p>
+            <p class="text-sm text-slate-500 mt-1">GMAO • Stock • Achats</p>
         </div>
 
-        <div id="loginError" class="hidden mb-4 p-3 bg-red-100 border border-red-400 text-red-700 text-xs rounded-lg flex items-center gap-2">
-            <i class="fa-solid fa-triangle-exclamation"></i>
-            <span id="loginErrorText">Identifiants incorrects.</span>
-        </div>
-
-        <form onsubmit="handleLogin(event)" class="space-y-4" autocomplete="off">
+        <form onsubmit="handleLogin(event)" class="space-y-4">
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Adresse Email / Nom d'utilisateur</label>
-                <input type="text" id="loginEmail" required value="admin@usine.com" class="w-full px-4 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Utilisateur</label>
+                <input type="text" id="loginEmail" required value="admin@usine.com" class="w-full px-4 py-2 border rounded-lg text-sm">
             </div>
-
             <div>
                 <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Mot de passe</label>
-                <div class="relative">
-                    <input type="password" id="loginPassword" required value="admin123" class="w-full px-4 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none pr-10">
-                    <button type="button" onclick="togglePasswordVisibility()" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-indigo-600 focus:outline-none">
-                        <i id="togglePasswordIcon" class="fa-solid fa-eye"></i>
-                    </button>
-                </div>
+                <input type="password" id="loginPassword" required value="admin123" class="w-full px-4 py-2 border rounded-lg text-sm">
             </div>
-
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Rôle Utilisateur</label>
-                <select id="loginRole" class="w-full border rounded-lg p-2 text-sm outline-none focus:ring-2 focus:ring-indigo-500 bg-white">
-                    <option value="Admin">Administrateur (Accès Total + Mots de passe)</option>
-                    <option value="Responsable">Responsable Maintenance (Limité)</option>
-                    <option value="Technicien">Technicien (Saisie & Intervention)</option>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Rôle</label>
+                <select id="loginRole" class="w-full border rounded-lg p-2 text-sm bg-white">
+                    <option value="Admin">Administrateur</option>
+                    <option value="Responsable">Responsable Maintenance</option>
+                    <option value="Technicien">Technicien</option>
                 </select>
             </div>
-
-            <button type="submit" id="btnLogin" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 rounded-lg shadow-lg transition duration-200">
+            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 rounded-lg shadow-lg">
                 <i class="fa-solid fa-right-to-bracket mr-2"></i> Se Connecter
             </button>
         </form>
@@ -68,16 +51,10 @@
         <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <i class="fa-solid fa-gears text-2xl text-indigo-400"></i>
-                <h1 class="text-xl font-bold tracking-wide">SMART MAINTENANCE <span class="text-xs bg-indigo-600 px-2 py-0.5 rounded text-white">PRO</span></h1>
+                <h1 class="text-xl font-bold">SMART MAINTENANCE <span class="text-xs bg-indigo-600 px-2 py-0.5 rounded text-white">PRO V12.1</span></h1>
             </div>
             <div class="flex items-center gap-4">
-                <div class="text-right hidden sm:block">
-                    <div class="text-xs text-slate-400">Utilisateur connecté</div>
-                    <div class="text-sm font-semibold text-indigo-300" id="userDisplay">Admin</div>
-                </div>
-                <button id="btnAdminChangePwd" onclick="openAdminPwdModal()" class="hidden bg-amber-600/20 hover:bg-amber-600 text-amber-300 hover:text-white px-3 py-1.5 rounded text-sm transition border border-amber-500/30">
-                    <i class="fa-solid fa-key mr-1"></i> Gérer Mots de passe
-                </button>
+                <span class="text-sm font-semibold text-indigo-300" id="userDisplay">Admin</span>
                 <button onclick="handleLogout()" class="bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white px-3 py-1.5 rounded text-sm transition border border-red-500/30">
                     <i class="fa-solid fa-power-off mr-1"></i> Déconnexion
                 </button>
@@ -86,166 +63,108 @@
     </header>
 
     <main class="max-w-7xl mx-auto px-4 py-6 flex-grow w-full space-y-6">
+        <!-- NAVIGATION -->
         <div class="flex border-b border-slate-300 gap-2 overflow-x-auto bg-white p-2 rounded-t-lg shadow-sm">
-            <button onclick="switchTab('pannes')" id="tab-pannes" class="tab-btn px-4 py-2 font-semibold text-indigo-600 border-b-2 border-indigo-600 flex items-center gap-2">
-                <i class="fa-solid fa-triangle-exclamation text-amber-500"></i> Saisie Pannes
+            <button onclick="switchTab('pannes')" id="tab-pannes" class="tab-btn px-4 py-2 font-semibold text-indigo-600 border-b-2 border-indigo-600">
+                <i class="fa-solid fa-triangle-exclamation text-amber-500 mr-2"></i>Pannes
             </button>
-            <button onclick="switchTab('equipements')" id="tab-equipements" class="tab-btn px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent hover:text-indigo-600 flex items-center gap-2">
-                <i class="fa-solid fa-sitemap text-blue-500"></i> Zones & Équipements
+            <button onclick="switchTab('equipements')" id="tab-equipements" class="tab-btn px-4 py-2 font-semibold text-slate-600">
+                <i class="fa-solid fa-sitemap text-blue-500 mr-2"></i>Équipements
             </button>
-            <button onclick="switchTab('kpi')" id="tab-kpi" class="tab-btn px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent hover:text-indigo-600 flex items-center gap-2">
-                <i class="fa-solid fa-chart-line"></i> KPIs Performance
-            </button>
-            <button onclick="switchTab('gmao')" id="tab-gmao" class="tab-btn px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent hover:text-indigo-600 flex items-center gap-2">
-                <i class="fa-solid fa-wrench"></i> GMAO (OT)
+            <button onclick="switchTab('da')" id="tab-da" class="tab-btn px-4 py-2 font-semibold text-slate-600">
+                <i class="fa-solid fa-cart-shopping text-emerald-500 mr-2"></i>Demandes d'Achat (DA)
             </button>
         </div>
 
-        <!-- 1. SECTION SAISIE DES PANNES -->
-        <section id="sec-pannes" class="space-y-6">
-            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex justify-between items-center flex-wrap gap-3">
+        <!-- SECTION DEMANDES D'ACHAT (DA) -->
+        <section id="sec-da" class="hidden space-y-6">
+            <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 flex justify-between items-center">
                 <div>
-                    <h2 class="text-lg font-bold text-slate-800"><i class="fa-solid fa-triangle-exclamation text-red-500 mr-2"></i>Journal des Pannes Journalières</h2>
+                    <h3 class="font-bold text-slate-800 text-lg"><i class="fa-solid fa-cart-flatbed text-indigo-600 mr-2"></i>Demandes d'Achat & Réapprovisionnement</h3>
+                    <p class="text-xs text-slate-500">Gestion des commandes de pièces de rechange auprès des fournisseurs.</p>
                 </div>
+                <button onclick="openDAModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow">
+                    <i class="fa-solid fa-plus mr-1"></i> Nouvelle Demande DA
+                </button>
             </div>
-        </section>
 
-        <!-- 2. SECTION ZONES & ÉQUIPEMENTS -->
-        <section id="sec-equipements" class="hidden space-y-6">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Zones -->
-                <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 space-y-4">
-                    <div class="flex justify-between items-center">
-                        <h3 class="font-bold text-slate-800"><i class="fa-solid fa-layer-group text-indigo-600 mr-2"></i>Zones</h3>
-                        <button onclick="openZoneModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded text-xs font-semibold"><i class="fa-solid fa-plus mr-1"></i> Ajouter</button>
-                    </div>
-                    <ul id="list-zones" class="divide-y divide-slate-100 text-sm"></ul>
-                </div>
-                <!-- Équipements -->
-                <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 space-y-4">
-                    <div class="flex justify-between items-center">
-                        <h3 class="font-bold text-slate-800"><i class="fa-solid fa-plug text-indigo-600 mr-2"></i>Équipements</h3>
-                        <button onclick="openEquipementModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded text-xs font-semibold"><i class="fa-solid fa-plus mr-1"></i> Ajouter</button>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left text-sm"><tbody id="table-equipements-body" class="divide-y divide-slate-100"></tbody></table>
-                    </div>
-                </div>
-                <!-- Sous-Équipements -->
-                <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 space-y-4">
-                    <div class="flex justify-between items-center">
-                        <h3 class="font-bold text-slate-800"><i class="fa-solid fa-gears text-indigo-600 mr-2"></i>Sous-Équipements</h3>
-                        <button onclick="openSousEquipementModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded text-xs font-semibold"><i class="fa-solid fa-plus mr-1"></i> Ajouter</button>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left text-sm"><tbody id="table-sousequipements-body" class="divide-y divide-slate-100"></tbody></table>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 3. SECTION KPIs -->
-        <section id="sec-kpi" class="hidden space-y-6">
-            <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
-                <h3 class="font-bold text-slate-800 mb-2">Tableau de bord KPIs</h3>
-                <p class="text-sm text-slate-500">Mise à jour en temps réel.</p>
-            </div>
-        </section>
-
-        <!-- 4. SECTION GMAO -->
-        <section id="sec-gmao" class="hidden space-y-6">
-            <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
-                <h3 class="font-bold text-slate-800 mb-2">Ordres de Travail (OT)</h3>
+            <!-- TABLEAU DES DA -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-x-auto">
+                <table class="w-full text-left text-sm">
+                    <thead class="bg-slate-50 text-slate-600 border-b">
+                        <tr>
+                            <th class="p-3">Code DA</th>
+                            <th class="p-3">Désignation</th>
+                            <th class="p-3">Qté</th>
+                            <th class="p-3">Priorité</th>
+                            <th class="p-3">Demandeur</th>
+                            <th class="p-3">Statut</th>
+                            <th class="p-3 text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-da-body" class="divide-y divide-slate-100">
+                        <tr><td colspan="7" class="p-4 text-center text-slate-400">Aucune demande d'achat enregistrée.</td></tr>
+                    </tbody>
+                </table>
             </div>
         </section>
     </main>
 </div>
 
-<!-- MODALS -->
-<div id="modalZone" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex justify-center items-center p-4">
-    <div class="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
-        <h3 class="font-bold mb-4">Ajouter une Zone</h3>
-        <form onsubmit="saveZone(event)" class="space-y-4">
-            <input type="text" id="zoneNameInput" required placeholder="Nom de la zone" class="w-full border rounded p-2 text-sm outline-none">
-            <div class="flex justify-end gap-2">
-                <button type="button" onclick="closeZoneModal()" class="px-4 py-2 text-sm text-slate-600">Annuler</button>
-                <button type="submit" class="px-4 py-2 text-sm bg-indigo-600 text-white rounded font-semibold">Ajouter</button>
+<!-- MODAL CRÉATION DA -->
+<div id="modalDA" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex justify-center items-center p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-lg p-6">
+        <h3 class="font-bold text-lg mb-4 text-slate-800"><i class="fa-solid fa-cart-plus text-indigo-600 mr-2"></i>Créer une Demande d'Achat (DA)</h3>
+        <form onsubmit="saveDA(event)" class="space-y-4">
+            <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Désignation / Pièce</label>
+                <input type="text" id="daDesignation" required placeholder="Ex: Roulement SKF 6204-2RSH" class="w-full border rounded p-2 text-sm outline-none">
             </div>
-        </form>
-    </div>
-</div>
-
-<div id="modalEquipement" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex justify-center items-center p-4">
-    <div class="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
-        <h3 class="font-bold mb-4">Ajouter un Équipement</h3>
-        <form onsubmit="saveEquipement(event)" class="space-y-4">
-            <select id="eqZoneSelect" required class="w-full border rounded p-2 text-sm bg-white"></select>
-            <input type="text" id="eqCodeInput" required placeholder="Code Équipement (ex: EQ-001)" class="w-full border rounded p-2 text-sm">
-            <input type="text" id="eqNameInput" required placeholder="Nom Équipement" class="w-full border rounded p-2 text-sm">
-            <div class="flex justify-end gap-2">
-                <button type="button" onclick="closeEquipementModal()" class="px-4 py-2 text-sm text-slate-600">Annuler</button>
-                <button type="submit" class="px-4 py-2 text-sm bg-indigo-600 text-white rounded font-semibold">Ajouter</button>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Quantité Demandée</label>
+                    <input type="number" id="daQuantite" min="1" value="1" required class="w-full border rounded p-2 text-sm outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Priorité</label>
+                    <select id="daPriorite" class="w-full border rounded p-2 text-sm bg-white">
+                        <option value="Normale">Normale</option>
+                        <option value="Haute">Haute</option>
+                        <option value="Urgente">Urgente (Panne Bloquante)</option>
+                    </select>
+                </div>
             </div>
-        </form>
-    </div>
-</div>
-
-<div id="modalSousEquipement" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex justify-center items-center p-4">
-    <div class="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
-        <h3 class="font-bold mb-4">Ajouter un Sous-Équipement</h3>
-        <form onsubmit="saveSousEquipement(event)" class="space-y-4">
-            <select id="subEqParentSelect" required class="w-full border rounded p-2 text-sm bg-white"></select>
-            <input type="text" id="subEqNameInput" required placeholder="Nom du Sous-Équipement" class="w-full border rounded p-2 text-sm">
-            <div class="flex justify-end gap-2">
-                <button type="button" onclick="closeSousEquipementModal()" class="px-4 py-2 text-sm text-slate-600">Annuler</button>
-                <button type="submit" class="px-4 py-2 text-sm bg-indigo-600 text-white rounded font-semibold">Ajouter</button>
+            <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Fournisseur Suggéré (Optionnel)</label>
+                <input type="text" id="daFournisseur" placeholder="Ex: Somafix / Ingelec" class="w-full border rounded p-2 text-sm outline-none">
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Motif du besoin</label>
+                <textarea id="daMotif" rows="2" placeholder="Ex: Stock épuisé / Pièce pour OT-00012" class="w-full border rounded p-2 text-sm outline-none"></textarea>
+            </div>
+            <div class="flex justify-end gap-2 pt-2">
+                <button type="button" onclick="closeDAModal()" class="px-4 py-2 text-sm text-slate-600">Annuler</button>
+                <button type="submit" class="px-4 py-2 text-sm bg-indigo-600 text-white rounded-lg font-semibold shadow">Envoyer Demande</button>
             </div>
         </form>
     </div>
 </div>
 
 <script>
-    // Supabase Configuration
     const SUPABASE_URL = 'https://qnrfkfrornozwvgewcwk.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_DBe5PuyHPvdHnRnqr2lpqw_t4m3C8SY';
-    const supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+    const supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
-    let usersPasswords = { 'Admin': 'admin123', 'Responsable': 'resp123', 'Technicien': 'tech123' };
-    let zones = ['Zone 01 - Production', 'Zone 02 - Conditionnement'];
-    let equipments = [
-        { id: 'EQ-01', code: 'EQ-01', name: 'Presse Hydraulique', zone: 'Zone 01 - Production' },
-        { id: 'EQ-02', code: 'EQ-02', name: 'Ligne d Emballage', zone: 'Zone 02 - Conditionnement' }
-    ];
-    let subEquipments = [
-        { id: 'SUB-01', name: 'Moteur Principal', parentId: 'EQ-01' }
-    ];
-
-    function togglePasswordVisibility() {
-        const passwordInput = document.getElementById('loginPassword');
-        const toggleIcon = document.getElementById('togglePasswordIcon');
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-            toggleIcon.classList.replace('fa-eye', 'fa-eye-slash');
-        } else {
-            passwordInput.type = 'password';
-            toggleIcon.classList.replace('fa-eye-slash', 'fa-eye');
-        }
-    }
+    let demandesAchat = [];
+    let currentUserRole = 'Admin';
 
     function handleLogin(e) {
         e.preventDefault();
-        const role = document.getElementById('loginRole').value;
-        const pwd = document.getElementById('loginPassword').value;
-        
-        if (usersPasswords[role] === pwd) {
-            document.getElementById('userDisplay').innerText = role;
-            document.getElementById('auth-screen').classList.add('hidden');
-            document.getElementById('app-screen').classList.remove('hidden');
-            if (role === 'Admin') document.getElementById('btnAdminChangePwd').classList.remove('hidden');
-            refreshAllUI();
-        } else {
-            document.getElementById('loginError').classList.remove('hidden');
-        }
+        currentUserRole = document.getElementById('loginRole').value;
+        document.getElementById('userDisplay').innerText = currentUserRole;
+        document.getElementById('auth-screen').classList.add('hidden');
+        document.getElementById('app-screen').classList.remove('hidden');
+        loadDAData();
     }
 
     function handleLogout() {
@@ -253,81 +172,81 @@
         document.getElementById('auth-screen').classList.remove('hidden');
     }
 
-    function openZoneModal() { document.getElementById('modalZone').classList.remove('hidden'); }
-    function closeZoneModal() { document.getElementById('modalZone').classList.add('hidden'); }
-    function openEquipementModal() { populateSelects(); document.getElementById('modalEquipement').classList.remove('hidden'); }
-    function closeEquipementModal() { document.getElementById('modalEquipement').classList.add('hidden'); }
-    function openSousEquipementModal() { populateSelects(); document.getElementById('modalSousEquipement').classList.remove('hidden'); }
-    function closeSousEquipementModal() { document.getElementById('modalSousEquipement').classList.add('hidden'); }
-
-    function saveZone(e) {
-        e.preventDefault();
-        const zoneName = document.getElementById('zoneNameInput').value.trim();
-        if (zones.some(z => z.toLowerCase() === zoneName.toLowerCase())) {
-            alert(`⚠️ La zone "${zoneName}" existe déjà !`);
-            return;
-        }
-        zones.push(zoneName);
-        document.getElementById('zoneNameInput').value = '';
-        closeZoneModal();
-        refreshAllUI();
-    }
-
-    function saveEquipement(e) {
-        e.preventDefault();
-        const zone = document.getElementById('eqZoneSelect').value;
-        const code = document.getElementById('eqCodeInput').value.trim();
-        const name = document.getElementById('eqNameInput').value.trim();
-
-        if (equipments.some(eq => eq.code.toLowerCase() === code.toLowerCase())) {
-            alert(`⚠️ Le code "${code}" est déjà utilisé !`);
-            return;
-        }
-        if (equipments.some(eq => eq.zone === zone && eq.name.toLowerCase() === name.toLowerCase())) {
-            alert(`⚠️ L'équipement "${name}" existe déjà dans cette zone !`);
-            return;
-        }
-
-        equipments.push({ id: code, code: code, name: name, zone: zone });
-        closeEquipementModal();
-        refreshAllUI();
-    }
-
-    function saveSousEquipement(e) {
-        e.preventDefault();
-        const parentId = document.getElementById('subEqParentSelect').value;
-        const subName = document.getElementById('subEqNameInput').value.trim();
-
-        if (subEquipments.some(sub => sub.parentId === parentId && sub.name.toLowerCase() === subName.toLowerCase())) {
-            alert(`⚠️ Le sous-équipement "${subName}" existe déjà !`);
-            return;
-        }
-
-        subEquipments.push({ id: 'SUB-' + (subEquipments.length + 1), name: subName, parentId: parentId });
-        closeSousEquipementModal();
-        refreshAllUI();
-    }
-
-    function refreshAllUI() {
-        document.getElementById('list-zones').innerHTML = zones.map(z => `<li class="py-2 font-medium">${z}</li>`).join('');
-        document.getElementById('table-equipements-body').innerHTML = equipments.map(eq => `<tr><td class="p-2 font-bold text-indigo-600">${eq.code}</td><td class="p-2">${eq.name}</td></tr>`).join('');
-        document.getElementById('table-sousequipements-body').innerHTML = subEquipments.map(s => `<tr><td class="p-2 font-medium">${s.name}</td></tr>`).join('');
-        populateSelects();
-    }
-
-    function populateSelects() {
-        const eqZoneSelect = document.getElementById('eqZoneSelect');
-        if (eqZoneSelect) eqZoneSelect.innerHTML = zones.map(z => `<option value="${z}">${z}</option>`).join('');
-        const subEqParentSelect = document.getElementById('subEqParentSelect');
-        if (subEqParentSelect) subEqParentSelect.innerHTML = equipments.map(e => `<option value="${e.id}">${e.name}</option>`).join('');
-    }
-
     function switchTab(tabId) {
         document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden'));
         document.getElementById(`sec-${tabId}`).classList.remove('hidden');
     }
 
-    window.addEventListener('DOMContentLoaded', () => { refreshAllUI(); });
+    function openDAModal() { document.getElementById('modalDA').classList.remove('hidden'); }
+    function closeDAModal() { document.getElementById('modalDA').classList.add('hidden'); }
+
+    async function loadDAData() {
+        if (!supabase) return;
+        const { data, error } = await supabase.from('demandes_achat').select('*').order('created_at', { ascending: false });
+        if (!error && data) {
+            demandesAchat = data;
+            renderDATable();
+        }
+    }
+
+    async function saveDA(e) {
+        e.preventDefault();
+        const designation = document.getElementById('daDesignation').value;
+        const quantite = parseInt(document.getElementById('daQuantite').value);
+        const priorite = document.getElementById('daPriorite').value;
+        const fournisseur = document.getElementById('daFournisseur').value;
+        const motif = document.getElementById('daMotif').value;
+        const codeDA = 'DA-' + Math.floor(10000 + Math.random() * 90000);
+
+        const newDA = {
+            code_da: codeDA,
+            designation: designation,
+            quantite_demandee: quantite,
+            priorite: priorite,
+            fournisseur_prefere: fournisseur,
+            motif: motif,
+            statut: 'En attente',
+            demande_par: currentUserRole
+        };
+
+        if (supabase) {
+            const { error } = await supabase.from('demandes_achat').insert([newDA]);
+            if (!error) {
+                closeDAModal();
+                loadDAData();
+            } else {
+                alert("Erreur lors de l'enregistrement de la demande.");
+            }
+        }
+    }
+
+    function renderDATable() {
+        const tbody = document.getElementById('table-da-body');
+        if (demandesAchat.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-400">Aucune demande d'achat enregistrée.</td></tr>`;
+            return;
+        }
+
+        tbody.innerHTML = demandesAchat.map(da => `
+            <tr>
+                <td class="p-3 font-bold text-indigo-600">${da.code_da}</td>
+                <td class="p-3 font-medium">${da.designation}</td>
+                <td class="p-3 font-bold">${da.quantite_demandee}</td>
+                <td class="p-3"><span class="px-2 py-0.5 text-xs rounded font-bold ${da.priorite === 'Urgente' ? 'bg-red-100 text-red-600' : 'bg-slate-100 text-slate-600'}">${da.priorite}</span></td>
+                <td class="p-3 text-xs text-slate-500">${da.demande_par}</td>
+                <td class="p-3"><span class="px-2 py-0.5 text-xs rounded font-bold bg-amber-100 text-amber-700">${da.statut}</span></td>
+                <td class="p-3 text-center">
+                    ${currentUserRole === 'Admin' ? `<button onclick="updateDAStatus('${da.id}', 'Approuvée')" class="px-2 py-1 bg-emerald-600 text-white text-xs rounded shadow">Valider</button>` : '-'}
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    async function updateDAStatus(id, newStatus) {
+        if (!supabase) return;
+        await supabase.from('demandes_achat').update({ statut: newStatus }).eq('id', id);
+        loadDAData();
+    }
 </script>
 </body>
 </html>
