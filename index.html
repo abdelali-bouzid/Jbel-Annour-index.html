@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SMART MAINTENANCE PRO - GMAO, KPIs, STOCK & BACKUP</title>
+    <title>SMART MAINTENANCE PRO - GMAO INTEGRATED</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -26,7 +26,7 @@
                 <i class="fa-solid fa-gears text-3xl"></i>
             </div>
             <h2 class="text-2xl font-bold text-slate-900">Plateforme de Maintenance</h2>
-            <p class="text-sm text-slate-500 mt-1">GMAO • KPIs • Stock • Automation</p>
+            <p class="text-sm text-slate-500 mt-1">GMAO • Zones • Équipements • Techniciens</p>
         </div>
 
         <form onsubmit="handleLogin(event)" class="space-y-4">
@@ -51,15 +51,14 @@
         <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center flex-wrap gap-3">
             <div class="flex items-center gap-3">
                 <i class="fa-solid fa-gears text-2xl text-indigo-400"></i>
-                <h1 class="text-xl font-bold">SMART MAINTENANCE <span class="text-xs bg-indigo-600 px-2 py-0.5 rounded text-white">PRO V12.5</span></h1>
+                <h1 class="text-xl font-bold">SMART MAINTENANCE <span class="text-xs bg-indigo-600 px-2 py-0.5 rounded text-white">PRO V13.0</span></h1>
             </div>
 
             <!-- إدارة الشركات والمشاريع -->
             <div class="flex items-center gap-2 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700">
                 <i class="fa-solid fa-building text-amber-400"></i>
                 <span class="text-xs text-slate-300 font-bold uppercase">Projet :</span>
-                <select id="companySelect" onchange="changeCompany()" class="bg-slate-900 text-white text-sm font-semibold rounded px-2 py-1 outline-none border border-slate-600">
-                </select>
+                <select id="companySelect" onchange="changeCompany()" class="bg-slate-900 text-white text-sm font-semibold rounded px-2 py-1 outline-none border border-slate-600"></select>
                 <button onclick="addNewCompany()" class="text-xs bg-indigo-600 hover:bg-indigo-500 text-white p-1.5 rounded" title="Ajouter Société"><i class="fa-solid fa-plus"></i></button>
                 <button onclick="editCurrentCompany()" class="text-xs bg-amber-600 hover:bg-amber-500 text-white p-1.5 rounded" title="Modifier Nom"><i class="fa-solid fa-pen"></i></button>
                 <button onclick="deleteCurrentCompany()" class="text-xs bg-red-600 hover:bg-red-500 text-white p-1.5 rounded" title="Supprimer Société"><i class="fa-solid fa-trash"></i></button>
@@ -87,16 +86,22 @@
     <main class="max-w-7xl mx-auto px-4 py-6 flex-grow w-full space-y-6">
         <div class="flex border-b border-slate-300 gap-2 overflow-x-auto bg-white p-2 rounded-t-lg shadow-sm">
             <button onclick="switchTab('pannes')" id="tab-pannes" class="tab-btn px-4 py-2 font-semibold text-indigo-600 border-b-2 border-indigo-600 flex items-center gap-2">
-                <i class="fa-solid fa-triangle-exclamation text-amber-500"></i> الأعطال اليومية (Pannes)
+                <i class="fa-solid fa-triangle-exclamation text-amber-500"></i> Pannes Journalières
+            </button>
+            <button onclick="switchTab('structure')" id="tab-structure" class="tab-btn px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent hover:text-indigo-600 flex items-center gap-2">
+                <i class="fa-solid fa-sitemap text-blue-500"></i> Zones & Équipements
+            </button>
+            <button onclick="switchTab('techs')" id="tab-techs" class="tab-btn px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent hover:text-indigo-600 flex items-center gap-2">
+                <i class="fa-solid fa-users-gear text-purple-500"></i> Techniciens
             </button>
             <button onclick="switchTab('kpis')" id="tab-kpis" class="tab-btn px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent hover:text-indigo-600 flex items-center gap-2">
-                <i class="fa-solid fa-chart-line text-blue-500"></i> المؤشرات (KPIs)
+                <i class="fa-solid fa-chart-line text-emerald-500"></i> KPIs
             </button>
             <button onclick="switchTab('stock')" id="tab-stock" class="tab-btn px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent hover:text-indigo-600 flex items-center gap-2">
-                <i class="fa-solid fa-boxes-stacked text-indigo-500"></i> المخزون (Stock)
+                <i class="fa-solid fa-boxes-stacked text-indigo-500"></i> Stock
             </button>
             <button onclick="switchTab('reports')" id="tab-reports" class="tab-btn px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent hover:text-indigo-600 flex items-center gap-2">
-                <i class="fa-solid fa-file-contract text-emerald-500"></i> التقرير اليومي (Daily Report)
+                <i class="fa-solid fa-file-contract text-amber-600"></i> Rapport
             </button>
         </div>
 
@@ -104,11 +109,11 @@
         <section id="sec-pannes" class="space-y-6">
             <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex justify-between items-center flex-wrap gap-3">
                 <div>
-                    <h2 class="text-lg font-bold text-slate-800"><i class="fa-solid fa-triangle-exclamation text-red-500 mr-2"></i>تسجيل الأعطال والتوقفات اليومية</h2>
-                    <p class="text-xs text-slate-500 mt-0.5">Saisie quotidienne et déduction automatique du stock.</p>
+                    <h2 class="text-lg font-bold text-slate-800"><i class="fa-solid fa-triangle-exclamation text-red-500 mr-2"></i>Journal des Pannes</h2>
+                    <p class="text-xs text-slate-500 mt-0.5">Saisie des pannes par zone, équipement, sous-équipement et technicien.</p>
                 </div>
                 <button onclick="openPanneModal()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow flex items-center gap-2">
-                    <i class="fa-solid fa-plus"></i> إضافة عطل جديد
+                    <i class="fa-solid fa-plus"></i> Déclarer une Panne
                 </button>
             </div>
 
@@ -116,13 +121,13 @@
                 <table class="w-full text-left border-collapse text-sm">
                     <thead class="bg-slate-800 text-white uppercase text-xs">
                         <tr>
-                            <th class="p-3">التاريخ</th>
-                            <th class="p-3">المعدة</th>
-                            <th class="p-3">وصف العطل</th>
-                            <th class="p-3">قطعة الغيار المستهلكة</th>
-                            <th class="p-3">التوقف (ساعة)</th>
-                            <th class="p-3">الفني</th>
-                            <th class="p-3 text-center">إجراءات</th>
+                            <th class="p-3">Date</th>
+                            <th class="p-3">Équipement</th>
+                            <th class="p-3">Sous-Équipement</th>
+                            <th class="p-3">Symptôme / Description</th>
+                            <th class="p-3">Arrêt (h)</th>
+                            <th class="p-3">Technicien</th>
+                            <th class="p-3 text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody id="table-pannes-body" class="divide-y divide-slate-200"></tbody>
@@ -130,55 +135,101 @@
             </div>
         </section>
 
-        <!-- 2. SECTION KPIs DASHBOARD -->
-        <section id="sec-kpis" class="hidden space-y-6">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div class="bg-white p-5 rounded-xl border shadow-sm border-indigo-100">
-                    <div class="text-xs font-bold text-slate-400 uppercase">MTBF (متوسط الوقت بين الاعطال)</div>
-                    <div class="text-2xl font-bold text-indigo-600 mt-2" id="kpiMtbf">-- hrs</div>
+        <!-- 2. SECTION ZONES / EQUIPEMENTS / SOUS-EQUIPEMENTS -->
+        <section id="sec-structure" class="hidden space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Zones -->
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 space-y-4">
+                    <div class="flex justify-between items-center border-b pb-2">
+                        <h3 class="font-bold text-slate-800"><i class="fa-solid fa-layer-group text-indigo-600 mr-2"></i>Zones</h3>
+                        <button onclick="openZoneModal()" class="bg-indigo-600 text-white px-3 py-1 rounded text-xs font-semibold"><i class="fa-solid fa-plus mr-1"></i> Ajouter</button>
+                    </div>
+                    <ul id="list-zones" class="divide-y divide-slate-100 text-sm"></ul>
                 </div>
-                <div class="bg-white p-5 rounded-xl border shadow-sm border-amber-100">
-                    <div class="text-xs font-bold text-slate-400 uppercase">MTTR (متوسط وقت الإصلاح)</div>
-                    <div class="text-2xl font-bold text-amber-600 mt-2" id="kpiMttr">-- hrs</div>
-                </div>
-                <div class="bg-white p-5 rounded-xl border shadow-sm border-emerald-100">
-                    <div class="text-xs font-bold text-slate-400 uppercase">Disponibilité (نسبة الجاهزية)</div>
-                    <div class="text-2xl font-bold text-emerald-600 mt-2" id="kpiDisp">-- %</div>
-                </div>
-                <div class="bg-white p-5 rounded-xl border shadow-sm border-red-100">
-                    <div class="text-xs font-bold text-slate-400 uppercase">إجمالي ساعات التوقف</div>
-                    <div class="text-2xl font-bold text-red-600 mt-2" id="kpiTotalDowntime">-- hrs</div>
-                </div>
-            </div>
 
-            <!-- Graph Chart -->
-            <div class="bg-white p-5 rounded-xl border shadow-sm">
-                <h3 class="font-bold text-slate-800 mb-4"><i class="fa-solid fa-chart-bar text-indigo-600 mr-2"></i>تحليل ساعات التوقف حسب المعدة</h3>
-                <div class="h-64">
-                    <canvas id="kpiChart"></canvas>
+                <!-- Équipements -->
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 space-y-4">
+                    <div class="flex justify-between items-center border-b pb-2">
+                        <h3 class="font-bold text-slate-800"><i class="fa-solid fa-plug text-indigo-600 mr-2"></i>Équipements</h3>
+                        <button onclick="openEquipementModal()" class="bg-indigo-600 text-white px-3 py-1 rounded text-xs font-semibold"><i class="fa-solid fa-plus mr-1"></i> Ajouter</button>
+                    </div>
+                    <ul id="list-equipements" class="divide-y divide-slate-100 text-sm"></ul>
+                </div>
+
+                <!-- Sous-Équipements -->
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 space-y-4">
+                    <div class="flex justify-between items-center border-b pb-2">
+                        <h3 class="font-bold text-slate-800"><i class="fa-solid fa-gears text-indigo-600 mr-2"></i>Sous-Équipements</h3>
+                        <button onclick="openSousEquipementModal()" class="bg-indigo-600 text-white px-3 py-1 rounded text-xs font-semibold"><i class="fa-solid fa-plus mr-1"></i> Ajouter</button>
+                    </div>
+                    <ul id="list-sousequipements" class="divide-y divide-slate-100 text-sm"></ul>
                 </div>
             </div>
         </section>
 
-        <!-- 3. SECTION STOCK -->
-        <section id="sec-stock" class="hidden space-y-6">
-            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex justify-between items-center flex-wrap gap-3">
-                <h2 class="text-lg font-bold text-slate-800"><i class="fa-solid fa-boxes-stacked text-indigo-600 mr-2"></i>مخزون قطع الغيار</h2>
-                <button onclick="openStockModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow">
-                    <i class="fa-solid fa-plus"></i> إضافة قطعة غيار
-                </button>
+        <!-- 3. SECTION TECHNICIENS -->
+        <section id="sec-techs" class="hidden space-y-6">
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex justify-between items-center">
+                <h2 class="text-lg font-bold text-slate-800"><i class="fa-solid fa-users-gear text-purple-600 mr-2"></i>Gestion de l'Équipe Technique</h2>
+                <button onclick="openTechModal()" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow"><i class="fa-solid fa-plus mr-1"></i> Ajouter Technicien</button>
             </div>
             <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-x-auto">
                 <table class="w-full text-left border-collapse text-sm">
                     <thead class="bg-slate-800 text-white uppercase text-xs">
                         <tr>
-                            <th class="p-3">الرمز (Ref)</th>
-                            <th class="p-3">اسم القطعة</th>
-                            <th class="p-3">المكان</th>
-                            <th class="p-3">الكمية الحالية</th>
-                            <th class="p-3">الحد الأدنى</th>
-                            <th class="p-3">الحالة</th>
-                            <th class="p-3 text-center">إجراءات</th>
+                            <th class="p-3">Nom complet</th>
+                            <th class="p-3">Spécialité</th>
+                            <th class="p-3 text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-techs-body" class="divide-y divide-slate-200"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 4. SECTION KPIs -->
+        <section id="sec-kpis" class="hidden space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="bg-white p-5 rounded-xl border shadow-sm border-indigo-100">
+                    <div class="text-xs font-bold text-slate-400 uppercase">MTBF (Hrs)</div>
+                    <div class="text-2xl font-bold text-indigo-600 mt-2" id="kpiMtbf">-- hrs</div>
+                </div>
+                <div class="bg-white p-5 rounded-xl border shadow-sm border-amber-100">
+                    <div class="text-xs font-bold text-slate-400 uppercase">MTTR (Hrs)</div>
+                    <div class="text-2xl font-bold text-amber-600 mt-2" id="kpiMttr">-- hrs</div>
+                </div>
+                <div class="bg-white p-5 rounded-xl border shadow-sm border-emerald-100">
+                    <div class="text-xs font-bold text-slate-400 uppercase">Disponibilité (%)</div>
+                    <div class="text-2xl font-bold text-emerald-600 mt-2" id="kpiDisp">-- %</div>
+                </div>
+                <div class="bg-white p-5 rounded-xl border shadow-sm border-red-100">
+                    <div class="text-xs font-bold text-slate-400 uppercase">Total Arrêt (Hrs)</div>
+                    <div class="text-2xl font-bold text-red-600 mt-2" id="kpiTotalDowntime">-- hrs</div>
+                </div>
+            </div>
+            <div class="bg-white p-5 rounded-xl border shadow-sm">
+                <h3 class="font-bold text-slate-800 mb-4">Temps d'arrêt par Équipement</h3>
+                <div class="h-64"><canvas id="kpiChart"></canvas></div>
+            </div>
+        </section>
+
+        <!-- 5. SECTION STOCK -->
+        <section id="sec-stock" class="hidden space-y-6">
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex justify-between items-center">
+                <h2 class="text-lg font-bold text-slate-800"><i class="fa-solid fa-boxes-stacked text-indigo-600 mr-2"></i>Stock Pièces de Rechange</h2>
+                <button onclick="openStockModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow"><i class="fa-solid fa-plus mr-1"></i> Ajouter Pièce</button>
+            </div>
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-x-auto">
+                <table class="w-full text-left border-collapse text-sm">
+                    <thead class="bg-slate-800 text-white uppercase text-xs">
+                        <tr>
+                            <th class="p-3">Référence</th>
+                            <th class="p-3">Désignation</th>
+                            <th class="p-3">Emplacement</th>
+                            <th class="p-3">Qté</th>
+                            <th class="p-3">Seuil Min</th>
+                            <th class="p-3">Statut</th>
+                            <th class="p-3 text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody id="table-stock-body" class="divide-y divide-slate-200"></tbody>
@@ -186,32 +237,22 @@
             </div>
         </section>
 
-        <!-- 4. SECTION DAILY REPORT -->
+        <!-- 6. SECTION REPORTS -->
         <section id="sec-reports" class="hidden space-y-6">
             <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
                 <div class="flex justify-between items-center border-b pb-3">
-                    <h2 class="text-lg font-bold text-slate-800"><i class="fa-solid fa-file-invoice text-emerald-600 mr-2"></i>التقرير اليومي المخصص</h2>
-                    <button onclick="window.print()" class="bg-slate-800 hover:bg-slate-900 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow flex items-center gap-2">
-                        <i class="fa-solid fa-print"></i> طباعة / تصدير PDF
-                    </button>
+                    <h2 class="text-lg font-bold text-slate-800">Rapport de Maintenance</h2>
+                    <button onclick="window.print()" class="bg-slate-800 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow"><i class="fa-solid fa-print mr-1"></i> Imprimer / PDF</button>
                 </div>
-
                 <div id="printable-report" class="p-6 bg-slate-50 border rounded-xl space-y-4">
                     <div class="flex justify-between items-start border-b border-slate-300 pb-4">
                         <div>
                             <input type="text" id="reportTitle" value="RAPPORT JOURNALIER DE MAINTENANCE" class="text-xl font-bold bg-transparent border-b border-dashed border-slate-400 text-indigo-900 outline-none w-full">
-                            <p class="text-xs text-slate-500 mt-1">المشروع / الشركة: <span id="reportCompanyName" class="font-bold text-slate-700">--</span></p>
+                            <p class="text-xs text-slate-500 mt-1">Société : <span id="reportCompanyName" class="font-bold text-slate-700">--</span></p>
                         </div>
-                        <div class="text-right">
-                            <input type="date" id="reportDate" class="text-sm bg-transparent border rounded p-1 outline-none">
-                        </div>
+                        <input type="date" id="reportDate" class="text-sm bg-transparent border rounded p-1 outline-none">
                     </div>
-
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 uppercase mb-1">ملخص الإنجازات والملاحظات اليومية:</label>
-                        <textarea id="reportSummary" rows="3" class="w-full p-3 border rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-indigo-500">تم تسجيل التوقفات واستهلاك قطع الغيار بنجاح مع صيانة خطوط الإنتاج.</textarea>
-                    </div>
-
+                    <textarea id="reportSummary" rows="3" class="w-full p-3 border rounded-lg text-sm bg-white outline-none">Synthèse des travaux et pannes de la journée.</textarea>
                     <div id="reportDataPreview" class="p-4 bg-white border rounded-lg text-xs space-y-2"></div>
                 </div>
             </div>
@@ -219,127 +260,122 @@
     </main>
 </div>
 
-<!-- MODAL PANNE -->
+<!-- MODALS DE GESTION -->
+<!-- Modal Panne -->
 <div id="modalPanne" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 flex justify-center items-center p-4">
     <div class="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden">
         <div class="bg-red-700 text-white px-6 py-4 flex justify-between items-center">
-            <h3 class="font-bold">تسجيل / تعديل عطل</h3>
+            <h3 class="font-bold">Déclarer une Panne</h3>
             <button onclick="closePanneModal()" class="text-slate-200 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <form onsubmit="savePanneItem(event)" class="p-6 space-y-3">
             <input type="hidden" id="editPanneIndex" value="-1">
+            <input type="date" id="pnDate" required class="w-full border rounded p-2 text-sm">
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">التاريخ</label>
-                <input type="date" id="pnDate" required class="w-full border rounded p-2 text-sm outline-none">
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Équipement</label>
+                <select id="pnMachineSelect" onchange="updateSubEqDropdown()" required class="w-full border rounded p-2 text-sm bg-white"></select>
             </div>
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">المعدة / Machine</label>
-                <input type="text" id="pnMachine" required placeholder="Ex: Presse 01" class="w-full border rounded p-2 text-sm outline-none">
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Sous-Équipement</label>
+                <select id="pnSubEqSelect" class="w-full border rounded p-2 text-sm bg-white"></select>
             </div>
+            <textarea id="pnDesc" required placeholder="Description de la panne / cause..." class="w-full border rounded p-2 text-sm" rows="2"></textarea>
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">وصف العطل</label>
-                <textarea id="pnDesc" required placeholder="Ex: Fuite d'huile..." class="w-full border rounded p-2 text-sm outline-none" rows="2"></textarea>
-            </div>
-            <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">قطع الغيار المستهلكة (اختياري)</label>
-                <select id="pnStockSelect" class="w-full border rounded p-2 text-sm outline-none bg-white">
-                    <option value="">-- بدون استخدام قطع --</option>
-                </select>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Technicien Intervenant</label>
+                <select id="pnTechSelect" required class="w-full border rounded p-2 text-sm bg-white"></select>
             </div>
             <div class="grid grid-cols-2 gap-2">
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">كمية القطع</label>
-                    <input type="number" id="pnStockQty" min="1" value="1" class="w-full border rounded p-2 text-sm outline-none">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">مدة التوقف (ساعة)</label>
-                    <input type="number" id="pnHours" step="0.5" min="0" value="1" required class="w-full border rounded p-2 text-sm outline-none">
-                </div>
-            </div>
-            <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">الفني / Intervenant</label>
-                <input type="text" id="pnTech" required placeholder="Ex: Technicien A" class="w-full border rounded p-2 text-sm outline-none">
+                <input type="number" id="pnHours" step="0.5" min="0" value="1" placeholder="Durée arrêt (h)" required class="w-full border rounded p-2 text-sm">
+                <select id="pnStockSelect" class="w-full border rounded p-2 text-sm bg-white"><option value="">-- Pièce utilisée --</option></select>
             </div>
             <div class="flex justify-end gap-3 pt-3 border-t">
-                <button type="button" onclick="closePanneModal()" class="px-4 py-2 border rounded text-sm text-slate-600">إلغاء</button>
-                <button type="submit" class="px-5 py-2 bg-red-600 text-white rounded text-sm font-semibold">حفظ العطل</button>
+                <button type="button" onclick="closePanneModal()" class="px-4 py-2 border rounded text-sm text-slate-600">Annuler</button>
+                <button type="submit" class="px-5 py-2 bg-red-600 text-white rounded text-sm font-semibold">Enregistrer</button>
             </div>
         </form>
     </div>
 </div>
 
-<!-- MODAL STOCK -->
-<div id="modalStock" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 flex justify-center items-center p-4">
-    <div class="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden">
-        <div class="bg-indigo-900 text-white px-6 py-4 flex justify-between items-center">
-            <h3 class="font-bold">إضافة / تعديل قطعة غيار</h3>
-            <button onclick="closeStockModal()" class="text-slate-300 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        <form onsubmit="saveStockItem(event)" class="p-6 space-y-3">
-            <input type="hidden" id="editStockIndex" value="-1">
-            <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">الرمز (Ref)</label>
-                <input type="text" id="stRef" required class="w-full border rounded p-2 text-sm outline-none">
-            </div>
-            <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">اسم القطعة</label>
-                <input type="text" id="stName" required class="w-full border rounded p-2 text-sm outline-none">
-            </div>
-            <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">المكان</label>
-                <input type="text" id="stLoc" required class="w-full border rounded p-2 text-sm outline-none">
-            </div>
-            <div class="grid grid-cols-2 gap-2">
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">الكمية</label>
-                    <input type="number" id="stQty" min="0" value="10" required class="w-full border rounded p-2 text-sm outline-none">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">الحد الأدنى</label>
-                    <input type="number" id="stMin" min="0" value="2" required class="w-full border rounded p-2 text-sm outline-none">
-                </div>
-            </div>
-            <div class="flex justify-end gap-3 pt-3 border-t">
-                <button type="button" onclick="closeStockModal()" class="px-4 py-2 border rounded text-sm text-slate-600">إلغاء</button>
-                <button type="submit" class="px-5 py-2 bg-indigo-600 text-white rounded text-sm font-semibold">حفظ</button>
-            </div>
-        </form>
+<!-- Modal Zone -->
+<div id="modalZone" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex justify-center items-center p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-sm p-6 space-y-4">
+        <h3 class="font-bold text-slate-800">Ajouter une Zone</h3>
+        <input type="text" id="znName" placeholder="Ex: Zone Extrusion" required class="w-full border rounded p-2 text-sm">
+        <div class="flex justify-end gap-2"><button onclick="closeZoneModal()" class="px-3 py-1 text-xs">Annuler</button><button onclick="saveZone()" class="bg-indigo-600 text-white px-3 py-1 rounded text-xs">Ajouter</button></div>
     </div>
 </div>
 
-<!-- MODAL PARAMÈTRES -->
-<div id="modalSettings" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 flex justify-center items-center p-4">
-    <div class="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden">
-        <div class="bg-slate-900 text-white px-6 py-4 flex justify-between items-center">
-            <h3 class="font-bold"><i class="fa-solid fa-sliders mr-2"></i>إعدادات النظام العامة</h3>
-            <button onclick="closeSettingsModal()" class="text-slate-300 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+<!-- Modal Equipement -->
+<div id="modalEquipement" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex justify-center items-center p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-sm p-6 space-y-4">
+        <h3 class="font-bold text-slate-800">Ajouter un Équipement</h3>
+        <select id="eqZoneSelect" class="w-full border rounded p-2 text-sm bg-white"></select>
+        <input type="text" id="eqCode" placeholder="Code (ex: EQ-01)" required class="w-full border rounded p-2 text-sm">
+        <input type="text" id="eqName" placeholder="Nom de l'Équipement" required class="w-full border rounded p-2 text-sm">
+        <div class="flex justify-end gap-2"><button onclick="closeEquipementModal()" class="px-3 py-1 text-xs">Annuler</button><button onclick="saveEquipement()" class="bg-indigo-600 text-white px-3 py-1 rounded text-xs">Ajouter</button></div>
+    </div>
+</div>
+
+<!-- Modal Sous-Equipement -->
+<div id="modalSousEquipement" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex justify-center items-center p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-sm p-6 space-y-4">
+        <h3 class="font-bold text-slate-800">Ajouter un Sous-Équipement</h3>
+        <select id="subEqParentSelect" class="w-full border rounded p-2 text-sm bg-white"></select>
+        <input type="text" id="subEqName" placeholder="Ex: Moteur Principal" required class="w-full border rounded p-2 text-sm">
+        <div class="flex justify-end gap-2"><button onclick="closeSousEquipementModal()" class="px-3 py-1 text-xs">Annuler</button><button onclick="saveSousEquipement()" class="bg-indigo-600 text-white px-3 py-1 rounded text-xs">Ajouter</button></div>
+    </div>
+</div>
+
+<!-- Modal Technicien -->
+<div id="modalTech" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex justify-center items-center p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-sm p-6 space-y-4">
+        <h3 class="font-bold text-slate-800">Ajouter un Technicien</h3>
+        <input type="text" id="techName" placeholder="Nom complet" required class="w-full border rounded p-2 text-sm">
+        <input type="text" id="techSpec" placeholder="Spécialité (ex: Électromécanicien)" required class="w-full border rounded p-2 text-sm">
+        <div class="flex justify-end gap-2"><button onclick="closeTechModal()" class="px-3 py-1 text-xs">Annuler</button><button onclick="saveTech()" class="bg-purple-600 text-white px-3 py-1 rounded text-xs">Ajouter</button></div>
+    </div>
+</div>
+
+<!-- Modal Stock -->
+<div id="modalStock" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex justify-center items-center p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-md p-6 space-y-3">
+        <h3 class="font-bold text-slate-800">Ajouter / Modifier Pièce</h3>
+        <input type="hidden" id="editStockIndex" value="-1">
+        <input type="text" id="stRef" placeholder="Référence" class="w-full border rounded p-2 text-sm">
+        <input type="text" id="stName" placeholder="Désignation" class="w-full border rounded p-2 text-sm">
+        <input type="text" id="stLoc" placeholder="Emplacement" class="w-full border rounded p-2 text-sm">
+        <div class="grid grid-cols-2 gap-2">
+            <input type="number" id="stQty" placeholder="Qté" value="10" class="w-full border rounded p-2 text-sm">
+            <input type="number" id="stMin" placeholder="Seuil Min" value="2" class="w-full border rounded p-2 text-sm">
         </div>
-        <div class="p-6 space-y-4">
-            <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">ساعات التشغيل المفترضة شهرياً (لحساب KPIs)</label>
-                <input type="number" id="plannedHours" value="500" class="w-full border rounded p-2 text-sm outline-none">
-            </div>
-            <div class="flex justify-end gap-3 pt-3 border-t">
-                <button type="button" onclick="closeSettingsModal()" class="px-4 py-2 border rounded text-sm text-slate-600">إغلاق</button>
-                <button type="button" onclick="saveSettings()" class="px-5 py-2 bg-indigo-600 text-white rounded text-sm font-semibold">تحديث الإعدادات</button>
-            </div>
+        <div class="flex justify-end gap-2 pt-2"><button onclick="closeStockModal()" class="px-3 py-1 text-xs">Annuler</button><button onclick="saveStockItem(event)" class="bg-indigo-600 text-white px-3 py-1 rounded text-xs">Enregistrer</button></div>
+    </div>
+</div>
+
+<!-- Modal Settings -->
+<div id="modalSettings" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex justify-center items-center p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-md p-6 space-y-4">
+        <h3 class="font-bold text-slate-800">Paramètres Générales</h3>
+        <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Heures de fonctionnement prévues (Mois)</label>
+            <input type="number" id="plannedHours" value="500" class="w-full border rounded p-2 text-sm">
         </div>
+        <div class="flex justify-end gap-2"><button onclick="closeSettingsModal()" class="px-3 py-1 text-xs">Fermer</button><button onclick="saveSettings()" class="bg-indigo-600 text-white px-3 py-1 rounded text-xs">Sauvegarder</button></div>
     </div>
 </div>
 
 <script>
-    // LocalStorage Initializer
-    const STORAGE_KEY = 'SMART_MAINTENANCE_DB';
+    const STORAGE_KEY = 'SMART_MAINTENANCE_PRO_FULL';
     
     let defaultDB = {
         'Projet_A': {
             name: 'Société A (Usine Principale)',
-            pannes: [
-                { date: '2026-09-25', machine: 'Presse 01', desc: 'Surchauffe Moteur', usedPart: 'SKF-6204', usedQty: 1, hours: 2.5, tech: 'Ali' }
-            ],
-            stock: [
-                { ref: 'SKF-6204', name: 'Roulement à billes', loc: 'A1', qty: 11, min: 3 }
-            ]
+            zones: ['Zone 01 - Production', 'Zone 02 - Conditionnement'],
+            equipements: [{ code: 'EQ-01', name: 'Presse Hydraulique', zone: 'Zone 01 - Production' }],
+            subEquipements: [{ name: 'Vérin Principal', parent: 'EQ-01' }],
+            techniciens: [{ name: 'Abdelali Bouzid', spec: 'Électromécanique' }],
+            pannes: [],
+            stock: [{ ref: 'SKF-6204', name: 'Roulement à billes', loc: 'A1', qty: 10, min: 2 }]
         }
     };
 
@@ -348,9 +384,7 @@
     let plannedTotalHours = 500;
     let myChart = null;
 
-    function saveToLocalStorage() {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
-    }
+    function saveToLocalStorage() { localStorage.setItem(STORAGE_KEY, JSON.stringify(db)); }
 
     function handleLogin(e) {
         e.preventDefault();
@@ -385,16 +419,13 @@
         select.value = currentCompany;
     }
 
-    function changeCompany() {
-        currentCompany = document.getElementById('companySelect').value;
-        refreshUI();
-    }
+    function changeCompany() { currentCompany = document.getElementById('companySelect').value; refreshUI(); }
 
     function addNewCompany() {
         const name = prompt("Nom de la nouvelle société / projet :");
         if (name) {
             const key = 'Projet_' + Date.now();
-            db[key] = { name: name, pannes: [], stock: [] };
+            db[key] = { name: name, zones: [], equipements: [], subEquipements: [], techniciens: [], pannes: [], stock: [] };
             currentCompany = key;
             saveToLocalStorage();
             updateCompanyDropdown();
@@ -403,312 +434,191 @@
     }
 
     function editCurrentCompany() {
-        const oldName = db[currentCompany].name;
-        const newName = prompt("Nouveau nom pour la société :", oldName);
-        if (newName) {
-            db[currentCompany].name = newName;
-            saveToLocalStorage();
-            updateCompanyDropdown();
-            refreshUI();
-        }
+        const newName = prompt("Nouveau nom :", db[currentCompany].name);
+        if (newName) { db[currentCompany].name = newName; saveToLocalStorage(); updateCompanyDropdown(); refreshUI(); }
     }
 
     function deleteCurrentCompany() {
-        if (Object.keys(db).length <= 1) {
-            alert("Impossible de supprimer le seul projet restant !");
-            return;
-        }
-        if (confirm(`Voulez-vous vraiment supprimer "${db[currentCompany].name}" ?`)) {
-            delete db[currentCompany];
-            currentCompany = Object.keys(db)[0];
-            saveToLocalStorage();
-            updateCompanyDropdown();
-            refreshUI();
+        if (Object.keys(db).length <= 1) return alert("Impossible de supprimer la seule société !");
+        if (confirm(`Supprimer ${db[currentCompany].name} ?`)) {
+            delete db[currentCompany]; currentCompany = Object.keys(db)[0];
+            saveToLocalStorage(); updateCompanyDropdown(); refreshUI();
         }
     }
 
     function refreshUI() {
-        const nameDisplay = db[currentCompany]?.name || currentCompany;
-        document.getElementById('reportCompanyName').innerText = nameDisplay;
-        renderPannesTable();
-        renderStockTable();
-        calculateKPIs();
-        updateReportPreview();
+        document.getElementById('reportCompanyName').innerText = db[currentCompany]?.name || currentCompany;
+        renderPannesTable(); renderStructure(); renderTechsTable(); renderStockTable(); calculateKPIs();
     }
 
-    // PANNES MODULE WITH AUTO STOCK DEDUCTION
+    // STRUCTURE (ZONES, EQUIPEMENTS, SUB-EQUIPEMENTS)
+    function renderStructure() {
+        const zList = document.getElementById('list-zones');
+        zList.innerHTML = (db[currentCompany].zones || []).map((z, i) => `<li class="py-2 flex justify-between"><span>${z}</span><button onclick="deleteZone(${i})" class="text-red-500 text-xs"><i class="fa-solid fa-trash"></i></button></li>`).join('');
+
+        const eqList = document.getElementById('list-equipements');
+        eqList.innerHTML = (db[currentCompany].equipements || []).map((eq, i) => `<li class="py-2 flex justify-between"><span><strong>${eq.code}</strong> - ${eq.name}</span><button onclick="deleteEquipement(${i})" class="text-red-500 text-xs"><i class="fa-solid fa-trash"></i></button></li>`).join('');
+
+        const subList = document.getElementById('list-sousequipements');
+        subList.innerHTML = (db[currentCompany].subEquipements || []).map((s, i) => `<li class="py-2 flex justify-between"><span>${s.name} <span class="text-xs text-slate-400">(${s.parent})</span></span><button onclick="deleteSubEq(${i})" class="text-red-500 text-xs"><i class="fa-solid fa-trash"></i></button></li>`).join('');
+    }
+
+    function openZoneModal() { document.getElementById('modalZone').classList.remove('hidden'); }
+    function closeZoneModal() { document.getElementById('modalZone').classList.add('hidden'); }
+    function saveZone() {
+        const val = document.getElementById('znName').value.trim();
+        if(val) { if(!db[currentCompany].zones) db[currentCompany].zones = []; db[currentCompany].zones.push(val); saveToLocalStorage(); closeZoneModal(); renderStructure(); }
+    }
+    function deleteZone(i) { db[currentCompany].zones.splice(i, 1); saveToLocalStorage(); renderStructure(); }
+
+    function openEquipementModal() {
+        const sel = document.getElementById('eqZoneSelect');
+        sel.innerHTML = (db[currentCompany].zones || []).map(z => `<option value="${z}">${z}</option>`).join('');
+        document.getElementById('modalEquipement').classList.remove('hidden');
+    }
+    function closeEquipementModal() { document.getElementById('modalEquipement').classList.add('hidden'); }
+    function saveEquipement() {
+        const code = document.getElementById('eqCode').value.trim();
+        const name = document.getElementById('eqName').value.trim();
+        const zone = document.getElementById('eqZoneSelect').value;
+        if(code && name) { if(!db[currentCompany].equipements) db[currentCompany].equipements = []; db[currentCompany].equipements.push({code, name, zone}); saveToLocalStorage(); closeEquipementModal(); renderStructure(); }
+    }
+    function deleteEquipement(i) { db[currentCompany].equipements.splice(i, 1); saveToLocalStorage(); renderStructure(); }
+
+    function openSousEquipementModal() {
+        const sel = document.getElementById('subEqParentSelect');
+        sel.innerHTML = (db[currentCompany].equipements || []).map(eq => `<option value="${eq.code}">${eq.code} - ${eq.name}</option>`).join('');
+        document.getElementById('modalSousEquipement').classList.remove('hidden');
+    }
+    function closeSousEquipementModal() { document.getElementById('modalSousEquipement').classList.add('hidden'); }
+    function saveSousEquipement() {
+        const name = document.getElementById('subEqName').value.trim();
+        const parent = document.getElementById('subEqParentSelect').value;
+        if(name) { if(!db[currentCompany].subEquipements) db[currentCompany].subEquipements = []; db[currentCompany].subEquipements.push({name, parent}); saveToLocalStorage(); closeSousEquipementModal(); renderStructure(); }
+    }
+    function deleteSubEq(i) { db[currentCompany].subEquipements.splice(i, 1); saveToLocalStorage(); renderStructure(); }
+
+    // TECHNICIENS
+    function renderTechsTable() {
+        const tbody = document.getElementById('table-techs-body');
+        const techs = db[currentCompany]?.techniciens || [];
+        tbody.innerHTML = techs.map((t, idx) => `<tr><td class="p-3 font-semibold">${t.name}</td><td class="p-3 text-slate-500">${t.spec}</td><td class="p-3 text-center"><button onclick="deleteTech(${idx})" class="text-red-500"><i class="fa-solid fa-trash"></i></button></td></tr>`).join('');
+    }
+    function openTechModal() { document.getElementById('modalTech').classList.remove('hidden'); }
+    function closeTechModal() { document.getElementById('modalTech').classList.add('hidden'); }
+    function saveTech() {
+        const name = document.getElementById('techName').value.trim();
+        const spec = document.getElementById('techSpec').value.trim();
+        if(name) { if(!db[currentCompany].techniciens) db[currentCompany].techniciens = []; db[currentCompany].techniciens.push({name, spec}); saveToLocalStorage(); closeTechModal(); renderTechsTable(); }
+    }
+    function deleteTech(i) { db[currentCompany].techniciens.splice(i, 1); saveToLocalStorage(); renderTechsTable(); }
+
+    // PANNES
     function renderPannesTable() {
         const tbody = document.getElementById('table-pannes-body');
         const pannes = db[currentCompany]?.pannes || [];
-        if (pannes.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-400">لا توجد أعطال مسجلة.</td></tr>`;
-            return;
-        }
-        tbody.innerHTML = pannes.map((pn, idx) => `
-            <tr>
-                <td class="p-3 font-medium text-slate-600">${pn.date}</td>
-                <td class="p-3 font-bold text-indigo-600">${pn.machine}</td>
-                <td class="p-3 text-slate-700">${pn.desc}</td>
-                <td class="p-3 text-xs font-semibold text-slate-500">${pn.usedPart ? `${pn.usedPart} (x${pn.usedQty || 1})` : '-'}</td>
-                <td class="p-3 font-bold text-red-600">${pn.hours} h</td>
-                <td class="p-3 text-slate-500">${pn.tech}</td>
-                <td class="p-3 text-center flex justify-center gap-2">
-                    <button onclick="editPanneItem(${idx})" class="bg-amber-100 text-amber-700 p-1.5 rounded"><i class="fa-solid fa-pen"></i></button>
-                    <button onclick="deletePanneItem(${idx})" class="bg-red-100 text-red-700 p-1.5 rounded"><i class="fa-solid fa-trash"></i></button>
-                </td>
-            </tr>
-        `).join('');
+        tbody.innerHTML = pannes.map((pn, idx) => `<tr><td class="p-3">${pn.date}</td><td class="p-3 font-bold text-indigo-600">${pn.machine}</td><td class="p-3 text-slate-500">${pn.subEq || '-'}</td><td class="p-3">${pn.desc}</td><td class="p-3 font-bold text-red-600">${pn.hours} h</td><td class="p-3 text-purple-600 font-semibold">${pn.tech}</td><td class="p-3 text-center"><button onclick="deletePanneItem(${idx})" class="text-red-500"><i class="fa-solid fa-trash"></i></button></td></tr>`).join('');
     }
 
     function openPanneModal() {
-        document.getElementById('editPanneIndex').value = "-1";
         document.getElementById('pnDate').valueAsDate = new Date();
-        document.getElementById('pnMachine').value = "";
-        document.getElementById('pnDesc').value = "";
-        document.getElementById('pnHours').value = "1";
-        document.getElementById('pnTech').value = "";
+        const machSel = document.getElementById('pnMachineSelect');
+        machSel.innerHTML = (db[currentCompany].equipements || []).map(e => `<option value="${e.code}">${e.code} - ${e.name}</option>`).join('');
         
-        // Populate Stock Select
-        const stockSelect = document.getElementById('pnStockSelect');
-        const stockItems = db[currentCompany]?.stock || [];
-        stockSelect.innerHTML = `<option value="">-- بدون استخدام قطع --</option>` + stockItems.map(st => `<option value="${st.ref}">${st.name} (${st.ref}) - متبقي: ${st.qty}</option>`).join('');
+        const techSel = document.getElementById('pnTechSelect');
+        techSel.innerHTML = (db[currentCompany].techniciens || []).map(t => `<option value="${t.name}">${t.name} (${t.spec})</option>`).join('');
 
+        const stkSel = document.getElementById('pnStockSelect');
+        stkSel.innerHTML = `<option value="">-- Sans pièce --</option>` + (db[currentCompany].stock || []).map(s => `<option value="${s.ref}">${s.name} (${s.ref})</option>`).join('');
+
+        updateSubEqDropdown();
         document.getElementById('modalPanne').classList.remove('hidden');
     }
 
-    function editPanneItem(idx) {
-        const pn = db[currentCompany].pannes[idx];
-        openPanneModal();
-        document.getElementById('editPanneIndex').value = idx;
-        document.getElementById('pnDate').value = pn.date;
-        document.getElementById('pnMachine').value = pn.machine;
-        document.getElementById('pnDesc').value = pn.desc;
-        document.getElementById('pnHours').value = pn.hours;
-        document.getElementById('pnTech').value = pn.tech;
-        document.getElementById('pnStockSelect').value = pn.usedPart || "";
-        document.getElementById('pnStockQty').value = pn.usedQty || 1;
+    function updateSubEqDropdown() {
+        const machCode = document.getElementById('pnMachineSelect').value;
+        const subSel = document.getElementById('pnSubEqSelect');
+        const subs = (db[currentCompany].subEquipements || []).filter(s => s.parent === machCode);
+        subSel.innerHTML = `<option value="">-- Aucun --</option>` + subs.map(s => `<option value="${s.name}">${s.name}</option>`).join('');
     }
 
     function closePanneModal() { document.getElementById('modalPanne').classList.add('hidden'); }
 
     function savePanneItem(e) {
         e.preventDefault();
-        const idx = parseInt(document.getElementById('editPanneIndex').value);
-        const selectedPart = document.getElementById('pnStockSelect').value;
-        const usedQty = parseInt(document.getElementById('pnStockQty').value) || 1;
-
-        const panneData = {
+        const pData = {
             date: document.getElementById('pnDate').value,
-            machine: document.getElementById('pnMachine').value,
+            machine: document.getElementById('pnMachineSelect').value,
+            subEq: document.getElementById('pnSubEqSelect').value,
             desc: document.getElementById('pnDesc').value,
-            usedPart: selectedPart,
-            usedQty: usedQty,
-            hours: parseFloat(document.getElementById('pnHours').value),
-            tech: document.getElementById('pnTech').value
+            tech: document.getElementById('pnTechSelect').value,
+            hours: parseFloat(document.getElementById('pnHours').value)
         };
-
-        if (!db[currentCompany].pannes) db[currentCompany].pannes = [];
-
-        // Deduct Stock Quantity if new panne
-        if (idx === -1 && selectedPart) {
-            const stockItem = db[currentCompany].stock.find(s => s.ref === selectedPart);
-            if (stockItem) {
-                stockItem.qty = Math.max(0, stockItem.qty - usedQty);
-            }
-        }
-
-        if (idx === -1) db[currentCompany].pannes.push(panneData);
-        else db[currentCompany].pannes[idx] = panneData;
-
-        saveToLocalStorage();
-        closePanneModal();
-        refreshUI();
+        if(!db[currentCompany].pannes) db[currentCompany].pannes = [];
+        db[currentCompany].pannes.push(pData);
+        saveToLocalStorage(); closePanneModal(); refreshUI();
     }
+    function deletePanneItem(i) { db[currentCompany].pannes.splice(i, 1); saveToLocalStorage(); refreshUI(); }
 
-    function deletePanneItem(idx) {
-        if (confirm("هل تريد حذف هذا العطل؟")) {
-            db[currentCompany].pannes.splice(idx, 1);
-            saveToLocalStorage();
-            refreshUI();
-        }
-    }
-
-    // KPIS & CHART
+    // KPIS
     function calculateKPIs() {
         const pannes = db[currentCompany]?.pannes || [];
-        const totalDowntime = pannes.reduce((sum, p) => sum + p.hours, 0);
-        const failureCount = pannes.length;
-
-        const mttr = failureCount > 0 ? (totalDowntime / failureCount).toFixed(2) : 0;
+        const totalDowntime = pannes.reduce((s, p) => s + p.hours, 0);
+        const count = pannes.length;
+        const mttr = count > 0 ? (totalDowntime / count).toFixed(2) : 0;
         const uptime = plannedTotalHours - totalDowntime;
-        const mtbf = failureCount > 0 ? (uptime / failureCount).toFixed(2) : plannedTotalHours;
+        const mtbf = count > 0 ? (uptime / count).toFixed(2) : plannedTotalHours;
         const availability = ((uptime / plannedTotalHours) * 100).toFixed(1);
 
         document.getElementById('kpiMtbf').innerText = `${mtbf} hrs`;
         document.getElementById('kpiMttr').innerText = `${mttr} hrs`;
         document.getElementById('kpiDisp').innerText = `${availability} %`;
         document.getElementById('kpiTotalDowntime').innerText = `${totalDowntime} hrs`;
-
         renderChart(pannes);
     }
 
     function renderChart(pannes) {
         const ctx = document.getElementById('kpiChart')?.getContext('2d');
-        if (!ctx) return;
-
-        const machineMap = {};
-        pannes.forEach(p => {
-            machineMap[p.machine] = (machineMap[p.machine] || 0) + p.hours;
-        });
-
-        if (myChart) myChart.destroy();
-
-        myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: Object.keys(machineMap),
-                datasets: [{
-                    label: "ساعات التوقف (Heures d'arrêt)",
-                    data: Object.values(machineMap),
-                    backgroundColor: 'rgba(99, 102, 241, 0.6)',
-                    borderColor: 'rgb(79, 70, 229)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: { y: { beginAtZero: true } }
-            }
-        });
+        if(!ctx) return;
+        const map = {}; pannes.forEach(p => map[p.machine] = (map[p.machine] || 0) + p.hours);
+        if(myChart) myChart.destroy();
+        myChart = new Chart(ctx, { type: 'bar', data: { labels: Object.keys(map), datasets: [{ label: "Heures d'arrêt", data: Object.values(map), backgroundColor: '#6366f1' }] }, options: { responsive: true, maintainAspectRatio: false } });
     }
 
-    // STOCK MODULE
+    // STOCK
     function renderStockTable() {
         const tbody = document.getElementById('table-stock-body');
-        const stock = db[currentCompany]?.stock || [];
-        if (stock.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-400">لا توجد قطع مسجلة.</td></tr>`;
-            return;
-        }
-        tbody.innerHTML = stock.map((st, idx) => {
-            const isLow = st.qty <= st.min;
-            return `
-                <tr>
-                    <td class="p-3 font-bold text-indigo-600">${st.ref}</td>
-                    <td class="p-3 font-medium">${st.name}</td>
-                    <td class="p-3 text-slate-500">${st.loc}</td>
-                    <td class="p-3 font-bold ${isLow ? 'text-red-600' : ''}">${st.qty}</td>
-                    <td class="p-3 text-slate-400">${st.min}</td>
-                    <td class="p-3"><span class="px-2 py-0.5 text-xs rounded-full font-bold ${isLow ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700'}">${isLow ? 'Alerte' : 'Normal'}</span></td>
-                    <td class="p-3 text-center flex justify-center gap-2">
-                        <button onclick="editStockItem(${idx})" class="bg-amber-100 text-amber-700 p-1.5 rounded"><i class="fa-solid fa-pen"></i></button>
-                        <button onclick="deleteStockItem(${idx})" class="bg-red-100 text-red-700 p-1.5 rounded"><i class="fa-solid fa-trash"></i></button>
-                    </td>
-                </tr>
-            `;
-        }).join('');
+        tbody.innerHTML = (db[currentCompany]?.stock || []).map((s, i) => `<tr><td class="p-3 font-bold text-indigo-600">${s.ref}</td><td class="p-3">${s.name}</td><td class="p-3">${s.loc}</td><td class="p-3 font-bold">${s.qty}</td><td class="p-3 text-slate-400">${s.min}</td><td class="p-3"><span class="px-2 py-0.5 text-xs rounded font-bold ${s.qty<=s.min?'bg-red-100 text-red-700':'bg-emerald-100 text-emerald-700'}">${s.qty<=s.min?'Alerte':'Normal'}</span></td><td class="p-3 text-center"><button onclick="deleteStockItem(${i})" class="text-red-500"><i class="fa-solid fa-trash"></i></button></td></tr>`).join('');
     }
-
-    function openStockModal() {
-        document.getElementById('editStockIndex').value = "-1";
-        document.getElementById('stRef').value = "";
-        document.getElementById('stName').value = "";
-        document.getElementById('stLoc').value = "";
-        document.getElementById('stQty').value = "10";
-        document.getElementById('stMin').value = "2";
-        document.getElementById('modalStock').classList.remove('hidden');
-    }
-
-    function editStockItem(idx) {
-        const st = db[currentCompany].stock[idx];
-        document.getElementById('editStockIndex').value = idx;
-        document.getElementById('stRef').value = st.ref;
-        document.getElementById('stName').value = st.name;
-        document.getElementById('stLoc').value = st.loc;
-        document.getElementById('stQty').value = st.qty;
-        document.getElementById('stMin').value = st.min;
-        document.getElementById('modalStock').classList.remove('hidden');
-    }
-
+    function openStockModal() { document.getElementById('modalStock').classList.remove('hidden'); }
     function closeStockModal() { document.getElementById('modalStock').classList.add('hidden'); }
-
     function saveStockItem(e) {
         e.preventDefault();
-        const idx = parseInt(document.getElementById('editStockIndex').value);
-        const stockData = {
-            ref: document.getElementById('stRef').value,
-            name: document.getElementById('stName').value,
-            loc: document.getElementById('stLoc').value,
-            qty: parseInt(document.getElementById('stQty').value),
-            min: parseInt(document.getElementById('stMin').value)
-        };
-        if (!db[currentCompany].stock) db[currentCompany].stock = [];
-        if (idx === -1) db[currentCompany].stock.push(stockData);
-        else db[currentCompany].stock[idx] = stockData;
-
-        saveToLocalStorage();
-        closeStockModal();
-        refreshUI();
+        const sData = { ref: document.getElementById('stRef').value, name: document.getElementById('stName').value, loc: document.getElementById('stLoc').value, qty: parseInt(document.getElementById('stQty').value), min: parseInt(document.getElementById('stMin').value) };
+        if(!db[currentCompany].stock) db[currentCompany].stock = [];
+        db[currentCompany].stock.push(sData);
+        saveToLocalStorage(); closeStockModal(); refreshUI();
     }
+    function deleteStockItem(i) { db[currentCompany].stock.splice(i, 1); saveToLocalStorage(); refreshUI(); }
 
-    function deleteStockItem(idx) {
-        if (confirm("هل تريد حذف القطعة؟")) {
-            db[currentCompany].stock.splice(idx, 1);
-            saveToLocalStorage();
-            refreshUI();
-        }
-    }
-
-    function updateReportPreview() {
-        const pannes = db[currentCompany]?.pannes || [];
-        const stock = db[currentCompany]?.stock || [];
-        document.getElementById('reportDataPreview').innerHTML = `
-            <p>• <strong>عدد الأعطال اليومية المسجلة:</strong> ${pannes.length}</p>
-            <p>• <strong>إجمالي قطع الغيار بالمخزن:</strong> ${stock.length}</p>
-        `;
-    }
-
-    // EXPORT / IMPORT BACKUP
+    // BACKUP & SETTINGS
     function exportDataJSON() {
         const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db));
-        const downloadAnchor = document.createElement('a');
-        downloadAnchor.setAttribute("href", dataStr);
-        downloadAnchor.setAttribute("download", `GMAO_Backup_${new Date().toISOString().slice(0, 10)}.json`);
-        document.body.appendChild(downloadAnchor);
-        downloadAnchor.click();
-        downloadAnchor.remove();
+        const dlAnchor = document.createElement('a'); dlAnchor.setAttribute("href", dataStr); dlAnchor.setAttribute("download", `GMAO_Backup_${new Date().toISOString().slice(0, 10)}.json`);
+        document.body.appendChild(dlAnchor); dlAnchor.click(); dlAnchor.remove();
     }
-
-    function importDataJSON(event) {
-        const fileReader = new FileReader();
-        fileReader.onload = function (e) {
-            try {
-                const importedDB = JSON.parse(e.target.result);
-                if (importedDB && typeof importedDB === 'object') {
-                    db = importedDB;
-                    currentCompany = Object.keys(db)[0];
-                    saveToLocalStorage();
-                    updateCompanyDropdown();
-                    refreshUI();
-                    alert("تم استرجاع النسخة الاحتياطية بنجاح!");
-                }
-            } catch (err) {
-                alert("ملف غير صالح.");
-            }
+    function importDataJSON(e) {
+        const fr = new FileReader();
+        fr.onload = function (evt) {
+            try { db = JSON.parse(evt.target.result); currentCompany = Object.keys(db)[0]; saveToLocalStorage(); updateCompanyDropdown(); refreshUI(); alert("Import réussi !"); } catch(err) { alert("Fichier invalide"); }
         };
-        if (event.target.files[0]) fileReader.readAsText(event.target.files[0]);
+        if(e.target.files[0]) fr.readAsText(e.target.files[0]);
     }
 
     function openSettingsModal() { document.getElementById('modalSettings').classList.remove('hidden'); }
     function closeSettingsModal() { document.getElementById('modalSettings').classList.add('hidden'); }
-    function saveSettings() {
-        plannedTotalHours = parseFloat(document.getElementById('plannedHours').value) || 500;
-        refreshUI();
-        closeSettingsModal();
-    }
+    function saveSettings() { plannedTotalHours = parseFloat(document.getElementById('plannedHours').value) || 500; refreshUI(); closeSettingsModal(); }
 
-    document.getElementById('pnDate').valueAsDate = new Date();
     document.getElementById('reportDate').valueAsDate = new Date();
 </script>
 </body>
