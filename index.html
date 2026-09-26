@@ -6,6 +6,8 @@
     <title>PLATEFORME INDUSTRIELLE INTÉGRÉE - GMAO | PANNES | KPIs</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- مكتبة Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         body { font-family: system-ui, -apple-system, sans-serif; }
     </style>
@@ -20,7 +22,7 @@
                 <i class="fa-solid fa-shield-halved text-3xl"></i>
             </div>
             <h2 class="text-2xl font-bold text-slate-900">Plateforme de Maintenance</h2>
-            <p class="text-sm text-slate-500 mt-1">GMAO • Pannes • Zones • KPIs</p>
+            <p class="text-sm text-slate-500 mt-1">GMAO • Pannes • Stock • KPIs</p>
         </div>
 
         <div id="loginError" class="hidden mb-4 p-3 bg-red-100 border border-red-400 text-red-700 text-xs rounded-lg flex items-center gap-2">
@@ -73,7 +75,6 @@
                     <div class="text-xs text-slate-400">Utilisateur connecté</div>
                     <div class="text-sm font-semibold text-indigo-300" id="userDisplay">Admin</div>
                 </div>
-                <!-- Button for password change (Admin Only) -->
                 <button id="btnAdminChangePwd" onclick="openAdminPwdModal()" class="hidden bg-amber-600/20 hover:bg-amber-600 text-amber-300 hover:text-white px-3 py-1.5 rounded text-sm transition border border-amber-500/30">
                     <i class="fa-solid fa-key mr-1"></i> Gérer Mots de passe
                 </button>
@@ -98,12 +99,6 @@
             <button onclick="switchTab('gmao')" id="tab-gmao" class="tab-btn px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent hover:text-indigo-600 flex items-center gap-2">
                 <i class="fa-solid fa-wrench"></i> GMAO (OT)
             </button>
-            <button onclick="switchTab('amdec')" id="tab-amdec" class="tab-btn px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent hover:text-indigo-600 flex items-center gap-2">
-                <i class="fa-solid fa-shield-halved"></i> Analyse AMDEC
-            </button>
-            <button onclick="switchTab('dmaic')" id="tab-dmaic" class="tab-btn px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent hover:text-indigo-600 flex items-center gap-2">
-                <i class="fa-solid fa-diagram-project"></i> Projets DMAIC
-            </button>
         </div>
 
         <!-- 1. SECTION SAISIE DES PANNES -->
@@ -111,29 +106,7 @@
             <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex justify-between items-center flex-wrap gap-3">
                 <div>
                     <h2 class="text-lg font-bold text-slate-800"><i class="fa-solid fa-triangle-exclamation text-red-500 mr-2"></i>Journal des Pannes Journalières</h2>
-                    <p class="text-xs text-slate-500 mt-0.5">Saisissez les pannes quotidiennes pour mettre à jour les KPIs et la GMAO.</p>
                 </div>
-                <button onclick="openPanneModal()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow flex items-center gap-2">
-                    <i class="fa-solid fa-plus"></i> Déclarer une Panne
-                </button>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-x-auto">
-                <table class="w-full text-left border-collapse text-sm">
-                    <thead class="bg-slate-800 text-white uppercase text-xs">
-                        <tr>
-                            <th class="p-3">Date</th>
-                            <th class="p-3">Équipement</th>
-                            <th class="p-3">Sous-Équipement</th>
-                            <th class="p-3">Symptôme</th>
-                            <th class="p-3">Heures</th>
-                            <th class="p-3">Arrêt (h)</th>
-                            <th class="p-3">Intervenant</th>
-                            <th class="p-3 text-center">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="table-pannes-body" class="divide-y divide-slate-200"></tbody>
-                </table>
             </div>
         </section>
 
@@ -144,54 +117,28 @@
                 <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 space-y-4">
                     <div class="flex justify-between items-center">
                         <h3 class="font-bold text-slate-800"><i class="fa-solid fa-layer-group text-indigo-600 mr-2"></i>Zones</h3>
-                        <button id="btnAddZone" onclick="openZoneModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded text-xs font-semibold">
-                            <i class="fa-solid fa-plus mr-1"></i> Ajouter
-                        </button>
+                        <button onclick="openZoneModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded text-xs font-semibold"><i class="fa-solid fa-plus mr-1"></i> Ajouter</button>
                     </div>
                     <ul id="list-zones" class="divide-y divide-slate-100 text-sm"></ul>
                 </div>
-
                 <!-- Équipements -->
                 <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 space-y-4">
                     <div class="flex justify-between items-center">
                         <h3 class="font-bold text-slate-800"><i class="fa-solid fa-plug text-indigo-600 mr-2"></i>Équipements</h3>
-                        <button id="btnAddEq" onclick="openEquipementModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded text-xs font-semibold">
-                            <i class="fa-solid fa-plus mr-1"></i> Ajouter
-                        </button>
+                        <button onclick="openEquipementModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded text-xs font-semibold"><i class="fa-solid fa-plus mr-1"></i> Ajouter</button>
                     </div>
                     <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse text-sm">
-                            <thead class="bg-slate-100 uppercase text-xs text-slate-600">
-                                <tr>
-                                    <th class="p-2">Code</th>
-                                    <th class="p-2">Nom</th>
-                                    <th class="p-2 text-center">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="table-equipements-body" class="divide-y divide-slate-100"></tbody>
-                        </table>
+                        <table class="w-full text-left text-sm"><tbody id="table-equipements-body" class="divide-y divide-slate-100"></tbody></table>
                     </div>
                 </div>
-
                 <!-- Sous-Équipements -->
                 <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 space-y-4">
                     <div class="flex justify-between items-center">
                         <h3 class="font-bold text-slate-800"><i class="fa-solid fa-gears text-indigo-600 mr-2"></i>Sous-Équipements</h3>
-                        <button id="btnAddSubEq" onclick="openSousEquipementModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded text-xs font-semibold">
-                            <i class="fa-solid fa-plus mr-1"></i> Ajouter
-                        </button>
+                        <button onclick="openSousEquipementModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded text-xs font-semibold"><i class="fa-solid fa-plus mr-1"></i> Ajouter</button>
                     </div>
                     <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse text-sm">
-                            <thead class="bg-slate-100 uppercase text-xs text-slate-600">
-                                <tr>
-                                    <th class="p-2">Nom</th>
-                                    <th class="p-2">Parent</th>
-                                    <th class="p-2 text-center">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="table-sousequipements-body" class="divide-y divide-slate-100"></tbody>
-                        </table>
+                        <table class="w-full text-left text-sm"><tbody id="table-sousequipements-body" class="divide-y divide-slate-100"></tbody></table>
                     </div>
                 </div>
             </div>
@@ -199,1087 +146,188 @@
 
         <!-- 3. SECTION KPIs -->
         <section id="sec-kpi" class="hidden space-y-6">
-            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-wrap justify-between items-center gap-4">
-                <div class="flex items-center gap-2">
-                    <i class="fa-solid fa-industry text-indigo-600 text-lg"></i>
-                    <label class="font-bold text-slate-700 text-sm">Sélectionner un équipement :</label>
-                </div>
-                <select id="selectMachineKpi" onchange="updateKpiDashboard()" class="select-equipements border rounded-lg p-2 text-sm bg-slate-50 border-slate-300 outline-none focus:ring-2 focus:ring-indigo-500">
-                </select>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
-                    <div class="text-xs font-bold text-slate-400 uppercase">MTBF (Temps Moyen Entre Pannes)</div>
-                    <div class="text-3xl font-extrabold text-indigo-600 mt-2" id="kpiMtbf">-- hrs</div>
-                </div>
-                <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
-                    <div class="text-xs font-bold text-slate-400 uppercase">MTTR (Temps Moyen de Réparation)</div>
-                    <div class="text-3xl font-extrabold text-amber-600 mt-2" id="kpiMttr">-- hrs</div>
-                </div>
-                <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
-                    <div class="text-xs font-bold text-slate-400 uppercase">Disponibilité Opérationnelle</div>
-                    <div class="text-3xl font-extrabold text-blue-600 mt-2" id="kpiDisp">-- %</div>
-                </div>
-                <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
-                    <div class="text-xs font-bold text-slate-400 uppercase">Nombre de Pannes Registrées</div>
-                    <div class="text-3xl font-extrabold text-red-600 mt-2" id="kpiPannes">--</div>
-                </div>
+            <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
+                <h3 class="font-bold text-slate-800 mb-2">Tableau de bord KPIs</h3>
+                <p class="text-sm text-slate-500">Mise à jour en temps réel.</p>
             </div>
         </section>
 
         <!-- 4. SECTION GMAO -->
         <section id="sec-gmao" class="hidden space-y-6">
-            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex justify-between items-center">
-                <h2 class="text-lg font-bold text-slate-800"><i class="fa-solid fa-list-check text-indigo-600 mr-2"></i>Ordres de Travail (OT)</h2>
-                <button id="btnOtAdd" onclick="openOtModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow">
-                    <i class="fa-solid fa-plus mr-1"></i> Ajouter un OT
-                </button>
+            <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
+                <h3 class="font-bold text-slate-800 mb-2">Ordres de Travail (OT)</h3>
             </div>
-
-            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-x-auto">
-                <table class="w-full text-left border-collapse text-sm">
-                    <thead class="bg-slate-800 text-white uppercase text-xs">
-                        <tr>
-                            <th class="p-3">N° OT</th>
-                            <th class="p-3">Équipement</th>
-                            <th class="p-3">Type</th>
-                            <th class="p-3">Durée d'arrêt (h)</th>
-                            <th class="p-3">Description</th>
-                            <th class="p-3">Priorité</th>
-                            <th class="p-3 text-center">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="table-ot-body" class="divide-y divide-slate-200"></tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- 5. SECTION AMDEC -->
-        <section id="sec-amdec" class="hidden space-y-6">
-            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex justify-between items-center">
-                <h2 class="text-lg font-bold text-slate-800"><i class="fa-solid fa-shield-halved text-indigo-600 mr-2"></i>Analyse AMDEC</h2>
-                <button id="btnAmdecAdd" onclick="openAmdecModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow">
-                    <i class="fa-solid fa-plus mr-1"></i> Ajouter une ligne AMDEC
-                </button>
-            </div>
-            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-x-auto">
-                <table class="w-full text-left border-collapse text-sm">
-                    <thead class="bg-slate-800 text-white uppercase text-xs">
-                        <tr>
-                            <th class="p-3">Équipement</th>
-                            <th class="p-3">Mode de Défaillance</th>
-                            <th class="p-3 text-center">G</th>
-                            <th class="p-3 text-center">O</th>
-                            <th class="p-3 text-center">D</th>
-                            <th class="p-3 text-center">NPR</th>
-                            <th class="p-3">Action Préconisée</th>
-                            <th class="p-3 text-center">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="table-amdec-body" class="divide-y divide-slate-200"></tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- 6. SECTION DMAIC -->
-        <section id="sec-dmaic" class="hidden space-y-6">
-            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex justify-between items-center">
-                <h2 class="text-lg font-bold text-slate-800"><i class="fa-solid fa-diagram-project text-indigo-600 mr-2"></i>Projets DMAIC</h2>
-                <button id="btnDmaicAdd" onclick="openDmaicModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow">
-                    <i class="fa-solid fa-plus mr-1"></i> Ajouter un Projet
-                </button>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="dmaic-projects-container"></div>
         </section>
     </main>
 </div>
 
-<!-- MODAL CHANGEMENT DE MOT DE PASSE (ADMIN ONLY) -->
-<div id="modalAdminPwd" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 flex justify-center items-center p-4">
-    <div class="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden">
-        <div class="bg-slate-900 text-white px-6 py-4 flex justify-between items-center">
-            <h3 class="font-bold"><i class="fa-solid fa-key text-amber-400 mr-2"></i>Changer les Mots de Passe Utilisateurs</h3>
-            <button onclick="closeAdminPwdModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        <form onsubmit="saveNewPassword(event)" class="p-6 space-y-4">
-            <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Sélectionner l'Utilisateur</label>
-                <select id="pwdUserRole" class="w-full border rounded p-2 text-sm outline-none bg-white">
-                    <option value="Admin">Administrateur (admin@usine.com)</option>
-                    <option value="Responsable">Responsable Maintenance (resp@usine.com)</option>
-                    <option value="Technicien">Technicien (tech@usine.com)</option>
-                </select>
-            </div>
-            <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nouveau Mot de Passe</label>
-                <input type="password" id="newPassword" required placeholder="Minimum 6 caractères" class="w-full border rounded p-2 text-sm outline-none">
-            </div>
-            <div class="flex justify-end gap-3 pt-3 border-t">
-                <button type="button" onclick="closeAdminPwdModal()" class="px-4 py-2 border rounded text-sm font-semibold text-slate-600">Annuler</button>
-                <button type="submit" class="px-5 py-2 bg-amber-600 text-white rounded text-sm font-semibold hover:bg-amber-700">Enregistrer</button>
+<!-- MODALS -->
+<div id="modalZone" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex justify-center items-center p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
+        <h3 class="font-bold mb-4">Ajouter une Zone</h3>
+        <form onsubmit="saveZone(event)" class="space-y-4">
+            <input type="text" id="zoneNameInput" required placeholder="Nom de la zone" class="w-full border rounded p-2 text-sm outline-none">
+            <div class="flex justify-end gap-2">
+                <button type="button" onclick="closeZoneModal()" class="px-4 py-2 text-sm text-slate-600">Annuler</button>
+                <button type="submit" class="px-4 py-2 text-sm bg-indigo-600 text-white rounded font-semibold">Ajouter</button>
             </div>
         </form>
     </div>
 </div>
 
-<!-- MODAL PANNE -->
-<div id="modalPanne" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 flex justify-center items-center p-4">
-    <div class="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden">
-        <div class="bg-red-700 text-white px-6 py-4 flex justify-between items-center">
-            <h3 class="font-bold" id="modalPanneTitle">Déclarer une Panne</h3>
-            <button onclick="closePanneModal()" class="text-slate-200 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        <form onsubmit="savePanne(event)" class="p-6 space-y-3">
-            <input type="hidden" id="panneIndex">
-            <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Date</label>
-                <input type="date" id="panneDate" required class="w-full border rounded p-2 text-sm outline-none">
-            </div>
-            <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Équipement</label>
-                <select id="panneEquipement" onchange="onPanneEquipementChange()" class="select-equipements w-full border rounded p-2 text-sm outline-none bg-white" required></select>
-            </div>
-            <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Sous-Équipement / Organe</label>
-                <select id="panneOrgane" class="w-full border rounded p-2 text-sm outline-none bg-white" required></select>
-            </div>
-            <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Symptôme / Cause Panne</label>
-                <textarea id="panneCause" required rows="2" placeholder="Ex: Fuite d'huile, surchauffe..." class="w-full border rounded p-2 text-sm outline-none"></textarea>
-            </div>
-            <div class="grid grid-cols-2 gap-2">
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Heure Début</label>
-                    <input type="time" id="panneDebut" onchange="calcPanneDuree()" required class="w-full border rounded p-2 text-sm outline-none">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Heure Fin</label>
-                    <input type="time" id="panneFin" onchange="calcPanneDuree()" required class="w-full border rounded p-2 text-sm outline-none">
-                </div>
-            </div>
-            <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Durée d'arrêt (heures)</label>
-                <input type="number" step="0.1" id="panneDuree" required class="w-full border rounded p-2 text-sm outline-none bg-slate-50">
-            </div>
-            <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Technicien / Intervenant</label>
-                <input type="text" id="panneIntervenant" required class="w-full border rounded p-2 text-sm outline-none">
-            </div>
-            <div class="flex justify-end gap-3 pt-3 border-t">
-                <button type="button" onclick="closePanneModal()" class="px-4 py-2 border rounded text-sm font-semibold text-slate-600">Annuler</button>
-                <button type="submit" class="px-5 py-2 bg-red-600 text-white rounded text-sm font-semibold">Enregistrer la Panne</button>
+<div id="modalEquipement" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex justify-center items-center p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
+        <h3 class="font-bold mb-4">Ajouter un Équipement</h3>
+        <form onsubmit="saveEquipement(event)" class="space-y-4">
+            <select id="eqZoneSelect" required class="w-full border rounded p-2 text-sm bg-white"></select>
+            <input type="text" id="eqCodeInput" required placeholder="Code Équipement (ex: EQ-001)" class="w-full border rounded p-2 text-sm">
+            <input type="text" id="eqNameInput" required placeholder="Nom Équipement" class="w-full border rounded p-2 text-sm">
+            <div class="flex justify-end gap-2">
+                <button type="button" onclick="closeEquipementModal()" class="px-4 py-2 text-sm text-slate-600">Annuler</button>
+                <button type="submit" class="px-4 py-2 text-sm bg-indigo-600 text-white rounded font-semibold">Ajouter</button>
             </div>
         </form>
     </div>
 </div>
 
-<!-- MODALS SECONDAIRES -->
-<div id="modalSousEquipement" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 flex justify-center items-center p-4">
-    <div class="bg-white rounded-xl shadow-xl w-full max-w-sm overflow-hidden">
-        <div class="bg-slate-900 text-white px-6 py-4 flex justify-between items-center">
-            <h3 class="font-bold">Ajouter Sous-Équipement</h3>
-            <button onclick="closeSousEquipementModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        <form onsubmit="saveSousEquipement(event)" class="p-6 space-y-4">
-            <input type="hidden" id="sousEquipementIndex">
-            <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Machine Parente</label>
-                <select id="subEqParent" class="select-equipements w-full border rounded p-2 text-sm outline-none bg-white" required></select>
-            </div>
-            <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nom du Sous-Équipement</label>
-                <input type="text" id="subEqNom" required placeholder="Ex: Vérin principal..." class="w-full border rounded p-2 text-sm outline-none">
-            </div>
-            <div class="flex justify-end gap-3 pt-3 border-t">
-                <button type="button" onclick="closeSousEquipementModal()" class="px-4 py-2 border rounded text-sm font-semibold text-slate-600">Annuler</button>
-                <button type="submit" class="px-5 py-2 bg-indigo-600 text-white rounded text-sm font-semibold">Enregistrer</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<div id="modalZone" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 flex justify-center items-center p-4">
-    <div class="bg-white rounded-xl shadow-xl w-full max-w-sm overflow-hidden">
-        <div class="bg-slate-900 text-white px-6 py-4 flex justify-between items-center">
-            <h3 class="font-bold">Ajouter Zone de Production</h3>
-            <button onclick="closeZoneModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        <form onsubmit="saveZone(event)" class="p-6 space-y-4">
-            <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nom de la Zone</label>
-                <input type="text" id="zoneNom" required placeholder="Ex: Zone de Moulage..." class="w-full border rounded p-2 text-sm outline-none">
-            </div>
-            <div class="flex justify-end gap-3 pt-3 border-t">
-                <button type="button" onclick="closeZoneModal()" class="px-4 py-2 border rounded text-sm font-semibold text-slate-600">Annuler</button>
-                <button type="submit" class="px-5 py-2 bg-indigo-600 text-white rounded text-sm font-semibold">Ajouter</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<div id="modalEquipement" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 flex justify-center items-center p-4">
-    <div class="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden">
-        <div class="bg-slate-900 text-white px-6 py-4 flex justify-between items-center">
-            <h3 class="font-bold" id="modalEquipementTitle">Ajouter une Machine</h3>
-            <button onclick="closeEquipementModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        <form onsubmit="saveEquipement(event)" class="p-6 space-y-4">
-            <input type="hidden" id="equipementIndex">
-            <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Code</label>
-                <input type="text" id="eqCode" required placeholder="Ex: P-01..." class="w-full border rounded p-2 text-sm outline-none">
-            </div>
-            <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nom de l'Équipement</label>
-                <input type="text" id="eqNom" required placeholder="Ex: Presse Hydraulique..." class="w-full border rounded p-2 text-sm outline-none">
-            </div>
-            <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Zone Associated</label>
-                <select id="eqZone" class="w-full border rounded p-2 text-sm outline-none bg-white" required></select>
-            </div>
-            <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Statut Opérationnel</label>
-                <select id="eqStatut" class="w-full border rounded p-2 text-sm outline-none bg-white">
-                    <option value="Opérationnel">Opérationnel</option>
-                    <option value="En Panne">En Panne</option>
-                    <option value="En Maintenance">En Maintenance</option>
-                </select>
-            </div>
-            <div class="flex justify-end gap-3 pt-3 border-t">
-                <button type="button" onclick="closeEquipementModal()" class="px-4 py-2 border rounded text-sm font-semibold text-slate-600">Annuler</button>
-                <button type="submit" class="px-5 py-2 bg-indigo-600 text-white rounded text-sm font-semibold">Enregistrer</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<div id="modalOt" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 flex justify-center items-center p-4">
-    <div class="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden">
-        <div class="bg-slate-900 text-white px-6 py-4 flex justify-between items-center">
-            <h3 class="font-bold" id="modalOtTitle">Gérer un OT</h3>
-            <button onclick="closeOtModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        <form onsubmit="saveOt(event)" class="p-6 space-y-4">
-            <input type="hidden" id="otIndex">
-            <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Équipement</label>
-                <select id="otEquipement" class="select-equipements w-full border rounded p-2 text-sm outline-none" required></select>
-            </div>
-            <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Type d'intervention</label>
-                <select id="otType" class="w-full border rounded p-2 text-sm outline-none">
-                    <option value="Correctif">Correctif</option>
-                    <option value="Préventif">Préventif</option>
-                </select>
-            </div>
-            <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Durée (heures)</label>
-                <input type="number" step="0.1" id="otDuree" required class="w-full border rounded p-2 text-sm outline-none">
-            </div>
-            <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Description</label>
-                <textarea id="otDesc" required rows="2" class="w-full border rounded p-2 text-sm outline-none"></textarea>
-            </div>
-            <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Priorité</label>
-                <select id="otPriorite" class="w-full border rounded p-2 text-sm outline-none">
-                    <option value="Haute">Haute</option>
-                    <option value="Moyenne">Moyenne</option>
-                    <option value="Basse">Basse</option>
-                </select>
-            </div>
-            <div class="flex justify-end gap-3 pt-4 border-t">
-                <button type="button" onclick="closeOtModal()" class="px-4 py-2 border rounded text-sm font-semibold text-slate-600">Annuler</button>
-                <button type="submit" class="px-5 py-2 bg-indigo-600 text-white rounded text-sm font-semibold">Enregistrer</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<div id="modalAmdec" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 flex justify-center items-center p-4">
-    <div class="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden">
-        <div class="bg-slate-900 text-white px-6 py-4 flex justify-between items-center">
-            <h3 class="font-bold" id="modalAmdecTitle">Gérer ligne AMDEC</h3>
-            <button onclick="closeAmdecModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        <form onsubmit="saveAmdec(event)" class="p-6 space-y-4">
-            <input type="hidden" id="amdecIndex">
-            <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Équipement</label>
-                <select id="amdecEquipement" class="select-equipements w-full border rounded p-2 text-sm outline-none" required></select>
-            </div>
-            <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Mode de Défaillance</label>
-                <input type="text" id="amdecMode" required class="w-full border rounded p-2 text-sm outline-none">
-            </div>
-            <div class="grid grid-cols-3 gap-2">
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">G (Gravité)</label>
-                    <input type="number" min="1" max="10" id="amdecG" required class="w-full border rounded p-2 text-sm outline-none">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">O (Occ.)</label>
-                    <input type="number" min="1" max="10" id="amdecO" required class="w-full border rounded p-2 text-sm outline-none">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">D (Détect.)</label>
-                    <input type="number" min="1" max="10" id="amdecD" required class="w-full border rounded p-2 text-sm outline-none">
-                </div>
-            </div>
-            <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Action Préconisée</label>
-                <textarea id="amdecAction" required rows="2" class="w-full border rounded p-2 text-sm outline-none"></textarea>
-            </div>
-            <div class="flex justify-end gap-3 pt-4 border-t">
-                <button type="button" onclick="closeAmdecModal()" class="px-4 py-2 border rounded text-sm font-semibold text-slate-600">Annuler</button>
-                <button type="submit" class="px-5 py-2 bg-indigo-600 text-white rounded text-sm font-semibold">Enregistrer</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<div id="modalDmaic" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 flex justify-center items-center p-4">
-    <div class="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden">
-        <div class="bg-slate-900 text-white px-6 py-4 flex justify-between items-center">
-            <h3 class="font-bold" id="modalDmaicTitle">Gérer Projet DMAIC</h3>
-            <button onclick="closeDmaicModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        <form onsubmit="saveDmaic(event)" class="p-6 space-y-4">
-            <input type="hidden" id="dmaicIndex">
-            <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Titre du projet</label>
-                <input type="text" id="dmaicTitre" required class="w-full border rounded p-2 text-sm outline-none">
-            </div>
-            <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Étape Actuelle</label>
-                <select id="dmaicEtape" class="w-full border rounded p-2 text-sm outline-none">
-                    <option value="Définir">D - Définir</option>
-                    <option value="Mesurer">M - Mesurer</option>
-                    <option value="Analyser">A - Analyser</option>
-                    <option value="Améliorer">I - Améliorer</option>
-                    <option value="Contrôler">C - Contrôler</option>
-                </select>
-            </div>
-            <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Objectif</label>
-                <input type="text" id="dmaicObjectif" required class="w-full border rounded p-2 text-sm outline-none">
-            </div>
-            <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Progression (%)</label>
-                <input type="number" min="0" max="100" id="dmaicProgression" required class="w-full border rounded p-2 text-sm outline-none">
-            </div>
-            <div class="flex justify-end gap-3 pt-4 border-t">
-                <button type="button" onclick="closeDmaicModal()" class="px-4 py-2 border rounded text-sm font-semibold text-slate-600">Annuler</button>
-                <button type="submit" class="px-5 py-2 bg-indigo-600 text-white rounded text-sm font-semibold">Enregistrer</button>
+<div id="modalSousEquipement" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex justify-center items-center p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
+        <h3 class="font-bold mb-4">Ajouter un Sous-Équipement</h3>
+        <form onsubmit="saveSousEquipement(event)" class="space-y-4">
+            <select id="subEqParentSelect" required class="w-full border rounded p-2 text-sm bg-white"></select>
+            <input type="text" id="subEqNameInput" required placeholder="Nom du Sous-Équipement" class="w-full border rounded p-2 text-sm">
+            <div class="flex justify-end gap-2">
+                <button type="button" onclick="closeSousEquipementModal()" class="px-4 py-2 text-sm text-slate-600">Annuler</button>
+                <button type="submit" class="px-4 py-2 text-sm bg-indigo-600 text-white rounded font-semibold">Ajouter</button>
             </div>
         </form>
     </div>
 </div>
 
 <script>
-    const HEURES_OUVERTURE_MENSUEL = 160;
+    // Supabase Configuration
+    const SUPABASE_URL = 'https://qnrfkfrornozwvgewcwk.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_DBe5PuyHPvdHnRnqr2lpqw_t4m3C8SY';
+    const supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
-    // GESTION UTILISATEURS & MOTS DE PASSE
-    let defaultUsers = {
-        'Admin': { email: 'admin@usine.com', pwd: 'admin123', role: 'Admin' },
-        'Responsable': { email: 'resp@usine.com', pwd: 'resp123', role: 'Responsable' },
-        'Technicien': { email: 'tech@usine.com', pwd: 'tech123', role: 'Technicien' }
-    };
-
-    let userAccounts = JSON.parse(localStorage.getItem('APP_USER_ACCOUNTS')) || defaultUsers;
-
-    let dataZones = JSON.parse(localStorage.getItem('DATA_ZONES')) || ['Zone Usinage', 'Ligne d\'Assemblage', 'Atelier Extrusion'];
-
-    let dataEquipements = JSON.parse(localStorage.getItem('DATA_EQUIPEMENTS')) || [
-        { code: 'P-01', nom: 'Presse Hydraulique P-01', zone: 'Zone Usinage', statut: 'Opérationnel' },
-        { code: 'M-02', nom: 'Moteur Principal M-02', zone: 'Zone Usinage', statut: 'Opérationnel' },
-        { code: 'B-02', nom: 'Ligne d\'Extrusion B-02', zone: 'Atelier Extrusion', statut: 'Opérationnel' }
+    let usersPasswords = { 'Admin': 'admin123', 'Responsable': 'resp123', 'Technicien': 'tech123' };
+    let zones = ['Zone 01 - Production', 'Zone 02 - Conditionnement'];
+    let equipments = [
+        { id: 'EQ-01', code: 'EQ-01', name: 'Presse Hydraulique', zone: 'Zone 01 - Production' },
+        { id: 'EQ-02', code: 'EQ-02', name: 'Ligne d Emballage', zone: 'Zone 02 - Conditionnement' }
     ];
-
-    let dataSousEquipements = JSON.parse(localStorage.getItem('DATA_SOUS_EQUIPEMENTS')) || [
-        { nom: 'Vérin principal', parent: 'Presse Hydraulique P-01' },
-        { nom: 'Distributeur hydraulique', parent: 'Presse Hydraulique P-01' },
-        { nom: 'Roulement avant', parent: 'Moteur Principal M-02' }
+    let subEquipments = [
+        { id: 'SUB-01', name: 'Moteur Principal', parentId: 'EQ-01' }
     ];
-
-    let dataPannes = JSON.parse(localStorage.getItem('DATA_PANNES')) || [
-        { date: '2026-03-01', equipement: 'Presse Hydraulique P-01', organe: 'Vérin principal', cause: 'Fuite d\'huile au joint', debut: '08:30', fin: '12:00', duree: 3.5, intervenant: 'Karim' }
-    ];
-
-    let dataOt = JSON.parse(localStorage.getItem('DATA_OT')) || [
-        { id: 'OT-1001', equipement: 'Presse Hydraulique P-01', type: 'Correctif', duree: 3.5, desc: 'Fuite d\'huile au joint', priorite: 'Haute' }
-    ];
-
-    let dataAmdec = JSON.parse(localStorage.getItem('DATA_AMDEC')) || [
-        { equipement: 'Presse Hydraulique P-01', mode: 'Fuite d\'huile', g: 6, o: 5, d: 4, npr: 120, action: 'Remplacement préventif des joints' }
-    ];
-
-    let dataDmaic = JSON.parse(localStorage.getItem('DATA_DMAIC')) || [
-        { titre: 'Réduction pannes Presse P-01', etape: 'Analyser', objectif: 'Atteindre 98% de Disponibilité', progression: 60 }
-    ];
-
-    document.addEventListener("DOMContentLoaded", () => {
-        checkSession();
-        updateEquipementDropdowns();
-        renderZones();
-        renderEquipements();
-        renderSousEquipements();
-        renderPannes();
-        renderOt();
-        renderAmdec();
-        renderDmaic();
-        updateKpiDashboard();
-    });
-
-    function sanitizeInput(str) {
-        const temp = document.createElement('div');
-        temp.textContent = str;
-        return temp.innerHTML;
-    }
 
     function togglePasswordVisibility() {
-        const input = document.getElementById('loginPassword');
-        const icon = document.getElementById('togglePasswordIcon');
-        if (input.type === 'password') {
-            input.type = 'text';
-            icon.className = 'fa-solid fa-eye-slash';
+        const passwordInput = document.getElementById('loginPassword');
+        const toggleIcon = document.getElementById('togglePasswordIcon');
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleIcon.classList.replace('fa-eye', 'fa-eye-slash');
         } else {
-            input.type = 'password';
-            icon.className = 'fa-solid fa-eye';
+            passwordInput.type = 'password';
+            toggleIcon.classList.replace('fa-eye-slash', 'fa-eye');
         }
     }
 
     function handleLogin(e) {
         e.preventDefault();
-        const emailInput = document.getElementById('loginEmail').value.trim();
-        const pwdInput = document.getElementById('loginPassword').value.trim();
-        const selectedRole = document.getElementById('loginRole').value;
-
-        const targetUser = userAccounts[selectedRole];
-
-        if (targetUser && targetUser.pwd === pwdInput) {
-            sessionStorage.setItem('SESSION_USER', JSON.stringify({ email: targetUser.email, role: targetUser.role }));
-            document.getElementById('loginError').classList.add('hidden');
-            checkSession();
+        const role = document.getElementById('loginRole').value;
+        const pwd = document.getElementById('loginPassword').value;
+        
+        if (usersPasswords[role] === pwd) {
+            document.getElementById('userDisplay').innerText = role;
+            document.getElementById('auth-screen').classList.add('hidden');
+            document.getElementById('app-screen').classList.remove('hidden');
+            if (role === 'Admin') document.getElementById('btnAdminChangePwd').classList.remove('hidden');
+            refreshAllUI();
         } else {
-            document.getElementById('loginErrorText').textContent = 'Identifiants ou mot de passe incorrects pour ce rôle.';
             document.getElementById('loginError').classList.remove('hidden');
         }
     }
 
     function handleLogout() {
-        sessionStorage.removeItem('SESSION_USER');
-        checkSession();
-    }
-
-    function checkSession() {
-        const stored = sessionStorage.getItem('SESSION_USER');
-        if (stored) {
-            const user = JSON.parse(stored);
-            document.getElementById('auth-screen').classList.add('hidden');
-            document.getElementById('app-screen').classList.remove('hidden');
-            document.getElementById('userDisplay').textContent = `${user.email} (${user.role})`;
-
-            applyRolePermissions(user.role);
-        } else {
-            document.getElementById('auth-screen').classList.remove('hidden');
-            document.getElementById('app-screen').classList.add('hidden');
-        }
-    }
-
-    // AFFECTATION STRICTE DES DROITS ET PRIVILÈGES
-    function applyRolePermissions(role) {
-        const btnAdminPwd = document.getElementById('btnAdminChangePwd');
-        const btnAddZone = document.getElementById('btnAddZone');
-        const btnAddEq = document.getElementById('btnAddEq');
-        const btnAddSubEq = document.getElementById('btnAddSubEq');
-
-        if (role === 'Admin') {
-            btnAdminPwd.classList.remove('hidden');
-            if (btnAddZone) btnAddZone.classList.remove('hidden');
-            if (btnAddEq) btnAddEq.classList.remove('hidden');
-            if (btnAddSubEq) btnAddSubEq.classList.remove('hidden');
-        } else {
-            btnAdminPwd.classList.add('hidden');
-            // Responsable et Technicien ne peuvent pas ajouter/supprimer de zones ou d'équipements
-            if (btnAddZone) btnAddZone.classList.add('hidden');
-            if (btnAddEq) btnAddEq.classList.add('hidden');
-            if (btnAddSubEq) btnAddSubEq.classList.add('hidden');
-        }
-    }
-
-    // CHANGEMENT DE MOT DE PASSE (RESERVÉ À L'ADMINISTRATEUR)
-    function openAdminPwdModal() {
-        const stored = sessionStorage.getItem('SESSION_USER');
-        if (stored && JSON.parse(stored).role === 'Admin') {
-            document.getElementById('modalAdminPwd').classList.remove('hidden');
-        } else {
-            alert('Accès refusé ! Seul un Administrateur peut modifier les mots de passe.');
-        }
-    }
-
-    function closeAdminPwdModal() {
-        document.getElementById('modalAdminPwd').classList.add('hidden');
-    }
-
-    function saveNewPassword(e) {
-        e.preventDefault();
-        const role = document.getElementById('pwdUserRole').value;
-        const newPwd = document.getElementById('newPassword').value.trim();
-
-        if (newPwd.length < 4) {
-            alert('Le mot de passe doit contenir au moins 4 caractères.');
-            return;
-        }
-
-        userAccounts[role].pwd = newPwd;
-        localStorage.setItem('APP_USER_ACCOUNTS', JSON.stringify(userAccounts));
-        alert(`Le mot de passe pour le rôle ${role} a été mis à jour avec succès.`);
-        closeAdminPwdModal();
-    }
-
-    function switchTab(tab) {
-        ['pannes', 'equipements', 'kpi', 'gmao', 'amdec', 'dmaic'].forEach(t => {
-            document.getElementById(`sec-${t}`).classList.add('hidden');
-            document.getElementById(`tab-${t}`).classList.remove('text-indigo-600', 'border-indigo-600');
-            document.getElementById(`tab-${t}`).classList.add('text-slate-600', 'border-transparent');
-        });
-        document.getElementById(`sec-${tab}`).classList.remove('hidden');
-        document.getElementById(`tab-${tab}`).classList.add('text-indigo-600', 'border-indigo-600');
-    }
-
-    function updateEquipementDropdowns() {
-        const selects = document.querySelectorAll('.select-equipements');
-        selects.forEach(select => {
-            const isKpiSelect = select.id === 'selectMachineKpi';
-            let html = isKpiSelect ? '<option value="ALL">Toutes les machines (Total Usine)</option>' : '';
-            dataEquipements.forEach(eq => {
-                html += `<option value="${sanitizeInput(eq.nom)}">${sanitizeInput(eq.nom)}</option>`;
-            });
-            select.innerHTML = html;
-        });
-
-        const zoneSelect = document.getElementById('eqZone');
-        if(zoneSelect) {
-            let zoneHtml = '';
-            dataZones.forEach(z => {
-                zoneHtml += `<option value="${sanitizeInput(z)}">${sanitizeInput(z)}</option>`;
-            });
-            zoneSelect.innerHTML = zoneHtml;
-        }
-        onPanneEquipementChange();
-    }
-
-    function onPanneEquipementChange() {
-        const selectedMachine = document.getElementById('panneEquipement').value;
-        const subSelect = document.getElementById('panneOrgane');
-        if (!subSelect) return;
-
-        const filteredSubs = dataSousEquipements.filter(s => s.parent === selectedMachine);
-        let html = '';
-        if (filteredSubs.length === 0) {
-            html = '<option value="Général / Inconnu">Général / Inconnu</option>';
-        } else {
-            filteredSubs.forEach(s => {
-                html += `<option value="${sanitizeInput(s.nom)}">${sanitizeInput(s.nom)}</option>`;
-            });
-        }
-        subSelect.innerHTML = html;
-    }
-
-    function renderSousEquipements() {
-        const tbody = document.getElementById('table-sousequipements-body');
-        const currentUser = JSON.parse(sessionStorage.getItem('SESSION_USER') || '{}');
-        tbody.innerHTML = '';
-        dataSousEquipements.forEach((s, idx) => {
-            const actions = currentUser.role === 'Admin' ? `<button onclick="deleteSousEquipement(${idx})" class="text-red-600 hover:text-red-900"><i class="fa-solid fa-trash"></i></button>` : '-';
-            tbody.innerHTML += `
-                <tr class="hover:bg-slate-50">
-                    <td class="p-2 font-semibold text-slate-800">${sanitizeInput(s.nom)}</td>
-                    <td class="p-2 text-slate-600 text-xs">${sanitizeInput(s.parent)}</td>
-                    <td class="p-2 text-center">${actions}</td>
-                </tr>
-            `;
-        });
-    }
-
-    function openSousEquipementModal() {
-        document.getElementById('sousEquipementIndex').value = '';
-        document.getElementById('subEqNom').value = '';
-        document.getElementById('modalSousEquipement').classList.remove('hidden');
-    }
-    function closeSousEquipementModal() { document.getElementById('modalSousEquipement').classList.add('hidden'); }
-
-    function saveSousEquipement(e) {
-        e.preventDefault();
-        const obj = {
-            nom: sanitizeInput(document.getElementById('subEqNom').value),
-            parent: sanitizeInput(document.getElementById('subEqParent').value)
-        };
-        dataSousEquipements.push(obj);
-        saveData('DATA_SOUS_EQUIPEMENTS', dataSousEquipements);
-        renderSousEquipements();
-        onPanneEquipementChange();
-        closeSousEquipementModal();
-    }
-
-    function deleteSousEquipement(idx) {
-        if(confirm("Supprimer ce sous-équipement ?")) {
-            dataSousEquipements.splice(idx, 1);
-            saveData('DATA_SOUS_EQUIPEMENTS', dataSousEquipements);
-            renderSousEquipements();
-            onPanneEquipementChange();
-        }
-    }
-
-    function renderZones() {
-        const list = document.getElementById('list-zones');
-        const currentUser = JSON.parse(sessionStorage.getItem('SESSION_USER') || '{}');
-        list.innerHTML = '';
-        dataZones.forEach((z, idx) => {
-            const action = currentUser.role === 'Admin' ? `<button onclick="deleteZone(${idx})" class="text-red-500 hover:text-red-700 text-xs"><i class="fa-solid fa-trash"></i></button>` : '';
-            list.innerHTML += `
-                <li class="py-2.5 flex justify-between items-center">
-                    <span class="font-medium text-slate-700">${sanitizeInput(z)}</span>
-                    ${action}
-                </li>
-            `;
-        });
+        document.getElementById('app-screen').classList.add('hidden');
+        document.getElementById('auth-screen').classList.remove('hidden');
     }
 
     function openZoneModal() { document.getElementById('modalZone').classList.remove('hidden'); }
     function closeZoneModal() { document.getElementById('modalZone').classList.add('hidden'); }
+    function openEquipementModal() { populateSelects(); document.getElementById('modalEquipement').classList.remove('hidden'); }
+    function closeEquipementModal() { document.getElementById('modalEquipement').classList.add('hidden'); }
+    function openSousEquipementModal() { populateSelects(); document.getElementById('modalSousEquipement').classList.remove('hidden'); }
+    function closeSousEquipementModal() { document.getElementById('modalSousEquipement').classList.add('hidden'); }
 
     function saveZone(e) {
         e.preventDefault();
-        const nom = sanitizeInput(document.getElementById('zoneNom').value);
-        if (nom && !dataZones.includes(nom)) {
-            dataZones.push(nom);
-            saveData('DATA_ZONES', dataZones);
-            renderZones();
-            updateEquipementDropdowns();
+        const zoneName = document.getElementById('zoneNameInput').value.trim();
+        if (zones.some(z => z.toLowerCase() === zoneName.toLowerCase())) {
+            alert(`⚠️ La zone "${zoneName}" existe déjà !`);
+            return;
         }
+        zones.push(zoneName);
+        document.getElementById('zoneNameInput').value = '';
         closeZoneModal();
-    }
-
-    function deleteZone(idx) {
-        if(confirm("Supprimer cette zone ?")) {
-            dataZones.splice(idx, 1);
-            saveData('DATA_ZONES', dataZones);
-            renderZones();
-            updateEquipementDropdowns();
-        }
-    }
-
-    function renderEquipements() {
-        const tbody = document.getElementById('table-equipements-body');
-        const currentUser = JSON.parse(sessionStorage.getItem('SESSION_USER') || '{}');
-        tbody.innerHTML = '';
-        dataEquipements.forEach((eq, idx) => {
-            const actions = currentUser.role === 'Admin' ? `
-                <button onclick="editEquipement(${idx})" class="text-indigo-600 hover:text-indigo-900"><i class="fa-solid fa-pen"></i></button>
-                <button onclick="deleteEquipement(${idx})" class="text-red-600 hover:text-red-900"><i class="fa-solid fa-trash"></i></button>
-            ` : '-';
-            tbody.innerHTML += `
-                <tr class="hover:bg-slate-50">
-                    <td class="p-2 font-bold text-indigo-600">${sanitizeInput(eq.code)}</td>
-                    <td class="p-2 font-semibold text-slate-800">${sanitizeInput(eq.nom)}</td>
-                    <td class="p-2 text-center space-x-2">${actions}</td>
-                </tr>
-            `;
-        });
-    }
-
-    function openEquipementModal() {
-        document.getElementById('equipementIndex').value = '';
-        document.getElementById('eqCode').value = '';
-        document.getElementById('eqNom').value = '';
-        document.getElementById('modalEquipementTitle').textContent = 'Ajouter une Machine';
-        document.getElementById('modalEquipement').classList.remove('hidden');
-    }
-
-    function closeEquipementModal() { document.getElementById('modalEquipement').classList.add('hidden'); }
-
-    function editEquipement(idx) {
-        const eq = dataEquipements[idx];
-        document.getElementById('equipementIndex').value = idx;
-        document.getElementById('eqCode').value = eq.code;
-        document.getElementById('eqNom').value = eq.nom;
-        document.getElementById('eqZone').value = eq.zone;
-        document.getElementById('eqStatut').value = eq.statut;
-        document.getElementById('modalEquipementTitle').textContent = 'Modifier la Machine';
-        document.getElementById('modalEquipement').classList.remove('hidden');
+        refreshAllUI();
     }
 
     function saveEquipement(e) {
         e.preventDefault();
-        const idx = document.getElementById('equipementIndex').value;
-        const obj = {
-            code: sanitizeInput(document.getElementById('eqCode').value),
-            nom: sanitizeInput(document.getElementById('eqNom').value),
-            zone: sanitizeInput(document.getElementById('eqZone').value),
-            statut: sanitizeInput(document.getElementById('eqStatut').value)
-        };
-        if (idx !== '') dataEquipements[idx] = obj; else dataEquipements.push(obj);
-        saveData('DATA_EQUIPEMENTS', dataEquipements);
-        renderEquipements();
-        updateEquipementDropdowns();
-        closeEquipementModal();
-    }
+        const zone = document.getElementById('eqZoneSelect').value;
+        const code = document.getElementById('eqCodeInput').value.trim();
+        const name = document.getElementById('eqNameInput').value.trim();
 
-    function deleteEquipement(idx) {
-        if(confirm("Supprimer cette machine ?")) {
-            dataEquipements.splice(idx, 1);
-            saveData('DATA_EQUIPEMENTS', dataEquipements);
-            renderEquipements();
-            updateEquipementDropdowns();
+        if (equipments.some(eq => eq.code.toLowerCase() === code.toLowerCase())) {
+            alert(`⚠️ Le code "${code}" est déjà utilisé !`);
+            return;
         }
-    }
-
-    function renderPannes() {
-        const tbody = document.getElementById('table-pannes-body');
-        tbody.innerHTML = '';
-        dataPannes.forEach((p, idx) => {
-            tbody.innerHTML += `
-                <tr class="hover:bg-slate-50">
-                    <td class="p-3 font-semibold">${sanitizeInput(p.date)}</td>
-                    <td class="p-3 font-bold text-slate-800">${sanitizeInput(p.equipement)}</td>
-                    <td class="p-3 text-indigo-700 font-medium">${sanitizeInput(p.organe)}</td>
-                    <td class="p-3 text-slate-600">${sanitizeInput(p.cause)}</td>
-                    <td class="p-3 text-xs">${sanitizeInput(p.debut)} - ${sanitizeInput(p.fin)}</td>
-                    <td class="p-3 font-bold text-red-600">${p.duree} h</td>
-                    <td class="p-3 text-slate-700">${sanitizeInput(p.intervenant)}</td>
-                    <td class="p-3 text-center space-x-2">
-                        <button onclick="editPanne(${idx})" class="text-indigo-600 hover:text-indigo-900"><i class="fa-solid fa-pen"></i></button>
-                        <button onclick="deletePanne(${idx})" class="text-red-600 hover:text-red-900"><i class="fa-solid fa-trash"></i></button>
-                    </td>
-                </tr>
-            `;
-        });
-    }
-
-    function openPanneModal() {
-        document.getElementById('panneIndex').value = '';
-        document.getElementById('panneDate').value = new Date().toISOString().split('T')[0];
-        document.getElementById('panneCause').value = '';
-        document.getElementById('panneDebut').value = '08:00';
-        document.getElementById('panneFin').value = '09:00';
-        document.getElementById('panneDuree').value = '1.0';
-        document.getElementById('panneIntervenant').value = '';
-        document.getElementById('modalPanneTitle').textContent = 'Déclarer une Panne';
-        onPanneEquipementChange();
-        document.getElementById('modalPanne').classList.remove('hidden');
-    }
-
-    function closePanneModal() { document.getElementById('modalPanne').classList.add('hidden'); }
-
-    function calcPanneDuree() {
-        const debut = document.getElementById('panneDebut').value;
-        const fin = document.getElementById('panneFin').value;
-        if (debut && fin) {
-            const [h1, m1] = debut.split(':').map(Number);
-            const [h2, m2] = fin.split(':').map(Number);
-            let diff = (h2 * 60 + m2) - (h1 * 60 + m1);
-            if (diff < 0) diff += 24 * 60;
-            document.getElementById('panneDuree').value = (diff / 60).toFixed(1);
-        }
-    }
-
-    function editPanne(index) {
-        const p = dataPannes[index];
-        document.getElementById('panneIndex').value = index;
-        document.getElementById('panneDate').value = p.date;
-        document.getElementById('panneEquipement').value = p.equipement;
-        onPanneEquipementChange();
-        document.getElementById('panneOrgane').value = p.organe;
-        document.getElementById('panneCause').value = p.cause;
-        document.getElementById('panneDebut').value = p.debut;
-        document.getElementById('panneFin').value = p.fin;
-        document.getElementById('panneDuree').value = p.duree;
-        document.getElementById('panneIntervenant').value = p.intervenant;
-        document.getElementById('modalPanneTitle').textContent = 'Modifier la Panne';
-        document.getElementById('modalPanne').classList.remove('hidden');
-    }
-
-    function deletePanne(index) {
-        if (confirm("Supprimer cette panne ?")) {
-            dataPannes.splice(index, 1);
-            saveData('DATA_PANNES', dataPannes);
-            renderPannes();
-            updateKpiDashboard();
-        }
-    }
-
-    function savePanne(e) {
-        e.preventDefault();
-        const idx = document.getElementById('panneIndex').value;
-        const equipement = sanitizeInput(document.getElementById('panneEquipement').value);
-        const duree = parseFloat(document.getElementById('panneDuree').value);
-        const cause = sanitizeInput(document.getElementById('panneCause').value);
-
-        const obj = {
-            date: sanitizeInput(document.getElementById('panneDate').value),
-            equipement: equipement,
-            organe: sanitizeInput(document.getElementById('panneOrgane').value),
-            cause: cause,
-            debut: sanitizeInput(document.getElementById('panneDebut').value),
-            fin: sanitizeInput(document.getElementById('panneFin').value),
-            duree: duree,
-            intervenant: sanitizeInput(document.getElementById('panneIntervenant').value)
-        };
-
-        if (idx !== '') {
-            dataPannes[idx] = obj;
-        } else {
-            dataPannes.push(obj);
-            dataOt.push({
-                id: 'OT-' + (1000 + dataOt.length + 1),
-                equipement: equipement,
-                type: 'Correctif',
-                duree: duree,
-                desc: cause,
-                priorite: 'Haute'
-            });
-            saveData('DATA_OT', dataOt);
-            renderOt();
-        }
-
-        saveData('DATA_PANNES', dataPannes);
-        renderPannes();
-        updateKpiDashboard();
-        closePanneModal();
-    }
-
-    function updateKpiDashboard() {
-        const selectedMachine = document.getElementById('selectMachineKpi').value;
-        let filteredPannes = dataPannes;
-        if (selectedMachine !== 'ALL') {
-            filteredPannes = filteredPannes.filter(p => p.equipement === selectedMachine);
-        }
-
-        const nombrePannes = filteredPannes.length;
-        if (nombrePannes === 0) {
-            document.getElementById('kpiMtbf').textContent = `${HEURES_OUVERTURE_MENSUEL} hrs`;
-            document.getElementById('kpiMttr').textContent = `0 hrs`;
-            document.getElementById('kpiDisp').textContent = `100 %`;
-            document.getElementById('kpiPannes').textContent = `0`;
+        if (equipments.some(eq => eq.zone === zone && eq.name.toLowerCase() === name.toLowerCase())) {
+            alert(`⚠️ L'équipement "${name}" existe déjà dans cette zone !`);
             return;
         }
 
-        const tempsTotalArret = filteredPannes.reduce((s, p) => s + (parseFloat(p.duree) || 0), 0);
-        const tempsFonctionnement = HEURES_OUVERTURE_MENSUEL - tempsTotalArret;
-
-        const mtbf = (tempsFonctionnement / nombrePannes).toFixed(1);
-        const mttr = (tempsTotalArret / nombrePannes).toFixed(1);
-        const disp = ((parseFloat(mtbf) / (parseFloat(mtbf) + parseFloat(mttr))) * 100).toFixed(2);
-
-        document.getElementById('kpiMtbf').textContent = `${mtbf} hrs`;
-        document.getElementById('kpiMttr').textContent = `${mttr} hrs`;
-        document.getElementById('kpiDisp').textContent = `${disp} %`;
-        document.getElementById('kpiPannes').textContent = nombrePannes;
+        equipments.push({ id: code, code: code, name: name, zone: zone });
+        closeEquipementModal();
+        refreshAllUI();
     }
 
-    function renderOt() {
-        const tbody = document.getElementById('table-ot-body');
-        tbody.innerHTML = '';
-        dataOt.forEach((ot, idx) => {
-            tbody.innerHTML += `
-                <tr class="hover:bg-slate-50">
-                    <td class="p-3 font-bold text-slate-800">${sanitizeInput(ot.id)}</td>
-                    <td class="p-3">${sanitizeInput(ot.equipement)}</td>
-                    <td class="p-3"><span class="px-2 py-0.5 rounded text-xs ${ot.type === 'Correctif' ? 'bg-red-100 text-red-700' : 'bg-blue-100 text-blue-700'}">${sanitizeInput(ot.type)}</span></td>
-                    <td class="p-3 font-bold">${ot.duree}</td>
-                    <td class="p-3 text-slate-600">${sanitizeInput(ot.desc)}</td>
-                    <td class="p-3 font-bold text-xs ${ot.priorite === 'Haute' ? 'text-red-600' : 'text-slate-600'}">${sanitizeInput(ot.priorite)}</td>
-                    <td class="p-3 text-center space-x-2">
-                        <button onclick="editOt(${idx})" class="text-indigo-600 hover:text-indigo-900"><i class="fa-solid fa-pen"></i></button>
-                        <button onclick="deleteOt(${idx})" class="text-red-600 hover:text-red-900"><i class="fa-solid fa-trash"></i></button>
-                    </td>
-                </tr>
-            `;
-        });
-    }
-
-    function openOtModal() {
-        document.getElementById('otIndex').value = '';
-        document.getElementById('otDuree').value = '1.0';
-        document.getElementById('otDesc').value = '';
-        document.getElementById('modalOtTitle').textContent = 'Ajouter un OT';
-        document.getElementById('modalOt').classList.remove('hidden');
-    }
-    function closeOtModal() { document.getElementById('modalOt').classList.add('hidden'); }
-
-    function editOt(index) {
-        const ot = dataOt[index];
-        document.getElementById('otIndex').value = index;
-        document.getElementById('otEquipement').value = ot.equipement;
-        document.getElementById('otType').value = ot.type;
-        document.getElementById('otDuree').value = ot.duree;
-        document.getElementById('otDesc').value = ot.desc;
-        document.getElementById('otPriorite').value = ot.priorite;
-        document.getElementById('modalOtTitle').textContent = 'Modifier OT';
-        document.getElementById('modalOt').classList.remove('hidden');
-    }
-
-    function deleteOt(index) {
-        if (confirm("Supprimer cet OT ?")) {
-            dataOt.splice(index, 1);
-            saveData('DATA_OT', dataOt);
-            renderOt();
-        }
-    }
-
-    function saveOt(e) {
+    function saveSousEquipement(e) {
         e.preventDefault();
-        const idx = document.getElementById('otIndex').value;
-        const obj = {
-            id: idx !== '' ? dataOt[idx].id : 'OT-' + (1000 + dataOt.length + 1),
-            equipement: sanitizeInput(document.getElementById('otEquipement').value),
-            type: sanitizeInput(document.getElementById('otType').value),
-            duree: parseFloat(document.getElementById('otDuree').value),
-            desc: sanitizeInput(document.getElementById('otDesc').value),
-            priorite: sanitizeInput(document.getElementById('otPriorite').value)
-        };
-        if (idx !== '') dataOt[idx] = obj; else dataOt.push(obj);
-        saveData('DATA_OT', dataOt);
-        renderOt();
-        closeOtModal();
-    }
+        const parentId = document.getElementById('subEqParentSelect').value;
+        const subName = document.getElementById('subEqNameInput').value.trim();
 
-    function renderAmdec() {
-        const tbody = document.getElementById('table-amdec-body');
-        tbody.innerHTML = '';
-        dataAmdec.forEach((item, idx) => {
-            tbody.innerHTML += `
-                <tr class="hover:bg-slate-50">
-                    <td class="p-3 font-semibold">${sanitizeInput(item.equipement)}</td>
-                    <td class="p-3">${sanitizeInput(item.mode)}</td>
-                    <td class="p-3 text-center">${item.g}</td>
-                    <td class="p-3 text-center">${item.o}</td>
-                    <td class="p-3 text-center">${item.d}</td>
-                    <td class="p-3 text-center font-bold text-red-600">${item.npr}</td>
-                    <td class="p-3 text-slate-600">${sanitizeInput(item.action)}</td>
-                    <td class="p-3 text-center space-x-2">
-                        <button onclick="editAmdec(${idx})" class="text-indigo-600 hover:text-indigo-900"><i class="fa-solid fa-pen"></i></button>
-                        <button onclick="deleteAmdec(${idx})" class="text-red-600 hover:text-red-900"><i class="fa-solid fa-trash"></i></button>
-                    </td>
-                </tr>
-            `;
-        });
-    }
-
-    function openAmdecModal() {
-        document.getElementById('amdecIndex').value = '';
-        document.getElementById('modalAmdecTitle').textContent = 'Ajouter ligne AMDEC';
-        document.getElementById('modalAmdec').classList.remove('hidden');
-    }
-    function closeAmdecModal() { document.getElementById('modalAmdec').classList.add('hidden'); }
-
-    function editAmdec(index) {
-        const a = dataAmdec[index];
-        document.getElementById('amdecIndex').value = index;
-        document.getElementById('amdecEquipement').value = a.equipement;
-        document.getElementById('amdecMode').value = a.mode;
-        document.getElementById('amdecG').value = a.g;
-        document.getElementById('amdecO').value = a.o;
-        document.getElementById('amdecD').value = a.d;
-        document.getElementById('amdecAction').value = a.action;
-        document.getElementById('modalAmdec').classList.remove('hidden');
-    }
-
-    function deleteAmdec(index) {
-        if (confirm("Supprimer cette ligne AMDEC ?")) {
-            dataAmdec.splice(index, 1);
-            saveData('DATA_AMDEC', dataAmdec);
-            renderAmdec();
+        if (subEquipments.some(sub => sub.parentId === parentId && sub.name.toLowerCase() === subName.toLowerCase())) {
+            alert(`⚠️ Le sous-équipement "${subName}" existe déjà !`);
+            return;
         }
+
+        subEquipments.push({ id: 'SUB-' + (subEquipments.length + 1), name: subName, parentId: parentId });
+        closeSousEquipementModal();
+        refreshAllUI();
     }
 
-    function saveAmdec(e) {
-        e.preventDefault();
-        const idx = document.getElementById('amdecIndex').value;
-        const g = parseInt(document.getElementById('amdecG').value);
-        const o = parseInt(document.getElementById('amdecO').value);
-        const d = parseInt(document.getElementById('amdecD').value);
-        const obj = {
-            equipement: sanitizeInput(document.getElementById('amdecEquipement').value),
-            mode: sanitizeInput(document.getElementById('amdecMode').value),
-            g: g, o: o, d: d, npr: g * o * d,
-            action: sanitizeInput(document.getElementById('amdecAction').value)
-        };
-        if (idx !== '') dataAmdec[idx] = obj; else dataAmdec.push(obj);
-        saveData('DATA_AMDEC', dataAmdec);
-        renderAmdec();
-        closeAmdecModal();
+    function refreshAllUI() {
+        document.getElementById('list-zones').innerHTML = zones.map(z => `<li class="py-2 font-medium">${z}</li>`).join('');
+        document.getElementById('table-equipements-body').innerHTML = equipments.map(eq => `<tr><td class="p-2 font-bold text-indigo-600">${eq.code}</td><td class="p-2">${eq.name}</td></tr>`).join('');
+        document.getElementById('table-sousequipements-body').innerHTML = subEquipments.map(s => `<tr><td class="p-2 font-medium">${s.name}</td></tr>`).join('');
+        populateSelects();
     }
 
-    function renderDmaic() {
-        const container = document.getElementById('dmaic-projects-container');
-        container.innerHTML = '';
-        dataDmaic.forEach((p, idx) => {
-            container.innerHTML += `
-                <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 space-y-3 relative">
-                    <div class="flex justify-between items-center">
-                        <span class="text-xs font-bold bg-indigo-100 text-indigo-700 px-2.5 py-1 rounded">${sanitizeInput(p.etape)}</span>
-                        <div class="space-x-2">
-                            <button onclick="editDmaic(${idx})" class="text-indigo-600 hover:text-indigo-900"><i class="fa-solid fa-pen"></i></button>
-                            <button onclick="deleteDmaic(${idx})" class="text-red-600 hover:text-red-900"><i class="fa-solid fa-trash"></i></button>
-                        </div>
-                    </div>
-                    <h3 class="font-bold text-slate-800 text-lg">${sanitizeInput(p.titre)}</h3>
-                    <p class="text-xs text-slate-500">Objectif: ${sanitizeInput(p.objectif)}</p>
-                    <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
-                        <div class="bg-indigo-600 h-full" style="width: ${p.progression}%"></div>
-                    </div>
-                </div>
-            `;
-        });
+    function populateSelects() {
+        const eqZoneSelect = document.getElementById('eqZoneSelect');
+        if (eqZoneSelect) eqZoneSelect.innerHTML = zones.map(z => `<option value="${z}">${z}</option>`).join('');
+        const subEqParentSelect = document.getElementById('subEqParentSelect');
+        if (subEqParentSelect) subEqParentSelect.innerHTML = equipments.map(e => `<option value="${e.id}">${e.name}</option>`).join('');
     }
 
-    function openDmaicModal() {
-        document.getElementById('dmaicIndex').value = '';
-        document.getElementById('modalDmaicTitle').textContent = 'Ajouter Projet DMAIC';
-        document.getElementById('modalDmaic').classList.remove('hidden');
-    }
-    function closeDmaicModal() { document.getElementById('modalDmaic').classList.add('hidden'); }
-
-    function editDmaic(index) {
-        const d = dataDmaic[index];
-        document.getElementById('dmaicIndex').value = index;
-        document.getElementById('dmaicTitre').value = d.titre;
-        document.getElementById('dmaicEtape').value = d.etape;
-        document.getElementById('dmaicObjectif').value = d.objectif;
-        document.getElementById('dmaicProgression').value = d.progression;
-        document.getElementById('modalDmaic').classList.remove('hidden');
+    function switchTab(tabId) {
+        document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden'));
+        document.getElementById(`sec-${tabId}`).classList.remove('hidden');
     }
 
-    function deleteDmaic(index) {
-        if (confirm("Supprimer ce projet DMAIC ?")) {
-            dataDmaic.splice(index, 1);
-            saveData('DATA_DMAIC', dataDmaic);
-            renderDmaic();
-        }
-    }
-
-    function saveDmaic(e) {
-        e.preventDefault();
-        const idx = document.getElementById('dmaicIndex').value;
-        const obj = {
-            titre: sanitizeInput(document.getElementById('dmaicTitre').value),
-            etape: sanitizeInput(document.getElementById('dmaicEtape').value),
-            objectif: sanitizeInput(document.getElementById('dmaicObjectif').value),
-            progression: parseInt(document.getElementById('dmaicProgression').value)
-        };
-        if (idx !== '') dataDmaic[idx] = obj; else dataDmaic.push(obj);
-        saveData('DATA_DMAIC', dataDmaic);
-        renderDmaic();
-        closeDmaicModal();
-    }
-
-    function saveData(key, data) {
-        localStorage.setItem(key, JSON.stringify(data));
-    }
+    window.addEventListener('DOMContentLoaded', () => { refreshAllUI(); });
 </script>
 </body>
 </html>
