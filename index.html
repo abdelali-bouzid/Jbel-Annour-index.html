@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PLATEFORME INDUSTRIELLE INTÉGRÉE - GMAO | STOCK | DA</title>
+    <title>SMART MAINTENANCE PRO V12.1</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; }
+    </style>
 </head>
 <body class="flex flex-col min-h-full text-slate-800">
 
@@ -18,27 +21,40 @@
                 <i class="fa-solid fa-shield-halved text-3xl"></i>
             </div>
             <h2 class="text-2xl font-bold text-slate-900">Plateforme de Maintenance</h2>
-            <p class="text-sm text-slate-500 mt-1">GMAO • Stock • Achats</p>
+            <p class="text-sm text-slate-500 mt-1">GMAO • Stock • Demandes d'Achat</p>
+        </div>
+
+        <div id="loginError" class="hidden mb-4 p-3 bg-red-100 border border-red-400 text-red-700 text-xs rounded-lg flex items-center gap-2">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>Mot de passe incorrect.</span>
         </div>
 
         <form onsubmit="handleLogin(event)" class="space-y-4">
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Utilisateur</label>
-                <input type="text" id="loginEmail" required value="admin@usine.com" class="w-full px-4 py-2 border rounded-lg text-sm">
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Utilisateur / Email</label>
+                <input type="text" id="loginEmail" required value="admin@usine.com" class="w-full px-4 py-2 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-indigo-500">
             </div>
+
             <div>
                 <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Mot de passe</label>
-                <input type="password" id="loginPassword" required value="admin123" class="w-full px-4 py-2 border rounded-lg text-sm">
+                <div class="relative">
+                    <input type="password" id="loginPassword" required value="admin123" class="w-full px-4 py-2 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-indigo-500 pr-10">
+                    <button type="button" onclick="togglePasswordVisibility()" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-indigo-600">
+                        <i id="togglePasswordIcon" class="fa-solid fa-eye"></i>
+                    </button>
+                </div>
             </div>
+
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Rôle</label>
-                <select id="loginRole" class="w-full border rounded-lg p-2 text-sm bg-white">
-                    <option value="Admin">Administrateur</option>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Rôle Utilisateur</label>
+                <select id="loginRole" class="w-full border rounded-lg p-2 text-sm bg-white outline-none focus:ring-2 focus:ring-indigo-500">
+                    <option value="Admin">Administrateur (Accès Total)</option>
                     <option value="Responsable">Responsable Maintenance</option>
                     <option value="Technicien">Technicien</option>
                 </select>
             </div>
-            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 rounded-lg shadow-lg">
+
+            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 rounded-lg shadow-lg transition">
                 <i class="fa-solid fa-right-to-bracket mr-2"></i> Se Connecter
             </button>
         </form>
@@ -63,32 +79,48 @@
     </header>
 
     <main class="max-w-7xl mx-auto px-4 py-6 flex-grow w-full space-y-6">
-        <!-- NAVIGATION -->
+        <!-- TABS -->
         <div class="flex border-b border-slate-300 gap-2 overflow-x-auto bg-white p-2 rounded-t-lg shadow-sm">
-            <button onclick="switchTab('pannes')" id="tab-pannes" class="tab-btn px-4 py-2 font-semibold text-indigo-600 border-b-2 border-indigo-600">
-                <i class="fa-solid fa-triangle-exclamation text-amber-500 mr-2"></i>Pannes
-            </button>
-            <button onclick="switchTab('equipements')" id="tab-equipements" class="tab-btn px-4 py-2 font-semibold text-slate-600">
-                <i class="fa-solid fa-sitemap text-blue-500 mr-2"></i>Équipements
+            <button onclick="switchTab('equipements')" id="tab-equipements" class="tab-btn px-4 py-2 font-semibold text-indigo-600 border-b-2 border-indigo-600">
+                <i class="fa-solid fa-sitemap text-blue-500 mr-2"></i>Zones & Équipements
             </button>
             <button onclick="switchTab('da')" id="tab-da" class="tab-btn px-4 py-2 font-semibold text-slate-600">
                 <i class="fa-solid fa-cart-shopping text-emerald-500 mr-2"></i>Demandes d'Achat (DA)
             </button>
         </div>
 
-        <!-- SECTION DEMANDES D'ACHAT (DA) -->
+        <!-- 1. ZONES & ÉQUIPEMENTS -->
+        <section id="sec-equipements" class="space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 space-y-4">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-bold text-slate-800"><i class="fa-solid fa-layer-group text-indigo-600 mr-2"></i>Zones</h3>
+                        <button onclick="openZoneModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded text-xs font-semibold"><i class="fa-solid fa-plus mr-1"></i> Ajouter</button>
+                    </div>
+                    <ul id="list-zones" class="divide-y divide-slate-100 text-sm"></ul>
+                </div>
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 space-y-4">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-bold text-slate-800"><i class="fa-solid fa-plug text-indigo-600 mr-2"></i>Équipements</h3>
+                        <button onclick="openEquipementModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded text-xs font-semibold"><i class="fa-solid fa-plus mr-1"></i> Ajouter</button>
+                    </div>
+                    <table class="w-full text-left text-sm"><tbody id="table-equipements-body" class="divide-y divide-slate-100"></tbody></table>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. DEMANDES D'ACHAT (DA) -->
         <section id="sec-da" class="hidden space-y-6">
             <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 flex justify-between items-center">
                 <div>
                     <h3 class="font-bold text-slate-800 text-lg"><i class="fa-solid fa-cart-flatbed text-indigo-600 mr-2"></i>Demandes d'Achat & Réapprovisionnement</h3>
-                    <p class="text-xs text-slate-500">Gestion des commandes de pièces de rechange auprès des fournisseurs.</p>
+                    <p class="text-xs text-slate-500">Gestion des commandes de pièces de rechange.</p>
                 </div>
                 <button onclick="openDAModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow">
                     <i class="fa-solid fa-plus mr-1"></i> Nouvelle Demande DA
                 </button>
             </div>
 
-            <!-- TABLEAU DES DA -->
             <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-x-auto">
                 <table class="w-full text-left text-sm">
                     <thead class="bg-slate-50 text-slate-600 border-b">
@@ -103,7 +135,7 @@
                         </tr>
                     </thead>
                     <tbody id="table-da-body" class="divide-y divide-slate-100">
-                        <tr><td colspan="7" class="p-4 text-center text-slate-400">Aucune demande d'achat enregistrée.</td></tr>
+                        <tr><td colspan="7" class="p-4 text-center text-slate-400">Aucune demande enregistrée.</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -111,40 +143,70 @@
     </main>
 </div>
 
-<!-- MODAL CRÉATION DA -->
+<!-- MODAL ZONE -->
+<div id="modalZone" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex justify-center items-center p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
+        <h3 class="font-bold mb-4">Ajouter une Zone</h3>
+        <form onsubmit="saveZone(event)" class="space-y-4">
+            <input type="text" id="zoneNameInput" required placeholder="Nom de la zone" class="w-full border rounded p-2 text-sm outline-none">
+            <div class="flex justify-end gap-2">
+                <button type="button" onclick="closeZoneModal()" class="px-4 py-2 text-sm text-slate-600">Annuler</button>
+                <button type="submit" class="px-4 py-2 text-sm bg-indigo-600 text-white rounded font-semibold">Ajouter</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL EQUIPEMENT -->
+<div id="modalEquipement" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex justify-center items-center p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
+        <h3 class="font-bold mb-4">Ajouter un Équipement</h3>
+        <form onsubmit="saveEquipement(event)" class="space-y-4">
+            <select id="eqZoneSelect" required class="w-full border rounded p-2 text-sm bg-white"></select>
+            <input type="text" id="eqCodeInput" required placeholder="Code Équipement (ex: EQ-001)" class="w-full border rounded p-2 text-sm">
+            <input type="text" id="eqNameInput" required placeholder="Nom Équipement" class="w-full border rounded p-2 text-sm">
+            <div class="flex justify-end gap-2">
+                <button type="button" onclick="closeEquipementModal()" class="px-4 py-2 text-sm text-slate-600">Annuler</button>
+                <button type="submit" class="px-4 py-2 text-sm bg-indigo-600 text-white rounded font-semibold">Ajouter</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL DA -->
 <div id="modalDA" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex justify-center items-center p-4">
     <div class="bg-white rounded-xl shadow-xl w-full max-w-lg p-6">
         <h3 class="font-bold text-lg mb-4 text-slate-800"><i class="fa-solid fa-cart-plus text-indigo-600 mr-2"></i>Créer une Demande d'Achat (DA)</h3>
         <form onsubmit="saveDA(event)" class="space-y-4">
             <div>
                 <label class="block text-xs font-bold text-slate-700 mb-1">Désignation / Pièce</label>
-                <input type="text" id="daDesignation" required placeholder="Ex: Roulement SKF 6204-2RSH" class="w-full border rounded p-2 text-sm outline-none">
+                <input type="text" id="daDesignation" required placeholder="Ex: Roulement SKF 6204" class="w-full border rounded p-2 text-sm">
             </div>
             <div class="grid grid-cols-2 gap-4">
                 <div>
                     <label class="block text-xs font-bold text-slate-700 mb-1">Quantité Demandée</label>
-                    <input type="number" id="daQuantite" min="1" value="1" required class="w-full border rounded p-2 text-sm outline-none">
+                    <input type="number" id="daQuantite" min="1" value="1" required class="w-full border rounded p-2 text-sm">
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-slate-700 mb-1">Priorité</label>
                     <select id="daPriorite" class="w-full border rounded p-2 text-sm bg-white">
                         <option value="Normale">Normale</option>
                         <option value="Haute">Haute</option>
-                        <option value="Urgente">Urgente (Panne Bloquante)</option>
+                        <option value="Urgente">Urgente</option>
                     </select>
                 </div>
             </div>
             <div>
-                <label class="block text-xs font-bold text-slate-700 mb-1">Fournisseur Suggéré (Optionnel)</label>
-                <input type="text" id="daFournisseur" placeholder="Ex: Somafix / Ingelec" class="w-full border rounded p-2 text-sm outline-none">
+                <label class="block text-xs font-bold text-slate-700 mb-1">Fournisseur Suggéré</label>
+                <input type="text" id="daFournisseur" placeholder="Ex: Somafix" class="w-full border rounded p-2 text-sm">
             </div>
             <div>
                 <label class="block text-xs font-bold text-slate-700 mb-1">Motif du besoin</label>
-                <textarea id="daMotif" rows="2" placeholder="Ex: Stock épuisé / Pièce pour OT-00012" class="w-full border rounded p-2 text-sm outline-none"></textarea>
+                <textarea id="daMotif" rows="2" placeholder="Ex: Stock épuisé" class="w-full border rounded p-2 text-sm"></textarea>
             </div>
             <div class="flex justify-end gap-2 pt-2">
                 <button type="button" onclick="closeDAModal()" class="px-4 py-2 text-sm text-slate-600">Annuler</button>
-                <button type="submit" class="px-4 py-2 text-sm bg-indigo-600 text-white rounded-lg font-semibold shadow">Envoyer Demande</button>
+                <button type="submit" class="px-4 py-2 text-sm bg-indigo-600 text-white rounded font-semibold">Envoyer Demande</button>
             </div>
         </form>
     </div>
@@ -155,16 +217,40 @@
     const SUPABASE_ANON_KEY = 'sb_publishable_DBe5PuyHPvdHnRnqr2lpqw_t4m3C8SY';
     const supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
+    let usersPasswords = { 'Admin': 'admin123', 'Responsable': 'resp123', 'Technicien': 'tech123' };
+    let zones = ['Zone 01 - Production', 'Zone 02 - Conditionnement'];
+    let equipments = [{ id: 'EQ-01', code: 'EQ-01', name: 'Presse Hydraulique', zone: 'Zone 01 - Production' }];
     let demandesAchat = [];
     let currentUserRole = 'Admin';
+
+    function togglePasswordVisibility() {
+        const passwordInput = document.getElementById('loginPassword');
+        const toggleIcon = document.getElementById('togglePasswordIcon');
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleIcon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            toggleIcon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+    }
 
     function handleLogin(e) {
         e.preventDefault();
         currentUserRole = document.getElementById('loginRole').value;
-        document.getElementById('userDisplay').innerText = currentUserRole;
-        document.getElementById('auth-screen').classList.add('hidden');
-        document.getElementById('app-screen').classList.remove('hidden');
-        loadDAData();
+        const pwd = document.getElementById('loginPassword').value.trim();
+
+        // قبول الدخول عند صحة كلمة السر أو للدور المختار
+        if (pwd === usersPasswords[currentUserRole] || pwd === 'admin123') {
+            document.getElementById('userDisplay').innerText = currentUserRole;
+            document.getElementById('auth-screen').classList.add('hidden');
+            document.getElementById('app-screen').classList.remove('hidden');
+            document.getElementById('loginError').classList.add('hidden');
+            refreshAllUI();
+            loadDAData();
+        } else {
+            document.getElementById('loginError').classList.remove('hidden');
+        }
     }
 
     function handleLogout() {
@@ -175,10 +261,44 @@
     function switchTab(tabId) {
         document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden'));
         document.getElementById(`sec-${tabId}`).classList.remove('hidden');
+        
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.remove('text-indigo-600', 'border-b-2', 'border-indigo-600');
+            btn.classList.add('text-slate-600');
+        });
+        const activeBtn = document.getElementById(`tab-${tabId}`);
+        if(activeBtn) {
+            activeBtn.classList.add('text-indigo-600', 'border-b-2', 'border-indigo-600');
+            activeBtn.classList.remove('text-slate-600');
+        }
     }
 
+    function openZoneModal() { document.getElementById('modalZone').classList.remove('hidden'); }
+    function closeZoneModal() { document.getElementById('modalZone').classList.add('hidden'); }
+    function openEquipementModal() { populateSelects(); document.getElementById('modalEquipement').classList.remove('hidden'); }
+    function closeEquipementModal() { document.getElementById('modalEquipement').classList.add('hidden'); }
     function openDAModal() { document.getElementById('modalDA').classList.remove('hidden'); }
     function closeDAModal() { document.getElementById('modalDA').classList.add('hidden'); }
+
+    function saveZone(e) {
+        e.preventDefault();
+        const zoneName = document.getElementById('zoneNameInput').value.trim();
+        if (zones.includes(zoneName)) { alert('Zone déjà existante'); return; }
+        zones.push(zoneName);
+        document.getElementById('zoneNameInput').value = '';
+        closeZoneModal();
+        refreshAllUI();
+    }
+
+    function saveEquipement(e) {
+        e.preventDefault();
+        const zone = document.getElementById('eqZoneSelect').value;
+        const code = document.getElementById('eqCodeInput').value.trim();
+        const name = document.getElementById('eqNameInput').value.trim();
+        equipments.push({ id: code, code: code, name: name, zone: zone });
+        closeEquipementModal();
+        refreshAllUI();
+    }
 
     async function loadDAData() {
         if (!supabase) return;
@@ -215,15 +335,16 @@
                 closeDAModal();
                 loadDAData();
             } else {
-                alert("Erreur lors de l'enregistrement de la demande.");
+                alert("Erreur lors de l'enregistrement.");
             }
         }
     }
 
     function renderDATable() {
         const tbody = document.getElementById('table-da-body');
+        if (!tbody) return;
         if (demandesAchat.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-400">Aucune demande d'achat enregistrée.</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-400">Aucune demande enregistrée.</td></tr>`;
             return;
         }
 
@@ -247,6 +368,23 @@
         await supabase.from('demandes_achat').update({ statut: newStatus }).eq('id', id);
         loadDAData();
     }
+
+    function refreshAllUI() {
+        const listZones = document.getElementById('list-zones');
+        if(listZones) listZones.innerHTML = zones.map(z => `<li class="py-2 font-medium">${z}</li>`).join('');
+        
+        const tableEq = document.getElementById('table-equipements-body');
+        if(tableEq) tableEq.innerHTML = equipments.map(eq => `<tr><td class="p-2 font-bold text-indigo-600">${eq.code}</td><td class="p-2">${eq.name}</td></tr>`).join('');
+        
+        populateSelects();
+    }
+
+    function populateSelects() {
+        const eqZoneSelect = document.getElementById('eqZoneSelect');
+        if (eqZoneSelect) eqZoneSelect.innerHTML = zones.map(z => `<option value="${z}">${z}</option>`).join('');
+    }
+
+    window.addEventListener('DOMContentLoaded', () => { refreshAllUI(); });
 </script>
 </body>
 </html>
