@@ -6,8 +6,9 @@
     <title>SMART MAINTENANCE PRO V12.1</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-<body class="bg-slate-100 min-h-screen text-slate-800">
+<body class="bg-slate-100 min-h-screen text-slate-800 flex flex-col">
 
     <!-- شاشة الدخول -->
     <div id="auth-screen" class="fixed inset-0 bg-slate-900 z-50 flex items-center justify-center p-4">
@@ -48,7 +49,8 @@
             </div>
         </header>
 
-        <main class="p-6 max-w-7xl mx-auto w-full space-y-6">
+        <main class="p-6 max-w-7xl mx-auto w-full space-y-6 flex-grow">
+            <!-- رسالة النجاح -->
             <div class="bg-emerald-50 border border-emerald-200 text-emerald-800 p-4 rounded-xl flex items-center gap-3">
                 <i class="fa-solid fa-circle-check text-2xl text-emerald-600"></i>
                 <div>
@@ -57,29 +59,144 @@
                 </div>
             </div>
 
+            <!-- بطاقات التنقل الرئيسية -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="bg-white p-5 rounded-xl border shadow-sm">
-                    <h4 class="font-bold text-slate-700 mb-2"><i class="fa-solid fa-layer-group text-indigo-600 mr-2"></i>Zones & Équipements</h4>
+                <button onclick="showSection('equipements')" class="bg-white p-5 rounded-xl border shadow-sm text-left hover:border-indigo-500 hover:shadow-md transition group">
+                    <h4 class="font-bold text-slate-700 mb-2 group-hover:text-indigo-600"><i class="fa-solid fa-layer-group text-indigo-600 mr-2"></i>Zones & Équipements</h4>
                     <p class="text-xs text-slate-500">Gestion des lignes de production et machines.</p>
-                </div>
-                <div class="bg-white p-5 rounded-xl border shadow-sm">
-                    <h4 class="font-bold text-slate-700 mb-2"><i class="fa-solid fa-cart-flatbed text-emerald-600 mr-2"></i>Demandes d'Achat (DA)</h4>
+                </button>
+                <button onclick="showSection('da')" class="bg-white p-5 rounded-xl border shadow-sm text-left hover:border-emerald-500 hover:shadow-md transition group">
+                    <h4 class="font-bold text-slate-700 mb-2 group-hover:text-emerald-600"><i class="fa-solid fa-cart-flatbed text-emerald-600 mr-2"></i>Demandes d'Achat (DA)</h4>
                     <p class="text-xs text-slate-500">Suivi des pièces de rechange et commandes.</p>
-                </div>
-                <div class="bg-white p-5 rounded-xl border shadow-sm">
-                    <h4 class="font-bold text-slate-700 mb-2"><i class="fa-solid fa-wrench text-amber-600 mr-2"></i>Interventions GMAO</h4>
+                </button>
+                <button onclick="showSection('gmao')" class="bg-white p-5 rounded-xl border shadow-sm text-left hover:border-amber-500 hover:shadow-md transition group">
+                    <h4 class="font-bold text-slate-700 mb-2 group-hover:text-amber-600"><i class="fa-solid fa-wrench text-amber-600 mr-2"></i>Interventions GMAO</h4>
                     <p class="text-xs text-slate-500">Ordres de travaux et pannes.</p>
-                </div>
+                </button>
             </div>
+
+            <!-- قسم 1: Zones & Équipements -->
+            <section id="sec-equipements" class="bg-white p-6 rounded-xl border shadow-sm space-y-4">
+                <div class="flex justify-between items-center border-b pb-3">
+                    <h3 class="font-bold text-slate-800 text-lg"><i class="fa-solid fa-layer-group text-indigo-600 mr-2"></i>Zones & Équipements</h3>
+                    <button onclick="addEquipment()" class="bg-indigo-600 text-white text-xs px-3 py-2 rounded-lg font-semibold hover:bg-indigo-700"><i class="fa-solid fa-plus mr-1"></i> Ajouter Équipement</button>
+                </div>
+                <table class="w-full text-left text-sm">
+                    <thead class="bg-slate-50 border-b">
+                        <tr><th class="p-2">Code</th><th class="p-2">Nom Équipement</th><th class="p-2">Zone</th><th class="p-2">Statut</th></tr>
+                    </thead>
+                    <tbody id="eqTableBody" class="divide-y">
+                        <tr><td class="p-2 font-bold text-indigo-600">EQ-001</td><td class="p-2">Presse Hydraulique</td><td class="p-2">Zone Production 1</td><td class="p-2"><span class="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded text-xs font-bold">Opérationnel</span></td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- قسم 2: Demandes d'Achat (DA) -->
+            <section id="sec-da" class="hidden bg-white p-6 rounded-xl border shadow-sm space-y-4">
+                <div class="flex justify-between items-center border-b pb-3">
+                    <h3 class="font-bold text-slate-800 text-lg"><i class="fa-solid fa-cart-flatbed text-emerald-600 mr-2"></i>Demandes d'Achat (DA)</h3>
+                    <button onclick="openDAModal()" class="bg-emerald-600 text-white text-xs px-3 py-2 rounded-lg font-semibold hover:bg-emerald-700"><i class="fa-solid fa-plus mr-1"></i> Nouvelle Demande DA</button>
+                </div>
+                <table class="w-full text-left text-sm">
+                    <thead class="bg-slate-50 border-b">
+                        <tr><th class="p-2">Code DA</th><th class="p-2">Désignation</th><th class="p-2">Qté</th><th class="p-2">Priorité</th><th class="p-2">Statut</th></tr>
+                    </thead>
+                    <tbody id="daTableBody" class="divide-y">
+                        <tr><td colspan="5" class="p-4 text-center text-slate-400">Aucune demande enregistrée.</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- قسم 3: Interventions GMAO -->
+            <section id="sec-gmao" class="hidden bg-white p-6 rounded-xl border shadow-sm space-y-4">
+                <div class="flex justify-between items-center border-b pb-3">
+                    <h3 class="font-bold text-slate-800 text-lg"><i class="fa-solid fa-wrench text-amber-600 mr-2"></i>Interventions GMAO</h3>
+                    <button class="bg-amber-600 text-white text-xs px-3 py-2 rounded-lg font-semibold hover:bg-amber-700"><i class="fa-solid fa-plus mr-1"></i> Signaler Panne</button>
+                </div>
+                <p class="text-xs text-slate-500">Module de suivi des ordres de travaux et maintenance préventive/curative.</p>
+            </section>
         </main>
     </div>
 
+    <!-- Modal إنشاء DA -->
+    <div id="modalDA" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex justify-center items-center p-4">
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
+            <h3 class="font-bold text-lg mb-4 text-slate-800">Nouvelle Demande d'Achat</h3>
+            <form onsubmit="saveDA(event)" class="space-y-3">
+                <input type="text" id="daInput" required placeholder="Désignation de la pièce" class="w-full border rounded p-2 text-sm">
+                <input type="number" id="daQty" required min="1" value="1" class="w-full border rounded p-2 text-sm">
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeDAModal()" class="px-3 py-1.5 text-xs text-slate-600">Annuler</button>
+                    <button type="submit" class="px-3 py-1.5 text-xs bg-emerald-600 text-white rounded font-semibold">Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
+        const SUPABASE_URL = 'https://qnrfkfrornozwvgewcwk.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_DBe5PuyHPvdHnRnqr2lpqw_t4m3C8SY';
+        const supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+
         function startApp() {
             const role = document.getElementById('loginRole').value;
             document.getElementById('userRoleBadge').innerText = role;
             document.getElementById('auth-screen').classList.add('hidden');
             document.getElementById('app-screen').classList.remove('hidden');
+            loadDAData();
+        }
+
+        function showSection(secId) {
+            document.getElementById('sec-equipements').classList.add('hidden');
+            document.getElementById('sec-da').classList.add('hidden');
+            document.getElementById('sec-gmao').classList.add('hidden');
+            document.getElementById(`sec-${secId}`).classList.remove('hidden');
+        }
+
+        function openDAModal() { document.getElementById('modalDA').classList.remove('hidden'); }
+        function closeDAModal() { document.getElementById('modalDA').classList.add('hidden'); }
+
+        async function saveDA(e) {
+            e.preventDefault();
+            const designation = document.getElementById('daInput').value;
+            const qty = document.getElementById('daQty').value;
+            const codeDA = 'DA-' + Math.floor(1000 + Math.random() * 9000);
+
+            if (supabase) {
+                await supabase.from('demandes_achat').insert([{
+                    code_da: codeDA,
+                    designation: designation,
+                    quantite_demandee: qty,
+                    statut: 'En attente'
+                }]);
+            }
+            closeDAModal();
+            loadDAData();
+        }
+
+        async function loadDAData() {
+            if (!supabase) return;
+            const { data } = await supabase.from('demandes_achat').select('*').order('created_at', { ascending: false });
+            if (data && data.length > 0) {
+                document.getElementById('daTableBody').innerHTML = data.map(d => `
+                    <tr>
+                        <td class="p-2 font-bold text-emerald-600">${d.code_da}</td>
+                        <td class="p-2">${d.designation}</td>
+                        <td class="p-2 font-bold">${d.quantite_demandee}</td>
+                        <td class="p-2"><span class="bg-slate-100 text-slate-600 px-2 py-0.5 rounded text-xs">Normale</span></td>
+                        <td class="p-2"><span class="bg-amber-100 text-amber-700 px-2 py-0.5 rounded text-xs font-bold">${d.statut}</span></td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        function addEquipment() {
+            const name = prompt("Nom de l'équipement:");
+            if (name) {
+                const tbody = document.getElementById('eqTableBody');
+                const code = 'EQ-00' + (tbody.children.length + 1);
+                tbody.innerHTML += `<tr><td class="p-2 font-bold text-indigo-600">${code}</td><td class="p-2">${name}</td><td class="p-2">Zone 1</td><td class="p-2"><span class="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded text-xs font-bold">Opérationnel</span></td></tr>`;
+            }
         }
     </script>
 </body>
